@@ -14,8 +14,8 @@
 			value="oracle.jdbc.driver.OracleDriver"/>	
 		<property name="url" 
 			value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="spring"/>
-		<property name="password" value="1234"/>
+		<property name="username" value="teampro"/>
+		<property name="password" value="0121"/>
 	</bean>
 	
 	<!-- 커넥션풀로 설정파일 읽는 빈 등록 -->
@@ -23,8 +23,7 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/> <!-- ref="커넥션풀 아이디" -->
 		<property name="configLocation" value="classpath:mybatis-config.xml"/>
-		<property name="mapperLocations" 
-			value="classpath:mappers/*Mapper.xml"/>
+		<property name="mapperLocations" value="classpath:mappers/*Mapper.xml"/>
 	</bean>
 	
 	<!-- try~catch 할 빈 등록 -->
