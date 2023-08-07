@@ -4,10 +4,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>DirEngine - Free Bootstrap 4 Template by Colorlib</title>
+<title>우리가 만들어가는 부산여행 추천 코스</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- fontawesome 설정 추가 -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 
 <link
 	href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
@@ -89,40 +95,40 @@ body {
 		</div>
 	</div>
 	
-	<c:forEach var="userBoardVo" items="${userArticleList}">
 		<section class="ftco-section bg-light">
 			<div class="container">
 				<div class="row d-flex">
-					<div class="col-md-3 d-flex ftco-animate">
-						<div class="blog-entry align-self-stretch">
-							<a href="/resources/blog-single.html" class="block-20"
-								style="background-image: url('/resources/images/image_1.jpg');">
-							</a>
-							<div class="text p-4 d-block">
-								<span class="tag">태그 표시</span>
-								<h3 class="heading mt-3">
-									<a href="#">${userBoardVo.title}</a>
-								</h3>
-								<div class="meta mb-3">
-									<div>
-										<a href="#">August 12, 2018</a>
-									</div>
-									<div>
-										<a href="#">Admin</a>
-									</div>
-									<div>
-										<a href="#" class="meta-chat"><span class="icon-chat"></span>
-											3</a>
+					<c:forEach var="userBoardVo" items="${userArticleList}">
+						<div class="col-md-3 d-flex ftco-animate">
+							<div class="blog-entry align-self-stretch">
+								<a href="/resources/blog-single.html" class="block-20"
+									style="background-image: url('/resources/images/image_1.jpg');">
+								</a>
+								<div class="text p-4 d-block">
+									<h3 class="heading mt-3">
+										<a href="#">${userBoardVo.title}</a>
+									</h3>
+									<div class="meta mb-3">
+										<div>
+											<a href="#">${userBoardVo.writer}</a>
+										</div>
+										<br>
+										<div>
+											<a href="#" class="meta-chat"><i class="fa-regular fa-eye"></i>
+												${userBoardVo.viewcnt}</a>
+										</div>
+										<div>
+											<a href="#" class="meta-chat"><span class="icon-chat"></span>
+												${userBoardVo.replycnt}</a>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</c:forEach>
 				</div>
 			</div>
 		</section>
-	</c:forEach>
-	<div>${userArticleList}</div>
 	
 	<section class="ftco-section bg-light">
 		<div class="container">
