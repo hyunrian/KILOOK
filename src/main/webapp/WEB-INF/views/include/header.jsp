@@ -1,5 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Busan Tour</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
+    
+    <!-- jh 추가 : 메인 이미지 슬라이드 관련.. link ~ script까지 -->
+<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"> -->
+<!-- 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script> -->
+<!-- 	<script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
+<!-- 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> -->
+    
+    <link rel="stylesheet" href="../resources/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/animate.css">
+    
+    <link rel="stylesheet" href="../resources/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../resources/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="../resources/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="../resources/css/aos.css">
+
+    <link rel="stylesheet" href="../resources/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="../resources/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="../resources/css/jquery.timepicker.css">
+
+    
+    <link rel="stylesheet" href="../resources/css/flaticon.css">
+    <link rel="stylesheet" href="../resources/css/icomoon.css">
+    <link rel="stylesheet" href="../resources/css/style.css">
+  </head>
+  
 <body>
 	<!-- menu -->
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -17,7 +54,7 @@
 <!-- 	          <li class="nav-item"><a href="../resources/login.html" class="nav-link">Login</a></li> -->
 	          <li class="nav-item"><a href="../resources/about.html" class="nav-link">About</a></li>
 	          <!-- jh 수정 : tour.html → restaurant.html, Tour → Restaurant -->
-	          <li class="nav-item"><a href="/restaurant" class="nav-link">Restaurant</a></li>
+	          <li class="nav-item"><a href="/databoard/restaurant" class="nav-link">Restaurant</a></li>
 	          <li class="nav-item"><a href="../resources/hotel.html" class="nav-link">Hotels</a></li>
 			  <!-- jh 수정 : blog.html → tour.html, Blog → Tour -->
 <!-- 	          <ul class="topmenu"> -->

@@ -1,55 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Busan Tour</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
-    
-    <!-- jh 추가 : 메인 이미지 슬라이드 관련.. link ~ script까지 -->
-<!--     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"> -->
-<!-- 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script> -->
-<!-- 	<script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
-<!-- 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script> -->
-    
-    <link rel="stylesheet" href="../resources/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="../resources/css/animate.css">
-    
-    <link rel="stylesheet" href="../resources/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../resources/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="../resources/css/magnific-popup.css">
-
-    <link rel="stylesheet" href="../resources/css/aos.css">
-
-    <link rel="stylesheet" href="../resources/css/ionicons.min.css">
-
-    <link rel="stylesheet" href="../resources/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="../resources/css/jquery.timepicker.css">
-
-    
-    <link rel="stylesheet" href="../resources/css/flaticon.css">
-    <link rel="stylesheet" href="../resources/css/icomoon.css">
-    <link rel="stylesheet" href="../resources/css/style.css">
-  </head>
-  
-  <!-- jh 추가 : 메인 이미지 슬라이드 css -->
-  
-  <style>
-  
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
+<style>
    	.carousel-inner { 
  		position: relative; 
 	}
-
 	.carousel-item img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 	}
-
 	.carousel-caption {
 		position: absolute;
 		top: 28%;
@@ -58,38 +18,7 @@
 		color: white;
 		text-align: left;
 	}
-	
-  </style>
-  
-  <!-- jh 추가 -->
-  <script>
-        // 메인 이미지 슬라이드
-        /*
-        var bgArr = ["../resources/images/bg_1.jpg", "../resources/images/jh_bg_2.jpg", 
-        			"../resources/images/jh_bg_3.jpg", "../resources/images/jh_bg_4.jpg",
-        			"../resources/images/jh_bg_5.jpg", "../resources/images/jh_bg_6.jpg"];
-        var i = 0;
-        
-        function slideImage() {
-          if(i > (bgArr.length - 1)){
-        	  i = 0;
-        	  $("#main1").css("background-image", "url(" + bgArr[i] + ")");
-          } else {
-        	  $("#main1").css("background-image", "url(" + bgArr[i] + ")");
-          }
-          i++;
-        };
-        
-        setInterval(slideImage, 2000);
-        */
-  </script>
-	
-  <body>
-  
- 	  <!-- menu -->
- 	  <%@ include file="/WEB-INF/views/include/header.jsp" %>
-	  <!-- END menu -->
-	  
+</style>
 	  <!-- Carousel(이미지 자동 슬라이딩) 적용 부분 -->
 	  <div id="myCarousel" class="carousel slide" data-ride="carousel" style="z-index: 2;">
 		<div class="carousel-container">
@@ -1102,24 +1031,5 @@
     
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-	 
-  <script src="../resources/js/jquery.min.js"></script>
-  <script src="../resources/js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="../resources/js/popper.min.js"></script>
-  <script src="../resources/js/bootstrap.min.js"></script>
-  <script src="../resources/js/jquery.easing.1.3.js"></script>
-  <script src="../resources/js/jquery.waypoints.min.js"></script>
-  <script src="../resources/js/jquery.stellar.min.js"></script>
-  <script src="../resources/js/owl.carousel.min.js"></script>
-  <script src="../resources/js/jquery.magnific-popup.min.js"></script>
-  <script src="../resources/js/aos.js"></script>
-  <script src="../resources/js/jquery.animateNumber.min.js"></script>
-  <script src="../resources/js/bootstrap-datepicker.js"></script>
-  <script src="../resources/js/jquery.timepicker.min.js"></script>
-  <script src="../resources/js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-  <script src="../resources/js/google-map.js"></script>
-  <script src="../resources/js/main.js"></script>
- 
   </body>
 </html>
