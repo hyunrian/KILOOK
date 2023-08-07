@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.teampro.PointMapper">
+	<!-- 포인트 추가 -->
+	<!-- #{point}는 고정값이 아님 (글 작성 시 20, 댓글 작성 시 5) -->
+	<update id="addPoint">
+	update tbl_user set
+		upoint = upoint + #{point}
+	where userid = #{userid}
+	</update>
+	
+	<!-- 현재 포인트 확인 -->
+	<!-- 포인트 확인 후 사용하려는 포인트보다 적으면 사용 불가능하게 막음(포인트가 부족합니다.) -->
+	<select id="checkPoint" resultType="int">
+	select upoint from tbl_user
+	where userid = #{userid}
+	</select>
+	
+	<!-- 포인트 사용 -->
+	<update id="usePoint">
+	update tbl_user set
+		upoint = upoint - #{requiredPoint}
+	where userid = #{userid}
+	</update>
+</mapper>
