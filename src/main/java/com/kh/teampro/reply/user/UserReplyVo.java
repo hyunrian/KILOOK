@@ -1,4 +1,4 @@
-package com.kh.teampro.board.user;
+package com.kh.teampro.reply.user;
 
 import java.sql.Timestamp;
 
@@ -11,15 +11,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserBoardVo {
-	
-	private int bno;
-	private String title;
-	private String content;
-	private String writer;
-	private Timestamp regdate;
-	private int viewcnt;
-	private int replycnt;
-	private String contenthtml;
+public class UserReplyVo {
 
+	private int rno;
+	private int bno;
+	private String replytext;
+	private String replyer;
+	private Timestamp regdate;
+	private Timestamp updatedate;
+	private int rgroup;
+	private int rlevel;
+	private String delete_yn;
+	
 }

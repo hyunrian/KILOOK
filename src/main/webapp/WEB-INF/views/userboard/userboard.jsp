@@ -86,10 +86,10 @@ body {
 						<span>혼자만 알고 있기 아쉬운 다양한 코스를 다른 사람들과 공유해보세요!</span>
 					</p>
 					<br>
-					<button type="button" class="btn btn-lg" 
+					<a class="btn btn-lg" href="/userboard/write" 
 						style="background-color:#78d5ef; color:white;">
 						나의 여행 코스 등록하기
-					</button>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -113,11 +113,15 @@ body {
 											<a href="#">${userBoardVo.writer}</a>
 										</div>
 										<br>
-										<div>
+										<div class="boardContents" style="margin-right: 40px; margin-left:15px;">
 											<a href="#" class="meta-chat"><i class="fa-regular fa-eye"></i>
 												${userBoardVo.viewcnt}</a>
 										</div>
-										<div>
+										<div class="boardContents" style="margin-right: 40px;">
+											<a href="#" class="meta-chat"><i class="fa-solid fa-heart"></i>
+												0</a>
+										</div>
+										<div class="boardContents">
 											<a href="#" class="meta-chat"><span class="icon-chat"></span>
 												${userBoardVo.replycnt}</a>
 										</div>
