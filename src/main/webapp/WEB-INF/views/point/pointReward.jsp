@@ -46,15 +46,15 @@
   <h2>올리브영 기프트카드</h2>
   <div class="row">
     <div class="col-sm-4" style="border: 2px dotted">
-      <div class="giftCard" style="background-image: url('resources/images/pointRewardImage/10000won.jpg');"></div>
+      <div class="giftCard" style="background-image: url('../resources/images/pointRewardImage/10000won.jpg');"></div>
       <p style="justify-content: center; align-items: center; color:white; background-color: #444"> -10,000p 교환하기</p>
     </div>
     <div class="col-sm-4" style="border: 2px dotted">
-      <div class="giftCard" style="background-image: url('resources/images/pointRewardImage/30000won.jpg');"></div>
+      <div class="giftCard" style="background-image: url('../resources/images/pointRewardImage/30000won.jpg');"></div>
       <p style="justify-content: center; align-items: center; color:white; background-color: #444"> -30,000p 교환하기</p><br>
     </div>
     <div class="col-sm-4" style="border: 2px dotted">
-      <div class="giftCard" style="background-image: url('resources/images/pointRewardImage/50000won.jpg');"></div>
+      <div class="giftCard" style="background-image: url('../resources/images/pointRewardImage/50000won.jpg');"></div>
       <p style="justify-content: center; align-items: center; color:white; background-color: #444"> -50,000p 교환하기</p><br>
     </div>
   </div>

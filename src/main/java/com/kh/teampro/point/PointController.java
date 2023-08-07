@@ -18,6 +18,12 @@ public class PointController {
 	// 댓글 작성 포인트
 	private final int COMMENT_POINT = 5;
 	
+	// 포인트보상 페이지로
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String toPointReward() {
+		return "/point/pointReward";
+	}
+	
 	// 포인트 추가
 	// getPointType = 포인트 획득 경로. 데이터 보낼때 "글", "댓글" 로 구분
 	@RequestMapping(value = "/addPoint", method = RequestMethod.GET)
