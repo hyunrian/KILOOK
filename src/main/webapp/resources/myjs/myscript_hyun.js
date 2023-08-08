@@ -2,26 +2,32 @@
  * myscript.js
  */
  
-function toDateString(millisecond) {
+// 날짜 얻기
+function getDate(millisecond) {
 	if (!millisecond) {
 		return "";
 	}
 	
 	let d = new Date(millisecond);
-	// 2023-07-18 14:50:50
+	// 2023-08-07 15:36:22.0
 	let year = d.getFullYear();
 	let month = d.getMonth() + 1;
 	let day = d.getDate();
+	
+	let dateFormat = year + "-" + make2digits(month) + "-" + make2digits(day);
+					 
+	return dateFormat;
+}
+
+// 시간 얻기
+function getTime(millisecond) {
 	let hour = d.getHours();
 	let minute = d.getMinutes();
 	let second = d.getSeconds();
 	
-	let dateFormat = year + "-" + make2digits(month) + "-" + make2digits(day)
-					 + " " + make2digits(hour) + ":" + make2digits(minute) 
+	let dateFormat = make2digits(hour) + ":" + make2digits(minute) 
 					 + ":" + make2digits(second);
 					 
-	// console.log(dateFormat);
-	
 	return dateFormat;
 }
 

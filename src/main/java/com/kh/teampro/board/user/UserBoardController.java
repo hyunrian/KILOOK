@@ -46,9 +46,10 @@ public class UserBoardController {
 	public String getDetail(int bno, Model model) {
 
 		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
+		System.out.println("time:" + userBoardVo.getRegdate());
 		model.addAttribute("userBoardVo", userBoardVo);
 		
-		return "userboard/userBoardDetail";
+		return "userboard/userboardDetail";
 	}
 	
 	

@@ -34,6 +34,7 @@
 <link rel="stylesheet" href="/resources/css/icomoon.css">
 <link rel="stylesheet" href="/resources/css/style.css">
 </head>
+
 <body>
 
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
@@ -47,7 +48,6 @@
 				data-scrollax-parent="true">
 				<div class="col-md-9 ftco-animate text-center"
 					data-scrollax=" properties: { translateY: '70%' }">
-					<!-- jh 수정 : href=index.html → href=/ -->
 					<p class="breadcrumbs"
 						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
 						<span class="mr-2"><a href="/">Home</a></span> <span>Contact</span>

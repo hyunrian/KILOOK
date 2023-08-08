@@ -364,6 +364,7 @@ body {
 		</div>
 	</section>
 
+	<!-- 상단으로 이동 버튼 -->
 	<a href="#top"> <img alt="맨 위로 이동"
 		src="/resources/images/myicons/up-arrow.png" id="pageUp">
 	</a>

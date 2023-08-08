@@ -19,6 +19,7 @@
 		text-align: left;
 	}
 </style>
+<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 	  <!-- Carousel(이미지 자동 슬라이딩) 적용 부분 -->
 	  <div id="myCarousel" class="carousel slide" data-ride="carousel" style="z-index: 2;">
 		<div class="carousel-container">
