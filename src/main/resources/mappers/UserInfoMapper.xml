@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.teampro.UserInfoMapper">
+	<!-- 유저 한명 정보 읽기 -->
+	<!-- 마이페이지에 접속하면 해당 문구로 정보 받아와서 화면에 띄움 -->
+	<!-- 사용자 정보 수정 페이지로 넘어가도 마찬가지로 정보 받아와서 수정란에 띄움 -->
+	<!-- !UserVo 필요! -->
+	<select id="readOneUserInfo" resultType="com.kh.teampro.user.info.UserVo">
+		select * from tbl_user
+		where userid = #{userid}
+	</select>
+	
+	<!-- 유저 정보 수정 -->
+	<!-- 변경 가능한 정보 - [비밀번호, 닉네임, 이미지] -->
+	<update id="updateUserInfo">
+		update tbl_user set
+			upw = #{upw},
+			unickname = #{unickname},
+			uimg = #{uimg}
+		where userid = #{userid}
+	</update>
+</mapper>

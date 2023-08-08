@@ -3,13 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<meta charset="UTF-8">
 <title>포인트 교환</title>
 <style>
   .giftCard {
@@ -19,6 +17,59 @@
     background-repeat: no-repeat;
   }
 </style>
+<script>
+$(document).ready(function(){
+	$("#btnPointTest").click(function(e){
+		e.preventDefault();
+		$.ajax({
+		    "url": '/point/addPoint',
+		    "type": 'GET',
+		    "data": {
+		    	userid: 'testuser',
+		    	getPointType: '글'
+		    },
+		    "dataType": 'text',
+		    "success": function(rData) {
+		    	console.log(rData);
+		    }
+		}); 
+	});
+	
+	$("#btnPointUseFailTest").click(function(e){
+		e.preventDefault();
+		$.ajax({
+		    "url": '/point/usePoint',
+		    "type": 'GET',
+		    "data": {
+		    	userid: 'testuser',
+		    	requiredPoint: '10000'
+		    },
+		    "dataType": 'text',
+		    "success": function(rData) {
+		    	console.log(rData);
+		    }
+		}); 
+	});
+	
+	$("#btnPointUseTest").click(function(e){
+		e.preventDefault();
+		$.ajax({
+		    "url": '/point/usePoint',
+		    "type": 'GET',
+		    "data": {
+		    	userid: 'testuser',
+		    	requiredPoint: '1'
+		    },
+		    "dataType": 'text',
+		    "success": function(rData) {
+		    	console.log(rData);
+		    }
+		}); 
+	});
+	
+});
+
+</script>
 </head>
 <body>
 
@@ -37,7 +88,16 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">경품</a>
-      </li>    
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="btnPointTest">테스트 버튼 (testuser가 글 하나 썼다고 가정하기(포인트 +20점))</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="btnPointUseFailTest">테스트 버튼 (포인트 10000 사용 (실패 메세지 리턴))</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" id="btnPointUseTest">테스트 버튼 (포인트 1 사용 (성공 메세지 리턴 및 포인트 -1))</a>
+      </li>
     </ul>
   </div>  
 </nav>
