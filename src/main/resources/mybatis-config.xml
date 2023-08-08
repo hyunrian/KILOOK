@@ -14,7 +14,11 @@
 		<package name="com.kh.teampro.board.restaurant"/>
 		<package name="com.kh.teampro.reply.user"/>
 		<package name="com.kh.teampro.board.user"/>
+
 		<package name="com.kh.teampro.board.attraction"/>
+
+		<package name="com.kh.teampro.user.info"/>
+
 	</typeAliases>
 	
 </configuration>

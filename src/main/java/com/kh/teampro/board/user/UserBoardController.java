@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kh.teampro.reply.user.UserReplyService;
+import com.kh.teampro.reply.user.UserReplyVo;
 
 @Controller
 @RequestMapping("/userboard")
@@ -46,8 +47,13 @@ public class UserBoardController {
 	public String getDetail(int bno, Model model) {
 
 		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
-		System.out.println("time:" + userBoardVo.getRegdate());
+		int replycnt = userReplyService.getReplycnt(bno);
+		userBoardVo.setReplycnt(replycnt);
 		model.addAttribute("userBoardVo", userBoardVo);
+		
+		List<UserReplyVo> list = userReplyService.getUserReply(bno);
+//		System.out.println(list);
+		model.addAttribute("replyList", list);
 		
 		return "userboard/userboardDetail";
 	}
