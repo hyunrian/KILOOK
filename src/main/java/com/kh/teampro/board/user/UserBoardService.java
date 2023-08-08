@@ -15,4 +15,8 @@ public class UserBoardService {
 		return userBoardDao.getUserArticleList();
 	}
 	
+	public UserBoardVo getUserArticleDetail(int bno) {
+		return userBoardDao.getUserArticleDetail(bno);
+	}
+	
 }

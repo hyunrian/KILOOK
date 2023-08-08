@@ -17,5 +17,9 @@ public class UserBoardDao {
 	public List<UserBoardVo> getUserArticleList() {
 		return sqlSession.selectList(NAMESPACE + "getUserArticleList");
 	}
+	
+	public UserBoardVo getUserArticleDetail(int bno) {
+		return sqlSession.selectOne(NAMESPACE + "getUserArticleDetail", bno);
+	}
 
 }

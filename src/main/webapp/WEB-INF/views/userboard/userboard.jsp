@@ -101,7 +101,7 @@ body {
 					<c:forEach var="userBoardVo" items="${userArticleList}">
 						<div class="col-md-3 d-flex ftco-animate">
 							<div class="blog-entry align-self-stretch">
-								<a href="/resources/blog-single.html" class="block-20"
+								<a href="/userboard/detail?bno=${userBoardVo.bno}" class="block-20"
 									style="background-image: url('/resources/images/image_1.jpg');">
 								</a>
 								<div class="text p-4 d-block">

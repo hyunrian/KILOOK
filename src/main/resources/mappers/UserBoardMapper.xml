@@ -8,6 +8,11 @@
 	<select id="getUserArticleList" resultType="UserBoardVo">
 		select * from tbl_userboard
 	</select>
+	
+	<select id="getUserArticleDetail" resultType="UserBoardVo">
+		select * from tbl_userboard
+		where bno = #{bno}
+	</select>
 
 	
 </mapper>

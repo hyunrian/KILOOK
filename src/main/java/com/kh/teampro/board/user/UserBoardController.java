@@ -20,6 +20,7 @@ public class UserBoardController {
 	@Autowired
 	private UserReplyService userReplyService;
 	
+	// 유저 게시글 목록 보기
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getList(Model model) {
 		
@@ -27,22 +28,25 @@ public class UserBoardController {
 		for (UserBoardVo userBoardVo : list) {
 			int replycnt = userReplyService.getReplycnt(userBoardVo.getBno());
 			userBoardVo.setReplycnt(replycnt);
-			System.out.println("userboardvo: " + userBoardVo);
+//			System.out.println("userboardvo: " + userBoardVo);
 		}
 		model.addAttribute("userArticleList", list);
 		
 		return "userboard/userboard";
 	}
 	
+	// 게시글 쓰기
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String writeArticle() {
 		return "userboard/userArticle";
 	}
 	
+	// 유저 게시글 내용 보기
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String getDetail(int bno) {
-		
-		
+	public String getDetail(int bno, Model model) {
+
+		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
+		model.addAttribute("userBoardVo", userBoardVo);
 		
 		return "userboard/userBoardDetail";
 	}
