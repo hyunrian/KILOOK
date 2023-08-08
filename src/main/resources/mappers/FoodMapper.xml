@@ -20,9 +20,9 @@
 	<!-- 맛집 추가 -->
 	<insert id="insertFood">
 		insert into tbl_rest
-		(bno, rname, content, location, address, rnumber, url, openhours, menu, lat, rlong, image, thumbimage, viewcnt, replycnt)
+		(bno, rname, content, location, address, rnumber, url, openhours, menu, lat, rlong, image, thumbimage)
 		values
-		(#{bno}, #{rname}, #{content}, #{location}, #{address}, #{rnumber}, #{url}, #{openhours}, #{menu}, #{lat}, #{rlong}, #{image}, #{thumbimage}, #{viewcnt}, #{replycnt})
+		(seq_rest_bno.nextval, #{rname}, #{content}, #{location}, #{address}, #{rnumber}, #{url}, #{openhours}, #{menu}, #{lat}, #{rlong}, #{image}, #{thumbimage})
 	</insert>
 	
 </mapper>

@@ -1,4 +1,4 @@
-package com.kh.teampro.board.restaurant;
+package jsondata;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,56 +10,43 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@Service
-public class FoodService {
-	
+import com.kh.teampro.board.restaurant.FoodDao;
+import com.kh.teampro.board.restaurant.FoodVo;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+public class FoodApiTest {
+
 	@Autowired
-	private FoodDao foodDao;
+	FoodDao foodDao;
 	
-	// 맛집 전체 조회
-	public List<FoodVo> getFoodList() throws Exception{
-		List<FoodVo> list = foodDao.getFoodList();
-		return list;
-	}
-	
-	// 해당 맛집 상세보기
-	public List<FoodVo> getFoodInfo(int bno) throws Exception{
-		List<FoodVo> list = foodDao.getFoodInfo(bno);
-		return list;
-	}
-	
-	// 맛집 추가
-	public void insertFood(FoodVo foodVo) throws Exception{
-		
-		
-		foodDao.insertFood(foodVo);
-	}
-	
-	// api 데이터 불러오기
-//	@RequestMapping(value = "/restaurant", method = RequestMethod.GET)
-	public void getFoodApi() throws Exception{
+	// api 데이터 불러오기 + db 저장
+	@Test
+	public void getFoodApi() throws Exception {
+//		System.out.println("FoodApiTest");
 		String api_url = "http://apis.data.go.kr/6260000/FoodService/getFoodKr";
 		String serviceKey = "azTHMfp6YjDVbFlU+L/3hvNoIISlb8V6wdFOtkejKQjLmzRnVhYAz+KL74NrlAwL+mhfSJOUiAmhChWpsm3eIQ==";
-		String pageNo = "1";
+		String pageNo = "23";
 		String numOfRows = "10";
 		
 		StringBuilder urlBuilder = new StringBuilder(api_url); /*URL*/
-        urlBuilder.append("?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8")); 
+		urlBuilder.append("?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8"));
         urlBuilder.append("&pageNo=" + URLEncoder.encode(pageNo, "UTF-8")); 
         urlBuilder.append("&numOfRows=" + URLEncoder.encode(numOfRows, "UTF-8")); 
         urlBuilder.append("&resultType=" + URLEncoder.encode("json", "UTF-8"));
         String uString = urlBuilder.toString();
-        System.out.println("uString:" + uString);
+//        System.out.println("uString:" + uString);
         URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		conn.setRequestMethod("GET");
 //			conn.setRequestProperty("Content-type", "application/json");
-		System.out.println("Response code: " + conn.getResponseCode()); // getResponseCode : 200
+//		System.out.println("Response code: " + conn.getResponseCode()); // getResponseCode : 200
 		BufferedReader rd;
         
 		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
@@ -75,10 +62,8 @@ public class FoodService {
 		}
 		rd.close();
 		conn.disconnect();
-		System.out.println("sb:" + sb.toString()); // 출력 확인 o. 10번 시도중에 1번 불려오는 정도, 페이지에서 조회했을 때는 바로 불려와짐
+//		System.out.println("sb:" + sb.toString()); // 출력 확인 o
 
-		/*-------------------------------*/
-		
 		String sbString = sb.toString();
 		JSONObject sbObj = new JSONObject(sbString);
 		JSONObject objFoodKr = (JSONObject)sbObj.get("getFoodKr");
@@ -89,7 +74,7 @@ public class FoodService {
 
 		//jsonArray를 사용하여 각각의 JSON 객체에서 데이터 추출
 		
-		List<FoodVo> list = new ArrayList<FoodVo>();
+//		List<FoodVo> list = new ArrayList<FoodVo>();
 		for (int i = 0; i < jsonArray.length(); i++) {
 			org.json.JSONObject obj = jsonArray.getJSONObject(i);
 //			System.out.println("obj:" + obj);
@@ -110,7 +95,6 @@ public class FoodService {
 			
 			FoodVo foodVo = new FoodVo();
 			
-			foodVo.setBno(i + 1);
 			foodVo.setRname(rname);
 			foodVo.setContent(content);
 			foodVo.setLocation(location);
@@ -123,11 +107,10 @@ public class FoodService {
 			foodVo.setRlong(rlong);
 			foodVo.setImage(image);
 			foodVo.setThumbimage(thumbimage);
-			list.add(foodVo);
-			
+//			list.add(foodVo);
+//			System.out.println("foodVo:" + foodVo);
 			foodDao.insertFood(foodVo);
 		}
 //		System.out.println("list:" + list);
 	}
-
 }

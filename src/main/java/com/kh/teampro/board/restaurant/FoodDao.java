@@ -29,6 +29,7 @@ public class FoodDao {
 	// 맛집 추가
 	public void insertFood(FoodVo foodVo) throws Exception{
 		sqlSession.insert(NAMESPACE + "insertFood", foodVo);
+//		System.out.println("foodVo:" + foodVo); // test ok
 	}
 	
 }
