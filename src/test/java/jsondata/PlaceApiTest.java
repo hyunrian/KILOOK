@@ -16,23 +16,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kh.teampro.board.attraction.PlaceDao;
+import com.kh.teampro.board.attraction.PlaceVo;
 import com.kh.teampro.board.restaurant.FoodDao;
 import com.kh.teampro.board.restaurant.FoodVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
-public class FoodApiTest {
+public class PlaceApiTest {
 
 	@Autowired
-	FoodDao foodDao;
+	PlaceDao placeDao;
 	
-	// api 데이터 불러오기 + db 저장
 	@Test
 	public void getFoodApi() throws Exception {
-		String api_url = "http://apis.data.go.kr/6260000/FoodService/getFoodKr";
+		// api 데이터 불러오기
+		String api_url = "http://apis.data.go.kr/6260000/AttractionService/getAttractionKr";
 		String serviceKey = "azTHMfp6YjDVbFlU+L/3hvNoIISlb8V6wdFOtkejKQjLmzRnVhYAz+KL74NrlAwL+mhfSJOUiAmhChWpsm3eIQ==";
-		String pageNo = "28";
-		String numOfRows = "10";
+		String pageNo = "6"; // 6페이지에서 에러 발생, 확인 필요 / tbl_rest 데이터 다시 넣기
+		String numOfRows = "20";
 		
 		StringBuilder urlBuilder = new StringBuilder(api_url); /*URL*/
 		urlBuilder.append("?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8"));
@@ -61,55 +63,54 @@ public class FoodApiTest {
 		}
 		rd.close();
 		conn.disconnect();
-//		System.out.println("sb:" + sb.toString()); // 출력 확인 o
-
+		System.out.println("sb:" + sb.toString());
+		
+		// api 데이터 DB 저장하기
 		String sbString = sb.toString();
 		JSONObject sbObj = new JSONObject(sbString);
-		JSONObject objFoodKr = (JSONObject)sbObj.get("getFoodKr");
+		JSONObject objFoodKr = (JSONObject)sbObj.get("getAttractionKr");
 		JSONArray jsonArray = (JSONArray)objFoodKr.get("item");
 		
-		// sbString을 JSONArray로 변환
-//			JSONArray jsonArray = new org.json.JSONArray(sbString);
-
-		//jsonArray를 사용하여 각각의 JSON 객체에서 데이터 추출
-		
-//		List<FoodVo> list = new ArrayList<FoodVo>();
 		for (int i = 0; i < jsonArray.length(); i++) {
 			org.json.JSONObject obj = jsonArray.getJSONObject(i);
 //			System.out.println("obj:" + obj);
 //			System.out.println("===============");
 			
-			String rname = obj.getString("MAIN_TITLE");
+			String title = obj.getString("TITLE");
 			String content = obj.getString("ITEMCNTNTS");
+			String aname = obj.getString("PLACE");
 			String location = obj.getString("GUGUN_NM");
-			String address = obj.getString("ADDR1");
-			String rnumber = obj.getString("CNTCT_TEL");
-			String rurl = obj.getString("HOMEPAGE_URL");
-			String openhours = obj.getString("USAGE_DAY_WEEK_AND_TIME");
-			String menu = obj.getString("RPRSNTV_MENU");
 			int lat = obj.getInt("LAT");
-			int rlong = obj.getInt("LNG");
+			int along = obj.getInt("LNG");
+			String address = obj.getString("ADDR1");
+			String anumber = obj.getString("CNTCT_TEL");
+			String opendays = obj.getString("USAGE_DAY");
+			String openhours = obj.getString("USAGE_DAY_WEEK_AND_TIME");
+			String price = obj.getString("USAGE_AMOUNT");
+			String facility = obj.getString("MIDDLE_SIZE_RM1");
 			String image = obj.getString("MAIN_IMG_NORMAL");
-			String thumbimage = obj.getString("MAIN_IMG_THUMB");
+			String thumbimage = obj.getString("MAIN_IMG_THUMB"); 
 			
-			FoodVo foodVo = new FoodVo();
+			PlaceVo placeVo = new PlaceVo();
 			
-			foodVo.setRname(rname);
-			foodVo.setContent(content);
-			foodVo.setLocation(location);
-			foodVo.setAddress(address);
-			foodVo.setRnumber(rnumber);
-			foodVo.setUrl(rurl);
-			foodVo.setOpenhours(openhours);
-			foodVo.setMenu(menu);
-			foodVo.setLat(lat);
-			foodVo.setRlong(rlong);
-			foodVo.setImage(image);
-			foodVo.setThumbimage(thumbimage);
-//			list.add(foodVo);
-//			System.out.println("foodVo:" + foodVo);
-			foodDao.insertFood(foodVo);
+			placeVo.setTitle(title);
+			placeVo.setContent(content);
+			placeVo.setAname(aname);
+			placeVo.setLocation(location);
+			placeVo.setLat(lat);
+			placeVo.setAlong(along);
+			placeVo.setAddress(address);
+			placeVo.setAnumber(anumber);
+			placeVo.setOpendays(opendays);
+			placeVo.setOpenhours(openhours);
+			placeVo.setPrice(price);
+			placeVo.setFacility(facility);
+			placeVo.setImage(image);
+			placeVo.setThumbimage(thumbimage);
+			
+			placeDao.insertPlace(placeVo);
 		}
 //		System.out.println("list:" + list);
+		
 	}
 }

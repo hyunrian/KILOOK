@@ -8,18 +8,18 @@ import lombok.Data;
 @Component
 public class FoodVo {
 	private int bno; 
-	private String rname; // PLACE(17)
-	private String content; // ITEMCNTNTS(91)
-	private String location; // GUGUN_NM (4)
-	private String address; // ADDR1(16)
-	private String rnumber; // CNTCT_TEL(12)
-	private String url; // HOMEPAGE_URL(75)
-	private String openhours; // USAGE_DAY_WEEK_AND_TIME(96)
-	private String menu; // RPRSNTV_MENU(19)
-	private int lat; // LAT(9)
-	private int rlong; // LNG(9)
-	private String image; // MAIN_IMG_NORMAL(74)
-	private String thumbimage; // MAIN_IMG_THUMB(75)
+	private String rname; // PLACE
+	private String content; // ITEMCNTNTS
+	private String location; // GUGUN_NM
+	private String address; // ADDR1
+	private String rnumber; // CNTCT_TEL
+	private String url; // HOMEPAGE_URL
+	private String openhours; // USAGE_DAY_WEEK_AND_TIME
+	private String menu; // RPRSNTV_MENU
+	private int lat; // LAT
+	private int rlong; // LNG
+	private String image; // MAIN_IMG_NORMAL
+	private String thumbimage; // MAIN_IMG_THUMB
 	private int viewcnt; 
 	private int replycnt; 
 }
