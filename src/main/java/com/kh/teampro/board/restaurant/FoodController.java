@@ -33,6 +33,9 @@ public class FoodController {
 	@Autowired
 	private FoodService foodService;
 	
+//	@Autowired
+//	private FoodVo foodVo;
+	
 	// 맛집 전체 조회
 	@RequestMapping(value = "/getFoodList", method = RequestMethod.GET)
 	public List<FoodVo> getFoodList() throws Exception{
@@ -89,7 +92,30 @@ public class FoodController {
 		conn.disconnect();
 		System.out.println("sb:" + sb.toString()); // 출력 확인 o
 		
+		/*
+		String sbString = sb.toString();
+		for(int i = 0; i < sb.capacity(); i++) {
+			JSONObject obj = (JSONObject)sbString.get(i);
+			String place = (String)obj.get("place");
+			foodVo.setRname(place);
+		}
+		*/
 		
+		/*
+		String sbString = sb.toString();
+
+		// sbString을 JSONArray로 변환합니다.
+		org.json.JSONArray jsonArray = new org.json.JSONArray(sbString);
+
+		// 이제 jsonArray를 사용하여 각각의 JSON 객체에서 데이터를 추출하고 필요한 작업을 수행할 수 있습니다.
+		for (int i = 0; i < jsonArray.length(); i++) {
+			org.json.JSONObject obj = jsonArray.getJSONObject(i);
+		    // obj에서 데이터를 추출하여 필요한 작업을 수행합니다.
+			 String rname = obj.getString("place");
+			foodVo.setRname(rname);
+			System.out.println("rname:" + rname);
+		}
+		*/
 	}
 	
 	
