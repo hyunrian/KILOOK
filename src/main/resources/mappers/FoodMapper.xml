@@ -12,7 +12,7 @@
 	</select>
 	
 	<!-- 해당 맛집 상세보기 -->
-	<select id="getFoodInfo" resultType="com.kh.teampro.board.restaurant.FoodVo">
+	<select id="getFoodInfo" resultType="FoodVo">
 		select * from tbl_rest
 		where bno = #{bno}
 	</select>
