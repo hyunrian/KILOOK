@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이페이지</title>
 </head>
 <body>
-
+	<h1>유저 정보 수정 페이지</h1>
+	
+	<div>닉네임 : ${userVo.unickname}</div>
+	<div>소지 포인트 : ${userVo.upoint}</div>
 </body>
 </html>

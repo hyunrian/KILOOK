@@ -21,7 +21,7 @@ public class PointController {
 	// 포인트보상 페이지로
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String toPointReward() {
-		return "/point/pointReward";
+		return "point/pointReward";
 	}
 	
 	// 포인트 추가
@@ -29,9 +29,11 @@ public class PointController {
 	@RequestMapping(value = "/addPoint", method = RequestMethod.GET)
 	@ResponseBody
 	public String addPoint(String userid, String getPointType) {
-		if (getPointType == "글") {					// 포인트 획득 경로가 글 작성 일때
+		if (getPointType.equals("글")) {
+			// 포인트 획득 경로가 글 작성 일때
 			pointService.addPoint(userid, WRITING_POINT);	// 글 작성 포인트로 pointService에 전달
-		} else if (getPointType == "댓글") {			// 포인트 획득 경로가 댓글 작성 일때
+		} else if (getPointType.equals("댓글")) {			// 포인트 획득 경로가 댓글 작성 일때
+			System.out.println("댓글");
 			pointService.addPoint(userid, COMMENT_POINT);	// 댓글 작성 포인트로 pointService에 전달
 		}
 		
@@ -50,11 +52,10 @@ public class PointController {
 			pointService.usePoint(userid, requiredPoint);
 			// 해당 상품을 사용자에게 선물
 			// ㅡㅡㅡ 구현 필요 ㅡㅡㅡ //
-			return "교환을 성공적으로 완료했습니다.";
+			return "use success";
 		}
 		// 포인트 부족
-		return "포인트가 부족합니다.";
-		
+		return "use fail";
 	}
 	
 	

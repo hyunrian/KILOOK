@@ -13,19 +13,19 @@ public class PointDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private final String NAME_SPACE = "com.kh.teampro.PointMapper.";
+	private final String NAMESPACE = "com.kh.teampro.PointMapper.";
 
 	// 포인트 추가
 	public void addPoint(String userid, int point) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userid", userid);
 		map.put("point", point);
-		sqlSession.update(NAME_SPACE + "addPoint", map);
+		sqlSession.update(NAMESPACE + "addPoint", map);
 	}
 	
 	// 포인트 확인
 	public int checkPoint(String userid) {
-		int point = sqlSession.selectOne(NAME_SPACE + "checkPoint", userid);
+		int point = sqlSession.selectOne(NAMESPACE + "checkPoint", userid);
 		return point;
 	}
 	
@@ -34,7 +34,7 @@ public class PointDao {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userid", userid);
 		map.put("requiredPoint", requiredPoint);
-		sqlSession.update(NAME_SPACE + "usePoint", map);
+		sqlSession.update(NAMESPACE + "usePoint", map);
 	}
 	
 }
