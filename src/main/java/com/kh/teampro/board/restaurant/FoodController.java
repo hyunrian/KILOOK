@@ -2,30 +2,18 @@ package com.kh.teampro.board.restaurant;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
-
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/databoard")
@@ -91,9 +79,12 @@ public class FoodController {
 		rd.close();
 		conn.disconnect();
 		System.out.println("sb:" + sb.toString()); // 출력 확인 o
+
+		/*-------------------------------*/
+//		String sbString = sb.toString();
+//		FoodVo foodVo = new FoodVo();
 		
 		/*
-		String sbString = sb.toString();
 		for(int i = 0; i < sb.capacity(); i++) {
 			JSONObject obj = (JSONObject)sbString.get(i);
 			String place = (String)obj.get("place");
@@ -102,15 +93,29 @@ public class FoodController {
 		*/
 		
 		/*
-		String sbString = sb.toString();
+		 ObjectMapper objectMapper = new ObjectMapper();
+		 JsonNode jsonNode = objectMapper.readTree(sb.toString());
+		    
+	     // JSON 데이터에서 "data" 필드를 가져와서 배열로 만듭니다.
+	     JsonNode dataArray = jsonNode.get("place");
+	     if (dataArray.isArray()) {
+	        for (JsonNode obj : dataArray) {
+	            // 각 JSON 객체에서 "place" 필드 값을 추출합니다.
+	            String place = obj.get("place").asText();
+	            // 추출한 데이터를 "FoodVo" 객체에 저장하거나 원하는 방식으로 활용합니다.
+	            foodVo.setRname(place);
+	        }
+	     }
+	     */
+		
 
-		// sbString을 JSONArray로 변환합니다.
+		/*
+		// sbString을 JSONArray로 변환
 		org.json.JSONArray jsonArray = new org.json.JSONArray(sbString);
 
-		// 이제 jsonArray를 사용하여 각각의 JSON 객체에서 데이터를 추출하고 필요한 작업을 수행할 수 있습니다.
+		//jsonArray를 사용하여 각각의 JSON 객체에서 데이터를 추출
 		for (int i = 0; i < jsonArray.length(); i++) {
 			org.json.JSONObject obj = jsonArray.getJSONObject(i);
-		    // obj에서 데이터를 추출하여 필요한 작업을 수행합니다.
 			 String rname = obj.getString("place");
 			foodVo.setRname(rname);
 			System.out.println("rname:" + rname);
