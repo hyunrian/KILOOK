@@ -23,7 +23,7 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/> <!-- ref="커넥션풀 아이디" -->
 		<property name="configLocation" value="classpath:mybatis-config.xml"/>
-		<property name="mapperLocations" value="classpath:mappers/*Mapper.xml"/>
+		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"/>
 	</bean>
 	
 	<!-- try~catch 할 빈 등록 -->

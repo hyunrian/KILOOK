@@ -21,6 +21,7 @@ function getDate(millisecond) {
 
 // 시간 얻기
 function getTime(millisecond) {
+	let d = new Date(millisecond);
 	let hour = d.getHours();
 	let minute = d.getMinutes();
 	let second = d.getSeconds();
@@ -36,6 +37,16 @@ function make2digits(num) {
 		num = "0" + num;
 	}
 	return num;
+}
+
+// 오늘 날짜와 입력된 날짜 비교
+function isSameDate(millisecond) {
+	let today = getDate(new Date());
+	let thatday = getDate(new Date(millisecond));
+	console.log("today", today);
+	console.log("thatday", thatday);
+	if (today == thatday) return true;
+	else return false;
 }
 
 function isImage(filename) {

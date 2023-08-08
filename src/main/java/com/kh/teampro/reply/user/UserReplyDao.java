@@ -15,7 +15,9 @@ public class UserReplyDao {
 	private SqlSession sqlSession;
 	
 	public List<UserReplyVo> getUserReply(int bno) {
-		return sqlSession.selectList(NAMESPACE + "getUserReply");
+		if (getReplycnt(bno) != 0)
+			return sqlSession.selectList(NAMESPACE + "getUserReply", bno);
+		else return null;
 	}
 	
 	public void insertUserReply(UserReplyVo userReplyVo) {
