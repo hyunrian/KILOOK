@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.teampro.UserReplyMapper">
+
+	<select id="getUserReply" resultType="UserReplyVo">
+		select * from tbl_userreply
+		where bno = #{bno}
+	</select>
+	
+	<insert id="insertUserReply">
+		insert into tbl_userboard (bno, title, content, writer)
+		values (seq_board_bno.nextval, #{title}, #{content}, #{writer})
+	</insert>
+
+	<select id="getReplycnt" resultType="int">
+		select count(*) from tbl_userreply
+		where bno = #{bno}
+	</select>
+	
+</mapper>
