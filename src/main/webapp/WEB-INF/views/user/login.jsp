@@ -253,6 +253,32 @@ span {
 <!-- 스크립트 시작 -->
 <script>
 
+// 사용자 지정 메소드
+// 글자수 0-15자 제한
+jQuery.validator.addMethod("lengthCheck15", function(value, element) {
+	  return this.optional(element) || /^.{0,15}$/.test(value);
+	}, "**** 아이디는 최대 15자 입니다 ****");
+
+// 글자수 0-15자 제한
+jQuery.validator.addMethod("lengthCheck30", function(value, element) {
+	  return this.optional(element) || /^.{0,30}$/.test(value);
+	}, "**** 아이디는 최대 30자 입니다 ****");
+	
+// 글자 제한 (영문과 숫자만)
+jQuery.validator.addMethod("spellCheckID", function(value, element) {
+	  return this.optional(element) || /^[A-Za-z0-9]+$/.test(value);
+	}, "**** 아이디는 영문, 숫자만 가능합니다 ****");
+	
+// 특수문자 제한
+jQuery.validator.addMethod("spellCheckPW1", function(value, element) {
+	  return this.optional(element) || /^[a-zA-Z0-9!@#$%_]*$/.test(value);
+	}, "**** 특수문자는 !@#$%_만 사용 가능합니다 ****");
+
+// 글자 제한 (영문+숫자+특수기호)
+jQuery.validator.addMethod("spellCheckPW2", function(value, element) {
+	  return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%_])[A-Za-z\d!@#$%-_]+$/.test(value);
+	}, "**** 영문, 숫자, !@#$%_를 조합해야 합니다 ****");
+
 // 로그인 유효성 검사
 jQuery(function() {
 	const loginForm = $("#loginForm");
@@ -281,14 +307,18 @@ jQuery(function() {
 		rules: {                    	// 유효성 검사 규칙
 			userid: {					// 이름 필드 (name="userid")
 				required: true,			// 필수 입력
+				lengthCheck15: true,
 										
 // 원인을 알수 없는 이유로 작동이 되었다 안되었다 하기 때문에 아래 2코드는 사용하지 말것
-// 	  			rangelength: [5, 15]	// 입력범위 0~15자 (<input maxlength="15"> 으로 대체함)
+// 	  			rangelength: [5, 15]	// 입력범위 0~15자 (위 코드로 대체함)
 // 				maxlength: 15			// 최대 15자 까지 입력 가능
+				
+				spellCheckID: true
 										
 			},
 			unickName: {     			// 비밀번호 필드 (name="unickName")
 				required: true,			// 필수 입력
+				lengthCheck30: true
 // 				rangelength: [0, 30]	
 // 				maxlength: 30			
 			},
@@ -297,9 +327,12 @@ jQuery(function() {
 				email: true				// 이메일 형식 필요
 			},
 			upw: {     					// 비밀번호 필드 (name="upw")
-				required: true			// 필수 입력
+				required: true,			// 필수 입력
+				lengthCheck15: true,
 // 				rangelength: [0, 15]	
-// 				maxlength: 15			
+// 				maxlength: 15
+				spellCheckPW1: true,
+				spellCheckPW2: true
 			},
 			upwCheck: {     			// 비밀번호 필드 (name="upwCheck")
 				required: true,			// 필수 입력
@@ -352,20 +385,20 @@ jQuery(function() {
 				<form id="createForm">
 					<h1>회원가입</h1>
 					<div>
-						<input class="inputMiddle" type="text" placeholder="아이디" maxlength="15"
+						<input class="inputMiddle" type="text" placeholder="아이디"
 							id="createUserid" name="userid" required>
 						<button class="btnSmall form_btn">중복확인</button>
 					</div>
 					<div>
-						<input class="inputMiddle" type="password" placeholder="닉네임" maxlength="30"
+						<input class="inputMiddle" type="password" placeholder="닉네임"
 							id="createUnickName" name="unickName" required>
 						<button class="btnSmall form_btn">중복확인</button>
 					</div>
 					<input class="inputSamll" type="email" placeholder="이메일"
 						id="createUemail" name="uemail" required>
-					<input class="inputSamll" type="password" placeholder="비밀번호" maxlength="15"
+					<input class="inputSamll" type="password" placeholder="비밀번호"
 						id="createUpw" name="upw" required>
-					<input class="inputSamll" type="password" placeholder="비밀번호 확인" maxlength="15"
+					<input class="inputSamll" type="password" placeholder="비밀번호 확인"
 						id="createUpwCheck" name="upwCheck" required>
 					<button type="submit" class="btn form_btn">확인</button>
 				</form>
@@ -386,9 +419,9 @@ jQuery(function() {
 						</div>
 					</div>
 					<span>----- 또는 끼룩 계정으로 로그인 -----</span> 
-					<input class="input" type="text" placeholder="아이디" maxlength="15"
+					<input class="input" type="text" placeholder="아이디"
 						id="userid" name="userid" required>
-					<input class="input" type="password" placeholder="비밀번호" maxlength="15"
+					<input class="input" type="password" placeholder="비밀번호"
 						id="upw" name="upw" required>
 					<div>
 						<input type="checkbox" class="form-check-input" 
