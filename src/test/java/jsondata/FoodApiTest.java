@@ -31,7 +31,7 @@ public class FoodApiTest {
 	public void getFoodApi() throws Exception {
 		String api_url = "http://apis.data.go.kr/6260000/FoodService/getFoodKr";
 		String serviceKey = "azTHMfp6YjDVbFlU+L/3hvNoIISlb8V6wdFOtkejKQjLmzRnVhYAz+KL74NrlAwL+mhfSJOUiAmhChWpsm3eIQ==";
-		String pageNo = "10";
+		String pageNo = "5";
 		String numOfRows = "30";
 		
 		StringBuilder urlBuilder = new StringBuilder(api_url); /*URL*/

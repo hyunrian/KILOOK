@@ -24,7 +24,7 @@ public class PlaceDao {
 	
 	// 해당 명소 상세보기
 	public List<PlaceVo> getPlaceInfo(int bno) throws Exception{
-		List<PlaceVo> list = sqlSession.selectList(NAMESPACE + "getPlaceInfo", bno);
+		List<PlaceVo> list = sqlSession.selectOne(NAMESPACE + "getPlaceInfo", bno);
 		return list;
 	}
 

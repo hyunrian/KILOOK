@@ -64,8 +64,8 @@ public class PlaceApiTest {
 		// api 데이터 DB 저장
 		String sbString = sb.toString();
 		JSONObject sbObj = new JSONObject(sbString);
-		JSONObject objFoodKr = (JSONObject)sbObj.get("getAttractionKr");
-		JSONArray jsonArray = (JSONArray)objFoodKr.get("item");
+		JSONObject objAttractionKr = (JSONObject)sbObj.get("getAttractionKr");
+		JSONArray jsonArray = (JSONArray)objAttractionKr.get("item");
 		
 		for (int i = 0; i < jsonArray.length(); i++) {
 			org.json.JSONObject obj = jsonArray.getJSONObject(i);
