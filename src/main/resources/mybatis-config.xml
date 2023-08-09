@@ -18,6 +18,7 @@
 		<package name="com.kh.teampro.board.attraction"/>
 		<package name="com.kh.teampro.board.accommodation"/>
 		<package name="com.kh.teampro.board.tourguide"/>
+		<package name="com.kh.teampro.board.parking"/>
 
 		<package name="com.kh.teampro.user.info"/>
 
