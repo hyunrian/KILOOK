@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class AccomVo {
-	
 	private int bno;
 	private String category;
 	private String aname;

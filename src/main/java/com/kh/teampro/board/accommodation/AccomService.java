@@ -23,7 +23,7 @@ public class AccomService {
 		return list;
 	}
 	
-	// 해당 명소 상세보기
+	// 해당 숙소 상세보기
 	public List<AccomVo> getAccomInfo(int bno) throws Exception{
 		List<AccomVo> list = accomDao.getAccomInfo(bno);
 		return list;
