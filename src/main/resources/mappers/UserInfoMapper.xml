@@ -21,4 +21,18 @@
 			uimg = #{uimg}
 		where userid = #{userid}
 	</update>
+	
+	<!-- 마이페이지에서 사용할 해당 유저가 작성한 글 정보 -->
+	<select id="readUserBoard" resultType="UserBoardVo">
+		select * from tbl_userboard
+		where writer = #{writer}
+	</select>
+	
+	
+	<!-- 마이페이지에서 사용할 해당 유저가 작성한 댓글 정보 -->
+	<select id="readUserReply" resultType="UserReplyVo">
+		select * from tbl_userreply
+		where replyer = #{replyer}
+	</select>
+	
 </mapper>
