@@ -253,9 +253,8 @@ span {
 <!-- 스크립트 시작 -->
 <script>
 
-// 값이 유효하지 않으면 submit을 허용하지 않음
+// 로그인 유효성 검사
 jQuery(function() {
-	// 로그인 유효성 검사
 	const loginForm = $("#loginForm");
 	loginForm.validate({
 		rules: {                    // 유효성 검사 규칙
@@ -279,38 +278,57 @@ jQuery(function() {
 	// 회원가입 유효성 검사
 	const createForm = $("#createForm");
 	createForm.validate({
-		rules: {                    // 유효성 검사 규칙
-			userid: {				// 이름 필드 (name="userid")
-				required: true,     // 필수 입력
+		rules: {                    	// 유효성 검사 규칙
+			userid: {					// 이름 필드 (name="userid")
+				required: true,			// 필수 입력
+										
+// 원인을 알수 없는 이유로 작동이 되었다 안되었다 하기 때문에 아래 2코드는 사용하지 말것
+// 	  			rangelength: [5, 15]	// 입력범위 0~15자 (<input maxlength="15"> 으로 대체함)
+// 				maxlength: 15			// 최대 15자 까지 입력 가능
+										
 			},
-			unickName: {     		// 비밀번호 필드 (name="unickName")
-				required: true,     // 필수 입력
+			unickName: {     			// 비밀번호 필드 (name="unickName")
+				required: true,			// 필수 입력
+// 				rangelength: [0, 30]	
+// 				maxlength: 30			
 			},
-			uemail: {    			// 비밀번호 필드 (name="uemail")
-				required: true,     // 필수 입력
+			uemail: {    				// 비밀번호 필드 (name="uemail")
+				required: true,			// 필수 입력
+				email: true				// 이메일 형식 필요
 			},
-			upw: {     				// 비밀번호 필드 (name="upw")
-				required: true,     // 필수 입력
+			upw: {     					// 비밀번호 필드 (name="upw")
+				required: true			// 필수 입력
+// 				rangelength: [0, 15]	
+// 				maxlength: 15			
 			},
-			upwCheck: {     		// 비밀번호 필드 (name="upwCheck")
-				required: true,     // 필수 입력
+			upwCheck: {     			// 비밀번호 필드 (name="upwCheck")
+				required: true,			// 필수 입력
+				equalTo: "#createUpw"	// 해당 아이디와 값이 같아야함
 			}
 		},
 		messages: {                 // 오류값 발생시 출력할 메시지 수동 지정
 			userid: {
-				required: "**** 아이디를 입력해 주세요 ****"
+				required:		"**** 아이디를 입력해 주세요 ****",
+// 				rangelength:	"**** 아이디는 최대 15자 입니다 ****"
+// 				maxlength:		"**** 아이디는 최대 15자 입니다 ****"
 			},
 			unickName: {
-				required: "**** 비밀번호를 입력해 주세요 ****"
+				required:		"**** 닉네임을 입력해 주세요 ****",
+// 				rangelength:	"**** 닉네임은 최대 30자 입니다 ****"
+// 				maxlength:		"**** 닉네임은 최대 30자 입니다 ****"
 			},
 			uemail: {
-				required: "**** 비밀번호를 입력해 주세요 ****"
+				required:		"**** 이메일을 입력해 주세요 ****",
+				email:			"**** 이메일 형식이 아닙니다 ****"
 			},
 			upw: {
-				required: "**** 비밀번호를 입력해 주세요 ****"
+				required:		"**** 비밀번호를 입력해 주세요 ****",
+// 				rangelength:	"**** 비밀번호는 최대 15자 입니다 ****"
+// 				maxlength:		"**** 비밀번호는 최대 15자 입니다 ****"
 			},
 			upwCheck: {
-				required: "**** 비밀번호를 입력해 주세요 ****"
+				required: 		"**** 비밀번호를 확인해 주세요 ****",
+				equalTo: 		"**** 비밀번호가 일치하지 않습니다 ****"
 			}
 		},
 		errorPlacement: function(error, element) {
@@ -329,31 +347,31 @@ jQuery(function() {
 <body>
 	<div class="wrapper">
 		<div class="container">
+			<!-- 회원가입 폼 -->
 			<div class="create-Account-container">
-				<!-- 회원가입 폼 -->
 				<form id="createForm">
 					<h1>회원가입</h1>
 					<div>
-						<input class="inputMiddle" type="text" placeholder="아이디"
+						<input class="inputMiddle" type="text" placeholder="아이디" maxlength="15"
 							id="createUserid" name="userid" required>
 						<button class="btnSmall form_btn">중복확인</button>
 					</div>
 					<div>
-						<input class="inputMiddle" type="password" placeholder="닉네임"
+						<input class="inputMiddle" type="password" placeholder="닉네임" maxlength="30"
 							id="createUnickName" name="unickName" required>
 						<button class="btnSmall form_btn">중복확인</button>
 					</div>
 					<input class="inputSamll" type="email" placeholder="이메일"
 						id="createUemail" name="uemail" required>
-					<input class="inputSamll" type="password" placeholder="비밀번호"
+					<input class="inputSamll" type="password" placeholder="비밀번호" maxlength="15"
 						id="createUpw" name="upw" required>
-					<input class="inputSamll" type="password" placeholder="비밀번호 확인"
+					<input class="inputSamll" type="password" placeholder="비밀번호 확인" maxlength="15"
 						id="createUpwCheck" name="upwCheck" required>
 					<button type="submit" class="btn form_btn">확인</button>
 				</form>
 			</div>
+			<!-- 로그인 폼 -->
 			<div class="log-in-container">
-				<!-- 로그인 폼 -->
 				<form id="loginForm" action="/user/login" method="post">
 					<h1>소셜 로그인</h1>
 					<div class="social-links">
@@ -368,9 +386,9 @@ jQuery(function() {
 						</div>
 					</div>
 					<span>----- 또는 끼룩 계정으로 로그인 -----</span> 
-					<input class="input" type="text" placeholder="아이디"
+					<input class="input" type="text" placeholder="아이디" maxlength="15"
 						id="userid" name="userid" required>
-					<input class="input" type="password" placeholder="비밀번호"
+					<input class="input" type="password" placeholder="비밀번호" maxlength="15"
 						id="upw" name="upw" required>
 					<div>
 						<input type="checkbox" class="form-check-input" 
