@@ -9,7 +9,7 @@
 		select iname, openhours, inumber, address, language, introduce, replycnt
 		from tbl_info
 		where iname is not null
-		order by bno asc
+		order by bno desc
 	</select>
 	
 	<!-- 관광소 추가 -->

@@ -9,6 +9,7 @@
 		select pname, jibunaddress, doroaddress, weekdayopen, weekdayclose, saturdayopen,
 				saturdayclose, holidayopen, holidayclose, price, replycnt
 		from tbl_parking
+		order by bno desc
 	</select>
 	
 	<!-- 주차장 추가 -->
