@@ -6,8 +6,8 @@ import lombok.Data;
 public class ParkingVo {
 	private int bno;
 	private String pname;
-	private int lat;
-	private int plong;
+	private String lat;
+	private String plong;
 	private String jibunaddress;
 	private String doroaddress;
 	private String weekdayopen;
