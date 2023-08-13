@@ -1,46 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<title>우리가 만들어가는 부산여행 추천 코스</title>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- fontawesome 설정 추가 -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-	crossorigin="anonymous">
-<script src="https://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
-
-<link
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Alex+Brush"
-	rel="stylesheet">
-
-<link rel="stylesheet"
-	href="/resources/css/open-iconic-bootstrap.min.css">
-<link rel="stylesheet" href="/resources/css/animate.css">
-
-<link rel="stylesheet" href="/resources/css/owl.carousel.min.css">
-<link rel="stylesheet" href="/resources/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="/resources/css/magnific-popup.css">
-
-<link rel="stylesheet" href="/resources/css/aos.css">
-
-<link rel="stylesheet" href="/resources/css/ionicons.min.css">
-
-<link rel="stylesheet" href="/resources/css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="/resources/css/jquery.timepicker.css">
-
-
-<link rel="stylesheet" href="/resources/css/flaticon.css">
-<link rel="stylesheet" href="/resources/css/icomoon.css">
-<link rel="stylesheet" href="/resources/css/style.css">
-</head>
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
 <style>
 @font-face {
 	font-family: "Pretendard-Black";
@@ -60,13 +21,8 @@ body {
 	height: 50px;
 }
 </style>
-<script>
-	$(function() {
 
-	});
-</script>
-<body>
-	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+<%@ include file="/WEB-INF/views/include/menu.jsp"%>
 
 	<div class="hero-wrap js-fullheight" id="top"
 		style="background-image: url('/resources/images/bg_4.jpg');">
@@ -86,6 +42,12 @@ body {
 						<span>혼자만 알고 있기 아쉬운 다양한 코스를 다른 사람들과 공유해보세요!</span>
 					</p>
 					<br>
+					
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Type a keyword and hit enter"><span class="icon fa fa-search" aria-hidden="true"></span>
+						<input type="submit" class="search-submit btn btn-primary" value="Search">
+					</div>
+					
 					<a class="btn btn-lg" href="/userboard/write" 
 						style="background-color:#78d5ef; color:white;">
 						나의 여행 코스 등록하기
@@ -119,7 +81,7 @@ body {
 										</div>
 										<div class="boardContents" style="margin-right: 40px;">
 											<a href="#" class="meta-chat"><i class="fa-solid fa-heart"></i>
-												0</a>
+												${userBoardVo.likecnt}</a>
 										</div>
 										<div class="boardContents">
 											<a href="#" class="meta-chat"><span class="icon-chat"></span>

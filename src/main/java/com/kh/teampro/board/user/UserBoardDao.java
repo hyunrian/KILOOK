@@ -21,5 +21,9 @@ public class UserBoardDao {
 	public UserBoardVo getUserArticleDetail(int bno) {
 		return sqlSession.selectOne(NAMESPACE + "getUserArticleDetail", bno);
 	}
+	
+	public void addViewcnt(int bno) {
+		sqlSession.update(NAMESPACE + "addViewcnt", bno);
+	}
 
 }
