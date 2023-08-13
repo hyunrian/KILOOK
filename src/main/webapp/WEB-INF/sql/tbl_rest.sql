@@ -24,10 +24,10 @@ start with 1;
 
 -- 테이블 조회
 select * from tbl_rest
-where bno between 220 and 230
 order by bno asc;
 
-select * from tbl_rest;
+-- 데이터 개수 확인
+select count(*) from tbl_rest;
 
 -- 테스트 데이터 삽입
 insert into tbl_rest

@@ -1,8 +1,13 @@
 package com.kh.teampro.user.info;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.kh.teampro.board.user.UserBoardVo;
+import com.kh.teampro.reply.user.UserReplyVo;
 
 @Repository
 public class UserInfoDao {
@@ -23,4 +28,15 @@ public class UserInfoDao {
 		sqlSession.update(NAMESPACE + "updateUserInfo", userVo);
 	}
 	
+	// 유저 작성 글 정보 읽기
+	public List<UserBoardVo> readUserBoard(String writer) {
+		List<UserBoardVo> boardList = sqlSession.selectList(NAMESPACE + "readUserBoard", writer);
+		return boardList;
+	}
+	
+	// 유저 작성 댓글 정보 읽기
+	public List<UserReplyVo> readUserReply(String replyer) {
+		List<UserReplyVo> replyList = sqlSession.selectList(NAMESPACE + "readUserReply", replyer);
+		return replyList;
+	}
 }

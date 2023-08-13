@@ -26,13 +26,13 @@ public class FoodApiTest {
 	@Autowired
 	FoodDao foodDao;
 	
-	// api 데이터 불러오기 + db 저장
 	@Test
+	// api 데이터 불러오기
 	public void getFoodApi() throws Exception {
 		String api_url = "http://apis.data.go.kr/6260000/FoodService/getFoodKr";
 		String serviceKey = "azTHMfp6YjDVbFlU+L/3hvNoIISlb8V6wdFOtkejKQjLmzRnVhYAz+KL74NrlAwL+mhfSJOUiAmhChWpsm3eIQ==";
-		String pageNo = "28";
-		String numOfRows = "10";
+		String pageNo = "5";
+		String numOfRows = "30";
 		
 		StringBuilder urlBuilder = new StringBuilder(api_url); /*URL*/
 		urlBuilder.append("?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8"));
@@ -63,6 +63,7 @@ public class FoodApiTest {
 		conn.disconnect();
 //		System.out.println("sb:" + sb.toString()); // 출력 확인 o
 
+		// api 데이터 DB 저장
 		String sbString = sb.toString();
 		JSONObject sbObj = new JSONObject(sbString);
 		JSONObject objFoodKr = (JSONObject)sbObj.get("getFoodKr");
@@ -73,7 +74,6 @@ public class FoodApiTest {
 
 		//jsonArray를 사용하여 각각의 JSON 객체에서 데이터 추출
 		
-//		List<FoodVo> list = new ArrayList<FoodVo>();
 		for (int i = 0; i < jsonArray.length(); i++) {
 			org.json.JSONObject obj = jsonArray.getJSONObject(i);
 //			System.out.println("obj:" + obj);
@@ -106,10 +106,8 @@ public class FoodApiTest {
 			foodVo.setRlong(rlong);
 			foodVo.setImage(image);
 			foodVo.setThumbimage(thumbimage);
-//			list.add(foodVo);
 //			System.out.println("foodVo:" + foodVo);
 			foodDao.insertFood(foodVo);
 		}
-//		System.out.println("list:" + list);
 	}
 }

@@ -8,7 +8,7 @@
 	<select id="getPlaceList" resultType="PlaceVo">
 		select aname, address, anumber, openhours, thumbimage, replycnt
 		from tbl_attraction
-		order by bno asc
+		order by bno desc
 	</select>
 	
 	<!-- 해당 명소 상세보기 : 상세 페이지에서 보여줄 전체 데이터 조회 -->

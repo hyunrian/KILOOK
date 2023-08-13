@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.teampro.InfoMapper">
+	<!-- 관광소 전체 조회 : 게시물 전체 페이지에서 보여줄 데이터 조회 -->
+	<select id="getInfoList" resultType="InfoVo">
+		select iname, openhours, inumber, address, language, introduce, replycnt
+		from tbl_info
+		where iname is not null
+		order by bno desc
+	</select>
+	
+	<!-- 관광소 추가 -->
+	<insert id="insertInfo">
+		insert into tbl_info
+		(bno, iname, openhours, inumber, lat, ilong, address, language, introduce)
+		values
+		(seq_info_bno.nextval, #{iname}, #{openhours}, #{inumber}, #{lat}, #{ilong},
+		#{address}, #{language}, #{introduce})
+	</insert>
+	
+</mapper>

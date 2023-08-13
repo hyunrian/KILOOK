@@ -29,11 +29,11 @@ public class PlaceApiTest {
 	PlaceDao placeDao;
 	
 	@Test
-	public void getFoodApi() throws Exception {
+	public void getPlaceApi() throws Exception {
 		// api 데이터 불러오기
 		String api_url = "http://apis.data.go.kr/6260000/AttractionService/getAttractionKr";
 		String serviceKey = "azTHMfp6YjDVbFlU+L/3hvNoIISlb8V6wdFOtkejKQjLmzRnVhYAz+KL74NrlAwL+mhfSJOUiAmhChWpsm3eIQ==";
-		String pageNo = "6"; // 6페이지에서 에러 발생, 확인 필요 / tbl_rest 데이터 다시 넣기
+		String pageNo = "7"; 
 		String numOfRows = "20";
 		
 		StringBuilder urlBuilder = new StringBuilder(api_url); /*URL*/
@@ -41,13 +41,9 @@ public class PlaceApiTest {
         urlBuilder.append("&pageNo=" + URLEncoder.encode(pageNo, "UTF-8")); 
         urlBuilder.append("&numOfRows=" + URLEncoder.encode(numOfRows, "UTF-8")); 
         urlBuilder.append("&resultType=" + URLEncoder.encode("json", "UTF-8"));
-        String uString = urlBuilder.toString();
-//        System.out.println("uString:" + uString);
         URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		conn.setRequestMethod("GET");
-//			conn.setRequestProperty("Content-type", "application/json");
-//		System.out.println("Response code: " + conn.getResponseCode()); // getResponseCode : 200
 		BufferedReader rd;
         
 		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
@@ -65,11 +61,11 @@ public class PlaceApiTest {
 		conn.disconnect();
 		System.out.println("sb:" + sb.toString());
 		
-		// api 데이터 DB 저장하기
+		// api 데이터 DB 저장
 		String sbString = sb.toString();
 		JSONObject sbObj = new JSONObject(sbString);
-		JSONObject objFoodKr = (JSONObject)sbObj.get("getAttractionKr");
-		JSONArray jsonArray = (JSONArray)objFoodKr.get("item");
+		JSONObject objAttractionKr = (JSONObject)sbObj.get("getAttractionKr");
+		JSONArray jsonArray = (JSONArray)objAttractionKr.get("item");
 		
 		for (int i = 0; i < jsonArray.length(); i++) {
 			org.json.JSONObject obj = jsonArray.getJSONObject(i);
@@ -110,7 +106,5 @@ public class PlaceApiTest {
 			
 			placeDao.insertPlace(placeVo);
 		}
-//		System.out.println("list:" + list);
-		
 	}
 }

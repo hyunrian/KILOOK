@@ -7,8 +7,7 @@
 	<!-- 유저 한명 정보 읽기 -->
 	<!-- 마이페이지에 접속하면 해당 문구로 정보 받아와서 화면에 띄움 -->
 	<!-- 사용자 정보 수정 페이지로 넘어가도 마찬가지로 정보 받아와서 수정란에 띄움 -->
-	<!-- !UserVo 필요! -->
-	<select id="readOneUserInfo" resultType="com.kh.teampro.user.info.UserVo">
+	<select id="readOneUserInfo" resultType="UserVo">
 		select * from tbl_user
 		where userid = #{userid}
 	</select>
@@ -22,4 +21,18 @@
 			uimg = #{uimg}
 		where userid = #{userid}
 	</update>
+	
+	<!-- 마이페이지에서 사용할 해당 유저가 작성한 글 정보 -->
+	<select id="readUserBoard" resultType="UserBoardVo">
+		select * from tbl_userboard
+		where writer = #{writer}
+	</select>
+	
+	
+	<!-- 마이페이지에서 사용할 해당 유저가 작성한 댓글 정보 -->
+	<select id="readUserReply" resultType="UserReplyVo">
+		select * from tbl_userreply
+		where replyer = #{replyer}
+	</select>
+	
 </mapper>

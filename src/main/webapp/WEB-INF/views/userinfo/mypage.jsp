@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -19,10 +18,10 @@ $(function(){
 			$("#btnVerify").css('display', 'none');
 		}
 	}
-	checkVerified();
+	checkVerified(); // 페이지를 열면 본인확인 체크 함수 실행
 
-	// 유저 정보 수정 버튼
-	$("#btnUserUpdate").click(function(){
+	// 유저 정보 수정 버튼(데이터 담아서 정보 수정 페이지로 이동)
+ 	$("#btnUserUpdate").click(function(){
 		var form = $("#userVoForm");
 		form.attr("action", "/userinfo/infoUpdate");
 		form.submit();
@@ -41,16 +40,25 @@ $(function(){
 </script>
 </head>
 <body>
-	
+	<!-- 현재 방식 - 내 정보를 전부 다른 페이지로 넘겨서 수정 후 돌려받는 방식 -->
+	<!-- 희망 방식 - 표시된 내 정보들을 수정 가능한 input타입으로 변경한 뒤, 변경사항 저장 시 다시 div 타입으로 바꾸고 변경사항 저장 -->
 	<h1>마이 페이지</h1>
 	
-	<div>유저 이미지 공간 <button id="btnUserUpdate">유저 정보 수정</button></div><br>
+	<div>유저 이미지 공간</div><br>
+	<button>유저 이미지 변경</button>
 	
-	<div>닉네임 : ${userVo.unickname}</div>
-	<div>소지 포인트 : ${userVo.upoint}</div>
-	<div>본인확인 여부 : ${userVo.verified} <button id="btnVerify">본인 확인</button></div>
+	<div id="divUnickname">닉네임 : ${userVo.unickname}</div>
+	<div id="divUpoint">소지 포인트 : ${userVo.upoint}</div>
+	<div id="divVerified">본인확인 여부 : ${userVo.verified} <button id="btnVerify">본인 확인</button></div>
+	<button id="btnUserUpdate">유저 정보 수정</button>
 	
 	
+	<div>작성한 게시글</div>
+	
+	<!-- 부트스트랩 리스트 넣기 -->
+	<div>작성한 댓글</div>
+	
+	<!-- 부트스트랩 리스트 넣기 -->
 	
 	
 	
@@ -58,7 +66,7 @@ $(function(){
 	
 	<!-- 유저 정보 보관용 form -->
 	<!-- 정보 수정 시 전달될 데이터 -->
-	<form id="userVoForm" method="post">
+	<form id="userVoForm" method="post" action="/userinfo/infoUpdate">
 		<input type="hidden" name="userid" value="${userVo.userid}">
 		<input type="hidden" name="upw" value="${userVo.upw}">
 		<input type="hidden" name="unickname" value="${userVo.unickname}">
