@@ -19,4 +19,8 @@ public class UserBoardService {
 		return userBoardDao.getUserArticleDetail(bno);
 	}
 	
+	public void addViewcnt(int bno) {
+		userBoardDao.addViewcnt(bno);
+	}
+	
 }

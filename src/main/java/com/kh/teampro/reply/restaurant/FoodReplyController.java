@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.user.info.UserVo;
+
 @RestController
 @RequestMapping("/reply")
 public class FoodReplyController {
@@ -30,8 +33,11 @@ public class FoodReplyController {
 	@RequestMapping(value = "/restInsert", method = RequestMethod.POST)
 	public String foodReplyInsert(@RequestBody FoodReplyVo foodReplyVo,
 		HttpSession session) throws Exception{
+//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
+//		foodReplyVo.setReplyer(userVo.getUserid()); // (수정필요)
+		foodReplyVo.setReplyer("test00"); // 아이디 : test00 (임시 set)
 		foodReplyService.foodReplyInsert(foodReplyVo);
-		return "success";
+		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
 	 // 댓글 수정
@@ -44,8 +50,8 @@ public class FoodReplyController {
 	
 	// 댓글 삭제
 	@RequestMapping(value = "/restDelete/{rno}/{bno}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable("rno") int rno) {
+	public String delete(@PathVariable("rno") int rno, @PathVariable("bno") int bno) {
 		foodReplyService.foodReplyDelete(rno);
-		return "success";
+		return MyConstants.SUCCESS_MESSAGE;
 	}
 }

@@ -20,6 +20,7 @@ public class LikeUserBoardController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addLike(LikeUserBoardVo likeUserBoardVo) {
+//		System.out.println("vo:" + likeUserBoardVo);
 		likeUserBoardService.addLike(likeUserBoardVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}
@@ -35,11 +36,13 @@ public class LikeUserBoardController {
 	
 	@RequestMapping(value = "/liked", method = RequestMethod.GET)
 	public boolean userLiked(LikeUserBoardVo likeUserBoardVo) {
+//		System.out.println("vo:" + likeUserBoardVo);
 		return likeUserBoardService.userLiked(likeUserBoardVo);
 	}
 	
-	@RequestMapping(value = "/count", method = RequestMethod.GET)
-	public int countLikes(int bno) {
+	@RequestMapping(value = "/count/{bno}", method = RequestMethod.GET)
+	public int countLikes(@PathVariable int bno) {
+//		System.out.println("bno:" + bno);
 		return likeUserBoardService.countLikes(bno);
 	}
 }

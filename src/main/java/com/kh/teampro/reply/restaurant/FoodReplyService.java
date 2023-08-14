@@ -28,6 +28,7 @@ public class FoodReplyService {
 //	@Transactional
 	public void foodReplyInsert(FoodReplyVo foodReplyVo) {
 		foodReplyDao.foodReplyInsert(foodReplyVo);
+		// 해당 게시글의 댓글 개수 업데이트 메서드 추가 필요
 	}
 	
 	// 댓글 수정
@@ -38,6 +39,7 @@ public class FoodReplyService {
 	// 댓글 삭제
 //	@Transactional
 	public void foodReplyDelete(int rno) {
+		// 해당 게시글의 댓글 개수 삭제 메서드 추가 필요 
 		foodReplyDao.foodReplyDelete(rno);
 	}
 	

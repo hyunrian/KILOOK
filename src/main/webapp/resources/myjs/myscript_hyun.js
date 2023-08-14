@@ -26,8 +26,7 @@ function getTime(millisecond) {
 	let minute = d.getMinutes();
 	let second = d.getSeconds();
 	
-	let dateFormat = make2digits(hour) + ":" + make2digits(minute) 
-					 + ":" + make2digits(second);
+	let dateFormat = make2digits(hour) + ":" + make2digits(minute);
 					 
 	return dateFormat;
 }
@@ -43,8 +42,6 @@ function make2digits(num) {
 function isSameDate(millisecond) {
 	let today = getDate(new Date());
 	let thatday = getDate(new Date(millisecond));
-	console.log("today", today);
-	console.log("thatday", thatday);
 	if (today == thatday) return true;
 	else return false;
 }

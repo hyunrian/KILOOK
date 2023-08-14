@@ -5,41 +5,36 @@
 
 <mapper namespace="com.kh.teampro.FoodReplyMapper">
 	<!-- 댓글 목록 -->
-	<select id="replyList" resultType="FoodReplyVo">
+	<select id="restReplyList" resultType="FoodReplyVo">
 		select * from tbl_restreply
 		where bno = #{bno}
+		order by rgroup, rseq
 	</select>
 	
 	<!-- 댓글 추가 -->
-	<insert id="insertReply">
+	<insert id="insertRestReply">
 		insert into tbl_restreply
 			(rno
 			, bno
 			, replytext
 			, replyer
-			, regdate
-			, updatedate
 			, rgroup
 			, rseq
 			, rlevel
-			, delete_yn
 			)
 		values
 			(seq_reply_rno.nextval
 			, #{bno}
 			, #{replytext}
 			, #{replyer}
-			, #{regdate}
-			, #{updatedate}
 			, #{rgroup}
 			, #{rseq}
 			, #{rlevel}
-			, #{delete_yn}
 			)	
 	</insert>
 	
 	<!-- 댓글 수정 -->
-	<update id="updateReply">
+	<update id="updateRestReply">
 		update tbl_restreply
 			replytext = #{replytext},
 			replyer = #{replyer},
@@ -48,7 +43,7 @@
 	</update>
 	
 	<!-- 댓글 삭제 -->
-	<delete id="deleteReply">
+	<delete id="deleteRestReply">
 		delete from tbl_restreply
 		where rno = #{rno}
 	</delete>

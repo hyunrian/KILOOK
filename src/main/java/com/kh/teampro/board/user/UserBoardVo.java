@@ -21,5 +21,6 @@ public class UserBoardVo {
 	private int viewcnt;
 	private int replycnt;
 	private String contenthtml;
-
+	
+	private int likecnt;
 }

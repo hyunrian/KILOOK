@@ -8,16 +8,56 @@
 	<select id="getUserReply" resultType="UserReplyVo">
 		select * from tbl_userreply
 		where bno = #{bno}
+		order by rgroup, rseq
 	</select>
 	
-	<insert id="insertUserReply">
-		insert into tbl_userboard (bno, title, content, writer)
-		values (seq_board_bno.nextval, #{title}, #{content}, #{writer})
+	<insert id="insertUserNewReply">
+		insert into tbl_userreply(rno, bno, replytext, replyer, rgroup, rseq, rlevel)
+		values (seq_userreply_rno.nextval, #{bno}, #{replytext}, #{replyer}, 
+				seq_userreply_rno.currval, 0, 0)
 	</insert>
+	
+	<insert id="insertUserReReply">
+		insert into tbl_userreply(
+				rno, bno, replytext, replyer, rgroup, rseq, rlevel, parentreplyer)
+		values (seq_userreply_rno.nextval, #{bno}, #{replytext}, #{replyer}, 
+				#{rgroup}, #{rseq}, 1, #{parentreplyer})
+	</insert>
+	
+	<select id="getMaxRseq" resultType="int">
+		select max(rseq) from tbl_userreply
+		where bno = #{bno}
+		and rgroup = #{rgroup}
+	</select>
 
 	<select id="getReplycnt" resultType="int">
 		select count(*) from tbl_userreply
 		where bno = #{bno}
+		and delete_yn = 'N'
 	</select>
+	
+	<select id="getRgroup" resultType="int">
+		select rgroup from tbl_userreply
+		where rno = #{rno}
+	</select>
+	
+	<update id="deleteReply">
+		update tbl_userreply
+		set delete_yn = 'Y'
+		where rno = #{rno}
+	</update>
+	
+	<select id="hasChildReply" resultType="int">
+		select count(*) from tbl_userreply
+		where rgroup = #{rno}
+		and delete_yn = 'N'
+	</select>
+	
+	<update id="updateUserReply">
+		update tbl_userreply
+		set replytext = #{replytext},
+		    updatedate = sysdate
+		where rno = #{rno}
+	</update>
 	
 </mapper>

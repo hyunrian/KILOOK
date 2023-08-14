@@ -17,23 +17,23 @@ public class FoodReplyDao {
 
 	// 댓글 목록
 	public List<FoodReplyVo> getFoodReplyList(int bno){
-		List<FoodReplyVo> list = sqlSession.selectList(NAMESPACE + "replyList", bno);
+		List<FoodReplyVo> list = sqlSession.selectList(NAMESPACE + "restReplyList", bno);
 		return list;
 	}
 	
 	// 댓글 추가
 	public void foodReplyInsert(FoodReplyVo foodReplyVo) {
-		sqlSession.insert(NAMESPACE + "insertReply", foodReplyVo);
+		sqlSession.insert(NAMESPACE + "insertRestReply", foodReplyVo);
 	}
 	
 	// 댓글 수정
 	public void foodReplyUpdate(FoodReplyVo foodReplyVo) {
-		sqlSession.update(NAMESPACE + "updateReply", foodReplyVo);
+		sqlSession.update(NAMESPACE + "updateRestReply", foodReplyVo);
 	}  
 	
 	// 댓글 삭제
 	public void foodReplyDelete(int rno) {
-		sqlSession.delete(NAMESPACE + "deleteReply", rno);
+		sqlSession.delete(NAMESPACE + "deleteRestReply", rno);
 	}
 	
 	// 수정날짜 얻기

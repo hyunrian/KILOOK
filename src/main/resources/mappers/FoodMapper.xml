@@ -56,10 +56,12 @@
 			, #{thumbimage})
 	</insert>
 	
+	<!-- 랜덤추천 : 음식점 개수 구하기 -->
 	<select id="getFoodCount" resultType="int" >
 		select count(*) from tbl_rest
 	</select>
 	
+	<!-- 랜덤추천 : 추천 맛집 조회 -->
 	<select id="getRecomendedFoodList" resultType="FoodVo" parameterType="Map">
 		select * from tbl_rest
 		where bno in
@@ -67,4 +69,8 @@
     		#{item}
     	</foreach>
 	</select>
+	
+	<!-- 댓글 개수 업데이트 -->
+	
+	
 </mapper>
