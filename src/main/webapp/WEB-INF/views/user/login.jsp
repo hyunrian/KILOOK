@@ -279,8 +279,39 @@ span {
 <!-- 스크립트 시작 -->
 <script>
 // 아이디, 닉네임 중복확인용 함수
-var dubChckId = false;
-var dubChckNickname = false;
+var dubCheckId = false;
+var dubCheckNickname = false;
+var dubId = false;
+var dubNickname = false;
+$(function() {
+	$("#btnDubCheckId").click(function(){
+		console.log("btnDubCheckId_Activated");
+		var url = "/loginUser/idDubCheck";
+		var userid = $("#createUserid").val().trim();
+		
+		$.ajax({ 
+			"type"	: "post",
+			"url"	: url ,
+			"dataType" : "text",
+			"data" : { userid : userid },
+			"success"	:	function(rData) {
+				console.log("rData:", rData);
+				dubCheckId = true;
+				if (rData == "true"){
+					console.log("rData:", rData);
+					dubId = true;
+					console.log("dubId:", dubId);
+				} else if (rData == "false") {
+					console.log("rData:", rData);
+					dubCheckId = false;
+					dubId = false;
+					console.log("dubCheckId:", dubCheckId);
+					console.log("dubId:", dubId);
+				}
+			}
+		});
+	});
+});
 
 // 사용자 지정 메소드
 // 글자수 제한 (아이디)
@@ -314,14 +345,20 @@ jQuery.validator.addMethod("spellCheckPW2", function(value, element) {
 	}, "**** 영문, 숫자, !@#$%_를 조합해야 합니다 ****");
 	
 // 아이디 중복체크
-jQuery.validator.addMethod("idDubChck", function(value, element) {
-	  return dubChckId;
+jQuery.validator.addMethod("idDubCheck", function(value, element) {
+	  return dubCheckId;
 	}, "**** 아이디 중복 확인이 필요합니다 ****");
+jQuery.validator.addMethod("idDub", function(value, element) {
+	  return dubId;
+	}, "**** 중복 아이디 입니다 ****");
 
 //닉네임 중복체크
-jQuery.validator.addMethod("nicknameDubChck", function(value, element) {
-	  return dubChckNickname;
-	}, "**** 아이디 중복 확인이 필요합니다 ****");
+jQuery.validator.addMethod("nicknameDubCheck", function(value, element) {
+	  return dubCheckNickname;
+	}, "**** 닉네임 중복 확인이 필요합니다 ****");
+jQuery.validator.addMethod("nicknameDub", function(value, element) {
+	  return dubNickname;
+	}, "**** 중복 닉네임 입니다 ****");
 
 
 // 로그인 유효성 검사
@@ -359,7 +396,8 @@ jQuery(function() {
 // 				maxlength: 15			// 최대 15자 까지 입력 가능
 				
 				spellCheckId: true,
-				idDubChck: true
+				idDubCheck: true,
+				idDub: true
 										
 			},
 			unickName: {     			// 비밀번호 필드 (name="unickName")
@@ -367,7 +405,8 @@ jQuery(function() {
 				lengthCheckNickName: true,
 // 				rangelength: [0, 30]	
 // 				maxlength: 30
-				nicknameDubChck: true
+				nicknameDubCheck: true,
+				dubNickname: true
 			},
 			upw: {     					// 비밀번호 필드 (name="upw")
 				required: true,			// 필수 입력
@@ -432,6 +471,7 @@ jQuery(function() {
 			<!-- 회원가입 폼 -->
 			<div class="create-Account-container">
 				<form id="createForm">
+<!-- 				 action="/loginUser/join" method="post" -->
 					<h1>회원가입</h1>
 					<div>
 						<input class="inputMiddle" type="text" placeholder="아이디"

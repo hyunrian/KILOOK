@@ -12,7 +12,10 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.kh.teampro.user.info.UserVo;
 
 
 @Controller
@@ -32,9 +35,31 @@ public class LoginController {
 	}
 	
 	// 회원가입
-	public String createAcount() {
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	public String createAcount(UserVo userVo, RedirectAttributes rttr) {
+		boolean result = userService.createAccount(userVo);
+		boolean joinResult = false;
+		if (result==true) {
+			joinResult = true;
+		}
+		rttr.addAttribute("joinResult", joinResult);
 		return "redirect:/loginUser/login";
 	}
+	
+	// 아이디 중복 확인
+	@ResponseBody
+	@RequestMapping(value = "/idDubCheck", method = RequestMethod.POST)
+	public boolean idDubChck (String userid) {
+		return userService.dubCheckID(userid);
+	}
+	// 닉네임 중복 확인
+	@RequestMapping(value = "/nickNameDubChck", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean nickNameDubChck (String unickName) {
+		return userService.dubCheckNickName(unickName);
+	}
+	
+	// 닉네임 중복 확인
 	
 	// 로그인 처리 - post
 //	@RequestMapping(value = "/login", method = RequestMethod.POST)
