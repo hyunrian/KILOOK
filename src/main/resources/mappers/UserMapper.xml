@@ -26,9 +26,9 @@
 	<!-- 회원가입 -->
 	<insert id="createAccount">
 		insert into tbl_user_test
-			(userid, upw, unickname, uemail)
+			(userid, upw, unickname)
 		values
-			(#{userid}, #{upw}, #{unickname}, #{uemail})
+			(#{userid}, #{upw}, #{unickname})
 	</insert>
 	
 	<!-- 회원탈퇴 -->

@@ -421,10 +421,10 @@ jQuery(function() {
 		<div class="homeContainer">
 			<div class="btnHome">
 				<a href="/">
-					<img style="	max-width: 20px;
+					<img style="	max-width: 160px;
 									height: auto;
 									object-fit: cover;" 
-						alt="home" src="/resources/images/home/home_2.jpg">
+						alt="home" src="/resources/images/logo/logo1.png">
 				</a>
 			</div>
 		</div>
