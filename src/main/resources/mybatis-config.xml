@@ -20,7 +20,9 @@
 		<package name="com.kh.teampro.board.tourguide"/>
 		<package name="com.kh.teampro.board.parking"/>
 		<package name="com.kh.teampro.board.show"/>
-
+		<package name="com.kh.teampro.board.cafe"/>
+		<package name="com.kh.teampro.board.travelcourse"/>
+		<package name="com.kh.teampro.reply.restaurant"/>
 		<package name="com.kh.teampro.user.info"/>
 
 	</typeAliases>

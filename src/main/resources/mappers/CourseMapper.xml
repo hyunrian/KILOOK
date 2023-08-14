@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.teampro.CourseMapper">
+	<!-- 나만의 코스 조회 -->
+	<select id="courseList" resultType="CourseVo">
+		select * from tbl_course
+		order by cno desc
+	</select>
+	
+	<!-- 코스 상세보기 -->
+	<select id="getCourseInfo">
+		select * from tbl_course
+		where cno = #{cno}
+	</select>
+	
+	<!-- 나만의 코스 등록 -->
+	<insert id="courseInsert">
+		insert into tbl_course
+			(cno
+			, title
+			, totalcost
+			, content
+			, writer
+			, daycount
+			)
+		values
+			(seq_course_cno.nextval
+			, #{title}
+			, #{totalcost}
+			, #{content}
+			, #{writer}
+			, #{daycount}
+			)
+	</insert>
+	
+	<!-- 나만의 코스 수정 -->
+	
+	
+	<!-- 나만의 코스 삭제 -->
+	
+	
+</mapper>

@@ -46,3 +46,18 @@ delete from tbl_show;
 
 -- Ä¿¹Ô
 commit;
+
+
+select price from  tbl_show
+;
+
+select showname          
+, begindate          
+, enddate          
+, placename          
+, nvl(price, '-') price
+, nvl(url, ' - ')          
+, nvl(openhours, ' - ') openhours     
+from tbl_show
+where rownum < 100
+order by bno desc

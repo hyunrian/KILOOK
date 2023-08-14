@@ -1,5 +1,6 @@
 package com.kh.teampro.board.restaurant;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,8 +22,8 @@ public class FoodDao {
 	}
 	
 	// 해당 맛집 상세보기
-	public List<FoodVo> getFoodInfo(int bno) throws Exception{
-		List<FoodVo> list = sqlSession.selectOne(NAMESPACE + "getFoodInfo", bno);
+	public FoodVo getFoodInfo(int bno) throws Exception{
+		FoodVo list = sqlSession.selectOne(NAMESPACE + "getFoodInfo", bno);
 		return list;
 	}
 	
@@ -30,5 +31,16 @@ public class FoodDao {
 	public void insertFood(FoodVo foodVo) throws Exception{
 		sqlSession.insert(NAMESPACE + "insertFood", foodVo);
 	}
+
+	// 추천 맛집에 담을 랜덤 count 구하기
+	public int getfoodCount() {
+		int foodCount = sqlSession.selectOne(NAMESPACE + "getFoodCount");
+		return foodCount;
+	}
 	
+	// 추천 맛집 추출
+	public List<FoodVo> getRecomendedFoodList(HashMap hashMap) {
+		List<FoodVo> list = sqlSession.selectList(NAMESPACE + "getRecomendedFoodList", hashMap);
+		return list;
+	}
 }

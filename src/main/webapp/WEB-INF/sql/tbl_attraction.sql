@@ -57,3 +57,5 @@ where bno = 121;
 
 -- Ä¿¹Ô
 commit;
+
+select * from tbl_attraction

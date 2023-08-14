@@ -1,7 +1,10 @@
 package com.kh.teampro.board.restaurant;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +21,20 @@ public class FoodService {
 	}
 	
 	// 해당 맛집 상세보기
-	public List<FoodVo> getFoodInfo(int bno) throws Exception{
-		List<FoodVo> list = foodDao.getFoodInfo(bno);
+	public FoodVo getFoodInfo(int bno) throws Exception{
+		FoodVo list = foodDao.getFoodInfo(bno);
 		return list;
 	}
 
+	// 추천 맛집
+	public List<FoodVo> getRecomendedFoodList(HashMap hashMap) {
+		List<FoodVo> list = foodDao.getRecomendedFoodList(hashMap);
+		return list;
+	}
+
+	// 맛집 개수 구하기
+	public int getfoodCount() {
+		int foodCount = foodDao.getfoodCount();
+		return foodCount;
+	}
 }

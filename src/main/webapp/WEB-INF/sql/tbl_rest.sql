@@ -1,4 +1,4 @@
--- 데이터 게시글 - 음식점 테이블 생성
+ -- 데이터 게시글 - 음식점 테이블 생성
 create table tbl_rest(
     bno number primary key,
     rname varchar2(300) not null,
@@ -23,7 +23,12 @@ increment by 1
 start with 1;
 
 -- 테이블 조회
+select * nvl(menu, '정보제공안함') menu
+from tbl_rest
+order by bno asc;
+
 select * from tbl_rest
+where bno >= 1 and bno <= 30
 order by bno asc;
 
 -- 데이터 개수 확인
@@ -46,3 +51,19 @@ delete from tbl_rest;
 
 -- 커밋
 commit;
+
+select * from TBL_REPLY
+;
+
+select * from tbl_rest
+where bno = 1 or bno = 2 or bno = 3;
+
+select * from tbl_rest;
+
+
+select count(*) from tbl_rest
+where bno = '120'
+;
+
+select * from tbl_rest
+;
