@@ -230,20 +230,45 @@ span {
 	cursor: pointer;
 }
 
-/* 유효성 검사시 호출되는 텍스트 */
-.error{
-    font-size: 12px;
-	font-weight: bold;
-    color: #f00;
-    border-color: #f00;
-}
-
 .social-links a {
 	color: #000;
 }
 
 .social-links div:active {
 	box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
+}
+
+.homeContainer {
+	background: #ebecf0;
+	margin-top: 580px;
+}
+
+.btnHome {
+	width: 50px;
+	height: 50px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 5px;
+	border-radius: 50%;
+	box-shadow: -5px -5px 10px #fff, 5px 5px 8px #babebc;
+	cursor: pointer;
+}
+
+.btnHome a {
+	color: #000;
+}
+
+.btnHome:active {
+	box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
+}
+
+/* 유효성 검사시 호출되는 텍스트 */
+.error{
+    font-size: 12px;
+	font-weight: bold;
+    color: #f00;
+    border-color: #f00;
 }
 </style>
 
@@ -252,6 +277,9 @@ span {
 
 <!-- 스크립트 시작 -->
 <script>
+// 아이디, 닉네임 중복확인용 함수
+var dubChckId = false;
+var dubChckNickname = false;
 
 // 사용자 지정 메소드
 // 글자수 0-15자 제한
@@ -259,7 +287,7 @@ jQuery.validator.addMethod("lengthCheck15", function(value, element) {
 	  return this.optional(element) || /^.{0,15}$/.test(value);
 	}, "**** 아이디는 최대 15자 입니다 ****");
 
-// 글자수 0-15자 제한
+// 글자수 0-30자 제한
 jQuery.validator.addMethod("lengthCheck30", function(value, element) {
 	  return this.optional(element) || /^.{0,30}$/.test(value);
 	}, "**** 아이디는 최대 30자 입니다 ****");
@@ -278,6 +306,17 @@ jQuery.validator.addMethod("spellCheckPW1", function(value, element) {
 jQuery.validator.addMethod("spellCheckPW2", function(value, element) {
 	  return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%_])[A-Za-z\d!@#$%-_]+$/.test(value);
 	}, "**** 영문, 숫자, !@#$%_를 조합해야 합니다 ****");
+	
+// 아이디 중복체크
+jQuery.validator.addMethod("idDubChck", function(value, element) {
+	  return dubChckId;
+	}, "**** 아이디 중복 확인이 필요합니다 ****");
+
+//닉네임 중복체크
+jQuery.validator.addMethod("nicknameDubChck", function(value, element) {
+	  return dubChckNickname;
+	}, "**** 아이디 중복 확인이 필요합니다 ****");
+
 
 // 로그인 유효성 검사
 jQuery(function() {
@@ -313,14 +352,16 @@ jQuery(function() {
 // 	  			rangelength: [5, 15]	// 입력범위 0~15자 (위 코드로 대체함)
 // 				maxlength: 15			// 최대 15자 까지 입력 가능
 				
-				spellCheckID: true
+				spellCheckID: true,
+				idDubChck: true
 										
 			},
 			unickName: {     			// 비밀번호 필드 (name="unickName")
 				required: true,			// 필수 입력
-				lengthCheck30: true
+				lengthCheck30: true,
 // 				rangelength: [0, 30]	
-// 				maxlength: 30			
+// 				maxlength: 30
+				nicknameDubChck: true
 			},
 			uemail: {    				// 비밀번호 필드 (name="uemail")
 				required: true,			// 필수 입력
@@ -379,6 +420,16 @@ jQuery(function() {
 
 <body>
 	<div class="wrapper">
+		<div class="homeContainer">
+			<div class="btnHome">
+				<a href="/">
+					<img style="	max-width: 20px;
+									height: auto;
+									object-fit: cover;" 
+						alt="home" src="/resources/images/home/home_2.jpg">
+				</a>
+			</div>
+		</div>
 		<div class="container">
 			<!-- 회원가입 폼 -->
 			<div class="create-Account-container">
@@ -387,12 +438,12 @@ jQuery(function() {
 					<div>
 						<input class="inputMiddle" type="text" placeholder="아이디"
 							id="createUserid" name="userid" required>
-						<button class="btnSmall form_btn">중복확인</button>
+						<button id="btnDubCheckId" class="btnSmall form_btn">중복확인</button>
 					</div>
 					<div>
 						<input class="inputMiddle" type="password" placeholder="닉네임"
 							id="createUnickName" name="unickName" required>
-						<button class="btnSmall form_btn">중복확인</button>
+						<button id="btnDubCheckNickname" class="btnSmall form_btn">중복확인</button>
 					</div>
 					<input class="inputSamll" type="email" placeholder="이메일"
 						id="createUemail" name="uemail" required>
