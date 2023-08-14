@@ -43,10 +43,20 @@ public class UserBoardController {
 		return "userboard/userboard";
 	}
 	
-	// 게시글 쓰기
+	// 게시글 작성 페이지 이동
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String writeArticle() {
 		return "userboard/userboardWrite";
+	}
+	
+	// 게시글 쓰기
+	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	public String writeArticle(UserBoardVo userBoardVo) {
+		userBoardVo.setUserid("user2"); // session의 loginInfo로 변경
+		userBoardVo.setWriter("star"); // session의 loginInfo로 변경
+		System.out.println("vo:" + userBoardVo);
+		userBoardService.createArticle(userBoardVo);
+		return "redirect:/userboard/list";
 	}
 	
 	// 유저 게시글 내용 보기

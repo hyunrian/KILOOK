@@ -12,7 +12,7 @@
 		where userid = #{userid}
 	</select>
 	
-	<!-- 아이디로 닉네임 읽은 후 세션에 저장 (컨트롤러 내에서만 사용) -->
+	<!-- 아이디로 닉네임 읽은 후 세션에 저장 -->
 	<select id="readUnickname" resultType="String">
 		select unickname from tbl_user
 		where userid = #{userid}

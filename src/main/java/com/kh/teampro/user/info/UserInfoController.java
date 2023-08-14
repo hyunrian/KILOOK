@@ -20,6 +20,11 @@ public class UserInfoController {
 	@Autowired
 	private UserInfoService userInfoService;
 	
+	
+	@RequestMapping(value = "/testpage", method = RequestMethod.GET)
+	public String testpage() {
+		return "userinfo/csstests";
+	}
 	// 마이페이지로 가기 버튼을 눌렀을 때
 	// 유저 한명 정보 읽어서 데이터를 model로 돌려줌
 	// 이후 페이지를 열 때 작동하는 기능들은 전부 여기로 (유저 본인확인 상태 체크 등)

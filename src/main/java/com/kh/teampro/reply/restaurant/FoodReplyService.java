@@ -24,26 +24,51 @@ public class FoodReplyService {
 		return list;
 	}
 	
-	// 댓글 추가
-//	@Transactional
-	public void foodReplyInsert(FoodReplyVo foodReplyVo) {
-		foodReplyDao.foodReplyInsert(foodReplyVo);
-		// 해당 게시글의 댓글 개수 업데이트 메서드 추가 필요
+	// 새댓글 추가
+	public void insertRestNewReply(FoodReplyVo foodReplyVo) {
+		foodReplyDao.insertRestNewReply(foodReplyVo);
 	}
 	
-	// 댓글 수정
-	public void foodReplyUpdate(FoodReplyVo foodReplyVo) {
-		foodReplyDao.foodReplyUpdate(foodReplyVo);
+	// 대댓글 추가
+	public void insertRestReReply(FoodReplyVo foodReplyVo) {
+		foodReplyDao.insertRestReReply(foodReplyVo);
+	}
+	
+	// 가장 높은 rseq 구하기(댓글 순서)
+	public int getMaxRseq(int bno, int rgroup) {
+		int getMaxRseq = foodReplyDao.getMaxResq(bno, rgroup);
+		return getMaxRseq;
+	}
+	
+	// 게시글의 댓글개수 조회
+	public int getReplyCount(int bno) {
+		int getReplyCount = foodReplyDao.getReplyCount(bno);
+		return getReplyCount;
+	}
+	
+	// 댓글 그룹확인
+	public int getRgroup(int rno) {
+		int getRgroup = foodReplyDao.getRgroup(rno);
+		return getRgroup;
 	}
 	
 	// 댓글 삭제
-//	@Transactional
 	public void foodReplyDelete(int rno) {
-		// 해당 게시글의 댓글 개수 삭제 메서드 추가 필요 
 		foodReplyDao.foodReplyDelete(rno);
 	}
 	
-	// 댓글 수정 시간 얻기
+	// 댓글 수정
+	public void updateRestReply(FoodReplyVo foodReplyVo) {
+		foodReplyDao.updateRestReply(foodReplyVo);
+	}
+	
+	// 대댓글이 있는 댓글인지 확인
+	public boolean hasChildRestReply(int rno) {
+		boolean hasChildRestReply = foodReplyDao.hasChildRestReply(rno);
+		return hasChildRestReply;
+	}
+
+	// 수정날짜 얻기
 	public Timestamp getUpdatedate(int rno) {
 		Timestamp updatedate = foodReplyDao.getUpdatedate(rno);
 		return updatedate;

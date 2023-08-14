@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kh.teampro.FoodReplyMapper">
+
 	<!-- 댓글 목록 -->
 	<select id="restReplyList" resultType="FoodReplyVo">
 		select * from tbl_restreply
@@ -11,8 +12,28 @@
 		order by rgroup, rseq
 	</select>
 	
-	<!-- 댓글 추가 -->
-	<insert id="insertRestReply">
+	<!-- 새댓글 추가 -->
+	<insert id="insertRestNewReply">
+		insert into tbl_restreply
+			(rno
+			, bno
+			, replytext
+			, replyer
+			, rgroup
+			, userid
+			)
+		values
+			(seq_restreply_rno.nextval
+			, #{bno}
+			, #{replytext}
+			, #{replyer}
+			, seq_restreply_rno.currval
+			, #{userid}
+			)	
+	</insert>
+	
+	<!-- 대댓글 추가 -->
+	<insert id="insertRestReReply">
 		insert into tbl_restreply
 			(rno
 			, bno
@@ -21,6 +42,8 @@
 			, rgroup
 			, rseq
 			, rlevel
+			, unickname
+			, userid
 			)
 		values
 			(seq_reply_rno.nextval
@@ -29,9 +52,31 @@
 			, #{replyer}
 			, #{rgroup}
 			, #{rseq}
-			, #{rlevel}
-			)	
+			, 1
+			, #{unickname}
+			, #{userid}
+			)
 	</insert>
+	
+	<!-- 그룹내 가장 높은 rseq 구하기(가장 마지막의 댓글) -->
+	<select id="getMaxRseq" resultType="int">
+		select max(rseq) from tbl_restreply
+		where bno = #{bno}
+		and rgroup = #{rgroup}
+	</select>
+	
+	<!-- 게시글의 댓글개수 조회 -->
+	<select id="getReplyCount" resultType="int">
+		select count(*) from tbl_restreply
+		where bno = #{bno}
+		and delete_yn = 'N'
+	</select>
+	
+	<!-- 댓글 그룹확인 -->
+	<select id="getRgroup" resultType="int">
+		select rgroup from tbl_restreply
+		where rno = #{rno}
+	</select>
 	
 	<!-- 댓글 수정 -->
 	<update id="updateRestReply">
@@ -42,9 +87,17 @@
 		where rno = #{rno}
 	</update>
 	
+	<!-- 대댓글이 있는 댓글인지 확인 -->
+	<select id="hasChildRestReply" resultType="int">
+		select count(*) from tbl_restreply
+		where rgroup = #{rno}
+		and delete_yn = 'N'
+	</select>
+	
 	<!-- 댓글 삭제 -->
 	<delete id="deleteRestReply">
-		delete from tbl_restreply
+		update tbl_restreply
+		set delete_yn = 'Y'
 		where rno = #{rno}
 	</delete>
 	

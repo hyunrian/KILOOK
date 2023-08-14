@@ -8,7 +8,16 @@
 <!-- END menu -->
 
 <script>
-
+// 댓글 여부 체크
+function hasChildReply(rno) {
+	$.get("/userReply/checkDelete/" + rno, function(hasReply) {
+		if (hasReply == "true") {
+			return true;
+		} else {
+			return false;
+		}
+	});
+}
 
 // 댓글창 보기
 function showReply(){
@@ -24,10 +33,173 @@ function hideReply(){
 
 // 댓글 리스트 가져오기
 function getReplyList(){
-	$.get("/reply/restList/${getFoodInfo.bno}", function(rData){
-		console.log("rData:", rData);
+	const bno = "${getFoodInfo.bno}";
+	$.get("/reply/restList?bno=" + bno, function(rData){
+		$.each(rData, function(i, item){
+			$(".replyElem").remove();
+			
+			var status = "default";
+			$.get("/reply/checkChildRestReply/" + rData[i].rno, function(hasReply){
+				if(rData[i].delete_yn == "Y" && hasReply){
+					status = "deleted";
+				} else if(rData[i].delete_yn == "Y" && !hasReply){
+					status = "skip";
+				}
+			});
+			setTimeout(function(){
+				if(status == "default" || status == "deleted"){
+					let reply = null;
+					if(rData[i].rlevel == 1){
+						reply = $("#rplyUl").clone();
+					} else {
+						reply = $("#replyLi").clone();
+					}
+					reply.removeAttr("id").addClass("replyElem");
+					
+					const div = reply.find("div").eq(1);
+					div.find("h3").text(rData[i].replyer);
+					
+					const dateDiv = div.find("div").eq(0);
+					if(rData[i].updatedate != null){
+						if(isSameDate(rData[i].updatedate)){
+							dateDiv.text(getTime(rData[i].updatedate));
+						} else {
+							dateDiv.text(getDate(rData[i].updatedate));
+						}
+					} else {
+						if(isSameDate(rData[i].regdate)){
+							dateDiv.text(getTime(rData[i].regdate));
+						} else {
+							dateDiv.text(getDate(rData[i].regdate));
+						}
+					}
+					if(rData[i].unickname != null){
+						const span = div.find("span").eq(0);
+						span.show();
+						span.text("@" + rData[i].unickname + " ");
+					}
+					div.find("span").eq(1).text(rData[i].replytext);
+					div.find("p > a").attr("data-rno", rData[i].rno);
+					
+					if(status == "deleted"){
+						div.find("span").eq(1).text("---------- 삭제된 댓글입니다. ----------");
+						div.find("p").hide();
+						div.find("div").eq(0).remove();
+						div.find("h3").remove();
+						div.prev().find("img").remove();
+					}
+					reply.show();
+					$("replyList").append(reply);
+				}
+			}, 600);
+		});
 	});
 }
+
+getReplyList();
+
+// 새댓글 쓰기
+$("#btnReplyWrite").click(function(){
+	const replytext = $("#replytext").val().trim();
+	insertReply(replytext, 0, 0, null, "newReply");
+	$("#replytext").val("");
+});
+
+// 대댓글 쓰기
+$("#replyList").on("click", "#btnReplyWrite", function(){
+	const replyInput = $(this).parent().prev().find("input");
+	const replytext = replyInput.val().trim();
+	const rno = $(this).closest("p").find("a").attr("data-rno");
+	const replyer = $(this).closest("p").find("a").attr("data-replyer");
+	const unickname = $(this).closest("li").find("h3").text();
+	insertReply(replytext, 1, rno, unickname, "reReply");
+	replyInput.val("");
+});
+
+//댓글 입력하기 - 공통 부분 함수
+function insertReply(replytext, rlevel, rno, parentreplyer, type) {
+	if (replytext != "") {
+		const sData = {
+				"bno" : bno,
+				"replytext" : replytext,
+				"rlevel" : rlevel,
+				"rno" : rno,
+				"unickname" : unickname
+		};
+		$.post("/reply/restInsert", sData, function(rData) {
+			getReplyList();
+		});
+	}
+}
+
+//대댓글창 열기
+$("#replyList").on("click", ".replyBtn", function(e) {
+	e.preventDefault();
+		$(".replyForm").remove();
+		$(".replyElem").find("div").show();
+		const replyForm = $("#replyForm").clone();
+		replyForm.addClass("replyForm");
+		replyForm.find("input").eq(1).attr("data-type", "reReply");
+		$(this).parent().append(replyForm);
+});
+
+// 댓글 삭제
+$("#replyList").on("click", ".deleteReply", function(e) {
+	e.preventDefault();
+	const that = $(this);
+	const rno = that.attr("data-rno");
+	$.ajax({
+		"type" : "patch",
+		"url" : "/userReply/delete",
+		"data" : rno,
+		"success" : function(rData) {
+			that.closest(".replyElem").fadeOut(700);
+		}
+	});
+});
+
+// 댓글 수정창 열기
+$("#replyList").on("click", ".updateReply", function(e) {
+	e.preventDefault();
+//		$("#updateFormCopy").remove();
+	$(".replyForm").remove();
+	$(".replyElem").find("div").show();
+	const element = $(this).closest(".replyElem");
+	const replyForm = $("#replyForm").clone();
+	replyForm.addClass("replyForm");
+//		replyForm.attr("id", "updateFormCopy");
+	replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
+	const replytext = element.find("span").eq(1).text();
+	replyForm.find("#replytext").val(replytext);
+	const rno = $(this).attr("data-rno");
+	replyForm.find("#btnReplyWrite").hide();		
+	replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
+	element.find("div").hide();
+	element.append(replyForm);
+});
+
+// 댓글 수정
+$("#replyList").on("click", "#replyUpdateBtn", function() {
+	const that = $(this);
+	const replytext = $(this).parent().prev().find("input").val().trim();
+	const sData = {
+			"rno" : $(this).attr("data-rno"),
+			"replytext" : replytext
+	};
+	$.ajax ({
+		"type" : "patch",
+		"url" : "/reply/restUpdate",
+		"contentType" : "application/json",
+		"data" : JSON.stringify(sData),
+		"success" : function(rData) {
+			const element = that.closest(".replyElem");
+			element.find("span").eq(1).text(replytext);
+			element.find("div").fadeIn(700);
+			element.find(".replyForm").remove();
+			element.find("div").eq(1).find("div").text(getTime(new Date()));
+		}
+	});
+});
 
 
 </script>
@@ -105,140 +277,44 @@ function getReplyList(){
 						<p>${getFoodInfo.content}</p>
 						<!-- 댓글 -->
 						<div id="reply" style="display:none;">
-						
 							<!-- 댓글 입력 -->
-							<div class="row" style="margin-top:30px;">
-								<div class="col-md-11">
-									<input type="text" class="form-control" placeholder="댓글내용"
+							<form action="#" id="replyForm">
+								<div class="row" style="margin-top:30px;">
+									<div class="col-md-11">
+										<input type="text" class="form-control" placeholder="내용을 입력하세요." 
 										id="replytext">
+									</div>
+									<div class="col-md-1">
+											<input type="button" value="댓글 쓰기" id="btnReplyWrite"
+											class="btn py-3 px-4 btn-primary" style="border: none;"
+											data-type="newReply">
+<!-- 										<button type="button" class="btn btn-sm btn-primary" -->
+<!-- 											id="btnReplyWrite" onclick="ReplyWrite()">입력</button> -->
+									</div>
 								</div>
-								
-								<div class="col-md-1">
-									<button type="button" class="btn btn-sm btn-primary"
-										id="btnReplyWrite" onclick="ReplyWrite()">입력</button>
-								</div>
-							</div>
-							
-							<!-- 댓글 목록 -->
-<!-- 							<div id="replyListDiv" class="row" style="margin-top:30px;  "> -->
-<!-- 								<div class="col-md-12"> -->
-<!-- 									<table class="table"> -->
-<!-- 										<thead> -->
-<!-- 											<tr> -->
-<!-- 												<th>#</th> -->
-<!-- 												<th>댓글 내용</th> -->
-<!-- 												<th>작성자</th> -->
-<!-- 												<th>작성일</th> -->
-<!-- 												<th>수정일</th> -->
-<!-- 												<th>수정</th> -->
-<!-- 												<th>삭제</th> -->
-<!-- 											</tr> -->
-<!-- 										</thead> -->
-<!-- 										<tbody id="replyList"> -->
-<!-- 											<tr style="display:none"> -->
-<!-- 												<td></td> -->
-<!-- 												<td><span class="hideSpan"></span></td> -->
-<!-- 												<td><span class="hideSpan"></span></td> -->
-<!-- 												<td></td> -->
-<!-- 												<td></td> -->
-<!-- 												<td><button type="button" class="btn btn-sm btn-warning btn-reply-update">수정</button> -->
-<!-- 													<button type="button" class="btn btn-sm btn-primary btn-reply-updateFinish" -->
-<!-- 														style="display:none">완료</button> -->
-<!-- 													</td> -->
-<!-- 												<td><button type="button" class="btn btn-sm btn-danger btn-reply-delete">삭제</button></td> -->
-<!-- 											</tr> -->
-											
-<!-- 										</tbody> -->
-<!-- 									</table> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-
+							</form>
 							<div class="pt-5 mt-5">
-				              <h3 class="mb-5">6 Comments</h3>
-				              <ul class="comment-list">
-				                <li class="comment">
-				                  <div class="vcard bio">
-				                    <img src="../resources/images/person_1.jpg" alt="Image placeholder">
-				                  </div>
-				                  <div class="comment-body">
-				                    <h3>John Doe</h3>
-				                    <div class="meta">June 27, 2018 at 2:21pm</div>
-				                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-				                    <p>
-				                    	<a href="#" class="reply">수정</a>
-				                    	<a href="#" class="reply">삭제</a>
-				                    </p>
-				                    <p></p>
-				                  </div>
-				                </li>
-				
-				                <li class="comment">
-				                  <div class="vcard bio">
-				                    <img src="../resources/images/person_1.jpg" alt="Image placeholder">
-				                  </div>
-				                  <div class="comment-body">
-				                    <h3>John Doe</h3>
-				                    <div class="meta">June 27, 2018 at 2:21pm</div>
-				                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-				                    <p><a href="#" class="reply">Reply</a></p>
-				                  </div>
-				
-				                  <ul class="children">
-				                    <li class="comment">
+				              <h3 class="mb-5">${getFoodInfo.replycnt} Comments</h3>
+							  <!-- 댓글목록 -->
+				              <ul class="comment-list" id="replyList">
+				                  <ul class="children" id="replyUl">
+				                    <li class="comment" id="replyLi">
 				                      <div class="vcard bio">
 				                        <img src="../resources/images/person_1.jpg" alt="Image placeholder">
 				                      </div>
 				                      <div class="comment-body">
-				                        <h3>John Doe</h3>
-				                        <div class="meta">June 27, 2018 at 2:21pm</div>
-				                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-				                        <p><a href="#" class="reply">Reply</a></p>
+				                        <h3>작성자</h3>
+				                        <div class="meta">날짜</div>
+				                        <span style="font-weight: bold; display: none;">@원댓글작성자</span>
+				                        <span>내용</span>
+				                        <p style="text-align: right;">
+										<a href="#" class="reply updateReply">수정</a>
+										<a href="#" class="reply deleteReply">삭제</a>
+										<a href="#" class="reply replyBtn">답댓글</a>
+										</p><br>
 				                      </div>
-				
-				
-				                      <ul class="children">
-				                        <li class="comment">
-				                          <div class="vcard bio">
-				                            <img src="../resources/images/person_1.jpg" alt="Image placeholder">
-				                          </div>
-				                          <div class="comment-body">
-				                            <h3>John Doe</h3>
-				                            <div class="meta">June 27, 2018 at 2:21pm</div>
-				                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-				                            <p><a href="#" class="reply">Reply</a></p>
-				                          </div>
-				
-				                            <ul class="children">
-				                              <li class="comment">
-				                                <div class="vcard bio">
-				                                  <img src="../resources/images/person_1.jpg" alt="Image placeholder">
-				                                </div>
-				                                <div class="comment-body">
-				                                  <h3>John Doe</h3>
-				                                  <div class="meta">June 27, 2018 at 2:21pm</div>
-				                                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-				                                  <p><a href="#" class="reply">Reply</a></p>
-				                                </div>
-				                              </li>
-				                            </ul>
-				                        </li>
-				                      </ul>
 				                    </li>
 				                  </ul>
-				                </li>
-				
-				                <li class="comment">
-				                  <div class="vcard bio">
-				                    <img src="../resources/images/person_1.jpg" alt="Image placeholder">
-				                  </div>
-				                  <div class="comment-body">
-				                    <h3>John Doe</h3>
-				                    <div class="meta">June 27, 2018 at 2:21pm</div>
-				                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-				                    <p><a href="#" class="reply">Reply</a></p>
-				                  </div>
-				                </li>
 				              </ul>
 				              <!-- END comment-list -->
 				            </div>

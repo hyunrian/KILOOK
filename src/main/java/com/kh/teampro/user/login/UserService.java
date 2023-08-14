@@ -30,11 +30,16 @@ public class UserService {
 	}
 
 	// 회원가입 (return true == 회원가입 성공)
-	public boolean createAccount(UserVo uservo) {
-		boolean resultDubID = userDao.dubCheckID(uservo.getUserid());
-		boolean resultDubNickName = userDao.dubCheckID(uservo.getUnickname());
-		if (resultDubID == true && resultDubNickName == true) {
-			userDao.createAccount(uservo);
+	public boolean createAccount(UserVo userVo) {
+		boolean resultDubID = userDao.dubCheckID(userVo.getUserid());
+		boolean resultDubNickName = userDao.dubCheckNickName(userVo.getUnickname());
+		boolean idCheck = userDao.validCheckTotal(2, 15, userVo.getUserid(), "id");
+		boolean nickNameCheck = userDao.validCheckTotal(2, 15, userVo.getUnickname(), "nickName");
+		boolean pwCheck = userDao.validCheckTotal(4, 15, userVo.getUserid(), "pw");
+		
+		if (resultDubID == true && resultDubNickName == true
+				&& idCheck==true && nickNameCheck==true && pwCheck==true) {
+			userDao.createAccount(userVo);
 			return true;
 		}
 		return false;

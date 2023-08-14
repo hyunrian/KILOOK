@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.teampro.AttachMapper">
+
+	<!-- 첨부파일 테이블에 추가 -->
+	<insert id="insertFileData">
+		insert into tbl_attach(fullname, bno)
+		values (#{fullname}, #{bno})
+	</insert>
+		
+	<!-- 첨부파일 테이블에서 삭제 -->
+	<delete id="deleteFileData">
+		delete from tbl_attach
+		where fullname = #{fullname} <!-- db tuple 변경 필요 -->
+	</delete>
+	
+</mapper>

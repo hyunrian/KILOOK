@@ -306,6 +306,7 @@ $(function() {
 			"url" : "/userReply/delete",
 			"data" : rno,
 			"success" : function(rData) {
+				// 삭제했을 때 밑에 대댓글이 있으면 삭제된 댓글입니다 처리 필요
 				that.closest(".replyElem").fadeOut(700);
 			}
 		});
