@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,14 +53,93 @@ $(function(){
 	<div id="divVerified">본인확인 여부 : ${userVo.verified} <button id="btnVerify">본인 확인</button></div>
 	<button id="btnUserUpdate">유저 정보 수정</button>
 	
+	<!-- 작성한 게시글 리스트 작성 -->
+	<div>작성한 게시글 (${userBoardCount})</div>
+	<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>제목</th>
+						<th>작성일</th>
+						<th>조회</th>
+						<th>좋아요</th>
+					</tr>
+				</thead>
+				<tbody>
+				<c:forEach items="${boardList}" var="boardDto">
+					<tr>
+						<td>${boardDto.bno}</td>
+						<td>${boardDto.title}</td>
+						<td>${boardDto.regdate}</td>
+						<td>${boardDto.viewcnt}</td>
+						<td>${boardDto.likecnt}</td>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination">
+					<li class="page-item">
+						<a class="page-link" href="#">&laquo;</a>
+					</li>
+					<c:forEach var="v" begin="1" end="5">
+						<li class="page-item">
+							<a class="page-link" href="#">${v}</a>
+						</li>
+					</c:forEach>
+					<li class="page-item">
+						<a class="page-link" href="#">&raquo;</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
 	
-	<div>작성한 게시글</div>
-	
-	<!-- 부트스트랩 리스트 넣기 -->
-	<div>작성한 댓글</div>
-	
-	<!-- 부트스트랩 리스트 넣기 -->
-	
+	<!-- 작성한 댓글 리스트 작성, 어느 글에 달린 댓글인지 게시글 리스트를 가져오고, 그 하단에 댓글 내용 표시 -->
+	<div>작성한 댓글 (${userReplyCount})</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>댓글 작성글 제목</th>
+						<th>댓글 내용</th>
+						<th>작성일</th>
+					</tr>
+				</thead>
+				<tbody>
+				<c:forEach items="${replyList}" var="replyDto">
+					<tr>
+						<td>${replyDto.rno}</td>
+						<td>${replyDto.title}</td>
+						<td>${replyDto.replytext}</td>
+						<td>${replyDto.regdate}</td>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pagination">
+					<li class="page-item">
+						<a class="page-link" href="#">&laquo;</a>
+					</li>
+					<c:forEach var="v" begin="1" end="5">
+						<li class="page-item">
+							<a class="page-link" href="#">${v}</a>
+						</li>
+					</c:forEach>
+					<li class="page-item">
+						<a class="page-link" href="#">&raquo;</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	</div>
 	
 	
 	<!-- 이하 페이지에 표시 되지 않는 내용 -->
