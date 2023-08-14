@@ -12,6 +12,12 @@
 		where userid = #{userid}
 	</select>
 	
+	<!-- 아이디로 닉네임 읽은 후 세션에 저장 (컨트롤러 내에서만 사용) -->
+	<select id="readUnickname" resultType="String">
+		select unickname from tbl_user
+		where userid = #{userid}
+	</select>
+	
 	<!-- 유저 정보 수정 -->
 	<!-- 변경 가능한 정보 - [비밀번호, 닉네임, 이미지] -->
 	<update id="updateUserInfo">
@@ -23,16 +29,30 @@
 	</update>
 	
 	<!-- 마이페이지에서 사용할 해당 유저가 작성한 글 정보 -->
-	<select id="readUserBoard" resultType="UserBoardVo">
+	<select id="readUserBoard" resultType="UserBoardDto">
 		select * from tbl_userboard
-		where writer = #{writer}
+		where userid = #{userid}
+	</select>
+	<!-- 해당 유저가 작성한 글 갯수 -->
+	<select id="readUserBoardCount" resultType="int">
+		select count(*) from tbl_userboard
+		where userid = #{userid}
 	</select>
 	
 	
-	<!-- 마이페이지에서 사용할 해당 유저가 작성한 댓글 정보 -->
-	<select id="readUserReply" resultType="UserReplyVo">
-		select * from tbl_userreply
-		where replyer = #{replyer}
+	<!-- 마이페이지에서 사용할 해당 유저가 작성한 댓글 정보(작성한 글의 제목(b.title) 포함) -->
+	<select id="readUserReply" resultType="UserReplyDto">
+		select r.rno, r.bno, r.replytext, r.replyer, r.regdate, r.updatedate, r.delete_yn, b.title
+		from tbl_userreply r, tbl_userboard b
+		where r.userid = #{userid}
+		and r.bno = b.bno
+		and r.delete_yn = 'N'
+	</select>
+	<!-- 해당 유저가 작성한 댓글 갯수, delete_yn = 'N' (삭제되지 않은 댓글 갯수)만 가져옴-->
+	<select id="readUserReplyCount" resultType="int">
+		select count(*) from (select delete_yn from tbl_userreply
+               				  where userid = 'testuser'
+                			  and delete_yn = 'N')
 	</select>
 	
 </mapper>

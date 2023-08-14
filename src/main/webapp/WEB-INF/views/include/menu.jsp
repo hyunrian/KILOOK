@@ -4,36 +4,47 @@
 	<!-- menu -->
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container" style="z-index: 1;">
-	      <a class="navbar-brand" href="../resources/index.html">dirEngine.</a>
+	      <a class="navbar-brand" href="../resources/index.jsp">dirEngine.</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 	
 	      
 	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="../resources/index.html" class="nav-link">Home</a></li>
-<!-- 				jh 추가했다가 다시 주석 처리 -->
-<!-- 	          <li class="nav-item"><a href="../resources/login.html" class="nav-link">Login</a></li> -->
-	          <li class="nav-item"><a href="../resources/about.html" class="nav-link">About</a></li>
+	        <ul class="navbar-nav ml-auto" class="mainmenu">
+	        
+	          <li id="menuHome" class="nav-item">
+	          	<a href="/" class="nav-link">Home</a>
+	            <ul class="noDot" id="subMenuHome" style="display : none;">
+	              <li class="nav-item"><a href="/">Home</a></li>
+                </ul>
+              </li>
+	          
 	          <!-- jh 수정 : tour.html → restaurant.html, Tour → Restaurant -->
-	          <li class="nav-item"><a href="/databoard/restaurant" class="nav-link">Restaurant</a></li>
-	          <li class="nav-item"><a href="../resources/hotel.html" class="nav-link">Hotels</a></li>
-			  <!-- jh 수정 : blog.html → tour.html, Blog → Tour -->
-<!-- 	          <ul class="topmenu"> -->
-		          <li class="nav-item">
-		          	<a href="../resources/tour.html" class="nav-link">Tour</a>
-<!-- 		          	<ul class="submenu"> -->
-<!-- 		          		<li> -->
-<!-- 		          			<a href="#">submenu01</a> -->
-<!-- 		          			<a href="#">submenu02</a> -->
-<!-- 		          			<a href="#">submenu03</a> -->
-<!-- 		          		</li> -->
-<!-- 		          	</ul> -->
-		          </li>
-<!-- 		      </ul> -->
-	          <li class="nav-item"><a href="../resources/contact.html" class="nav-link">Contact</a></li>
-	          <!-- jh 수정 : href="../resources/contact.html" → href="../resources/login.html", img 태그 추가, span 태그 삭제 -->
+	          <li id="menuCategory" class="nav-item" >
+	          	<a href="/databoard/getFoodList" class="nav-link">Category</a>
+	          	<ul class="noDot" id="subMenuCategory" style="display: none;">
+	          	  <li class="nav-item-"><a href="/databoard/restaurant">맛집</a></li>
+	          	  <li class="nav-item"><a href="/databoard/accommodation">숙소</a></li>
+	          	  <li class="nav-item"><a href="/databoard/attraction">가볼만한곳</a></li>
+	          	  <li class="nav-item"><a href="/databoard/show">전시</a></li>
+	          	  <li class="nav-item"><a href="/databoard/cafe">카페</a></li>
+	          	  <li class="nav-item"><a href="/databoard/parking">주차장</a></li>
+	          	  <li class="nav-item"><a href="/databoard/tourguide">관광안내소</a></li>
+	          	</ul>
+	          </li>
+	          
+	          <li id="menuCustomTravelAdventure" class="nav-item"><a href="/databoard/getFoodList" class="nav-link">Custom Travel Adventure</a>
+	          	<ul class="noDot" id="subMenuCustomTravelAdventure" style="display: none;">
+	          	  <li class="nav-item-"><a href="/course/list">나만의 여행코스 짜기</a></li>
+	          	</ul>
+	          </li>
+	          <li id="menuReview" class="nav-item">
+	          	<a href="#" class="nav-link">Review</a>
+	          	<ul id="subMenuReview" class="noDot" style="display: none;">
+	          	  <li class="nav-link"><a href="../resources/tour.html">여행지 후기</a></li>
+	          	</ul>
+	          </li>
 	          <li class="nav-item cta">
 		          <a href="../resources/login.html" class="nav-link">
 		          	<!-- jh 추가 -->

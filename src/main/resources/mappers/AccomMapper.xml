@@ -6,14 +6,23 @@
 <mapper namespace="com.kh.teampro.AccomMapper">
 	<!-- 숙소 전체 조회 : 게시물 전체 페이지에서 보여줄 데이터만 조회 -->
 	<select id="getAccomList" resultType="AccomVo">
-		select aname, address, addressdetail, anumber, image
+		select aname
+			   , address
+			   , addressdetail
+			   , anumber
+			   , replace(image, 'hotel_', 'hotel_img') image
+			   , areplycnt
 		from tbl_acc
 		order by bno desc
 	</select>
 	
 	<!-- 카테고리별 숙소 전체 조회 : 게시물 전체 페이지에서 보여줄 데이터만 조회 -->
 	<select id="getCategoryList" resultType="AccomVo">
-		select aname, address, addressdetail, anumber, image
+		select aname
+			   , address
+			   , addressdetail
+			   , anumber
+			   , image
 		from tbl_acc
 		where category = #{category}
 		order by bno asc 
@@ -28,10 +37,28 @@
 	<!-- 숙소 추가 -->
 	<insert id="insertAccom">
 		insert into tbl_acc
-		(bno, category, aname, location, address, addressdetail, anumber, url, lat, aclong, image)
+			(bno
+			, category
+			, aname
+			, location
+			, address
+			, addressdetail
+			, anumber
+			, url
+			, lat
+			, aclong
+			, image)
 		values
-		(seq_acc_bno.nextval, #{category}, #{aname}, #{location}, #{address}, #{addressdetail},
-		#{anumber}, #{url}, #{lat}, #{aclong}, #{image})
+			(seq_acc_bno.nextval
+			, #{category}
+			, #{aname}
+			, #{location}
+			, #{address}
+			, #{addressdetail}
+			, #{anumber}
+			, #{url}
+			, #{lat}
+			, #{aclong}
+			, #{image})
 	</insert>
-	
 </mapper>

@@ -3,10 +3,13 @@ package com.kh.teampro.board.show;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("/databoard")
 public class ShowController {
 	
@@ -14,9 +17,11 @@ public class ShowController {
 	private ShowService showService;
 	
 	// 전시 전체 조회
-	public List<ShowVo> getShowList() throws Exception{
+	@RequestMapping(value = "/show", method = RequestMethod.GET)
+	public String getShowList(Model model) throws Exception{
 		List<ShowVo> list = showService.getShowList();
-		return list;
+		model.addAttribute("showList", list);
+		return "databoard/show";
 	}
 	
 	// 해당 전시 상세보기

@@ -26,13 +26,18 @@ public class UserInfoController {
 	// 유저 작성 글, 댓글 정보 읽어서 리스트 띄우기
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String readOneUserInfo(String userid, Model model) {
-		UserVo userVo = userInfoService.readOneUserInfo(userid);
-		List<UserBoardVo> boardList = userInfoService.readUserBoard(userid);
-		List<UserReplyVo> replyList = userInfoService.readUserReply(userid);
-		// 유저 한명 정보를 읽은 뒤 데이터와 함께 마이페이지로 보냄
-		model.addAttribute("userVo", userVo);
-		model.addAttribute("boardList", boardList);
-		model.addAttribute("replyList", replyList);
+		
+		 UserVo userVo = userInfoService.readOneUserInfo(userid); 
+		 List<UserBoardDto> boardList = userInfoService.readUserBoard(userid); 
+		 List<UserReplyDto> replyList = userInfoService.readUserReply(userid); 
+		 int userBoardCount = userInfoService.readUserBoardCount(userid); 
+		 int userReplyCount = userInfoService.readUserReplyCount(userid); 
+		 // 유저 한명 정보를 읽은 뒤 데이터와 함께 마이페이지로 보냄 
+		 model.addAttribute("userVo", userVo); model.addAttribute("boardList", boardList); 
+		 model.addAttribute("replyList", replyList);
+		 model.addAttribute("userBoardCount", userBoardCount);
+		 model.addAttribute("userReplyCount", userReplyCount);
+		 
 		return "userinfo/mypage";
 	}
 	

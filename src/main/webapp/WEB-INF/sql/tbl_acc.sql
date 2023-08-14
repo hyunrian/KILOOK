@@ -21,12 +21,9 @@ increment by 1
 start with 1;
 
 -- 테이블 조회
-select * from tbl_acc
-where bno >= 2800 and bno <= 2900
-order by bno asc;
-
-select * from tbl_acc
-order by bno asc;
+select aname, address, addressdetail, anumber, replace(image, 'hotel_', 'hotel_img') image, areplycnt
+from tbl_acc
+order by bno desc;
 
 -- 테스트 데이터 삽입
 insert into tbl_acc

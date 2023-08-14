@@ -23,20 +23,37 @@ public class UserInfoDao {
 		return userVo;
 	}
 	
+	// 유저 닉네임 읽기
+	public String readUnickname(String userid) {
+		return sqlSession.selectOne(NAMESPACE + "readUnickname", userid);
+	}
+	
 	// 유저 정보 수정 
 	public void updateUserInfo(UserVo userVo) {
 		sqlSession.update(NAMESPACE + "updateUserInfo", userVo);
 	}
 	
 	// 유저 작성 글 정보 읽기
-	public List<UserBoardVo> readUserBoard(String writer) {
-		List<UserBoardVo> boardList = sqlSession.selectList(NAMESPACE + "readUserBoard", writer);
+	public List<UserBoardDto> readUserBoard(String userid) {
+		List<UserBoardDto> boardList = sqlSession.selectList(NAMESPACE + "readUserBoard", userid);
 		return boardList;
 	}
+	// 유저 작성 글 갯수
+	public int readUserBoardCount(String userid) {
+		int boardCount = sqlSession.selectOne(NAMESPACE + "readUserBoardCount", userid);
+		return boardCount;
+	}
+	
 	
 	// 유저 작성 댓글 정보 읽기
-	public List<UserReplyVo> readUserReply(String replyer) {
-		List<UserReplyVo> replyList = sqlSession.selectList(NAMESPACE + "readUserReply", replyer);
+	public List<UserReplyDto> readUserReply(String userid) {
+		List<UserReplyDto> replyList = sqlSession.selectList(NAMESPACE + "readUserReply", userid);
 		return replyList;
 	}
+	// 유저 작성 댓글 갯수
+	public int readUserReplyCount(String userid) {
+		int replyCount = sqlSession.selectOne(NAMESPACE + "readUserReplyCount", userid);
+		return replyCount;
+	}
+	
 }

@@ -27,6 +27,8 @@ select * from tbl_parking
 where bno >= 600 and bno <= 650
 order by bno asc;
 
+select * from tbl_parking;
+
 select pname, jibunaddress, doroaddress, weekdayopen, weekdayclose, saturdayopen, saturdayclose, holidayopen, holidayclose, price, replycnt
 from tbl_parking;
 

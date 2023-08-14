@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.teampro.FoodReplyMapper">
+	<!-- 댓글 목록 -->
+	<select id="restReplyList" resultType="FoodReplyVo">
+		select * from tbl_restreply
+		where bno = #{bno}
+		order by rgroup, rseq
+	</select>
+	
+	<!-- 댓글 추가 -->
+	<insert id="insertRestReply">
+		insert into tbl_restreply
+			(rno
+			, bno
+			, replytext
+			, replyer
+			, rgroup
+			, rseq
+			, rlevel
+			)
+		values
+			(seq_reply_rno.nextval
+			, #{bno}
+			, #{replytext}
+			, #{replyer}
+			, #{rgroup}
+			, #{rseq}
+			, #{rlevel}
+			)	
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateRestReply">
+		update tbl_restreply
+			replytext = #{replytext},
+			replyer = #{replyer},
+			updatedate = sysdate
+		where rno = #{rno}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteRestReply">
+		delete from tbl_restreply
+		where rno = #{rno}
+	</delete>
+	
+	<!-- 수정날짜 얻기 -->
+	<select id="getUpdatedate" resultType="java.sql.Timestamp">
+		select updatedate from tbl_restreply
+		where rno = #{rno}
+	</select>
+</mapper>
