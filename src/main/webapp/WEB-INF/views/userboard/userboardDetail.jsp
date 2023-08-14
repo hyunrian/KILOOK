@@ -253,7 +253,7 @@ $(function() {
 	// 새댓글 쓰기
 	$("#replyInsertBtn").click(function() {
 		const replytext = $("#replytext").val().trim();
-		insertReply(replytext, 0, 0, null);
+		insertReply(replytext, 0, 0, null, "newReply");
 		$("#replytext").val("");
 	});
 	
@@ -264,12 +264,12 @@ $(function() {
 		const rno = $(this).closest("p").find("a").attr("data-rno");
 		const replyer = $(this).closest("p").find("a").attr("data-replyer");
 		const parentreplyer = $(this).closest("li").find("h3").text();
-		insertReply(replytext, 1, rno, parentreplyer);
+		insertReply(replytext, 1, rno, parentreplyer, "reReply");
 		replyInput.val("");
 	});
 	
 	// 댓글 입력하기 - 공통 부분 함수
-	function insertReply(replytext, rlevel, rno, parentreplyer) {
+	function insertReply(replytext, rlevel, rno, parentreplyer, type) {
 		if (replytext != "") {
 			const sData = {
 					"bno" : bno,
@@ -306,7 +306,7 @@ $(function() {
 			"url" : "/userReply/delete",
 			"data" : rno,
 			"success" : function(rData) {
-				that.closest(".replyElem").hide();
+				that.closest(".replyElem").fadeOut(700);
 			}
 		});
 	});
@@ -347,7 +347,7 @@ $(function() {
 			"success" : function(rData) {
 				const element = that.closest(".replyElem");
 				element.find("span").eq(1).text(replytext);
-				element.find("div").show();
+				element.find("div").fadeIn(700);
 				element.find(".replyForm").remove();
 				element.find("div").eq(1).find("div").text(getTime(new Date()));
 			}

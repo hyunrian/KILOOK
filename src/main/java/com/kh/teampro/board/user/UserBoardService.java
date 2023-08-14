@@ -23,4 +23,9 @@ public class UserBoardService {
 		userBoardDao.addViewcnt(bno);
 	}
 	
+	// 첨부파일 테이블 데이터 삭제
+	public void deleteFileData(String filename) {
+		userBoardDao.deleteFileData(filename);
+	}
+	
 }

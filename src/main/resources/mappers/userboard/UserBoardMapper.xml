@@ -5,19 +5,60 @@
 
 <mapper namespace="com.kh.teampro.UserBoardMapper">
 
+	<!-- 게시글 전체 리스트 조회 -->
 	<select id="getUserArticleList" resultType="UserBoardVo">
 		select * from tbl_userboard
 	</select>
 	
+	<!-- 게시글 상세내용 조회 -->
 	<select id="getUserArticleDetail" resultType="UserBoardVo">
 		select * from tbl_userboard
 		where bno = #{bno}
 	</select>
 
+	<!-- 조회수 증가 -->
 	<update id="addViewcnt">
 		update tbl_userboard
 		set viewcnt = viewcnt + 1
 		where bno = #{bno}
 	</update>
 	
+	<!-- 첨부파일 테이블에 추가 -->
+	<insert id="insertFileData">
+		insert into tbl_attach(fullname, bno)
+		values (#{fullname}, #{bno})
+	</insert>
+	
+	<!-- 다음 시퀀스 값 얻기(useboard, attach 테이블의 bno값) -->
+	<select id="getNextSeq" resultType="int">
+		select seq_userboard_bno.nextval
+		from dual;
+	</select>
+	
+	<!-- 첨부파일 테이블에서 삭제 -->
+	<delete id="deleteFileData">
+		delete from tbl_attach
+		where fullname = #{fullname} <!-- db tuple 변경 필요 -->
+	</delete>
+	
+	<!-- 게시글 작성 -->
+	<insert id="create">
+		insert into tbl_userboard(bno, title, content, writer, userid)
+		values (#{bno}, #{title}, #{content}, #{writer}, #{userid})
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="update">
+		update tbl_userboard
+		set title = #{title},
+			content = #{content},
+			writer = #{writer}
+		where bno = #{bno}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delete">
+		delete from tbl_userboard
+		where bno = #{bno}
+	</delete>
 </mapper>

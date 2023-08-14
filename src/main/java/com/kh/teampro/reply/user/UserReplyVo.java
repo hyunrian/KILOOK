@@ -24,4 +24,5 @@ public class UserReplyVo {
 	private int rlevel;
 	private String delete_yn;
 	private String parentreplyer;
+	private String userid;
 }

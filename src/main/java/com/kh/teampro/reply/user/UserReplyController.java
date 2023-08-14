@@ -26,6 +26,7 @@ public class UserReplyController {
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insertUserReply(UserReplyVo userReplyVo) {
 		userReplyVo.setReplyer("star"); // session에 넣을 loginInfo의 값으로 변경해야 함
+		userReplyVo.setUserid("user2"); // session에 넣을 loginInfo의 값으로 변경해야 함
 		System.out.println("vo:" + userReplyVo);
 		if (userReplyVo.getRlevel() == 0) { // 새 댓글인 경우
 			userReplyService.insertUserNewReply(userReplyVo);
@@ -36,6 +37,7 @@ public class UserReplyController {
 			int maxRseq = 
 					userReplyService.getMaxRseq(bno, userReplyVo.getRgroup());
 			userReplyVo.setRseq(maxRseq + 1);
+			System.out.println("vo:" + userReplyVo);
 			userReplyService.insertUserReReply(userReplyVo);
 		}
 		return MyConstants.SUCCESS_MESSAGE;
@@ -54,6 +56,7 @@ public class UserReplyController {
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PATCH)
 	public String updateUserReply(@RequestBody UserReplyVo userReplyVo) {
+		userReplyVo.setReplyer("star"); // session에 넣을 loginInfo의 값으로 변경해야 함
 		userReplyService.updateUserReply(userReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}

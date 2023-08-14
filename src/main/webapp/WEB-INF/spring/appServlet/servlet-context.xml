@@ -26,8 +26,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<context:component-scan
-		base-package="com.kh.teampro" />
+	<context:component-scan base-package="com.kh.teampro" />
 
 	<!-- 파일 업로드 처리 -->
 	<beans:bean id="multipartResolver"
@@ -37,7 +36,7 @@
 
 	<!-- 파일 저장경로 설정 -->
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="C:/zzz/upload" />
+		<beans:constructor-arg value="C:/teampro" />
 	</beans:bean>
 
 	<!-- 로그인 한 사용자만 접근할수 있도록 -->

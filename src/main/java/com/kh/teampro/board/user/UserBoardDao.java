@@ -25,5 +25,9 @@ public class UserBoardDao {
 	public void addViewcnt(int bno) {
 		sqlSession.update(NAMESPACE + "addViewcnt", bno);
 	}
+	
+	public void deleteFileData(String filename) {
+		sqlSession.delete(NAMESPACE + "deleteFile", filename);
+	}
 
 }

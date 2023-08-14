@@ -5,57 +5,69 @@
 
 <mapper namespace="com.kh.teampro.UserReplyMapper">
 
+	<!-- 특정 게시글의 전체 댓글 조회 -->
 	<select id="getUserReply" resultType="UserReplyVo">
 		select * from tbl_userreply
 		where bno = #{bno}
 		order by rgroup, rseq
 	</select>
 	
+	<!-- 댓글 입력 -->
 	<insert id="insertUserNewReply">
-		insert into tbl_userreply(rno, bno, replytext, replyer, rgroup, rseq, rlevel)
+		insert into tbl_userreply(rno, bno, replytext, 
+				replyer, rgroup, userid)
 		values (seq_userreply_rno.nextval, #{bno}, #{replytext}, #{replyer}, 
-				seq_userreply_rno.currval, 0, 0)
+				seq_userreply_rno.currval, #{userid})
 	</insert>
 	
+	<!-- 대댓글 입력 -->
 	<insert id="insertUserReReply">
 		insert into tbl_userreply(
-				rno, bno, replytext, replyer, rgroup, rseq, rlevel, parentreplyer)
+				rno, bno, replytext, replyer, rgroup, 
+				rseq, rlevel, parentreplyer, userid)
 		values (seq_userreply_rno.nextval, #{bno}, #{replytext}, #{replyer}, 
-				#{rgroup}, #{rseq}, 1, #{parentreplyer})
+				#{rgroup}, #{rseq}, 1, #{parentreplyer}, #{userid})
 	</insert>
 	
+	<!-- 특정 댓글의 가장 높은 seq 값 구하기 -->
 	<select id="getMaxRseq" resultType="int">
 		select max(rseq) from tbl_userreply
 		where bno = #{bno}
 		and rgroup = #{rgroup}
 	</select>
 
+	<!-- 게시글의 댓글개수 조회 -->
 	<select id="getReplycnt" resultType="int">
 		select count(*) from tbl_userreply
 		where bno = #{bno}
 		and delete_yn = 'N'
 	</select>
 	
+	<!-- 댓글그룹 확인 -->
 	<select id="getRgroup" resultType="int">
 		select rgroup from tbl_userreply
 		where rno = #{rno}
 	</select>
 	
+	<!-- 댓글 삭제 -->
 	<update id="deleteReply">
 		update tbl_userreply
 		set delete_yn = 'Y'
 		where rno = #{rno}
 	</update>
 	
+	<!-- 대댓글이 있는 댓글인지 확인 -->
 	<select id="hasChildReply" resultType="int">
 		select count(*) from tbl_userreply
 		where rgroup = #{rno}
 		and delete_yn = 'N'
 	</select>
 	
+	<!-- 댓글 수정 -->
 	<update id="updateUserReply">
 		update tbl_userreply
 		set replytext = #{replytext},
+			replyer = #{replyer},
 		    updatedate = sysdate
 		where rno = #{rno}
 	</update>
