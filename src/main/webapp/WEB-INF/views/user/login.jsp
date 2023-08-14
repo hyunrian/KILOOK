@@ -240,17 +240,18 @@ span {
 
 .homeContainer {
 	background: #ebecf0;
-	margin-top: 580px;
+	margin-bottom: 600px;
+	margin-right: 570px;
 }
 
 .btnHome {
-	width: 50px;
+	width: 200px;
 	height: 50px;
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
 	margin: 0 5px;
-	border-radius: 50%;
+	border-radius: 25px;
 	box-shadow: -5px -5px 10px #fff, 5px 5px 8px #babebc;
 	cursor: pointer;
 }
@@ -282,18 +283,23 @@ var dubChckId = false;
 var dubChckNickname = false;
 
 // 사용자 지정 메소드
-// 글자수 0-15자 제한
-jQuery.validator.addMethod("lengthCheck15", function(value, element) {
+// 글자수 제한 (아이디)
+jQuery.validator.addMethod("lengthCheckId", function(value, element) {
 	  return this.optional(element) || /^.{0,15}$/.test(value);
 	}, "**** 아이디는 최대 15자 입니다 ****");
 
-// 글자수 0-30자 제한
-jQuery.validator.addMethod("lengthCheck30", function(value, element) {
-	  return this.optional(element) || /^.{0,30}$/.test(value);
-	}, "**** 아이디는 최대 30자 입니다 ****");
+// 글자수 제한(닉네임)
+jQuery.validator.addMethod("lengthCheckNickName", function(value, element) {
+	  return this.optional(element) || /^.{2,30}$/.test(value);
+	}, "**** 닉네임은 2 ~ 30자 입니다 ****");
+
+// 글자수 제한(비밀번호)
+jQuery.validator.addMethod("lengthCheckPw", function(value, element) {
+	  return this.optional(element) || /^.{4,30}$/.test(value);
+	}, "**** 비밀번호는 4 ~ 15자 입니다 ****");
 	
 // 글자 제한 (영문과 숫자만)
-jQuery.validator.addMethod("spellCheckID", function(value, element) {
+jQuery.validator.addMethod("spellCheckId", function(value, element) {
 	  return this.optional(element) || /^[A-Za-z0-9]+$/.test(value);
 	}, "**** 아이디는 영문, 숫자만 가능합니다 ****");
 	
@@ -346,30 +352,26 @@ jQuery(function() {
 		rules: {                    	// 유효성 검사 규칙
 			userid: {					// 이름 필드 (name="userid")
 				required: true,			// 필수 입력
-				lengthCheck15: true,
+				lengthCheckId: true,
 										
 // 원인을 알수 없는 이유로 작동이 되었다 안되었다 하기 때문에 아래 2코드는 사용하지 말것
 // 	  			rangelength: [5, 15]	// 입력범위 0~15자 (위 코드로 대체함)
 // 				maxlength: 15			// 최대 15자 까지 입력 가능
 				
-				spellCheckID: true,
+				spellCheckId: true,
 				idDubChck: true
 										
 			},
 			unickName: {     			// 비밀번호 필드 (name="unickName")
 				required: true,			// 필수 입력
-				lengthCheck30: true,
+				lengthCheckNickName: true,
 // 				rangelength: [0, 30]	
 // 				maxlength: 30
 				nicknameDubChck: true
 			},
-			uemail: {    				// 비밀번호 필드 (name="uemail")
-				required: true,			// 필수 입력
-				email: true				// 이메일 형식 필요
-			},
 			upw: {     					// 비밀번호 필드 (name="upw")
 				required: true,			// 필수 입력
-				lengthCheck15: true,
+				lengthCheckPw: true,
 // 				rangelength: [0, 15]	
 // 				maxlength: 15
 				spellCheckPW1: true,
@@ -390,10 +392,6 @@ jQuery(function() {
 				required:		"**** 닉네임을 입력해 주세요 ****",
 // 				rangelength:	"**** 닉네임은 최대 30자 입니다 ****"
 // 				maxlength:		"**** 닉네임은 최대 30자 입니다 ****"
-			},
-			uemail: {
-				required:		"**** 이메일을 입력해 주세요 ****",
-				email:			"**** 이메일 형식이 아닙니다 ****"
 			},
 			upw: {
 				required:		"**** 비밀번호를 입력해 주세요 ****",
@@ -445,8 +443,6 @@ jQuery(function() {
 							id="createUnickName" name="unickName" required>
 						<button id="btnDubCheckNickname" class="btnSmall form_btn">중복확인</button>
 					</div>
-					<input class="inputSamll" type="email" placeholder="이메일"
-						id="createUemail" name="uemail" required>
 					<input class="inputSamll" type="password" placeholder="비밀번호"
 						id="createUpw" name="upw" required>
 					<input class="inputSamll" type="password" placeholder="비밀번호 확인"

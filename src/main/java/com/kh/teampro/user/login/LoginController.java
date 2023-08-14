@@ -31,6 +31,11 @@ public class LoginController {
 		return "user/login";
 	}
 	
+	// 회원가입
+	public String createAcount() {
+		return "redirect:/loginUser/login";
+	}
+	
 	// 로그인 처리 - post
 //	@RequestMapping(value = "/login", method = RequestMethod.POST)
 //	public String loginRun (LoginDto loginDto, HttpSession session,
