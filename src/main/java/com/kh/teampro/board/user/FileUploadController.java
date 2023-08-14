@@ -7,12 +7,14 @@ import java.io.IOException;
 import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.teampro.attach.AttachService;
 import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.util.FileUploadUtil;
 
@@ -25,6 +27,9 @@ public class FileUploadController {
 	
 	@Resource
 	private UserBoardService userBoardService;
+	
+	@Resource
+	private AttachService attachService;
 	
 	// 파일 업로드 처리
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST,
@@ -68,11 +73,12 @@ public class FileUploadController {
 	}
 	
 	// 첨부파일 삭제
+	@Transactional
 	@RequestMapping(value = "/deleteFile", method = RequestMethod.DELETE)
 	public String deleteFile(@RequestBody String filename) {
 		
 		FileUploadUtil.deleteFile(uploadPath, filename);
-		userBoardService.deleteFileData(filename);
+		attachService.deleteFileData(filename);
 		
 		return MyConstants.SUCCESS_MESSAGE;
 	}

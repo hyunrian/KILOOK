@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserBoardService {
@@ -23,9 +24,12 @@ public class UserBoardService {
 		userBoardDao.addViewcnt(bno);
 	}
 	
-	// 첨부파일 테이블 데이터 삭제
-	public void deleteFileData(String filename) {
-		userBoardDao.deleteFileData(filename);
+	@Transactional
+	public void createArticle(UserBoardVo userBoardVo) {
+		int bno = userBoardDao.getNextSeq();
+		userBoardVo.setBno(bno);
+		userBoardDao.createArticle(userBoardVo);
 	}
+	
 	
 }

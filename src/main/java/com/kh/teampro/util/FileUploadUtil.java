@@ -32,7 +32,7 @@ public class FileUploadUtil {
 		makeThumbnail(uploadPath, dirPath, filename);
 		String filePath = saveFilename.substring(uploadPath.length());
 		
-		return filePath;
+		return filePath; // originalFilename 반환하고 있음
 	}
 	
 	// 이미지 여부 확인

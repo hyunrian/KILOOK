@@ -26,8 +26,12 @@ public class UserBoardDao {
 		sqlSession.update(NAMESPACE + "addViewcnt", bno);
 	}
 	
-	public void deleteFileData(String filename) {
-		sqlSession.delete(NAMESPACE + "deleteFile", filename);
+	public void createArticle(UserBoardVo userBoardVo) {
+		sqlSession.insert(NAMESPACE + "createArticle", userBoardVo);
+	}
+	
+	public int getNextSeq() {
+		return sqlSession.selectOne(NAMESPACE + "getNextSeq");
 	}
 
 }

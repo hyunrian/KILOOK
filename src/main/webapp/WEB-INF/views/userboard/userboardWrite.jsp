@@ -37,7 +37,7 @@
 <script>
 $(document).ready(function() {
 	$("#summernote").summernote({
-		height: 700, // 에디터 높이
+		height: 550, // 에디터 높이
 		minHeight: null, // 최소 높이
 		maxHeight: null, // 최대 높이
 		focus: false, // 에디터 로딩 후 포커스온 여부
@@ -58,7 +58,37 @@ $(document).ready(function() {
 		  ],
 		fontNames: ['Arial', 'Arial Black', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
 		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+		
+		callbacks: {
+			onImageUpload: function(files) {
+				if (files.length > 5) {
+					alert("5개 이하의 이미지만 업로드 가능");
+				}
+				// 이미지만 처리하는 함수 필요
+				for (var v = 0; v < files.length; v++) {
+					uploadImage(files[v], this);
+					
+				}
+// 				console.log(files.name);
+			},
+		}
 	});
+	
+	function uploadImage(file, editor) {
+		let formData = new FormData();
+		formData.append("file", file);
+		console.log(file.name);
+		$.ajax({ // 여기부터 다시 하면 됨
+			"type" : "post",
+			"url" : "/attach/insert",
+			"data" : formData,
+			"contentType" : false,
+			"processData" : false,
+			"success" : function(rData) {
+				console.log(rData);
+			}
+		});
+	}
 	
 	$("#summernote").summernote("fontName", "맑은 고딕");
 	
@@ -84,7 +114,15 @@ $(document).ready(function() {
 	videoDiv.find(".modal-body").find("div").eq(1).find("label").text("URL");
 	videoDiv.find(".modal-footer").find("input").val("완료");
 	
-	
+	// 게시글 작성
+	$("#btnInsert").click(function() {
+		const title = $("#titleText").val().trim();
+		const content = $("#summernote").val();
+		console.log("title:", title, "content:", content);
+		$("#test").find("span").eq(0).text(title);
+		$("#test").find("span").eq(1).html(content);
+		$("#articleForm").submit();
+	});
 });	 
 </script>
 <!-- <body> -->
@@ -92,17 +130,15 @@ $(document).ready(function() {
 
 <section class="ftco-section contact-section ftco-degree-bg">
 	<div class="container">
-		
 		<div class="row block-9">
 			<div class="col-md-12 pr-md-10">
-				<form action="#" type="post">
-					<input type="text" class="form-control" placeholder="제목"><br>
-					<textarea id="summernote" name="editordata"></textarea><br>
+				<form action="/userboard/write" method="post" id="articleForm">
+					<input type="text" class="form-control" placeholder="제목" 
+						name="title" id="titleText"><br>
+					<textarea id="summernote" name="content"></textarea><br>
 					<div class="form-group" style="position: relative;">
 						<input type="button" value="완료" 
 							class="btn btn-primary btn-block" id="btnInsert" style="border: none;">
-<!-- 						<input type="button" value="취소"  -->
-<!-- 							class="btn py-3 px-4 btn-primary" id="btnCancel" style="border: none;"> -->
 					</div>
 				</form>
 			</div>
@@ -110,5 +146,9 @@ $(document).ready(function() {
 		</div>
 	</div>
 </section>
+<div id="test">
+	<span></span>
+	<span></span>
+</div>
 </body>
 </html>
