@@ -21,6 +21,14 @@ body {
 	height: 50px;
 }
 </style>
+<script>
+$(function() {
+	$.get("/attach/displayThumbnail/${userBoardVo.bno}", function(rData) {
+		// 이미지를 업로드하지 않은 게시글 썸네일 처리부터 해야 함
+		console.log(rData);		
+	});
+});
+</script>
 
 <%@ include file="/WEB-INF/views/include/menu.jsp"%>
 
@@ -63,8 +71,11 @@ body {
 					<c:forEach var="userBoardVo" items="${userArticleList}">
 						<div class="col-md-3 d-flex ftco-animate">
 							<div class="blog-entry align-self-stretch">
-								<a href="/userboard/detail?bno=${userBoardVo.bno}" class="block-20"
-									style="background-image: url('/resources/images/image_1.jpg');">
+<%-- 								<a href="/userboard/detail?bno=${userBoardVo.bno}" class="block-20" --%>
+<!-- 									style="background-image: url('/resources/images/image_1.jpg');"> -->
+								<a href="/userboard/detail?bno=${userBoardVo.bno}" 
+									class="block-20 thumbnail" data-bno="${userBoardVo.bno}"
+									style="background-image: url('/attach/displayThumbnail/${userBoardVo.bno}');">
 								</a>
 								<div class="text p-4 d-block">
 									<h3 class="heading mt-3">

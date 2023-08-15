@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import org.imgscalr.Scalr;
 import org.springframework.util.FileCopyUtils;
 
+
 public class FileUploadUtil {
 
 	// 사용자가 업로드한 파일을 지정된 경로에 저장
@@ -32,7 +33,7 @@ public class FileUploadUtil {
 		makeThumbnail(uploadPath, dirPath, filename);
 		String filePath = saveFilename.substring(uploadPath.length());
 		
-		return filePath; // originalFilename 반환하고 있음
+		return filePath;
 	}
 	
 	// 이미지 여부 확인
@@ -47,7 +48,7 @@ public class FileUploadUtil {
 	}
 	
 	// 파일 포맷 얻기
-	private static String getFormatName(String filename) {
+	public static String getFormatName(String filename) {
 		int dotIndex = filename.lastIndexOf(".");
 		return filename.substring(dotIndex + 1);
 	}

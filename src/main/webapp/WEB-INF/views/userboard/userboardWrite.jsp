@@ -36,6 +36,15 @@
 
 <script>
 $(document).ready(function() {
+	
+	// 창닫기, 새로고침 시 서버에 업로드된 파일 삭제
+	let submitStatus = false; // 전송버튼을 클릭하면 true로 변경
+	$(window).bind("beforeunload", function() {
+		if (!submitStatus) {
+			$("")
+		}
+	});
+	
 	$("#summernote").summernote({
 		height: 550, // 에디터 높이
 		minHeight: null, // 최소 높이
@@ -61,10 +70,11 @@ $(document).ready(function() {
 		
 		callbacks: {
 			onImageUpload: function(files) {
+				console.log("length:", files.length);
 				if (files.length > 5) {
 					alert("5개 이하의 이미지만 업로드 가능");
 				}
-				// 이미지만 처리하는 함수 필요
+				
 				for (var v = 0; v < files.length; v++) {
 					uploadImage(files[v], this);
 					
@@ -77,15 +87,20 @@ $(document).ready(function() {
 	function uploadImage(file, editor) {
 		let formData = new FormData();
 		formData.append("file", file);
-		console.log(file.name);
-		$.ajax({ // 여기부터 다시 하면 됨
+// 		console.log(file.name);
+		$.ajax({ 
 			"type" : "post",
-			"url" : "/attach/insert",
+			"url" : "/attach/save",
 			"data" : formData,
 			"contentType" : false,
 			"processData" : false,
 			"success" : function(rData) {
 				console.log(rData);
+				$("#summernote").summernote("insertImage", "/attach/displayImage?filePath=" + rData);
+			},
+			"error" : function(request, error) {
+				console.log("status : " + request.status + ", message : " 
+						+ request.responseText + ", error : " + error);
 			}
 		});
 	}
@@ -118,11 +133,20 @@ $(document).ready(function() {
 	$("#btnInsert").click(function() {
 		const title = $("#titleText").val().trim();
 		const content = $("#summernote").val();
+		
 		console.log("title:", title, "content:", content);
 		$("#test").find("span").eq(0).text(title);
 		$("#test").find("span").eq(1).html(content);
+		const imgSrc = $("#test").find("span").eq(1).find("img").eq(0).attr("src");
+		console.log("thumbnail: ", imgSrc)
+		if (imgSrc != null && imgSrc != "") {
+			const sub = imgSrc.substring((imgSrc.indexOf("="))+1);
+			$("#thumbnail").val(sub);
+		}
 		$("#articleForm").submit();
 	});
+	
+	
 });	 
 </script>
 <!-- <body> -->
@@ -133,6 +157,7 @@ $(document).ready(function() {
 		<div class="row block-9">
 			<div class="col-md-12 pr-md-10">
 				<form action="/userboard/write" method="post" id="articleForm">
+					<input type="hidden" name="thumbnail" id="thumbnail">
 					<input type="text" class="form-control" placeholder="제목" 
 						name="title" id="titleText"><br>
 					<textarea id="summernote" name="content"></textarea><br>
@@ -146,6 +171,7 @@ $(document).ready(function() {
 		</div>
 	</div>
 </section>
+
 <div id="test">
 	<span></span>
 	<span></span>

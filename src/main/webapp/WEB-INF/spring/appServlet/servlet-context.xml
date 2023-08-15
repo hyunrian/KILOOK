@@ -73,5 +73,8 @@
 			</beans:props>
 		</beans:property>
 	</beans:bean>
+	
+	<!-- JSON IO 관련 -->
+	<annotation-driven />
 
 </beans:beans>

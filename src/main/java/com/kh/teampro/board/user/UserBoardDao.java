@@ -33,5 +33,9 @@ public class UserBoardDao {
 	public int getNextSeq() {
 		return sqlSession.selectOne(NAMESPACE + "getNextSeq");
 	}
+	
+	public void deleteArticle(int bno) {
+		sqlSession.delete(NAMESPACE + "deleteArticle", bno);
+	}
 
 }

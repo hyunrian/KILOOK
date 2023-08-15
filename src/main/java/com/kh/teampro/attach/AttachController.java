@@ -1,15 +1,20 @@
 package com.kh.teampro.attach;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import javax.annotation.Resource;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.teampro.board.user.UserBoardService;
 import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.util.FileUploadUtil;
 
@@ -22,25 +27,41 @@ public class AttachController {
 	
 	@Autowired
 	private AttachService attachService;
+
 	
-	@RequestMapping(value = "/insert", method = RequestMethod.POST,
+	
+	// 이미지 서버에 저장
+	@RequestMapping(value = "/save", method = RequestMethod.POST,
 			produces = "text/plain; charset=utf-8")
-	public String insertFileData(MultipartFile file) {
+	public String saveFile(MultipartFile file) {
 		
-		System.out.println("originalFilename:" + file.getOriginalFilename());
-		try {
-			byte[] bytes = file.getBytes();
-			String saveFilename = FileUploadUtil.upload(
-					bytes, uploadPath, file.getOriginalFilename());
-			return saveFilename; // original name으로 반환하고 있음
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return attachService.saveFile(file);
+	}
+	
+	// 업로드한 이미지 에디터에서 보이기
+	@RequestMapping(value = "/displayImage", method = RequestMethod.GET)
+	public byte[] displayImage(String filePath) {
 		
+		return attachService.displayImage(filePath);
+	}
 		
-//		System.out.println("fullname" + fullname);
-//		System.out.println("bno" + bno);
+	// 썸네일 이미지 jsp로 전달
+	@RequestMapping(value = "/displayThumbnail/{bno}", method = RequestMethod.GET)
+	public Object displayThumbnail(@PathVariable int bno) {
+		return attachService.displayThumbnail(bno);
+	}
+	
+	// 첨부파일 삭제
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	public String deleteFile(@RequestBody String filename) {
 		
-		return MyConstants.SUCCESS_MESSAGE;
+		return attachService.deleteFile(filename);
+	}
+	
+	// 이미지 포맷(확장자) 얻기
+	@RequestMapping(value = "/ext/{filename}", method = RequestMethod.GET)
+	public String getFileExt(@PathVariable String filename) {
+		
+		return FileUploadUtil.getFormatName(filename);
 	}
 }

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class AttachVo {
 
-	String fullname;
-	int bno;
+	private String thumbnail;
+	private int bno;
 }

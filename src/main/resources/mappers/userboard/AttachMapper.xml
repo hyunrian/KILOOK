@@ -5,16 +5,28 @@
 
 <mapper namespace="com.kh.teampro.AttachMapper">
 
-	<!-- 첨부파일 테이블에 추가 -->
-	<insert id="insertFileData">
-		insert into tbl_attach(fullname, bno)
-		values (#{fullname}, #{bno})
+	<!-- 썸네일이미지 테이블에 추가 -->
+	<insert id="insertThumbnail">
+		insert into tbl_attach(thumbnail, bno)
+		values (#{thumbnail}, #{bno})
 	</insert>
 		
-	<!-- 첨부파일 테이블에서 삭제 -->
-	<delete id="deleteFileData">
+	<!-- 썸네일이미지 테이블에서 삭제 -->
+	<delete id="deleteThumbnail">
 		delete from tbl_attach
-		where fullname = #{fullname} <!-- db tuple 변경 필요 -->
+		where bno = #{bno}
 	</delete>
 	
+	<!-- 썸네일이미지 수정 -->
+	<update id="updateThumbnail">
+		update tbl_attach
+		set thumbnail = #{thumbnail}
+		where bno = #{bno}
+	</update>
+	
+	<!-- 썸네일path 얻기 -->
+	<select id="getThumbnail" resultType="string">
+		select thumbnail from tbl_attach
+		where bno = #{bno}
+	</select>
 </mapper>

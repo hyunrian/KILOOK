@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.Like.board.LikeUserBoardService;
+import com.kh.teampro.attach.AttachService;
 import com.kh.teampro.reply.user.UserReplyService;
 import com.kh.teampro.reply.user.UserReplyVo;
 
@@ -51,11 +54,13 @@ public class UserBoardController {
 	
 	// 게시글 쓰기
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String writeArticle(UserBoardVo userBoardVo) {
+	public String writeArticle(UserBoardVo userBoardVo, String thumbnail) {
 		userBoardVo.setUserid("user2"); // session의 loginInfo로 변경
 		userBoardVo.setWriter("star"); // session의 loginInfo로 변경
-		System.out.println("vo:" + userBoardVo);
-		userBoardService.createArticle(userBoardVo);
+//		System.out.println("vo:" + userBoardVo);
+//		System.out.println("thumbnail:" + thumbnail);
+		userBoardService.createArticle(userBoardVo, thumbnail);
+		
 		return "redirect:/userboard/list";
 	}
 	
@@ -80,6 +85,14 @@ public class UserBoardController {
 		return "userboard/userboardDetail";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/delete/{bno}", method = RequestMethod.DELETE)
+	public String deleteArticle(@PathVariable int bno) {
+		
+		userBoardService.deleteArticle(bno);
+		
+		return "/userboard/list";
+	}
 	
 	
 	

@@ -1,18 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 <!-- Bootstrap4 설정 추가 -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
 <!-- toastr 추가 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+	integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+	integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
 toastr.options = {
@@ -33,52 +43,52 @@ toastr.options = {
 }
 </script>
 <style>
-	.parent {
-	  position: relative;
-	}
-	
-	.clickable {
-		cursor: pointer;
-		font-size: 40pt;
-	}
-	
-	#heart {
-	  position: absolute; 
-	  left: 43%; 
-	  top: 50%; 
-	  transform: translate(-50%, -50%);
-	}
-	
-	#share {
-	  position: absolute; 
-	  left: 57%; 
-	  top: 50%; 
-	  transform: translate(-50%, -50%);
-	}
-	
-	#heartCount {
-		position: absolute; 
-		left: 43%; 
-		top: 100%; 
-		transform: translate(-50%, -50%);
-		margin-top: 40px;
-	}
-	
-	#shareText {
-		position: absolute; 
-		left: 57%; 
-		top: 100%; 
-		transform: translate(-50%, -50%);
-		margin-top: 40px;
-	}
-	
-	.reply {
-		padding-top: 0px;
-	}
+.parent {
+	position: relative;
+}
 
-	.boardMenu {
-		margin-right: 18px;
-	}
+.clickable {
+	cursor: pointer;
+	font-size: 40pt;
+}
+
+#heart {
+	position: absolute;
+	left: 43%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#share {
+	position: absolute;
+	left: 57%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#heartCount {
+	position: absolute;
+	left: 43%;
+	top: 100%;
+	transform: translate(-50%, -50%);
+	margin-top: 40px;
+}
+
+#shareText {
+	position: absolute;
+	left: 57%;
+	top: 100%;
+	transform: translate(-50%, -50%);
+	margin-top: 40px;
+}
+
+.reply {
+	padding-top: 0px;
+}
+
+.boardMenu {
+	margin-right: 18px;
+}
 </style>
 <script>
 $(function() {
@@ -355,93 +365,109 @@ $(function() {
 		});
 	});
 	
+	$("#btnBack").click(function() {
+		location.href = "/userboard/list";
+	});
+	
+	$("#btnDelete").click(function(e) {
+		e.preventDefault();
+		const val = confirm("게시글을 삭제하시겠습니까?");
+		if (val == true) {
+			$.ajax({
+// 				"type" : "delete",
+// 				"url" : "/userboard/delete/${userBoardVo.bno}", // 하위 테이블이 있어서 삭제가 안됨
+// 				"success" : function(rData) {
+// 					location.href = rData;
+// 				}
+			});
+		}
+	});
 	
 });
 </script>
-<%@ include file="/WEB-INF/views/include/menu.jsp" %>
+<%@ include file="/WEB-INF/views/include/menu.jsp"%>
 
-<div id="pageBegin"></div><br><br>
+<div class="col-md-12">
+</div>
+
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 ftco-animate">
+			<div class="col-md-12 ftco-animate">
+				<div class="tagcloud">
+					<a id="btnBack" class="tag-cloud-link" style="font-size: 10pt; cursor: pointer;
+						margin-bottom: 50px;">목록으로 이동</a> 
+				</div>
 				<h2 class="mb-3">${userBoardVo.title}</h2>
 				<br>
 				<div>
 					<span> <i class="fa-solid fa-umbrella-beach"
 						style="color: #2667cf; font-size: 2rem;"></i> &nbsp;&nbsp;
-					</span>
-					<span style="font-size: 14pt;" class="boardMenu">${userBoardVo.writer}</span>
+					</span> <span style="font-size: 14pt;" class="boardMenu">${userBoardVo.writer}</span>
 					<span style="font-size: 10pt;" id="dateSpan" class="boardMenu">${userBoardVo.regdate}</span>
-					<span style="font-size: 10pt;" class="boardMenu"><a href="#">수정</a></span>
-					<span style="font-size: 10pt;" class="boardMenu"><a href="#">삭제</a></span>
+					<span style="font-size: 10pt;" class="boardMenu"><a href="#" id="btnUpdate">수정</a></span>
+					<span style="font-size: 10pt;" class="boardMenu"><a href="#" id="btnDelete">삭제</a></span>
 				</div>
-				<br>
-				<br>
+				<br> <br>
 				<p>${userBoardVo.content}</p>
 				<div class="tag-widget post-tag-container mb-5 mt-5">
 					<div class="tagcloud">
-						<a class="tag-cloud-link">Life</a>
-						<a class="tag-cloud-link">Sport</a>
-						<a class="tag-cloud-link">Tech</a>
-						<a class="tag-cloud-link">Travel</a>
+						<a class="tag-cloud-link">Life</a> <a class="tag-cloud-link">Sport</a>
+						<a class="tag-cloud-link">Tech</a> <a class="tag-cloud-link">Travel</a>
 					</div>
 				</div>
-				
+
 				<!-- 게시글 좋아요, 공유하기 -->
 				<div class="parent">
-					<span id="heart">
-						<i class="fa-regular fa-heart clickable" style="color: #eb1414;"
-							id="heartEmpty"></i>
-						<i class="fa-solid fa-heart clickable" style="color: #eb1414;
-							display: none;" id="heartFull"></i>
+					<span id="heart"> <i class="fa-regular fa-heart clickable"
+						style="color: #eb1414;" id="heartEmpty"></i> <i
+						class="fa-solid fa-heart clickable"
+						style="color: #eb1414; display: none;" id="heartFull"></i>
+					</span> <span id="share"> <i
+						class="fa-solid fa-square-share-nodes clickable"
+						style="color: #5CD1E5;"></i>
 					</span>
-					<span id="share">
-						<i class="fa-solid fa-square-share-nodes clickable" 
-							style="color: #5CD1E5;"></i>
-					</span>
-					
+
 				</div>
 				<div class="parent">
-					<span class="badge badge-light" style="font-size: 10pt;" id="heartCount"></span>
-					<span class="badge badge-light" style="font-size: 10pt;" id="shareText">Share</span>
+					<span class="badge badge-light" style="font-size: 10pt;"
+						id="heartCount"></span> <span class="badge badge-light"
+						style="font-size: 10pt;" id="shareText">Share</span>
 				</div>
 
 				<!-- 댓글 -->
 				<div class="tagcloud">
-					<a id="replyOpen" class="tag-cloud-link" 
-						style="font-size: 10pt; margin-top: 100px; cursor: pointer;">댓글 보기</a>
-					<a id="replyClose" class="tag-cloud-link" 
+					<a id="replyOpen" class="tag-cloud-link"
 						style="font-size: 10pt; margin-top: 100px; 
-						cursor: pointer; display: none;">댓글 닫기</a>
+						cursor: pointer;">댓글보기</a> 
 				</div>
-<!-- 				<div class="pt-5 mt-5" style="display:none;"> -->
-				<div class="pt-5 mt-5" style="display:none;">
-					<h3 class="mb-5">${userBoardVo.replycnt} Comments</h3>
-					
+				<div class="pt-5 mt-5" style="display: none;">
+					<h3 class="mb-5">${userBoardVo.replycnt}개의 댓글</h3>
+
 					<!-- 댓글목록 -->
-					<ul class="comment-list" id="replyList" style="padding: 0px, 0px, 0px, 40px;">
+					<ul class="comment-list" id="replyList"
+						style="padding: 0px, 0px, 0px, 40px;">
 						<ul class="children" id="replyUl" style="display: none;">
-							<li class="comment" id="replyLi"/>
-								<div class="vcard bio">
-									<img src="/resources/images/person_1.jpg"
-										alt="Image placeholder">
-								</div>
-								<div class="comment-body">
-									<h3>작성자</h3>
-									<div class="meta" style="text-align: right;">날짜</div>
-									<span style="font-weight: bold; display: none;">@원댓글작성자</span>
-									<span>내용</span>
-									<p style="text-align: right;">
-										<a href="#" class="reply updateReply">수정</a>
-										<a href="#" class="reply deleteReply">삭제</a>
-										<a href="#" class="reply replyBtn">답댓글</a>
-									</p><br>
-								</div>
+							<li class="comment" id="replyLi" />
+							<div class="vcard bio">
+								<img src="/resources/images/person_1.jpg"
+									alt="Image placeholder">
+							</div>
+							<div class="comment-body">
+								<h3>작성자</h3>
+								<div class="meta" style="text-align: right;">날짜</div>
+								<span style="font-weight: bold; display: none;">@원댓글작성자</span> <span>내용</span>
+								<p style="text-align: right;">
+									<a href="#" class="reply updateReply">수정</a> <a href="#"
+										class="reply deleteReply">삭제</a> <a href="#"
+										class="reply replyBtn">답댓글</a>
+								</p>
+								<br>
+							</div>
 							</li>
 						</ul>
 					</ul>
-					
+
 					<!-- 댓글쓰기 -->
 					<div class="comment-form-wrap pt-5">
 						<h3 class="mb-5">Leave a comment</h3>
@@ -455,136 +481,115 @@ $(function() {
 									<div class="form-group col-md-1">
 										<input type="button" value="댓글 쓰기" id="replyInsertBtn"
 											class="btn py-3 px-4 btn-primary" style="border: none;"
-											data-type="newReply">
-										<input type="button" value="댓글 수정" id="replyUpdateBtn"
-											class="btn py-3 px-4 btn-primary" style="border: none; display: none;"
-											data-type="newReply">
+											data-type="newReply"> <input type="button"
+											value="댓글 수정" id="replyUpdateBtn"
+											class="btn py-3 px-4 btn-primary"
+											style="border: none; display: none;" data-type="newReply">
 									</div>
 								</div>
 							</div>
 						</form>
 					</div>
 				</div>
-
 			</div>
-			<!-- .col-md-8 -->
-			<div class="col-md-4 sidebar ftco-animate">
-				<div class="sidebar-box">
-					<form action="#" class="search-form">
-						<div class="form-group">
-							<span class="icon fa fa-search"></span> <input type="text"
-								class="form-control" placeholder="Type a keyword and hit enter">
-						</div>
-					</form>
-				</div>
-				<div class="sidebar-box ftco-animate">
-					<div class="categories">
-						<h3>Categories</h3>
-						<li><a href="#">Tour <span>(12)</span></a></li>
-						<li><a href="#">Hotel <span>(22)</span></a></li>
-						<li><a href="#">Coffee <span>(37)</span></a></li>
-						<li><a href="#">Drinks <span>(42)</span></a></li>
-						<li><a href="#">Foods <span>(14)</span></a></li>
-						<li><a href="#">Travel <span>(140)</span></a></li>
-					</div>
-				</div>
-
-				<div class="sidebar-box ftco-animate">
-					<h3>Recent Blog</h3>
-					<div class="block-21 mb-4 d-flex">
-						<a class="blog-img mr-4"
-							style="background-image: url(/resources/images/image_1.jpg);"></a>
-						<div class="text">
-							<h3 class="heading">
-								<a href="#">Even the all-powerful Pointing has no control
-									about the blind texts</a>
-							</h3>
-							<div class="meta">
-								<div>
-									<a href="#"><span class="icon-calendar"></span> July 12,
-										2018</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-person"></span> Admin</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-chat"></span> 19</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="block-21 mb-4 d-flex">
-						<a class="blog-img mr-4"
-							style="background-image: url(/resources/images/image_2.jpg);"></a>
-						<div class="text">
-							<h3 class="heading">
-								<a href="#">Even the all-powerful Pointing has no control
-									about the blind texts</a>
-							</h3>
-							<div class="meta">
-								<div>
-									<a href="#"><span class="icon-calendar"></span> July 12,
-										2018</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-person"></span> Admin</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-chat"></span> 19</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="block-21 mb-4 d-flex">
-						<a class="blog-img mr-4"
-							style="background-image: url(/resources/images/image_3.jpg);"></a>
-						<div class="text">
-							<h3 class="heading">
-								<a href="#">Even the all-powerful Pointing has no control
-									about the blind texts</a>
-							</h3>
-							<div class="meta">
-								<div>
-									<a href="#"><span class="icon-calendar"></span> July 12,
-										2018</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-person"></span> Admin</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-chat"></span> 19</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="sidebar-box ftco-animate">
-					<h3>Tag Cloud</h3>
-					<div class="tagcloud">
-						<a href="#" class="tag-cloud-link">dish</a> <a href="#"
-							class="tag-cloud-link">menu</a> <a href="#"
-							class="tag-cloud-link">food</a> <a href="#"
-							class="tag-cloud-link">sweet</a> <a href="#"
-							class="tag-cloud-link">tasty</a> <a href="#"
-							class="tag-cloud-link">delicious</a> <a href="#"
-							class="tag-cloud-link">desserts</a> <a href="#"
-							class="tag-cloud-link">drinks</a>
-					</div>
-				</div>
-
-				<div class="sidebar-box ftco-animate">
-					<h3>Paragraph</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-						Ducimus itaque, autem necessitatibus voluptate quod mollitia
-						delectus aut, sunt placeat nam vero culpa sapiente consectetur
-						similique, inventore eos fugit cupiditate numquam!</p>
-				</div>
-			</div>
-
 		</div>
 	</div>
+	</div>
 </section>
-<!-- .section -->
+<div class="container" style="margin-top: 30px;">
+	<div class="row">
+		<div class="col-md-12 ftco-animate">
+			<div class="sidebar-box">
+				<form action="#" class="search-form">
+					<div class="form-group">
+						<span class="icon fa fa-search"></span> <input type="text"
+							class="form-control" placeholder="Type a keyword and hit enter">
+					</div>
+				</form>
+			</div>
+			<div class="sidebar-box ftco-animate">
+				<div class="categories">
+					<h3>Categories</h3>
+					<li><a href="#">Tour <span>(12)</span></a></li>
+					<li><a href="#">Hotel <span>(22)</span></a></li>
+					<li><a href="#">Coffee <span>(37)</span></a></li>
+					<li><a href="#">Drinks <span>(42)</span></a></li>
+					<li><a href="#">Foods <span>(14)</span></a></li>
+					<li><a href="#">Travel <span>(140)</span></a></li>
+				</div>
+			</div>
 
-<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+			<div class="sidebar-box ftco-animate">
+				<h3>Recent Blog</h3>
+				<div class="block-21 mb-4 d-flex">
+					<a class="blog-img mr-4"
+						style="background-image: url(/resources/images/image_1.jpg);"></a>
+					<div class="text">
+						<h3 class="heading">
+							<a href="#">Even the all-powerful Pointing has no control
+								about the blind texts</a>
+						</h3>
+						<div class="meta">
+							<div>
+								<a href="#"><span class="icon-calendar"></span> July 12,
+									2018</a>
+							</div>
+							<div>
+								<a href="#"><span class="icon-person"></span> Admin</a>
+							</div>
+							<div>
+								<a href="#"><span class="icon-chat"></span> 19</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="block-21 mb-4 d-flex">
+					<a class="blog-img mr-4"
+						style="background-image: url(/resources/images/image_2.jpg);"></a>
+					<div class="text">
+						<h3 class="heading">
+							<a href="#">Even the all-powerful Pointing has no control
+								about the blind texts</a>
+						</h3>
+						<div class="meta">
+							<div>
+								<a href="#"><span class="icon-calendar"></span> July 12,
+									2018</a>
+							</div>
+							<div>
+								<a href="#"><span class="icon-person"></span> Admin</a>
+							</div>
+							<div>
+								<a href="#"><span class="icon-chat"></span> 19</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="block-21 mb-4 d-flex">
+					<a class="blog-img mr-4"
+						style="background-image: url(/resources/images/image_3.jpg);"></a>
+					<div class="text">
+						<h3 class="heading">
+							<a href="#">Even the all-powerful Pointing has no control
+								about the blind texts</a>
+						</h3>
+						<div class="meta">
+							<div>
+								<a href="#"><span class="icon-calendar"></span> July 12,
+									2018</a>
+							</div>
+							<div>
+								<a href="#"><span class="icon-person"></span> Admin</a>
+							</div>
+							<div>
+								<a href="#"><span class="icon-chat"></span> 19</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%@ include file="/WEB-INF/views/include/footer.jsp"%>
