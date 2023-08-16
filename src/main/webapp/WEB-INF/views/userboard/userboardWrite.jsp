@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 <!-- bootstrap -->
@@ -35,13 +36,19 @@
 </style>
 
 <script>
-$(document).ready(function() {
+$(function() {
 	
 	// 창닫기, 새로고침 시 서버에 업로드된 파일 삭제
 	let submitStatus = false; // 전송버튼을 클릭하면 true로 변경
 	$(window).bind("beforeunload", function() {
 		if (!submitStatus) {
-			$("")
+			const path = $(".uploaded").text().split("/userboard");
+			for (var v = 0; v < path.length; v++) {
+				if (path[v] != null && path[v] != "") {
+					const filePath = "/userboard/" + path[v];
+					deleteImage(filePath);
+				}
+			}
 		}
 	});
 	
@@ -70,33 +77,46 @@ $(document).ready(function() {
 		
 		callbacks: {
 			onImageUpload: function(files) {
-				console.log("length:", files.length);
-				if (files.length > 5) {
-					alert("5개 이하의 이미지만 업로드 가능");
-				}
+				if (getImageCnt() + files.length > 10) {
+					alert("이미지는 최대 10개까지 업로드할 수 있습니다.");
+					return;
+				};
 				
 				for (var v = 0; v < files.length; v++) {
 					uploadImage(files[v], this);
-					
 				}
-// 				console.log(files.name);
 			},
+			
+			onMediaDelete: function($target, editor, $editable) {
+				let filePath = $target.attr("src").split("=").pop();
+				deleteImage(filePath);
+			}
 		}
 	});
 	
+	// 업로드된 이미지 개수 얻기
+	function getImageCnt() {
+		return $(".uploaded").length;
+	}
+	
+	// 서버에 이미지 저장
 	function uploadImage(file, editor) {
 		let formData = new FormData();
 		formData.append("file", file);
 // 		console.log(file.name);
-		$.ajax({ 
+		$.ajax({
 			"type" : "post",
 			"url" : "/attach/save",
 			"data" : formData,
 			"contentType" : false,
 			"processData" : false,
 			"success" : function(rData) {
-				console.log(rData);
 				$("#summernote").summernote("insertImage", "/attach/displayImage?filePath=" + rData);
+				const uploaded = $("#uploaded").clone();
+				uploaded.addClass("uploaded");
+				uploaded.text(rData);
+				$("#uploaded").parent().append(uploaded);
+				uploadedImageCnt = $(".uploaded").length;
 			},
 			"error" : function(request, error) {
 				console.log("status : " + request.status + ", message : " 
@@ -104,6 +124,40 @@ $(document).ready(function() {
 			}
 		});
 	}
+	
+	// 서버에 저장된 이미지 삭제
+	function deleteImage(filePath) {
+		$.ajax({
+			"type" : "delete",
+			"url" : "/attach/delete",
+			"data" : filePath,
+			"contentType" : false,
+			"processData" : false,
+			"success" : function(rData) {
+				console.log(rData);
+			},
+		});
+	}
+	
+	// 업로드된 이미지 확인
+// 	function checkUploaded() {
+// 		const content = $("#summernote").val();
+		
+// 		$("#temp").html(content);
+// 		const img = $("#temp").find("img").get();
+// 		let url = "";
+// 		$(".uploaded").remove();
+// 		$.each(img, function(i, item) {
+// 			url = item.src;
+// 			const filePath = url.substring(url.indexOf("=") + 1);
+// 			console.log(filePath);
+			
+// 			const uploaded = $("#uploaded").clone();
+// 			uploaded.addClass("uploaded");
+// 			uploaded.text(filePath);
+// 			$("#uploaded").parent().append(uploaded);
+// 		});
+// 	}
 	
 	$("#summernote").summernote("fontName", "맑은 고딕");
 	
@@ -131,50 +185,81 @@ $(document).ready(function() {
 	
 	// 게시글 작성
 	$("#btnInsert").click(function() {
-		const title = $("#titleText").val().trim();
+		setData();
+		$("#articleForm").submit();
+	});
+	
+	// 수정하는 경우 기존 작성내용 불러오기
+	if ("${userBoardVo.bno}" != null) {
+		$("#titleText").val("${userBoardVo.title}");
+		$(".note-editable").html('${userBoardVo.content}');
+	}
+	
+	$("#btnUpdate").click(function() {
+		setData();
+// 		$("#articleForm").find("input").eq(1).val($("#summernote").val());
+// 		$("#articleForm").find("input").eq(2).val($("#titleText").val());
+		$("#articleForm").submit();
+	});
+	
+	function setData() {
+		submitStatus = true;
+// 		const title = $("#titleText").val().trim();
 		const content = $("#summernote").val();
-		
-		console.log("title:", title, "content:", content);
-		$("#test").find("span").eq(0).text(title);
-		$("#test").find("span").eq(1).html(content);
-		const imgSrc = $("#test").find("span").eq(1).find("img").eq(0).attr("src");
-		console.log("thumbnail: ", imgSrc)
+		$("#thumbnailPath").html(content);
+		const imgSrc = $("#thumbnailPath").find("img").eq(0).attr("src");
 		if (imgSrc != null && imgSrc != "") {
 			const sub = imgSrc.substring((imgSrc.indexOf("="))+1);
 			$("#thumbnail").val(sub);
 		}
-		$("#articleForm").submit();
-	});
+	}
 	
 	
 });	 
 </script>
-<!-- <body> -->
 <%@ include file="/WEB-INF/views/include/menu.jsp"%>
 
 <section class="ftco-section contact-section ftco-degree-bg">
 	<div class="container">
 		<div class="row block-9">
 			<div class="col-md-12 pr-md-10">
-				<form action="/userboard/write" method="post" id="articleForm">
-					<input type="hidden" name="thumbnail" id="thumbnail">
-					<input type="text" class="form-control" placeholder="제목" 
-						name="title" id="titleText"><br>
-					<textarea id="summernote" name="content"></textarea><br>
-					<div class="form-group" style="position: relative;">
-						<input type="button" value="완료" 
-							class="btn btn-primary btn-block" id="btnInsert" style="border: none;">
-					</div>
-				</form>
+			<c:choose>
+				<c:when test="${userBoardVo != null}">
+					<form action="/userboard/update" method="post" id="articleForm">
+						<input type="hidden" name="thumbnail" id="thumbnail">
+						<input type="hidden" name="bno" value="${userBoardVo.bno}">
+						<input type="text" class="form-control" placeholder="제목" 
+							id="titleText" name="title"><br>
+						<textarea id="summernote" name="content"></textarea><br>
+						<div class="form-group" style="position: relative;">
+							<input type="button" value="수정하기" 
+								class="btn btn-primary btn-block" id="btnUpdate" style="border: none;">
+						</div>
+					</form>
+				</c:when>
+				<c:otherwise>
+					<form action="/userboard/write" method="post" id="articleForm">
+						<input type="hidden" name="thumbnail" id="thumbnail">
+						<input type="text" class="form-control" placeholder="제목" 
+							name="title" id="titleText"><br>
+						<textarea id="summernote" name="content"></textarea><br>
+						<div class="form-group" style="position: relative;">
+							<input type="button" value="완료" 
+								class="btn btn-primary btn-block" id="btnInsert" style="border: none;">
+						</div>
+					</form>
+				</c:otherwise>
+			</c:choose>
+				
 			</div>
-
 		</div>
 	</div>
 </section>
 
-<div id="test">
-	<span></span>
-	<span></span>
+<div style="display: none;">
+	<span id="temp"></span>
+	<span id="thumbnailPath"></span>
+	<span id="uploaded"></span>
 </div>
 </body>
 </html>

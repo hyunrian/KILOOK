@@ -29,4 +29,5 @@
 		select thumbnail from tbl_attach
 		where bno = #{bno}
 	</select>
+	
 </mapper>

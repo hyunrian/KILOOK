@@ -27,8 +27,6 @@ public class AttachController {
 	
 	@Autowired
 	private AttachService attachService;
-
-	
 	
 	// 이미지 서버에 저장
 	@RequestMapping(value = "/save", method = RequestMethod.POST,
@@ -48,10 +46,10 @@ public class AttachController {
 	// 썸네일 이미지 jsp로 전달
 	@RequestMapping(value = "/displayThumbnail/{bno}", method = RequestMethod.GET)
 	public Object displayThumbnail(@PathVariable int bno) {
-		return attachService.displayThumbnail(bno);
+		return attachService.displayImage(bno);
 	}
 	
-	// 첨부파일 삭제
+	// 이미지 서버에서 삭제
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	public String deleteFile(@RequestBody String filename) {
 		

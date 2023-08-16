@@ -22,6 +22,7 @@ public class UserBoardVo {
 	private int replycnt;
 	private String contenthtml;
 	private String userid;
+	private String delete_yn;
 	
 	private int likecnt;
 }

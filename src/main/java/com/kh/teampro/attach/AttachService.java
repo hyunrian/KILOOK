@@ -49,7 +49,22 @@ public class AttachService {
 
 	// 업로드한 이미지 에디터에서 보이기
 	public byte[] displayImage(String filePath) {
-		System.out.println("filePath:" + filePath);
+		return getImage(filePath);
+	}
+
+	// 썸네일 이미지 jsp로 전달
+	public byte[] displayImage(int bno) {
+		String thumbnail = attachDao.getThumbnail(bno);
+		if (thumbnail != null) {
+			return getImage(thumbnail);
+		} 
+		// 업로드한 이미지가 없는 경우 디폴트 이미지로 썸네일 처리
+		return getImage("/userboard/default/image_8.jpg"); 
+	}
+	
+	// 이미지 얻는 공통 메서드
+	public byte[] getImage(String filePath) {
+		
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(uploadPath + filePath);
@@ -68,33 +83,8 @@ public class AttachService {
 		}
 		return null;
 	}
-
-	// 썸네일 이미지 jsp로 전달
-//	public byte[] displayThumbnail(int bno) {
-	public Object displayThumbnail(int bno) {
-		String thumbnail = attachDao.getThumbnail(bno);
-		if (thumbnail != null) {
-			FileInputStream fis = null;
-			try {
-				fis = new FileInputStream(uploadPath + thumbnail);
-				byte[] data = IOUtils.toByteArray(fis);
-				return data;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException ie) {
-				ie.printStackTrace();
-			} finally {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		} 
-		return "/resources/images/image_1.jpg";
-	}
-
-	// 첨부파일 삭제
+	
+	// 첨부파일 서버에서 삭제
 	public String deleteFile(String filename) {
 
 		FileUploadUtil.deleteFile(uploadPath, filename);
@@ -108,8 +98,20 @@ public class AttachService {
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
+	// 게시글의 썸네일 루트 얻기
 	public String getThumbnail(int bno) {
 		return attachDao.getThumbnail(bno);
 	}
+	
+	// 썸네일 DB에서 삭제
+	public void deleteThumbnail(int bno) {
+		attachDao.deleteFileData(bno);
+	}
+	
+	// 썸네일 수정
+	public void updateThumbnail(AttachVo attachVo) {
+		attachDao.updateThumbnail(attachVo);
+	}
+	
 
 }

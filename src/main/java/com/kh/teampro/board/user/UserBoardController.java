@@ -4,15 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.Like.board.LikeUserBoardService;
-import com.kh.teampro.attach.AttachService;
 import com.kh.teampro.reply.user.UserReplyService;
 import com.kh.teampro.reply.user.UserReplyVo;
 
@@ -85,13 +84,35 @@ public class UserBoardController {
 		return "userboard/userboardDetail";
 	}
 	
+	// 게시글 삭제
 	@ResponseBody
-	@RequestMapping(value = "/delete/{bno}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{bno}", method = RequestMethod.PATCH)
 	public String deleteArticle(@PathVariable int bno) {
 		
+		// delete_yn = 'Y'로 처리(update)
 		userBoardService.deleteArticle(bno);
 		
 		return "/userboard/list";
+	}
+	
+	// 게시글 수정 페이지 이동
+	@RequestMapping(value = "/update/{bno}", method = RequestMethod.GET)
+	public String updateArticle(@PathVariable int bno, Model model) {
+		
+		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
+		model.addAttribute("userBoardVo", userBoardVo);
+		return "userboard/userboardWrite";
+	}
+	
+	// 게시글 수정 처리
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String updateArticle(UserBoardVo userBoardVo, String thumbnail) {
+		
+		userBoardVo.setWriter("tester"); // 세션에 저장된 닉네임으로 재설정 필요
+		System.out.println("vo:" + userBoardVo);
+		System.out.println("thumbnail:" + thumbnail);
+		userBoardService.updateArticle(userBoardVo, thumbnail);
+		return "redirect:/userboard/detail?bno=" + userBoardVo.getBno();
 	}
 	
 	

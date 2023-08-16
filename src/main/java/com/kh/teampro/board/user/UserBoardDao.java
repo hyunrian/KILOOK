@@ -35,7 +35,11 @@ public class UserBoardDao {
 	}
 	
 	public void deleteArticle(int bno) {
-		sqlSession.delete(NAMESPACE + "deleteArticle", bno);
+		sqlSession.update(NAMESPACE + "deleteArticle", bno);
+	}
+	
+	public void updateArticle(UserBoardVo userBoardVo) {
+		sqlSession.update(NAMESPACE + "updateArticle", userBoardVo);
 	}
 
 }
