@@ -24,7 +24,6 @@
 					<h1 class="mb-3 bread"
 						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips
 						&amp; Articles</h1>
-						
 				</div>
 			</div>
 		</div>
@@ -37,18 +36,18 @@
 				<c:forEach items="${accomList}" var="accomVo">
 					<div class="col-md-3 d-flex ftco-animate">
 						<div class="blog-entry align-self-stretch">
-							<a href="blog-single.html" class="block-20"
+							<a href="/databoard/getAccomInfo?bno=${accomVo.bno}" class="block-20"
 								style="background-image: url('..${accomVo.image}.jpg');"> </a>
 							<div class="text p-4 d-block">
 								<h3 class="heading mt-3">
-									<a href="#">${accomVo.aname}</a><br>
-									<a href="#" class="meta-chat"><span class="icon-chat"></span>${foodVo.areplycnt}</a>
+									<a href="/databoard/getAccomInfo?bno=${accomVo.bno}">${accomVo.aname}</a><br>
+									<a href="#" class="meta-chat"><span class="icon-chat"></span>${accomVo.areplycnt}</a>
 								</h3>
 								<span class="tag">${accomVo.address} ${accomVo.addressdetail}</span>
 								<div class="meta mb-3">
 									<div>
 										<a href="#">${accomVo.anumber}</a>
-									</div><br>
+									</div>
 								</div>
 							</div>
 						</div>

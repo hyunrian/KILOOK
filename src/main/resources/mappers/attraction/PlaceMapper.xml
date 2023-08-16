@@ -7,6 +7,7 @@
 	<!-- 명소 전체 조회 : 게시물 전체 페이지에서 보여줄 데이터만 조회 -->
 	<select id="getPlaceList" resultType="PlaceVo">
 		select aname
+			   , bno
 			   , address
 			   , anumber
 			   , openhours
@@ -57,5 +58,19 @@
 			 , #{image}
 			 , #{thumbimage})
 	</insert>
+	
+	<!-- 랜덤추천 : 명소 개수 구하기 -->
+	<select id="getPlaceCount" resultType="int" >
+		select count(*) from tbl_attraction
+	</select>
+	
+	<!-- 랜덤추천 : 추천 숙소 조회 -->
+	<select id="getRecomendedPlaceList" resultType="PlaceVo" parameterType="Map">
+		select * from tbl_attraction
+		where bno in
+		<foreach collection="arrShopList" item="item" index="index" open="(" close=")" separator=",">
+    		#{item}
+    	</foreach>
+	</select>
 	
 </mapper>

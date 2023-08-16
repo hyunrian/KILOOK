@@ -36,7 +36,7 @@
 				<c:forEach items="${cafeList}" var="cafeVo">
 					<div class="col-md-3 d-flex ftco-animate">
 						<div class="blog-entry align-self-stretch">
-							<a href="blog-single.html" class="block-20"
+							<a href="#" class="block-20"
 								style="background-image: url('..${cafeVo.image}.jpg');"> </a>
 							<div class="text p-4 d-block">
 								<h3 class="heading mt-3">

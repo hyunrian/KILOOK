@@ -37,4 +37,10 @@ public class FoodService {
 		int foodCount = foodDao.getfoodCount();
 		return foodCount;
 	}
+	
+	// 페이징
+	public int getFoodCountPaging(FoodPagingDto foodPagingDto) throws Exception {
+		int count = foodDao.getFoodCountPaging(foodPagingDto);
+		return count;
+	}
 }

@@ -40,6 +40,7 @@ public class UserDao {
 	// 글자수 길이 확인
 	public boolean checkInputLength(int gt, int lt, String input) {
         int length = input.length();
+        System.out.println(length);
         return length >= gt && length <= lt;
     }
 	
@@ -107,8 +108,8 @@ public class UserDao {
     }
 	
 	// 회원가입
-	public void createAccount(UserVo uservo) {
-		sqlSession.insert(NAMESPACE+"createAccount", uservo);
+	public void createAccount(UserVo userVo) {
+		sqlSession.insert(NAMESPACE+"createAccount", userVo);
 	}
 	
 	// 회원탈퇴

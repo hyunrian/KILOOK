@@ -23,7 +23,10 @@
 		<package name="com.kh.teampro.board.cafe"/>
 		<package name="com.kh.teampro.board.travelcourse"/>
 		<package name="com.kh.teampro.reply.restaurant"/>
+		<package name="com.kh.teampro.reply.attraction"/>
+		<package name="com.kh.teampro.reply.accommodation"/>
 		<package name="com.kh.teampro.user.info"/>
+		<package name="com.kh.teampro.user.login"/>
 
 	</typeAliases>
 	

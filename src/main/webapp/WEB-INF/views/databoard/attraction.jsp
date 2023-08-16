@@ -36,11 +36,11 @@
 				<c:forEach items="${placeList}" var="placeVo">
 					<div class="col-md-3 d-flex ftco-animate">
 						<div class="blog-entry align-self-stretch">
-							<a href="blog-single.html" class="block-20"
+							<a href="/databoard/getPlaceInfo?bno=${placeVo.bno}" class="block-20"
 								style="background-image: url('${placeVo.thumbimage}');"> </a>
 							<div class="text p-4 d-block">
 								<h3 class="heading mt-3">
-									<a href="#">${placeVo.aname}</a><br>
+									<a href="/databoard/getPlaceInfo?bno=${placeVo.bno}">${placeVo.aname}</a><br>
 									<a href="#" class="meta-chat"><span class="icon-chat"></span>${placeVo.replycnt}</a>
 								</h3>
 								<span class="tag">${placeVo.address}</span>

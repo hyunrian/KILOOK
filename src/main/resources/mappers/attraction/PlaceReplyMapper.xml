@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.teampro.AttrReplyMapper">
+
+	<!-- 댓글 목록 -->
+	<select id="placeReplyList" resultType="FoodReplyVo">
+		select * from tbl_attreply
+		where bno = #{bno}
+		order by rgroup, rseq
+	</select>
+	
+	<!-- 새댓글 추가 -->
+	<insert id="insertPlaceNewReply">
+		insert into tbl_attreply
+			(rno
+			, bno
+			, replytext
+			, replyer
+			, regdate
+			, rgroup
+			, rseq
+			, rlevel
+			)
+		values
+			(seq_attreply_rno.nextval
+			, #{bno}
+			, #{replytext}
+			, #{replyer}
+			, sysdate
+			, seq_attreply_rno.currval			
+			, #{rseq}
+			, #{rlevel}
+			)	
+	</insert>
+	
+	<!-- 대댓글 추가 -->
+	<insert id="insertPlaceReReply">
+		insert into tbl_attreply
+			(rno
+			, bno
+			, replytext
+			, replyer
+			, rgroup
+			, rseq
+			, rlevel
+			, unickname
+			, userid
+			)
+		values
+			(seq_attreply_rno.nextval
+			, #{bno}
+			, #{replytext}
+			, #{replyer}
+			, #{rgroup}
+			, #{rseq}
+			, 1
+			, #{unickname}
+			, #{userid}
+			)
+	</insert>
+	
+	<!-- 그룹내 가장 높은 rseq 구하기(가장 마지막의 댓글) -->
+	<select id="getMaxRseq" resultType="int">
+		select max(rseq) from tbl_attreply
+		where bno = #{bno}
+		and rgroup = #{rgroup}
+	</select>
+	
+	<!-- 게시글의 댓글개수 조회 -->
+	<select id="getReplyCount" resultType="int">
+		select count(*) from tbl_attreply
+		where bno = #{bno}
+		and delete_yn = 'N'
+	</select>
+	
+	<!-- 댓글 그룹확인 -->
+	<select id="getRgroup" resultType="int">
+		select rgroup from tbl_attreply
+		where rno = #{rno}
+	</select>
+	
+	<!-- 댓글 수정 -->
+	<update id="updatePlaceReply">
+		update tbl_attreply
+			replytext = #{replytext},
+			replyer = #{replyer},
+			updatedate = sysdate
+		where rno = #{rno}
+	</update>
+	
+	<!-- 대댓글이 있는 댓글인지 확인 -->
+	<select id="hasChildPlaceReply" resultType="int">
+		select count(*) from tbl_attreply
+		where rgroup = #{rno}
+		and delete_yn = 'N'
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<update id="deletePlaceReply">
+		update tbl_attreply
+		set delete_yn = 'Y'
+		where rno = #{rno}
+	</update>
+	
+	<!-- 수정날짜 얻기 -->
+	<select id="getUpdatedate" resultType="java.sql.Timestamp">
+		select updatedate from tbl_attreply
+		where rno = #{rno}
+	</select>
+</mapper>

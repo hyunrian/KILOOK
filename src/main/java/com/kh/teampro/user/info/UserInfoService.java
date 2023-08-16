@@ -1,6 +1,8 @@
 package com.kh.teampro.user.info;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,11 @@ public class UserInfoService {
 	public int readUserReplyCount(String userid) {
 		int replyCount = userInfoDao.readUserReplyCount(userid);
 		return replyCount;
+	}
+	
+	// 유저 메일등록 및 본인확인
+	public void updateVerified(String uemail, String userid) {
+		userInfoDao.updateVerified(uemail, userid);
 	}
 	
 }

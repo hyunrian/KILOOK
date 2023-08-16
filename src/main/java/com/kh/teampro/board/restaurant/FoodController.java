@@ -4,11 +4,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.kh.teampro.Like.board.FoodLikeService;
+import com.kh.teampro.Like.board.FoodLikeVo;
 
 @Controller
 @RequestMapping("/databoard")
@@ -17,18 +22,40 @@ public class FoodController {
 	@Autowired
 	private FoodService foodService;
 	
+	@Autowired
+	private FoodLikeService foodLikeService;
+	
 	// 맛집 전체 조회
 	@RequestMapping(value = "/restaurant", method = RequestMethod.GET)
-	public String getFoodList(Model model) throws Exception{
+	public String getFoodList(Model model, HttpSession session) throws Exception{
+		// 페이징
+//		int totalCount = foodService.getFoodCountPaging(foodPagingDto);
+//		foodPagingDto = new FoodPagingDto(foodPagingDto.getPage(), foodPagingDto.getPerPage(), totalCount);
+		
 		List<FoodVo> list = foodService.getFoodList();
+		
 		model.addAttribute("foodList", list);
 		return "databoard/restaurant";
 	}
 	
 	// 해당 맛집 상세보기
 	@RequestMapping(value = "/getFoodInfo", method = RequestMethod.GET)
-	public String getFoodInfo(int bno, Model model) throws Exception{
+	public String getFoodInfo(int bno, Model model, HttpSession session) throws Exception{
 		FoodVo foodVo = foodService.getFoodInfo(bno);
+		
+		// 맛집 게시물 좋아요
+//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
+		FoodLikeVo foodLikeVo = new FoodLikeVo();
+		foodLikeVo.setUnickname("tester"); // 수정필요
+		foodLikeVo.setBno(bno);
+		
+		boolean likeResult = foodLikeService.restLikeList(foodLikeVo);
+		int likeCount = foodLikeService.getRestLikeCount(bno);
+		
+		HashMap<String, Object> likeMap = new HashMap<>();
+		likeMap.put("likeResult", likeResult);
+		likeMap.put("likeCount", likeCount);
+				
 		
 		// 상세보기 페이지 - 다른 맛집 추천부분
 		int foodCount = foodService.getfoodCount();
@@ -43,8 +70,7 @@ public class FoodController {
 		
 		model.addAttribute("getFoodInfo", foodVo);
 		model.addAttribute("recomendedFoodList", recomendedFoodList);
-		
-		String a = "1";
+		model.addAttribute("likeMap", likeMap);
 		
 		return "databoard/detailRest";
 	}
@@ -64,7 +90,7 @@ public class FoodController {
 		int[] newArr = Arrays.stream(arr).distinct().toArray();
 		
 		if(newArr.length != 3) {
-			randomArr(maxNumber);
+			arr = randomArr(maxNumber);
 		}
 		return arr; 
 	}

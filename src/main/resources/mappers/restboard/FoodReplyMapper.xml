@@ -19,16 +19,20 @@
 			, bno
 			, replytext
 			, replyer
+			, regdate
 			, rgroup
-			, userid
+			, rseq
+			, rlevel
 			)
 		values
 			(seq_restreply_rno.nextval
 			, #{bno}
 			, #{replytext}
 			, #{replyer}
-			, seq_restreply_rno.currval
-			, #{userid}
+			, sysdate
+			, seq_restreply_rno.currval			
+			, #{rseq}
+			, #{rlevel}
 			)	
 	</insert>
 	
@@ -95,11 +99,11 @@
 	</select>
 	
 	<!-- 댓글 삭제 -->
-	<delete id="deleteRestReply">
+	<update id="deleteRestReply">
 		update tbl_restreply
 		set delete_yn = 'Y'
 		where rno = #{rno}
-	</delete>
+	</update>
 	
 	<!-- 수정날짜 얻기 -->
 	<select id="getUpdatedate" resultType="java.sql.Timestamp">

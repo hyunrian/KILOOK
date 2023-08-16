@@ -1,9 +1,12 @@
 package com.kh.teampro.board.accommodation;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.kh.teampro.board.restaurant.FoodVo;
 
 @Service
 public class AccomService {
@@ -24,13 +27,25 @@ public class AccomService {
 	}
 	
 	// 해당 숙소 상세보기
-	public List<AccomVo> getAccomInfo(int bno) throws Exception{
-		List<AccomVo> list = accomDao.getAccomInfo(bno);
-		return list;
+	public AccomVo getAccomInfo(int bno) throws Exception{
+		AccomVo accomVo = accomDao.getAccomInfo(bno);
+		return accomVo;
 	}
 	
 	// 숙소 추가
 	public void insertAccom(AccomVo accomVo) throws Exception{
 		accomDao.insertAccom(accomVo);
+	}
+	
+	// 추천 숙소
+	public List<AccomVo> getRecomendedAccomList(HashMap hashMap) {
+		List<AccomVo> list = accomDao.getRecomendedAccomList(hashMap);
+		return list;
+	}
+
+	// 숙소 개수 구하기
+	public int getAccomCount() {
+		int accomCount = accomDao.getAccomCount();
+		return accomCount;
 	}
 }
