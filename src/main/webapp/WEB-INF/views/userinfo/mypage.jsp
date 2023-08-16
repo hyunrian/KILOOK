@@ -1,22 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<title>Insert title here</title>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
+<%@ include file="/WEB-INF/views/include/menu.jsp" %>
+<style>
+	html, body {
+		background-color: gray;
+	}
+</style>
 <script>
 $(function(){
-	
 	// 유저 본인확인 상태 체크, 본인 확인 완료 시 버튼 숨김
 	function checkVerified() {
 		if ('${userVo.verified}' == 'T') {
-			$("#btnVerify").css('display', 'none');
+			$("#emailCheckMessage").text("확인됨. 본인확인 이메일:");
+			$("#verifiedEmail").text("${userVo.uemail}");
+			$("#uemail").hide();
+			$("#btnEmailVerify").hide();
 		}
 	}
 	checkVerified(); // 페이지를 열면 본인확인 체크 함수 실행
@@ -28,121 +28,90 @@ $(function(){
 		form.submit();
 	});
 	
-	// 유저 본인확인
-	
-	// !!--- 구현 필요 ---!!
-	$("#btnVerify").click(function(){
-		alert("구현 필요");
-	});
-	// !!--- 구현 필요 ---!!
-	
 });
-
 </script>
-</head>
 <body>
-	<!-- 현재 방식 - 내 정보를 전부 다른 페이지로 넘겨서 수정 후 돌려받는 방식 -->
-	<!-- 희망 방식 - 표시된 내 정보들을 수정 가능한 input타입으로 변경한 뒤, 변경사항 저장 시 다시 div 타입으로 바꾸고 변경사항 저장 -->
-	<h1>마이 페이지</h1>
-	
-	<div>유저 이미지 공간</div><br>
-	<button>유저 이미지 변경</button>
-	
-	<div id="divUnickname">닉네임 : ${userVo.unickname}</div>
-	<div id="divUpoint">소지 포인트 : ${userVo.upoint}</div>
-	<div id="divVerified">본인확인 여부 : ${userVo.verified} <button id="btnVerify">본인 확인</button></div>
-	<button id="btnUserUpdate">유저 정보 수정</button>
-	
-	<!-- 작성한 게시글 리스트 작성 -->
-	<div>작성한 게시글 (${userBoardCount})</div>
-	<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>제목</th>
-						<th>작성일</th>
-						<th>조회</th>
-						<th>좋아요</th>
-					</tr>
-				</thead>
-				<tbody>
-				<c:forEach items="${boardList}" var="boardDto">
-					<tr>
-						<td>${boardDto.bno}</td>
-						<td>${boardDto.title}</td>
-						<td>${boardDto.regdate}</td>
-						<td>${boardDto.viewcnt}</td>
-						<td>${boardDto.likecnt}</td>
-					</tr>
-				</c:forEach>
-				</tbody>
-			</table>
-			<nav>
-				<ul class="pagination">
-					<li class="page-item">
-						<a class="page-link" href="#">&laquo;</a>
-					</li>
-					<c:forEach var="v" begin="1" end="5">
-						<li class="page-item">
-							<a class="page-link" href="#">${v}</a>
-						</li>
-					</c:forEach>
-					<li class="page-item">
-						<a class="page-link" href="#">&raquo;</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-	
-	<!-- 작성한 댓글 리스트 작성, 어느 글에 달린 댓글인지 게시글 리스트를 가져오고, 그 하단에 댓글 내용 표시 -->
-	<div>작성한 댓글 (${userReplyCount})</div>
-	<div class="row">
-		<div class="col-md-12">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>댓글 작성글 제목</th>
-						<th>댓글 내용</th>
-						<th>작성일</th>
-					</tr>
-				</thead>
-				<tbody>
-				<c:forEach items="${replyList}" var="replyDto">
-					<tr>
-						<td>${replyDto.rno}</td>
-						<td>${replyDto.title}</td>
-						<td>${replyDto.replytext}</td>
-						<td>${replyDto.regdate}</td>
-					</tr>
-				</c:forEach>
-				</tbody>
-			</table>
-			<nav>
-				<ul class="pagination">
-					<li class="page-item">
-						<a class="page-link" href="#">&laquo;</a>
-					</li>
-					<c:forEach var="v" begin="1" end="5">
-						<li class="page-item">
-							<a class="page-link" href="#">${v}</a>
-						</li>
-					</c:forEach>
-					<li class="page-item">
-						<a class="page-link" href="#">&raquo;</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-	</div>
-	
-	
-	<!-- 이하 페이지에 표시 되지 않는 내용 -->
+    <section class="ftco-section ftco-degree-bg">
+      <div class="container">
+        <div class="row">
+        
+        	<div class="col-md-4 sidebar ftco-animate">
+            <div class="sidebar-box ftco-animate">
+              <div class="categories">
+                <h3>내 정보</h3>
+                <!-- 이후 내 게시글, 내 댓글 jsp로 이동 기능... 기능 희망중이긴 한데 시간에 안맞을듯 -->
+                <li><a href="#">작성한 게시글 <span>(${userBoardCount})</span></a></li>
+                <li><a href="#">내 댓글 <span>(${userReplyCount})</span></a></li>
+              </div>
+            </div>
+
+            <div class="sidebar-box ftco-animate">
+              <h3>내 정보 수정하기</h3>
+              <input type="button" id="btnUserUpdate" value="정보 수정" class="btn py-3 px-4 btn-primary">
+            </div>
+
+            <div class="sidebar-box ftco-animate">
+              <h3>이메일 본인확인</h3>
+              <p id="emailCheckMessage">확인되지 않음</p> <!-- 확인되면 해당 이메일 이곳에 작성, 본인인증 버튼 hide();, -->
+              <p id="verifiedEmail"></p>
+              <form action="/userinfo/verifyMail" method="post">
+              	  <input type="hidden" name="userid" value="testuser"> <!-- 임시 데이터. loginInfo 에서 데이터 받아오기 가능해지면 삭제. -->
+	              <input type="email" name="uemail" id="uemail" placeholder="이메일 입력" style="margin-bottom: 10px;">
+	              <input type="submit" id="btnEmailVerify" value="본인인증 하기" class="btn py-3 px-4 btn-primary">
+              </form>
+            </div>
+          </div> <!-- .col-md-4 -->
+        
+          <div class="col-md-8 ftco-animate">
+            <div class="about-author d-flex p-5 bg-light">
+              <div class="bio align-self-md-center mr-5">
+                <img src="/resources/images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+              </div>
+              <div class="desc align-self-md-center">
+                <h3>${userVo.unickname}님의 마이페이지</h3>
+                <p>소지 포인트 p태그</p>
+                <p>사용 이메일 p태그</p>
+                <p>가입일 p태그</p>
+              </div>
+            </div>
+
+            <div class="pt-5 mt-5">
+              <h3 class="mb-5">내 게시물 미리보기</h3>
+              <ul class="comment-list">
+              	<c:forEach items="${boardList}" var="boardDto" begin="0" end="0"> <!-- 글 리스트 한개만 -->
+                <li class="comment">
+                  <div class="comment-body">
+                    <h3>${boardDto.title}</h3>
+                    <div class="meta">작성일 : ${boardDto.regdate}</div>
+                    <p>좋아요 갯수 : ${boardDto.likecnt}</p>
+                    <p>조회수 : ${boardDto.viewcnt}</p>
+                    </div>
+                </li>
+                </c:forEach>
+              </ul>
+            </div>
+            
+            <div class="pt-5 mt-5">
+              <h3 class="mb-5">내 댓글 미리보기</h3>
+              <ul class="comment-list">
+              	<c:forEach items="${replyList}" var="replyDto" begin="0" end="0"> <!-- 댓글 리스트 한개만 -->
+                <li class="comment">
+                  <div class="comment-body">
+                    <h3>${replyDto.replytext}</h3>
+                    <div class="meta">${replyDto.regdate}</div>
+                    <p>게시물 제목 : ${replyDto.title}</p>
+                  </div>
+                </li>
+                </c:forEach>
+              </ul>
+            </div>
+          </div> <!-- .col-md-8 -->
+
+        </div>
+      </div>
+    </section> <!-- .section -->
+    
+    <!-- 이하 페이지에 표시 되지 않는 내용 -->
 	
 	<!-- 유저 정보 보관용 form -->
 	<!-- 정보 수정 시 전달될 데이터 -->
@@ -158,5 +127,8 @@ $(function(){
 		<input type="hidden" name="verified" value="${userVo.verified}">
 	</form>
 	<!-- //유저 정보 보관용 form -->
-</body>
-</html>
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>
