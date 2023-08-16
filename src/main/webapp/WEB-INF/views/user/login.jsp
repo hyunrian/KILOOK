@@ -273,11 +273,19 @@ font-size: 12px;
 
 <!-- 스크립트 시작 -->
 <script>
+var joinResult = "${joinResult}";
+
+if (joinResult == "true"){
+	alert("회원가입 성공");
+} else if (joinResult == "false"){
+	alert("회원가입 실패");
+}
+
 // 사용자 지정 메소드
 // 글자수 제한 (아이디)
 $.validator.addMethod("lengthCheckId", function(value, element) {
-	  return this.optional(element) || /^.{0,15}$/.test(value);
-	}, "**** 아이디는 최대 15자 입니다 ****");
+	  return this.optional(element) || /^.{2,15}$/.test(value);
+	}, "**** 아이디는 2 ~ 30자 입니다 ****");
 
 // 글자수 제한(닉네임)
 $.validator.addMethod("lengthCheckNickName", function(value, element) {
@@ -349,12 +357,12 @@ $(function() {
                     }
                 }
 			},
-			unickName: {     			// 비밀번호 필드 (name="unickName")
+			unickname: {     			// 비밀번호 필드 (name="unickname")
 				required: true,			// 필수 입력
 				lengthCheckNickName: true,
 				// 실시간 유효성 체크(닉네임)
 				remote: {
-                    url: "/loginUser/nickNameDubChck",
+                    url: "/loginUser/nickNameDubCheck",
                     type: "post",
                     data: {
                         userid: function() {
@@ -392,6 +400,63 @@ $(function() {
 			}
 		}
 	});
+	
+// 아이디 기억하기(cookie)
+	//쿠키 값 가져오기
+	function getCookie(name) {
+		name = name + '=';
+		var cookieData = document.cookie;
+		var start = cookieData.indexOf(name);
+		var value = '';
+		if(start != -1){
+			start += name.length;
+			var end = cookieData.indexOf(';', start);
+			if(end == -1){
+				end = cookieData.length;
+			}
+			value = cookieData.substring(start, end);
+		}
+		return unescape(value);
+	}
+
+    // 쿠키 값을 설정하는 함수
+    function setCookie(name, value, days) {
+    	var expire = new Date();
+        expire.setDate(expire.getDate() + days);
+        value = escape(value);
+        
+        cookies = name + '=' + value + '; path=/loginUser ';
+        if(typeof cDay != 'undefined') {
+        	cookies += ';expires=' + expire.toGMTString() + ';';
+        }
+        document.cookie = cookies;
+    }
+	
+    // 쿠키 삭제
+    function deleteCookie(name) {
+    	console.log("deleteCookie");
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/loginUser;';
+    }
+    
+    const useCookieCheckbox = $("#useCookie");
+    const useridInput = $("#userid");
+
+    // 아이디 기억하기 체크박스가 변경될 때 처리
+    useCookieCheckbox.change(function() {
+        if (this.checked) {
+            setCookie("remUserid", useridInput.val(), 3650); // 쿠키를 10년 동안 저장
+        } else {
+        	deleteCookie("remUserid"); // 쿠키 삭제
+        }
+    });
+
+    // 페이지 로드 시 쿠키 값을 가져와 아이디 필드에 채움
+    const remUserid = getCookie("remUserid");
+	if (remUserid) {
+		useridInput.val(remUserid);
+		useCookieCheckbox.prop("checked", true);
+	}
+	
 });
 </script>
 <!-- 스크립트 끝 -->
@@ -411,8 +476,7 @@ $(function() {
 		<div class="container">
 			<!-- 회원가입 폼 -->
 			<div class="create-Account-container">
-				<form id="createForm">
-<!-- 					 action="/loginUser/join" method="post" -->
+				<form id="createForm" action="/loginUser/join" method="post">
 					<h1>회원가입</h1>
 					<input class="inputSamll" type="text" placeholder="아이디"
 						id="createUserid" name="userid" required>
@@ -420,7 +484,7 @@ $(function() {
 						<label class="useable">**** 사용 가능한 아이디 입니다 ****</label>
 					</div>
 					<input class="inputSamll" type="text" placeholder="닉네임"
-						id="createUnickName" name="unickName" required>
+						id="createUnickName" name="unickname" required>
 					<input class="inputSamll" type="password" placeholder="비밀번호"
 						id="createUpw" name="upw" required>
 					<input class="inputSamll" type="password" placeholder="비밀번호 확인"

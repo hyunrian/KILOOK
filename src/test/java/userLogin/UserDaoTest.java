@@ -24,9 +24,9 @@ public class UserDaoTest {
 	public void testCreate() throws Exception{
 		UserVo userVo = new UserVo();
 		userVo.setUserid("Hong");
-		userVo.setUpw("1234");
+		userVo.setUpw("aa1!");
 		userVo.setUnickname("greate도적");
-		userVo.setUemail("hong@gmail.com");
+//		userVo.setUemail("hong@gmail.com");
 		userDao.createAccount(userVo);
 	}
 	

@@ -37,6 +37,7 @@ public class LoginController {
 	// 회원가입
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String createAcount(UserVo userVo, RedirectAttributes rttr) {
+		System.out.println("conntroller: " + userVo.getUnickname());
 		boolean result = userService.createAccount(userVo);
 		boolean joinResult = false;
 		if (result==true) {
@@ -53,35 +54,33 @@ public class LoginController {
 		return userService.dubCheckID(userid);
 	}
 	// 닉네임 중복 확인
-	@RequestMapping(value = "/nickNameDubChck", method = RequestMethod.POST)
+	@RequestMapping(value = "/nickNameDubCheck", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean nickNameDubChck (String unickName) {
-		return userService.dubCheckNickName(unickName);
+	public boolean nickNameDubChck (String unickname) {
+		return userService.dubCheckNickName(unickname);
 	}
 	
-	// 닉네임 중복 확인
-	
 	// 로그인 처리 - post
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public String loginRun (LoginDto loginDto, HttpSession session,
-//			RedirectAttributes rttr) {
-//		System.out.println("LoginDto:" + loginDto);
-//		UserVo userVo = userService.login(loginDto);
-//		String returnPage = "redirect:/board/list";
-//		if (userVo != null) {
-//			String targetLocation = 
-//						(String)session.getAttribute("targetLocation");
-//			if(targetLocation != null) {
-//				returnPage = "redirect:"+ targetLocation;
-//			}
-//			session.removeAttribute("targetLocation");
-//			session.setAttribute("loginInfo", userVo);
-//		} else {
-//			rttr.addFlashAttribute("loginResult", "FAIL");
-//			returnPage = "redirect:/login";
-//		}
-//		return returnPage;
-//	}
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String loginRun (LoginDto loginDto, HttpSession session,
+			RedirectAttributes rttr) {
+		System.out.println("LoginDto:" + loginDto);
+		UserVo userVo = userService.login(loginDto);
+		String returnPage = "redirect:/board/list";
+		if (userVo != null) {
+			String targetLocation = 
+						(String)session.getAttribute("targetLocation");
+			if(targetLocation != null) {
+				returnPage = "redirect:"+ targetLocation;
+			}
+			session.removeAttribute("targetLocation");
+			session.setAttribute("loginInfo", userVo);
+		} else {
+			rttr.addFlashAttribute("loginResult", "FAIL");
+			returnPage = "redirect:/login";
+		}
+		return returnPage;
+	}
 	
 	// 로그아웃
 //	@RequestMapping(value = "/logout", method = RequestMethod.GET)
