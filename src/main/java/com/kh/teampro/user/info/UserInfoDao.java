@@ -1,6 +1,8 @@
 package com.kh.teampro.user.info;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,14 @@ public class UserInfoDao {
 	public int readUserReplyCount(String userid) {
 		int replyCount = sqlSession.selectOne(NAMESPACE + "readUserReplyCount", userid);
 		return replyCount;
+	}
+	
+	// 유저 메일등록 및 본인확인
+	public void updateVerified(String uemail, String userid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("uemail", uemail);
+		map.put("userid", userid);
+		sqlSession.update(NAMESPACE + "updateVerified", map);
 	}
 	
 }

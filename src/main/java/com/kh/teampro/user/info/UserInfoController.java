@@ -1,17 +1,21 @@
 package com.kh.teampro.user.info;
 
 import java.util.List;
+import java.util.UUID;
+
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.kh.teampro.board.user.UserBoardVo;
-import com.kh.teampro.reply.user.UserReplyVo;
 
 @Controller
 @RequestMapping("/userinfo")
@@ -29,8 +33,8 @@ public class UserInfoController {
 	// 유저 한명 정보 읽어서 데이터를 model로 돌려줌
 	// 이후 페이지를 열 때 작동하는 기능들은 전부 여기로 (유저 본인확인 상태 체크 등)
 	// 유저 작성 글, 댓글 정보 읽어서 리스트 띄우기
-	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String readOneUserInfo(String userid, Model model) {
+	@RequestMapping(value = "/mypage/{userid}", method = RequestMethod.GET)
+	public String readOneUserInfo(@PathVariable String userid, Model model) {
 		
 		 UserVo userVo = userInfoService.readOneUserInfo(userid); 
 		 List<UserBoardDto> boardList = userInfoService.readUserBoard(userid); 
@@ -51,7 +55,7 @@ public class UserInfoController {
 	@RequestMapping(value = "/infoUpdate", method = RequestMethod.POST)
 	public String toUserInfoUpdatePage(@ModelAttribute UserVo userVo, Model model) {
 		model.addAttribute("userVo", userVo);
-		return "userinfo/infoUpdate";
+		return "userinfo/userInfoUpdatePage";
 	}
 	
 	// 유저 정보 수정하기
@@ -65,5 +69,67 @@ public class UserInfoController {
 		model.addAttribute("userVo", userVo);
 		return "userinfo/mypage";
 	}
+	
+	@Autowired
+	private JavaMailSenderImpl mailSender;		
+	// 본인확인 코드 생성 (이메일 연동)
+	// 생성된 코드로 ~~ 를 한 후 유저테이블의 verified 'F' -> 'T'
+	@RequestMapping(value="/verifyMail", method = RequestMethod.POST)
+	public String verifyMail(String userid, String uemail, Model model) {
+		System.out.println("id:" + userid);
+		System.out.println("email:" + uemail);
+		
+		String uuid = UUID.randomUUID().toString();
+		String verifyCode = uuid.substring(0, uuid.indexOf("-"));
+		System.out.println("verifyCode:" + verifyCode);
+			
+		// 메일로 코드 전송
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				MimeMessageHelper helper = new MimeMessageHelper(
+						mimeMessage,
+						false, // multipart 여부
+						"utf-8"
+						);
+				
+				helper.setFrom("teamprobusan@gmail.com"); // 보내는이
+				helper.setTo(uemail); // 받는이
+				helper.setSubject("KILOOK 계정 본인확인"); // 제목
+				helper.setText("본인확인 코드: " + verifyCode); // 내용
+			}
+		};
+		mailSender.send(preparator);
+		// /메일로 코드전송
+		
+		// model에 email, verifyCode를 담아서 이메일에 전송된 uuid를 입력하도록 하는 인풋창을 사용자에게 보여줌
+		// (jsp 생성 필요, 해당 jsp로 리턴)
+		
+		model.addAttribute("verifyCode", verifyCode);
+		model.addAttribute("uemail", uemail);
+		
+		return "userinfo/userVerifyPage";
+	}
+		
+		// 본인확인 성공/실패 확인
+		@RequestMapping(value = "/checkVerify", method = RequestMethod.POST)
+		@ResponseBody
+		public String checkVerify(String verifyCode, String userVerifyCode, String userid, String uemail) {
+			System.out.println(verifyCode);
+			System.out.println(userVerifyCode);
+			System.out.println(userid);
+			System.out.println(uemail);
+			
+			// 유저 코드와 임시 코드가 동일한 경우
+			if (verifyCode.equals(userVerifyCode)) {
+				// 성공했으므로 이메일, 본인확인 성공 저장
+				userInfoService.updateVerified(uemail, userid);
+				return "success"; // 이후 리턴 트루. jsp에서 비동기 처리 한 뒤 true 돌려받으면 "success"에서 function으로 마이페이지로.
+			}
+			
+			// 본인확인 실패 시 그냥 실패 처리
+			return "fail";
+		}
 	
 }

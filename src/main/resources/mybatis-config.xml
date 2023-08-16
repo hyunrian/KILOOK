@@ -26,6 +26,7 @@
 		<package name="com.kh.teampro.reply.attraction"/>
 		<package name="com.kh.teampro.reply.accommodation"/>
 		<package name="com.kh.teampro.user.info"/>
+		<package name="com.kh.teampro.user.login"/>
 
 	</typeAliases>
 	

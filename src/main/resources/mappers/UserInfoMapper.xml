@@ -55,4 +55,13 @@
                 			  and delete_yn = 'N')
 	</select>
 	
+	<!-- 본인확인 완료된 계정의 본인확인 이메일 등록 및 verified 'F' -> 'T' 변경 -->
+	<update id="updateVerified">
+		update tbl_user set
+			uemail = #{uemail},
+			verified = 'T'
+		where userid = #{userid}
+	</update>
+	
+	
 </mapper>

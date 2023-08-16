@@ -72,17 +72,6 @@ form{
 	box-shadow: inset 7px 2px 10px #babebc, inset -5px -5px 12px #fff;
 }
 
-.inputMiddle {
-	background: #eee;
-	padding: 11px;
-	margin: 8px 0;
-	width: 65%;
-	border: 0;
-	outline: none;
-	border-radius: 20px;
-	box-shadow: inset 7px 2px 10px #babebc, inset -5px -5px 12px #fff;
-}
-
 .btn {
 	border-radius: 20px;
 	border: none;
@@ -271,6 +260,12 @@ span {
     color: #f00;
     border-color: #f00;
 }
+.useable{
+font-size: 12px;
+	font-weight: bold;
+    color: #008000;
+    border-color: #008000;
+}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -278,91 +273,40 @@ span {
 
 <!-- 스크립트 시작 -->
 <script>
-// 아이디, 닉네임 중복확인용 함수
-var dubCheckId = false;
-var dubCheckNickname = false;
-var dubId = false;
-var dubNickname = false;
-$(function() {
-	$("#btnDubCheckId").click(function(){
-		console.log("btnDubCheckId_Activated");
-		var url = "/loginUser/idDubCheck";
-		var userid = $("#createUserid").val().trim();
-		
-		$.ajax({ 
-			"type"	: "post",
-			"url"	: url ,
-			"dataType" : "text",
-			"data" : { userid : userid },
-			"success"	:	function(rData) {
-				console.log("rData:", rData);
-				dubCheckId = true;
-				if (rData == "true"){
-					console.log("rData:", rData);
-					dubId = true;
-					console.log("dubId:", dubId);
-				} else if (rData == "false") {
-					console.log("rData:", rData);
-					dubCheckId = false;
-					dubId = false;
-					console.log("dubCheckId:", dubCheckId);
-					console.log("dubId:", dubId);
-				}
-			}
-		});
-	});
-});
-
 // 사용자 지정 메소드
 // 글자수 제한 (아이디)
-jQuery.validator.addMethod("lengthCheckId", function(value, element) {
+$.validator.addMethod("lengthCheckId", function(value, element) {
 	  return this.optional(element) || /^.{0,15}$/.test(value);
 	}, "**** 아이디는 최대 15자 입니다 ****");
 
 // 글자수 제한(닉네임)
-jQuery.validator.addMethod("lengthCheckNickName", function(value, element) {
+$.validator.addMethod("lengthCheckNickName", function(value, element) {
 	  return this.optional(element) || /^.{2,30}$/.test(value);
 	}, "**** 닉네임은 2 ~ 30자 입니다 ****");
 
 // 글자수 제한(비밀번호)
-jQuery.validator.addMethod("lengthCheckPw", function(value, element) {
+$.validator.addMethod("lengthCheckPw", function(value, element) {
 	  return this.optional(element) || /^.{4,30}$/.test(value);
 	}, "**** 비밀번호는 4 ~ 15자 입니다 ****");
 	
 // 글자 제한 (영문과 숫자만)
-jQuery.validator.addMethod("spellCheckId", function(value, element) {
+$.validator.addMethod("spellCheckId", function(value, element) {
 	  return this.optional(element) || /^[A-Za-z0-9]+$/.test(value);
 	}, "**** 아이디는 영문, 숫자만 가능합니다 ****");
 	
 // 특수문자 제한
-jQuery.validator.addMethod("spellCheckPW1", function(value, element) {
+$.validator.addMethod("spellCheckPW1", function(value, element) {
 	  return this.optional(element) || /^[a-zA-Z0-9!@#$%_]*$/.test(value);
 	}, "**** 특수문자는 !@#$%_만 사용 가능합니다 ****");
 
 // 글자 제한 (영문+숫자+특수기호)
-jQuery.validator.addMethod("spellCheckPW2", function(value, element) {
+$.validator.addMethod("spellCheckPW2", function(value, element) {
 	  return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%_])[A-Za-z\d!@#$%-_]+$/.test(value);
 	}, "**** 영문, 숫자, !@#$%_를 조합해야 합니다 ****");
 	
-// 아이디 중복체크
-jQuery.validator.addMethod("idDubCheck", function(value, element) {
-	  return dubCheckId;
-	}, "**** 아이디 중복 확인이 필요합니다 ****");
-jQuery.validator.addMethod("idDub", function(value, element) {
-	  return dubId;
-	}, "**** 중복 아이디 입니다 ****");
-
-//닉네임 중복체크
-jQuery.validator.addMethod("nicknameDubCheck", function(value, element) {
-	  return dubCheckNickname;
-	}, "**** 닉네임 중복 확인이 필요합니다 ****");
-jQuery.validator.addMethod("nicknameDub", function(value, element) {
-	  return dubNickname;
-	}, "**** 중복 닉네임 입니다 ****");
-
-
+	
+$(function() {
 // 로그인 유효성 검사
-jQuery(function() {
 	const loginForm = $("#loginForm");
 	loginForm.validate({
 		rules: {                    // 유효성 검사 규칙
@@ -383,36 +327,45 @@ jQuery(function() {
 		}
 	});
 	
-	// 회원가입 유효성 검사
+// 회원가입 유효성 검사
 	const createForm = $("#createForm");
+	var idDubMessage = "";
+	var dataTest = "";
 	createForm.validate({
 		rules: {                    	// 유효성 검사 규칙
 			userid: {					// 이름 필드 (name="userid")
 				required: true,			// 필수 입력
 				lengthCheckId: true,
 										
-// 원인을 알수 없는 이유로 작동이 되었다 안되었다 하기 때문에 아래 2코드는 사용하지 말것
-// 	  			rangelength: [5, 15]	// 입력범위 0~15자 (위 코드로 대체함)
-// 				maxlength: 15			// 최대 15자 까지 입력 가능
-				
 				spellCheckId: true,
-				idDubCheck: true,
-				idDub: true
-										
+				// 실시간 유효성 체크(아이디)
+				remote: {
+                    url: "/loginUser/idDubCheck",
+                    type: "post",
+                    data: {
+                        userid: function() {
+                            return $("#createUserid").val();
+                        }
+                    }
+                }
 			},
 			unickName: {     			// 비밀번호 필드 (name="unickName")
 				required: true,			// 필수 입력
 				lengthCheckNickName: true,
-// 				rangelength: [0, 30]	
-// 				maxlength: 30
-				nicknameDubCheck: true,
-				dubNickname: true
+				// 실시간 유효성 체크(닉네임)
+				remote: {
+                    url: "/loginUser/nickNameDubChck",
+                    type: "post",
+                    data: {
+                        userid: function() {
+                            return $("#createUnickName").val();
+                        }
+                    }
+                }
 			},
 			upw: {     					// 비밀번호 필드 (name="upw")
 				required: true,			// 필수 입력
 				lengthCheckPw: true,
-// 				rangelength: [0, 15]	
-// 				maxlength: 15
 				spellCheckPW1: true,
 				spellCheckPW2: true
 			},
@@ -424,30 +377,18 @@ jQuery(function() {
 		messages: {                 // 오류값 발생시 출력할 메시지 수동 지정
 			userid: {
 				required:		"**** 아이디를 입력해 주세요 ****",
-// 				rangelength:	"**** 아이디는 최대 15자 입니다 ****"
-// 				maxlength:		"**** 아이디는 최대 15자 입니다 ****"
+				remote: 		"**** 중복된 아이디 입니다 ****"
 			},
 			unickName: {
 				required:		"**** 닉네임을 입력해 주세요 ****",
-// 				rangelength:	"**** 닉네임은 최대 30자 입니다 ****"
-// 				maxlength:		"**** 닉네임은 최대 30자 입니다 ****"
+				remote: 		"**** 중복된 닉네임 입니다 ****"
 			},
 			upw: {
 				required:		"**** 비밀번호를 입력해 주세요 ****",
-// 				rangelength:	"**** 비밀번호는 최대 15자 입니다 ****"
-// 				maxlength:		"**** 비밀번호는 최대 15자 입니다 ****"
 			},
 			upwCheck: {
 				required: 		"**** 비밀번호를 확인해 주세요 ****",
 				equalTo: 		"**** 비밀번호가 일치하지 않습니다 ****"
-			}
-		},
-		errorPlacement: function(error, element) {
-			var elId = element.attr('id')
-			if (elId == "createUserid" || elId == "createUnickName"){
-				element.parent().after(error);
-			} else {
-				element.after(error);
 			}
 		}
 	});
@@ -471,18 +412,15 @@ jQuery(function() {
 			<!-- 회원가입 폼 -->
 			<div class="create-Account-container">
 				<form id="createForm">
-<!-- 				 action="/loginUser/join" method="post" -->
+<!-- 					 action="/loginUser/join" method="post" -->
 					<h1>회원가입</h1>
-					<div>
-						<input class="inputMiddle" type="text" placeholder="아이디"
-							id="createUserid" name="userid" required>
-						<button id="btnDubCheckId" class="btnSmall form_btn">중복확인</button>
+					<input class="inputSamll" type="text" placeholder="아이디"
+						id="createUserid" name="userid" required>
+					<div id="useridAble" style="display: none;">
+						<label class="useable">**** 사용 가능한 아이디 입니다 ****</label>
 					</div>
-					<div>
-						<input class="inputMiddle" type="password" placeholder="닉네임"
-							id="createUnickName" name="unickName" required>
-						<button id="btnDubCheckNickname" class="btnSmall form_btn">중복확인</button>
-					</div>
+					<input class="inputSamll" type="text" placeholder="닉네임"
+						id="createUnickName" name="unickName" required>
 					<input class="inputSamll" type="password" placeholder="비밀번호"
 						id="createUpw" name="upw" required>
 					<input class="inputSamll" type="password" placeholder="비밀번호 확인"
