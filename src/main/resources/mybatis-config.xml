@@ -24,6 +24,7 @@
 		<package name="com.kh.teampro.board.travelcourse"/>
 		<package name="com.kh.teampro.reply.restaurant"/>
 		<package name="com.kh.teampro.user.info"/>
+		<package name="com.kh.teampro.user.login"/>
 
 	</typeAliases>
 	
