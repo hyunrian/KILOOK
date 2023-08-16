@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.teampro.PlaceLikeMapper">
+	<!-- 좋아요 추가 -->
+	<insert id="addPlaceLike">
+		insert into tbl_likeatt
+			(unickname
+			, bno
+			)
+		values
+			(#{unickname}
+			, #{bno}
+			)	
+	</insert>
+	
+	<!-- 좋아요 목록 -->
+	<select id="placeLikeList" resultType="int">
+		select count(*) from tbl_likeatt
+		where unickname = #{unickname}
+		and bno = #{bno}
+	</select>
+	
+	<!-- 좋아요 취소 -->
+	<delete id="deletePlaceLike">
+		delete from tbl_likeatt
+		where unickname = #{unickname}
+		and bno = #{bno}
+	</delete>
+	
+	<!-- 좋아요 개수 확인 -->
+	<select id="getPlaceLikeCount" resultType="int">
+		select count(*) from tbl_likeatt
+		where bno = #{bno}
+	</select>
+</mapper>

@@ -69,8 +69,4 @@
     		#{item}
     	</foreach>
 	</select>
-	
-	<!-- 댓글 개수 업데이트 -->
-	
-	
 </mapper>

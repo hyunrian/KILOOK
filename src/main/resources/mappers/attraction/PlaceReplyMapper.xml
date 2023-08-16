@@ -3,18 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kh.teampro.FoodReplyMapper">
+<mapper namespace="com.kh.teampro.AttrReplyMapper">
 
 	<!-- 댓글 목록 -->
-	<select id="restReplyList" resultType="FoodReplyVo">
-		select * from tbl_restreply
+	<select id="placeReplyList" resultType="FoodReplyVo">
+		select * from tbl_attreply
 		where bno = #{bno}
 		order by rgroup, rseq
 	</select>
 	
 	<!-- 새댓글 추가 -->
-	<insert id="insertRestNewReply">
-		insert into tbl_restreply
+	<insert id="insertPlaceNewReply">
+		insert into tbl_attreply
 			(rno
 			, bno
 			, replytext
@@ -25,20 +25,20 @@
 			, rlevel
 			)
 		values
-			(seq_restreply_rno.nextval
+			(seq_attreply_rno.nextval
 			, #{bno}
 			, #{replytext}
 			, #{replyer}
 			, sysdate
-			, seq_restreply_rno.currval			
+			, seq_attreply_rno.currval			
 			, #{rseq}
 			, #{rlevel}
 			)	
 	</insert>
 	
 	<!-- 대댓글 추가 -->
-	<insert id="insertRestReReply">
-		insert into tbl_restreply
+	<insert id="insertPlaceReReply">
+		insert into tbl_attreply
 			(rno
 			, bno
 			, replytext
@@ -50,7 +50,7 @@
 			, userid
 			)
 		values
-			(seq_reply_rno.nextval
+			(seq_attreply_rno.nextval
 			, #{bno}
 			, #{replytext}
 			, #{replyer}
@@ -64,27 +64,27 @@
 	
 	<!-- 그룹내 가장 높은 rseq 구하기(가장 마지막의 댓글) -->
 	<select id="getMaxRseq" resultType="int">
-		select max(rseq) from tbl_restreply
+		select max(rseq) from tbl_attreply
 		where bno = #{bno}
 		and rgroup = #{rgroup}
 	</select>
 	
 	<!-- 게시글의 댓글개수 조회 -->
 	<select id="getReplyCount" resultType="int">
-		select count(*) from tbl_restreply
+		select count(*) from tbl_attreply
 		where bno = #{bno}
 		and delete_yn = 'N'
 	</select>
 	
 	<!-- 댓글 그룹확인 -->
 	<select id="getRgroup" resultType="int">
-		select rgroup from tbl_restreply
+		select rgroup from tbl_attreply
 		where rno = #{rno}
 	</select>
 	
 	<!-- 댓글 수정 -->
-	<update id="updateRestReply">
-		update tbl_restreply
+	<update id="updatePlaceReply">
+		update tbl_attreply
 			replytext = #{replytext},
 			replyer = #{replyer},
 			updatedate = sysdate
@@ -92,22 +92,22 @@
 	</update>
 	
 	<!-- 대댓글이 있는 댓글인지 확인 -->
-	<select id="hasChildRestReply" resultType="int">
-		select count(*) from tbl_restreply
+	<select id="hasChildPlaceReply" resultType="int">
+		select count(*) from tbl_attreply
 		where rgroup = #{rno}
 		and delete_yn = 'N'
 	</select>
 	
 	<!-- 댓글 삭제 -->
-	<update id="deleteRestReply">
-		update tbl_restreply
+	<update id="deletePlaceReply">
+		update tbl_attreply
 		set delete_yn = 'Y'
 		where rno = #{rno}
 	</update>
 	
 	<!-- 수정날짜 얻기 -->
 	<select id="getUpdatedate" resultType="java.sql.Timestamp">
-		select updatedate from tbl_restreply
+		select updatedate from tbl_attreply
 		where rno = #{rno}
 	</select>
 </mapper>

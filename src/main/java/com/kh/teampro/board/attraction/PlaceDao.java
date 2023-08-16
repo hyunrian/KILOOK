@@ -1,11 +1,13 @@
 package com.kh.teampro.board.attraction;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.teampro.board.accommodation.AccomVo;
 import com.kh.teampro.board.restaurant.FoodVo;
 
 @Repository
@@ -23,8 +25,8 @@ public class PlaceDao {
 	}
 	
 	// 해당 명소 상세보기
-	public List<PlaceVo> getPlaceInfo(int bno) throws Exception{
-		List<PlaceVo> list = sqlSession.selectOne(NAMESPACE + "getPlaceInfo", bno);
+	public PlaceVo getPlaceInfo(int bno) throws Exception{
+		PlaceVo list = sqlSession.selectOne(NAMESPACE + "getPlaceInfo", bno);
 		return list;
 	}
 
@@ -33,4 +35,15 @@ public class PlaceDao {
 		sqlSession.insert(NAMESPACE + "insertPlace", placeVo);
 	}
 	
+	// 추천 명소에 담을 랜덤 count 구하기
+	public int getPlaceCount() {
+		int placeCount = sqlSession.selectOne(NAMESPACE + "getPlaceCount");
+		return placeCount;
+	}
+	
+	// 추천 명소 추출
+	public List<PlaceVo> getRecomendedPlaceList(HashMap hashMap) {
+		List<PlaceVo> list = sqlSession.selectList(NAMESPACE + "getRecomendedPlaceList", hashMap);
+		return list;
+	}
 }

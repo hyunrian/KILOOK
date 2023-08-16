@@ -7,12 +7,14 @@
 	<!-- 숙소 전체 조회 : 게시물 전체 페이지에서 보여줄 데이터만 조회 -->
 	<select id="getAccomList" resultType="AccomVo">
 		select aname
+			   , image
+			   , bno
 			   , address
 			   , addressdetail
 			   , anumber
-			   , replace(image, 'hotel_', 'hotel_img') image
 			   , areplycnt
 		from tbl_acc
+		where bno between 1 and 30
 		order by bno desc
 	</select>
 	
@@ -61,4 +63,18 @@
 			, #{aclong}
 			, #{image})
 	</insert>
+	
+	<!-- 랜덤추천 : 숙소 개수 구하기 -->
+	<select id="getAccomCount" resultType="int" >
+		select count(*) from tbl_acc
+	</select>
+	
+	<!-- 랜덤추천 : 추천 숙소 조회 -->
+	<select id="getRecomendedAccomList" resultType="AccomVo" parameterType="Map">
+		select * from tbl_acc
+		where bno in
+		<foreach collection="arrShopList" item="item" index="index" open="(" close=")" separator=",">
+    		#{item}
+    	</foreach>
+	</select>
 </mapper>

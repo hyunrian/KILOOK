@@ -8,7 +8,64 @@
 <!-- END menu -->
 
 <script>
-// 댓글 여부 체크
+	// 좋아요 하트 기능
+	$(document).ready(function() {
+	
+		var bno = "${getFoodInfo.bno}";
+		var likeImg = $("#likeImg");
+		
+		// 좋아요 페이지 유지
+		var likeResult = "${likeMap.likeResult}";
+		console.log("likeResult:", likeResult)
+		var likeImg = $("#likeImg");
+		
+		if(likeResult == "true"){
+			console.log("likeResult.true:", likeResult);
+			$("#likeImg").attr("src", "../resources/images/heart/heart2.png");
+		} else {
+			console.log("likeResult.false:", likeResult);
+			$("#likeImg").attr("src", "../resources/images/heart/heart1.png");
+		}
+		
+		// 좋아요를 눌렀을 때
+		$("#likeHeart").click(function(){
+			var that = $(this);
+			var url = "";
+			if(likeResult == "true"){
+				url = "/like/deleteRestLike/${getFoodInfo.bno}";
+			} else {
+// 				console.log("likeMap.likeResult:", likeResult); // test ok
+// 				console.log("bno:", bno); // test ok
+				url = "/like/addRestLike/${getFoodInfo.bno}";
+			}
+			
+			$.get(url, function(rData){
+// 				console.log("post rData:", rData);
+				if(rData == "true"){
+					var likeCount = parseInt($("#likeCount").text());
+					var img = "";
+					if(likeResult == "true"){
+						likeImg.attr("src", "../resources/images/heart/heart1.png"); 
+						likeCount--;
+						likeResult = "false";
+					} else {
+						likeImg.attr("src", "../resources/images/heart/heart2.png"); 
+						likeCount++;
+						likeResult = "true";
+					}
+					$("#likeCount").text(likeCount);
+				}
+			});
+		});
+	});
+	
+//댓글창 보기
+function showReply(){
+	$("#reply").css('display', 'block')
+	$("#replyFlag").attr("onClick", "hideReply()")
+}
+
+//; 댓글 여부 체크
 function hasChildReply(rno) {
 	$.get("/userReply/checkDelete/" + rno, function(hasReply) {
 		if (hasReply == "true") {
@@ -16,13 +73,7 @@ function hasChildReply(rno) {
 		} else {
 			return false;
 		}
-	});
-}
-
-// 댓글창 보기
-function showReply(){
-	$("#reply").css('display', 'block')
-	$("#replyFlag").attr("onClick", "hideReply()")
+	})
 }
 
 // 댓글창 숨기기 
@@ -33,53 +84,56 @@ function hideReply(){
 
 // 댓글 리스트 가져오기
 function getReplyList(){
+
 	const bno = "${getFoodInfo.bno}";
 	$.get("/reply/restList?bno=" + bno, function(rData){
+		console.log(rData)
 		$.each(rData, function(i, item){
 			$(".replyElem").remove();
-			
 			var status = "default";
-			$.get("/reply/checkChildRestReply/" + rData[i].rno, function(hasReply){
-				if(rData[i].delete_yn == "Y" && hasReply){
+			$.get("/reply/checkChildRestReply/" + item.rno, function(hasReply){
+				if(item.delete_yn == "Y" && hasReply){
 					status = "deleted";
-				} else if(rData[i].delete_yn == "Y" && !hasReply){
+				} else if(item.delete_yn == "Y" && !hasReply){
 					status = "skip";
 				}
 			});
 			setTimeout(function(){
 				if(status == "default" || status == "deleted"){
 					let reply = null;
-					if(rData[i].rlevel == 1){
+					if(item.rlevel == 1){
 						reply = $("#rplyUl").clone();
 					} else {
+						console.log(`li`)
 						reply = $("#replyLi").clone();
 					}
 					reply.removeAttr("id").addClass("replyElem");
 					
 					const div = reply.find("div").eq(1);
-					div.find("h3").text(rData[i].replyer);
+					div.find("h3").text(item.replyer);
+					console.log(item.replyer)
 					
 					const dateDiv = div.find("div").eq(0);
-					if(rData[i].updatedate != null){
-						if(isSameDate(rData[i].updatedate)){
-							dateDiv.text(getTime(rData[i].updatedate));
+					if(item.updatedate != null){
+						if(isSameDate(item.updatedate)){
+							dateDiv.text(getTime(item.updatedate));
 						} else {
-							dateDiv.text(getDate(rData[i].updatedate));
+							dateDiv.text(getDate(item.updatedate));
 						}
 					} else {
-						if(isSameDate(rData[i].regdate)){
-							dateDiv.text(getTime(rData[i].regdate));
+						if(isSameDate(item.regdate)){
+							dateDiv.text(getTime(item.regdate));
 						} else {
-							dateDiv.text(getDate(rData[i].regdate));
+							dateDiv.text(getDate(item.regdate));
 						}
 					}
-					if(rData[i].unickname != null){
+					if(item.unickname != null){
 						const span = div.find("span").eq(0);
 						span.show();
-						span.text("@" + rData[i].unickname + " ");
+						span.text("@" + item.unickname + " ");
 					}
-					div.find("span").eq(1).text(rData[i].replytext);
-					div.find("p > a").attr("data-rno", rData[i].rno);
+					div.find("span").eq(1).text(item.replytext);
+					div.find("p > a").attr("data-rno", item.rno);
 					
 					if(status == "deleted"){
 						div.find("span").eq(1).text("---------- 삭제된 댓글입니다. ----------");
@@ -89,119 +143,126 @@ function getReplyList(){
 						div.prev().find("img").remove();
 					}
 					reply.show();
-					$("replyList").append(reply);
+					console.log(reply)
+					$("#replyList").append(reply);
 				}
 			}, 600);
 		});
 	});
 }
 
-getReplyList();
+$(window).on("load", function() {
+	getReplyList();
+	// 대댓글 쓰기
+	$("#btnReplyWrite").on("click",function(){
+		
+		const replytext = $("#replytext").val().trim();
+		const replyObject = {
+			replytext : replytext,
+			rlevel : 0,
+			rno : 0,
+			parentreplyer : null,
+			type : "newReply",
+			bno : "${getFoodInfo.bno}"
+		}
+		
+		insertReply(replyObject);
+		
+		$("#replytext").val(""); 
+	});
+	
+	//대댓글창 열기
+	$("#replyList").on("click", ".replyBtn", function(e) {
+		e.preventDefault();
+			$(".replyForm").remove();
+			$(".replyElem").find("div").show();
+			const replyForm = $("#replyForm").clone();
+			replyForm.addClass("replyForm");
+			replyForm.find("input").eq(1).attr("data-type", "reReply");
+			$(this).parent().append(replyForm);
+	});
 
-// 새댓글 쓰기
-$("#btnReplyWrite").click(function(){
-	const replytext = $("#replytext").val().trim();
-	insertReply(replytext, 0, 0, null, "newReply");
-	$("#replytext").val("");
-});
-
-// 대댓글 쓰기
-$("#replyList").on("click", "#btnReplyWrite", function(){
-	const replyInput = $(this).parent().prev().find("input");
-	const replytext = replyInput.val().trim();
-	const rno = $(this).closest("p").find("a").attr("data-rno");
-	const replyer = $(this).closest("p").find("a").attr("data-replyer");
-	const unickname = $(this).closest("li").find("h3").text();
-	insertReply(replytext, 1, rno, unickname, "reReply");
-	replyInput.val("");
-});
-
-//댓글 입력하기 - 공통 부분 함수
-function insertReply(replytext, rlevel, rno, parentreplyer, type) {
-	if (replytext != "") {
-		const sData = {
-				"bno" : bno,
-				"replytext" : replytext,
-				"rlevel" : rlevel,
-				"rno" : rno,
-				"unickname" : unickname
-		};
-		$.post("/reply/restInsert", sData, function(rData) {
-			getReplyList();
+	// 댓글 삭제
+	$("#replyList").on("click", ".deleteReply", function(e) {
+		e.preventDefault();
+		const that = $(this);
+		const rno = that.attr("data-rno");
+		$.ajax({
+			"type" : "patch",
+			"url" : "/userReply/delete",
+			"data" : rno,
+			"success" : function(rData) {
+				that.closest(".replyElem").fadeOut(700);
+			}
 		});
-	}
-}
+	});
 
-//대댓글창 열기
-$("#replyList").on("click", ".replyBtn", function(e) {
-	e.preventDefault();
+	// 댓글 수정창 열기
+	$("#replyList").on("click", ".updateReply", function(e) {
+		e.preventDefault();
+//			$("#updateFormCopy").remove();
 		$(".replyForm").remove();
 		$(".replyElem").find("div").show();
+		const element = $(this).closest(".replyElem");
 		const replyForm = $("#replyForm").clone();
 		replyForm.addClass("replyForm");
-		replyForm.find("input").eq(1).attr("data-type", "reReply");
-		$(this).parent().append(replyForm);
-});
-
-// 댓글 삭제
-$("#replyList").on("click", ".deleteReply", function(e) {
-	e.preventDefault();
-	const that = $(this);
-	const rno = that.attr("data-rno");
-	$.ajax({
-		"type" : "patch",
-		"url" : "/userReply/delete",
-		"data" : rno,
-		"success" : function(rData) {
-			that.closest(".replyElem").fadeOut(700);
-		}
+//			replyForm.attr("id", "updateFormCopy");
+		replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
+		const replytext = element.find("span").eq(1).text();
+		replyForm.find("#replytext").val(replytext);
+		const rno = $(this).attr("data-rno");
+		replyForm.find("#btnReplyWrite").hide();		
+		replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
+		element.find("div").hide();
+		element.append(replyForm);
 	});
-});
-
-// 댓글 수정창 열기
-$("#replyList").on("click", ".updateReply", function(e) {
-	e.preventDefault();
-//		$("#updateFormCopy").remove();
-	$(".replyForm").remove();
-	$(".replyElem").find("div").show();
-	const element = $(this).closest(".replyElem");
-	const replyForm = $("#replyForm").clone();
-	replyForm.addClass("replyForm");
-//		replyForm.attr("id", "updateFormCopy");
-	replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
-	const replytext = element.find("span").eq(1).text();
-	replyForm.find("#replytext").val(replytext);
-	const rno = $(this).attr("data-rno");
-	replyForm.find("#btnReplyWrite").hide();		
-	replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
-	element.find("div").hide();
-	element.append(replyForm);
-});
-
-// 댓글 수정
-$("#replyList").on("click", "#replyUpdateBtn", function() {
-	const that = $(this);
-	const replytext = $(this).parent().prev().find("input").val().trim();
-	const sData = {
-			"rno" : $(this).attr("data-rno"),
-			"replytext" : replytext
-	};
-	$.ajax ({
-		"type" : "patch",
-		"url" : "/reply/restUpdate",
-		"contentType" : "application/json",
-		"data" : JSON.stringify(sData),
-		"success" : function(rData) {
-			const element = that.closest(".replyElem");
-			element.find("span").eq(1).text(replytext);
-			element.find("div").fadeIn(700);
-			element.find(".replyForm").remove();
-			element.find("div").eq(1).find("div").text(getTime(new Date()));
-		}
+	
+	// 댓글 수정
+	$("#replyList").on("click", "#replyUpdateBtn", function() {
+		const that = $(this);
+		const replytext = $(this).parent().prev().find("input").val().trim();
+		const sData = {
+				"rno" : $(this).attr("data-rno"),
+				"replytext" : replytext
+		};
+		$.ajax ({
+			"type" : "patch",
+			"url" : "/reply/restUpdate",
+			"contentType" : "application/json",
+			"data" : JSON.stringify(sData),
+			"success" : function(rData) {
+				const element = that.closest(".replyElem");
+				element.find("span").eq(1).text(replytext);
+				element.find("div").fadeIn(700);
+				element.find(".replyForm").remove();
+				element.find("div").eq(1).find("div").text(getTime(new Date()));
+			}
+		});
 	});
-});
+	
+}) 
 
 
+
+
+//댓글 입력하기 - 공통 부분 함수
+function insertReply(replyObject) {
+
+		if (replyObject != "") {
+			const sData = {
+				"bno" : replyObject?.bno,
+				"replytext" : replyObject?.replytext,
+				"rlevel" : replyObject?.rlevel,
+				"rno" : replyObject?.rno,
+				"unickname" : replyObject?.unickname ?? "test",
+				"bno" : replyObject?.bno
+			};
+			
+			$.post("/reply/restInsert", sData, function(rData) {
+				getReplyList();
+			});
+		}
+	} 
 </script>
 
 <div class="hero-wrap js-fullheight"
@@ -251,48 +312,34 @@ $("#replyList").on("click", "#replyUpdateBtn", function() {
 						<p class="rate mb-5">
 							<span class="loc"><i class="icon-map"></i>${getFoodInfo.address}</span>
 							<br>
-							<span class="star">
-								평점
-								<i class="icon-star"></i>
-								<i class="icon-star"></i> 
-								<i class="icon-star"></i>
-								<i class="icon-star"></i>
-								<i class="icon-star-o"></i> 
+							<span>
+								영업시간:&nbsp;&nbsp;${getFoodInfo.openhours}
 							</span>
 							<br>
 							<span>
-								${getFoodInfo.openhours}
-							</span>
-							<br>
-							<span>
-								대표메뉴&nbsp;${menu}
+								대표메뉴:&nbsp;&nbsp;${getFoodInfo.menu}
 							</span>
 							<br>
 							<span id="contentReply">
 								<a id="replyFlag" onclick="showReply()">댓글보기
-								<span>(0)</span>
+									<span>(0)</span>
 								</a>
 							</span>
 						</p>
 						<p>${getFoodInfo.content}</p>
+						
+					<!-- 좋아요 -->
+					<!-- heart/heart1.png -->
+					<div class="heart">
+						<button style="background-color:transparent; border: none; " id="likeHeart">
+							<img id="likeImg" alt="" src="../resources/images/heart/heart1.png" style=" width : 10%; height : 10%; border: none; cursor:pointer"  >
+						</button> 
+						<p id="likeCount" style="font-size:20px; ">${likeMap.likeCount}</p>
+					</div>
+						
 						<!-- 댓글 -->
-						<div id="reply" style="display:none;">
-							<!-- 댓글 입력 -->
-							<form action="#" id="replyForm">
-								<div class="row" style="margin-top:30px;">
-									<div class="col-md-11">
-										<input type="text" class="form-control" placeholder="내용을 입력하세요." 
-										id="replytext">
-									</div>
-									<div class="col-md-1">
-											<input type="button" value="댓글 쓰기" id="btnReplyWrite"
-											class="btn py-3 px-4 btn-primary" style="border: none;"
-											data-type="newReply">
-<!-- 										<button type="button" class="btn btn-sm btn-primary" -->
-<!-- 											id="btnReplyWrite" onclick="ReplyWrite()">입력</button> -->
-									</div>
-								</div>
-							</form>
+						<div id="reply" style="display: none;">
+							
 							<div class="pt-5 mt-5">
 				              <h3 class="mb-5">${getFoodInfo.replycnt} Comments</h3>
 							  <!-- 댓글목록 -->
@@ -316,23 +363,30 @@ $("#replyList").on("click", "#replyUpdateBtn", function() {
 				                    </li>
 				                  </ul>
 				              </ul>
+				              
+				              <!-- 댓글 입력 -->
+							<form action="#" id="replyForm">
+								<div class="row" style="margin-top:50px; margin-bottom: 80px;">
+									<div class="col-md-11">
+										<input type="text" class="form-control" placeholder="내용을 입력하세요." 
+										id="replytext">
+									</div>
+									<div class="col-md-1">
+											<input type="button" value="댓글 쓰기"  
+											class="btn py-3 px-4 btn-primary" style="border: none;"
+											data-type="newReply" id="btnReplyWrite">
+<!-- 										<button type="button" class="btn btn-sm btn-primary" -->
+<!-- 											id="btnReplyWrite" onclick="ReplyWrite()">입력</button> -->
+									</div>
+								</div>
+							</form>
 				              <!-- END comment-list -->
 				            </div>
 
 						<!-- END 댓글 -->
 					</div>
 					
-					<!-- 좋아요 -->
-					<!-- heart/heart1.png -->
-					<div class="heart">
-						<button style="background-color:transparent; border: none; " >
-							<img alt="" src="../resources/images/heart/heart1.png" style=" width : 10%; height : 10%; border: none; " >
-						</button> 
-						<p> 좋아요 수 </p>
-						<!-- <button style="background-color:transparent; border: none; display: none;" >
-							<img alt="" src="../resources/images/heart/heart2.png" style=" width : 15px; height : 15px; border: none; ">
-						</button> -->
-					</div>
+					
 					
 					<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
 						<h4 class="mb-4">다른 맛집 보기</h4>
@@ -340,13 +394,13 @@ $("#replyList").on("click", "#replyUpdateBtn", function() {
 							<c:forEach items="${recomendedFoodList}" var="foodVo">
 								<div class="col-md-4">
 									<div class="destination">
-										<a href="hotel-single.html" class="img img-2"
+										<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="img img-2"
 											style="background-image: url('${foodVo.thumbimage}');"></a>
 										<div class="text p-3">
 											<div class="d-flex">
 												<div class="one" style="width: calc(100%);">
 													<h3>
-														<a href="/databoard/detailRest">${foodVo.rname}</a><br>
+														<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
 														<a href="#" class="meta-chat"><span class="icon-chat"></span>${foodVo.replycnt}</a>
 													</h3>
 													<p class="rate">
@@ -377,6 +431,7 @@ $("#replyList").on("click", "#replyUpdateBtn", function() {
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </section>
 

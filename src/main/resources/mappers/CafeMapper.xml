@@ -11,6 +11,7 @@
 		       , nvl(cnumber, '정보제공안함') cnumber
 		       , image
 		from tbl_cafe
+		where bno between 1 and 30
         order by bno desc
 	</select>
 	

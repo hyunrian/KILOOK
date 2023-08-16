@@ -43,4 +43,10 @@ public class FoodDao {
 		List<FoodVo> list = sqlSession.selectList(NAMESPACE + "getRecomendedFoodList", hashMap);
 		return list;
 	}
+	
+	// 페이징
+	public int getFoodCountPaging(FoodPagingDto foodPagingDto) throws Exception{
+		int getFoodCountPaging = sqlSession.selectOne(NAMESPACE + "getFoodCountP", foodPagingDto);
+		return getFoodCountPaging;
+	}
 }
