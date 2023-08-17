@@ -282,8 +282,7 @@
 	
 </script>
 
-<div class="hero-wrap js-fullheight"
-	style="background-image: url('../resources/images/bg_5.jpg');">
+<div style="background-color: #000000; width: 100%; height: 90px;">
 	<div class="overlay"></div>
 	<div class="container">
 		<div
@@ -422,7 +421,7 @@
 									<div class="destination">
 										<a href="/databoard/getPlaceInfo?bno=${placeVo.bno}" class="img img-2"
 											style="background-image: url('${placeVo.thumbimage}');"></a>
-										<div class="text p-3">
+										<div class="meta p-3">
 											<div class="d-flex">
 												<div class="one" style="width: calc(100%);">
 													<h3>
@@ -439,10 +438,10 @@
 											<span class="tag">${placeVo.address}</span>
 											<div class="meta mb-3" >
 												<div>
-													<a href="#">Tel. ${placeVo.anumber}</a>
+													Tel. ${placeVo.anumber}
 												</div>
 												<div>
-													<a href="#">Open. ${placeVo.openhours}</a>
+													Open. ${placeVo.openhours}
 												</div>
 											</div>
 										</div>

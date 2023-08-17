@@ -3204,7 +3204,7 @@ input[type="button"].btn-block {
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
     color: #495057;
-    background-color: #fff;
+    background-color: #E8D9FF;
     border-color: #dee2e6 #dee2e6 #fff; }
   .nav-tabs .dropdown-menu {
     margin-top: -1px;
@@ -7285,7 +7285,7 @@ a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;
-  color: #5CD1E5; } /* jh 수정: color: #f85959 → #5CD1E5 */
+  color: #000; } /* jh 수정: color: #f85959 → #5CD1E5 */
   a:hover {
     text-decoration: none;
     color: #5CD1E5; } /* jh 수정: color: #f85959 → #5CD1E5 */

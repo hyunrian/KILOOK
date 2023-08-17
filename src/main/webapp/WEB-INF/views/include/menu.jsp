@@ -4,7 +4,7 @@
 	<!-- menu -->
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container" style="z-index: 1;">
-	      <a class="navbar-brand" href="../resources/index.jsp">dirEngine.</a>
+	      <a class="navbar-brand" href="/">dirEngine.</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
@@ -16,37 +16,37 @@
 	          <li id="menuHome" class="nav-item">
 	          	<a href="/" class="nav-link">Home</a>
 	            <ul class="noDot" id="subMenuHome" style="display : none;">
-	              <li class="nav-item"><a href="/">Home</a></li>
+	              <li class="nav-item"><a href="/" style="color: white;">Home</a></li>
                 </ul>
               </li>
 	          
 	          <!-- jh 수정 : tour.html → restaurant.html, Tour → Restaurant -->
 	          <li id="menuCategory" class="nav-item" >
-	          	<a href="/databoard/getFoodList" class="nav-link">Category</a>
+	          	<a href="/databoard/restaurant" class="nav-link">Category</a>
 	          	<ul class="noDot" id="subMenuCategory" style="display: none;">
-	          	  <li class="nav-item-"><a href="/databoard/restaurant">맛집</a></li>
-	          	  <li class="nav-item"><a href="/databoard/accommodation">숙소</a></li>
-	          	  <li class="nav-item"><a href="/databoard/attraction">가볼만한곳</a></li>
-	          	  <li class="nav-item"><a href="/databoard/show">전시</a></li>
-	          	  <li class="nav-item"><a href="/databoard/cafe">카페</a></li>
-	          	  <li class="nav-item"><a href="/databoard/parking">주차장</a></li>
-	          	  <li class="nav-item"><a href="/databoard/tourguide">관광안내소</a></li>
+	          	  <li class="nav-item-"><a href="/databoard/restaurant" style="color: white;">맛집</a></li>
+	          	  <li class="nav-item"><a href="/databoard/accommodation" style="color: white;">숙소</a></li>
+	          	  <li class="nav-item"><a href="/databoard/attraction" style="color: white;">가볼만한곳</a></li>
+	          	  <li class="nav-item"><a href="/databoard/show" style="color: white;">전시</a></li>
+	          	  <li class="nav-item"><a href="/databoard/cafe" style="color: white;">카페</a></li>
+	          	  <li class="nav-item"><a href="/databoard/parking" style="color: white;">주차장</a></li>
+	          	  <li class="nav-item"><a href="/databoard/tourguide" style="color: white;">관광안내소</a></li>
 	          	</ul>
 	          </li>
 	          
-	          <li id="menuCustomTravelAdventure" class="nav-item"><a href="/databoard/getFoodList" class="nav-link">Custom Travel Adventure</a>
-	          	<ul class="noDot" id="subMenuCustomTravelAdventure" style="display: none;">
-	          	  <li class="nav-item-"><a href="/course/list">나만의 여행코스 짜기</a></li>
-	          	</ul>
-	          </li>
+<!-- 	          <li id="menuCustomTravelAdventure" class="nav-item"><a href="/databoard/getFoodList" class="nav-link">Custom Travel Adventure</a> -->
+<!-- 	          	<ul class="noDot" id="subMenuCustomTravelAdventure" style="display: none;"> -->
+<!-- 	          	  <li class="nav-item-"><a href="/course/list">나만의 여행코스 짜기</a></li> -->
+<!-- 	          	</ul> -->
+<!-- 	          </li> -->
 	          <li id="menuReview" class="nav-item">
 	          	<a href="#" class="nav-link">Review</a>
 	          	<ul id="subMenuReview" class="noDot" style="display: none;">
-	          	  <li class="nav-link"><a href="../resources/tour.html">여행지 후기</a></li>
+	          	  <li class="nav-link"><a href="../resources/tour.html" style="color: white;">여행지 후기</a></li>
 	          	</ul>
 	          </li>
 	          <li class="nav-item cta">
-		          <a href="/userInfo/mypage" class="nav-link">
+		          <a href="/userInfo/mypage" class="nav-link" style="background-color: #ffffff">
 		          	<!-- jh 추가 -->
 		          	<img class="userImg" src="data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' 
 			          viewBox='0 0 64 64' aria-labelledby='title' aria-describedby='desc' role='img' 

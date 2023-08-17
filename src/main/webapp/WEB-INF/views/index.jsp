@@ -83,15 +83,24 @@
 						</div>
 						<p>Or browse the highlights</p>
 						<p class="browse d-md-flex">
-							<span
-								class="d-flex justify-content-md-center align-items-md-center"><a
-								href="#"><i class="flaticon-fork"></i>Restaurant</a></span> <span
-								class="d-flex justify-content-md-center align-items-md-center"><a
-								href="#"><i class="flaticon-hotel"></i>Hotel</a></span> <span
-								class="d-flex justify-content-md-center align-items-md-center"><a
-								href="#"><i class="flaticon-meeting-point"></i>Places</a></span> <span
-								class="d-flex justify-content-md-center align-items-md-center"><a
-								href="#"><i class="flaticon-shopping-bag"></i>Shopping</a></span>
+							<span class="d-flex justify-content-md-center align-items-md-center">
+								<a href="/databoard/restaurant">
+									<i class="flaticon-fork">
+									</i>Restaurant
+								</a>
+							</span> 
+							<span class="d-flex justify-content-md-center align-items-md-center">
+								<a href="/databoard/accommodation">
+									<i class="flaticon-hotel">
+									</i>Hotel
+								</a>
+							</span> 
+							<span class="d-flex justify-content-md-center align-items-md-center">
+								<a href="/databoard/attraction">
+									<i class="flaticon-meeting-point">
+									</i>Places
+								</a>
+							</span> 
 						</p>
 					</div>
 				</div>
@@ -109,119 +118,13 @@
 		</a>
 	</div>
 	 <!-- Carousel 끝 -->
-	  
-	  <!-- 상단1 div hero-wrap js-fullheight -->
-	  <!-- jh 추가 : id 없음 -> id="main1" -->
-<!-- 		  <div class="hero-wrap js-fullheight" id="main1" style="background-image: url('../resources/images/bg_1.jpg');"> -->
-<!--       <div class="overlay"></div> -->
-<!--       <div class="container"> -->
-<!--         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true"> -->
-<!--           <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }"> -->
-<!--             <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Explore <br></strong> your amazing city</h1> -->
-<!--             <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat, shop, or visit from local experts</p> -->
-<!--             <div class="block-17 my-4"> -->
-<!--               <form action="" method="post" class="d-block d-flex"> -->
-<!--                 <div class="fields d-block d-flex"> -->
-<!--                 jh 수정 -->
-<!--                   <div class="select-wrap one-third"> -->
-<!--                     <div class="icon"><span class="ion-ios-arrow-down"></span></div> -->
-<!--                     <select name="" id="" class="form-control" placeholder="Keyword search"> -->
-<!--                     Jh 수정 -->
-<!--                       <option value="">어디로 가시나요?</option> -->
-<!--                       <option value="">강서구</option> -->
-<!--                       <option value="">금정구</option> -->
-<!--                       <option value="">기장군</option> -->
-<!--                       <option value="">남구</option> -->
-<!--                       <option value="">동구</option> -->
-<!--                       <option value="">동래구</option> -->
-<!--                       <option value="">부산진구</option> -->
-<!--                       <option value="">북구</option> -->
-<!--                       <option value="">사상구</option> -->
-<!--                       <option value="">사하구</option> -->
-<!--                       <option value="">서구</option> -->
-<!--                       <option value="">수영구</option> -->
-<!--                       <option value="">연재구</option> -->
-<!--                       <option value="">영도구</option> -->
-<!--                       <option value="">중구</option> -->
-<!--                       <option value="">해운대구</option> -->
- <!--                       <option value="">Berlin Germany</option> -->
- <!--                       <option value="">Lodon United Kingdom</option> --> 
- <!--                       <option value="">Paris Italy</option> --> 
-<!--                     </select> -->
-<!--                   </div> -->
-<!--                   <div class="textfield-search one-third"> -->
-<!--                   	<input type="text" class="form-control" placeholder="Ex: food, service, hotel"> -->
-<!--                   </div> -->
-<!--                 </div> -->
-<!--                 <input type="submit" class="search-submit btn btn-primary" value="" >   -->
-<!--               </form> -->
-<!--             </div> -->
-<!--             <p>Or browse the highlights</p> -->
-<!--             <p class="browse d-md-flex"> -->
-<!--             	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-fork"></i>Restaurant</a></span> -->
-<!--             	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-hotel"></i>Hotel</a></span>  -->
-<!--             	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-meeting-point"></i>Places</a></span>  -->
-<!--             	<span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-shopping-bag"></i>Shopping</a></span> -->
-<!--             </p> -->
-<!--           </div> -->
-<!--         </div> -->
-<!--       </div> -->
-<!--     </div> -->
-    <!-- 상단1 END div hero-wrap js-fullheight -->
-    
-    <!-- 상단2 section1 -->
-    <section class="ftco-section services-section bg-light">
-      <div class="container">
-        <div class="row d-flex">
-          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-block text-center">
-              <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-guarantee"></span></div></div>
-              <div class="media-body p-2 mt-2">
-                <h3 class="heading mb-3">Best Price Guarantee</h3>
-                <p>A small river named Duden flows by their place and supplies.</p>
-              </div>
-            </div>      
-          </div>
-          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-block text-center">
-              <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-like"></span></div></div>
-              <div class="media-body p-2 mt-2">
-                <h3 class="heading mb-3">Travellers Love Us</h3>
-                <p>A small river named Duden flows by their place and supplies.</p>
-              </div>
-            </div>    
-          </div>
-          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-block text-center">
-              <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-detective"></span></div></div>
-              <div class="media-body p-2 mt-2">
-                <h3 class="heading mb-3">Best Travel Agent</h3>
-                <p>A small river named Duden flows by their place and supplies.</p>
-              </div>
-            </div>      
-          </div>
-          <div class="col-md-3 d-flex align-self-stretch ftco-animate">
-            <div class="media block-6 services d-block text-center">
-              <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-support"></span></div></div>
-              <div class="media-body p-2 mt-2">
-                <h3 class="heading mb-3">Our Dedicated Support</h3>
-                <p>A small river named Duden flows by their place and supplies.</p>
-              </div>
-            </div>      
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- 상단2 END section1 -->
     
     <!-- 상단3 session2 -->
      <section class="ftco-section ftco-destination">
     	<div class="container">
     		<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
-          <!-- jh 수정 : Featured → 추천 -->
           	<span class="subheading">추천</span>
-          	<!-- jh 수정 : Featured → 인기 관광지, Destination → Best 6 -->
             <h2 class="mb-4"><strong>인기 관광지</strong> Best 6</h2>
           </div>
         </div>
@@ -318,9 +221,7 @@
     	<div class="container">
 				<div class="row justify-content-start mb-5 pb-3">
           <div class="col-md-7 heading-section ftco-animate">
-          <!-- jh 수정 : Special Offers → 추천 -->
           	<span class="subheading">추천</span>
-          	<!-- jh 수정 : Special Offers → 인기 숙소, Tour Packages → Best 5 -->
             <h2 class="mb-4"><strong>인기 숙소</strong> Best 5</h2>
           </div>
         </div>    		
@@ -678,17 +579,9 @@
     <section class="ftco-section testimony-section bg-light">
       <div class="container">
         <div class="row justify-content-start">
-          <div class="col-md-5 heading-section ftco-animate">
-          	<span class="subheading">Best Directory Website</span>
-            <h2 class="mb-4 pb-3"><strong>Why</strong> Choose Us?</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.</p>
-            <p><a href="#" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3">Read more</a></p>
-          </div>
-		  <div class="col-md-1"></div>
           <div class="col-md-6 heading-section ftco-animate">
-          	<span class="subheading">Testimony</span>
-            <h2 class="mb-4 pb-3"><strong>Our</strong> Guests Says</h2>
+          	<span class="subheading">추천</span>
+            <h2 class="mb-4 pb-3"><strong>여행 후기</strong></h2>
           	<div class="row ftco-animate">
 		          <div class="col-md-12">
 		            <div class="carousel-testimony owl-carousel">
@@ -736,6 +629,7 @@
 		              </div>
 		            </div>
 		          </div>
+		          <p><a href="#" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3">Read more</a></p>
 		        </div>
           </div>
         </div>
@@ -743,280 +637,73 @@
     </section>
     <!-- END 상단7 section6 -->
     
-    <!-- 상단8 section7 -->
-    <section class="ftco-section">
-    	<div class="container">
-				<div class="row justify-content-start mb-5 pb-3">
-          <div class="col-md-7 heading-section ftco-animate">
-          	<span class="subheading">Special Offers</span>
-            <h2 class="mb-4"><strong>Popular</strong>Hotels &amp; Rooms</h2>
-          </div>
-        </div>    		
-    	</div>
-    	<div class="container-fluid">
-    		<div class="row">
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../resources/images/hotel-1.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Hotel, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price per-price">$40<br><small>/night</small></span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-    							<span class="ml-auto"><a href="#">Book Now</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../resources/images/hotel-2.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Hotel, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price per-price">$40<br><small>/night</small></span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-    							<span class="ml-auto"><a href="#">Book Now</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../resources/images/hotel-3.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Hotel, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price per-price">$40<br><small>/night</small></span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-    							<span class="ml-auto"><a href="#">Book Now</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../resources/images/hotel-4.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Hotel, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price per-price">$40<br><small>/night</small></span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-    							<span class="ml-auto"><a href="#">Book Now</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-sm col-md-6 col-lg ftco-animate">
-    				<div class="destination">
-    					<a href="#" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(../resources/images/hotel-5.jpg);">
-    						<div class="icon d-flex justify-content-center align-items-center">
-    							<span class="icon-search2"></span>
-    						</div>
-    					</a>
-    					<div class="text p-3">
-    						<div class="d-flex">
-    							<div class="one">
-		    						<h3><a href="#">Hotel, Italy</a></h3>
-		    						<p class="rate">
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star"></i>
-		    							<i class="icon-star-o"></i>
-		    							<span>8 Rating</span>
-		    						</p>
-	    						</div>
-	    						<div class="two">
-	    							<span class="price per-price">$40<br><small>/night</small></span>
-    							</div>
-    						</div>
-    						<p>Far far away, behind the word mountains, far from the countries</p>
-    						<hr>
-    						<p class="bottom-area d-flex">
-    							<span><i class="icon-map-o"></i> Miami, Fl</span> 
-    							<span class="ml-auto"><a href="#">Book Now</a></span>
-    						</p>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </section>
-    <!-- 상단8 END section7 -->
     
     <!-- 상단9 section8 -->
-    <section class="ftco-section bg-light">
-      <div class="container">
-        <div class="row justify-content-start mb-5 pb-3">
-          <div class="col-md-7 heading-section ftco-animate">
-            <span class="subheading">Recent Blog</span>
-            <h2><strong>Tips</strong> &amp; Articles</h2>
-          </div>
-        </div>
-        <div class="row d-flex">
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('../resources/images/image_1.jpg');">
-              </a>
-              <div class="text p-4 d-block">
-              	<span class="tag">Tips, Travel</span>
-                <h3 class="heading mt-3"><a href="#">8 Best homestay in Philippines that you don't miss out</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('../resources/images/image_2.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Culture</span>
-                <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('../resources/images/image_3.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Tips, Travel</span>
-                <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch">
-              <a href="blog-single.html" class="block-20" style="background-image: url('../resources/images/image_4.jpg');">
-              </a>
-              <div class="text p-4">
-              	<span class="tag">Tips, Travel</span>
-                <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                <div class="meta mb-3">
-                  <div><a href="#">August 12, 2018</a></div>
-                  <div><a href="#">Admin</a></div>
-                  <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- END 상단9 section8 -->
-    
-    <!-- 상단10 section9 -->
-    <!-- jh 수정 : section9 주석 처리 -->
-<!--     <section class="ftco-section-parallax"> -->
-<!--       <div class="parallax-img d-flex align-items-center"> -->
-<!--         <div class="container"> -->
-<!--           <div class="row d-flex justify-content-center"> -->
-<!--             <div class="col-md-7 text-center heading-section heading-section-white ftco-animate"> -->
-<!--               <h2>Subcribe to our Newsletter</h2> -->
-<!--               <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p> -->
-<!--               <div class="row d-flex justify-content-center mt-5"> -->
-<!--                 <div class="col-md-8"> -->
-<!--                   <form action="#" class="subscribe-form"> -->
-<!--                     <div class="form-group d-flex"> -->
-<!--                       <input type="text" class="form-control" placeholder="Enter email address"> -->
-<!--                       <input type="submit" value="Subscribe" class="submit px-3"> -->
-<!--                     </div> -->
-<!--                   </form> -->
+<!--     <section class="ftco-section bg-light"> -->
+<!--       <div class="container"> -->
+<!--         <div class="row justify-content-start mb-5 pb-3"> -->
+<!--           <div class="col-md-7 heading-section ftco-animate"> -->
+<!--             <span class="subheading">Recent Blog</span> -->
+<!--             <h2><strong>Tips</strong> &amp; Articles</h2> -->
+<!--           </div> -->
+<!--         </div> -->
+<!--         <div class="row d-flex"> -->
+<!--           <div class="col-md-3 d-flex ftco-animate"> -->
+<!--             <div class="blog-entry align-self-stretch"> -->
+<!--               <a href="blog-single.html" class="block-20" style="background-image: url('../resources/images/image_1.jpg');"> -->
+<!--               </a> -->
+<!--               <div class="text p-4 d-block"> -->
+<!--               	<span class="tag">Tips, Travel</span> -->
+<!--                 <h3 class="heading mt-3"><a href="#">8 Best homestay in Philippines that you don't miss out</a></h3> -->
+<!--                 <div class="meta mb-3"> -->
+<!--                   <div><a href="#">August 12, 2018</a></div> -->
+<!--                   <div><a href="#">Admin</a></div> -->
+<!--                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div> -->
+<!--                 </div> -->
+<!--               </div> -->
+<!--             </div> -->
+<!--           </div> -->
+<!--           <div class="col-md-3 d-flex ftco-animate"> -->
+<!--             <div class="blog-entry align-self-stretch"> -->
+<!--               <a href="blog-single.html" class="block-20" style="background-image: url('../resources/images/image_2.jpg');"> -->
+<!--               </a> -->
+<!--               <div class="text p-4"> -->
+<!--               	<span class="tag">Culture</span> -->
+<!--                 <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3> -->
+<!--                 <div class="meta mb-3"> -->
+<!--                   <div><a href="#">August 12, 2018</a></div> -->
+<!--                   <div><a href="#">Admin</a></div> -->
+<!--                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div> -->
+<!--                 </div> -->
+<!--               </div> -->
+<!--             </div> -->
+<!--           </div> -->
+<!--           <div class="col-md-3 d-flex ftco-animate"> -->
+<!--             <div class="blog-entry align-self-stretch"> -->
+<!--               <a href="blog-single.html" class="block-20" style="background-image: url('../resources/images/image_3.jpg');"> -->
+<!--               </a> -->
+<!--               <div class="text p-4"> -->
+<!--               	<span class="tag">Tips, Travel</span> -->
+<!--                 <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3> -->
+<!--                 <div class="meta mb-3"> -->
+<!--                   <div><a href="#">August 12, 2018</a></div> -->
+<!--                   <div><a href="#">Admin</a></div> -->
+<!--                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div> -->
+<!--                 </div> -->
+<!--               </div> -->
+<!--             </div> -->
+<!--           </div> -->
+<!--           <div class="col-md-3 d-flex ftco-animate"> -->
+<!--             <div class="blog-entry align-self-stretch"> -->
+<!--               <a href="blog-single.html" class="block-20" style="background-image: url('../resources/images/image_4.jpg');"> -->
+<!--               </a> -->
+<!--               <div class="text p-4"> -->
+<!--               	<span class="tag">Tips, Travel</span> -->
+<!--                 <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3> -->
+<!--                 <div class="meta mb-3"> -->
+<!--                   <div><a href="#">August 12, 2018</a></div> -->
+<!--                   <div><a href="#">Admin</a></div> -->
+<!--                   <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div> -->
 <!--                 </div> -->
 <!--               </div> -->
 <!--             </div> -->
@@ -1024,7 +711,8 @@
 <!--         </div> -->
 <!--       </div> -->
 <!--     </section> -->
-    <!-- END 상단10 section9 -->
+    <!-- END 상단9 section8 -->
+    
     
    <!-- 하단 footer -->
    <%@ include file="/WEB-INF/views/include/footer.jsp" %>

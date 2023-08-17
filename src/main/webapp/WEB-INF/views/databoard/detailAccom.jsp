@@ -284,8 +284,7 @@
 	
 </script>
 
-<div class="hero-wrap js-fullheight"
-	style="background-image: url('../resources/images/bg_5.jpg');">
+<div style="background-color: #000000; width: 100%; height: 90px;">
 	<div class="overlay"></div>
 	<div class="container">
 		<div
@@ -415,7 +414,7 @@
 									<div class="destination">
 										<a href="/databoard/getAccomInfo?bno=${accomVo.bno}" class="img img-2"
 											style="background-image: url('..${accomVo.image}.jpg');"></a>
-										<div class="text p-3">
+										<div class="meta p-3">
 											<div class="d-flex">
 												<div class="one" style="width: calc(100%);">
 													<h3>
@@ -432,14 +431,8 @@
 											<span class="tag">${accomVo.address} ${accomVo.addressdetail}</span>
 											<div class="meta mb-3" >
 												<div>
-													<a href="#">Tel. ${accomVo.anumber}</a>
+													Tel. ${accomVo.anumber}
 												</div>
-<!-- 												<div> -->
-<%-- 													<a href="#">Open. ${accomVo.openhours}</a> --%>
-<!-- 												</div> -->
-<!-- 												<div> -->
-<%-- 													<a href="#">${foodVo.menu}</a> --%>
-<!-- 												</div> -->
 											</div>
 										</div>
 									</div>

@@ -10,10 +10,12 @@ $(function(){
 	// 필터
 	$("#selectBox").change(function() {
         const selectBoxValue = $(this).val();
+        console.log("selectBoxValue:", selectBoxValue); // test ok
+        location.href = "";
 		var url = "/databoard/filterRestaurant/" + encodeURIComponent(selectBoxValue.toString());
 		
 		$.get(url, function(rData){
-// 			console.log("foodFilterList:", rData); 
+			console.log("foodFilterList:", rData); // test ok
 			var foodListContainer = $("#foodListContainer");
             foodListContainer.empty(); // 기존에 담겨있던 데이터 비우기
             
@@ -28,7 +30,7 @@ $(function(){
 								<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
 								<a href="#" class="meta-chat"><span class="icon-chat"></span>${foodVo.replycnt}</a>
 							</h3>
-							<span class="tag">${foodVo.address}</span>
+							<span class="tag">${foodVo}</span>
 							<div class="meta mb-3">
 								<div>
 									<a href="#">Tel. ${foodVo.rnumber}</a>
@@ -58,8 +60,7 @@ $(function(){
 	<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 	<!-- END menu -->
 
-	<div class="hero-wrap js-fullheight"
-		style="background-image: url('../resources/images/bg_4.jpg');">
+	<div style="background-color: #000000; width: 100%; height: 90px;">
 		<div class="overlay"></div>
 		<div class="container">
 			<div

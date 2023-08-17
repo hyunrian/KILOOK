@@ -30,10 +30,11 @@ public class FoodController {
 	
 	// 맛집 전체 조회
 	@RequestMapping(value = "/restaurant", method = RequestMethod.GET)
-	public String getFoodList(Model model, HttpSession session) throws Exception{
+	public String getFoodList(FoodPagingDto foodPagingDto, Model model, HttpSession session) throws Exception{
 		// 페이징
 //		int totalCount = foodService.getFoodCountPaging(foodPagingDto);
 //		foodPagingDto = new FoodPagingDto(foodPagingDto.getPage(), foodPagingDto.getPerPage(), totalCount);
+		
 		
 		List<FoodVo> list = foodService.getFoodList();
 		

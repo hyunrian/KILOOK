@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
+<style>
+
+</style>
 <!-- menu -->
 <%@ include file="/WEB-INF/views/include/menu.jsp"%>
 <!-- END menu -->
@@ -288,10 +291,9 @@ function insertReply(replyObject) {
 	} 
 </script>
 
-<div class="hero-wrap js-fullheight"
-	style="background-image: url('../resources/images/bg_5.jpg');">
+<div style="background-color: #000000; width: 100%; height: 90px;">
 	<div class="overlay"></div>
-	<div class="container">
+	<div class="container" style="width:100%; height: 100px;">
 		<div
 			class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
 			data-scrollax-parent="true">
@@ -419,7 +421,8 @@ function insertReply(replyObject) {
 									<div class="destination">
 										<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="img img-2"
 											style="background-image: url('${foodVo.thumbimage}');"></a>
-										<div class="text p-3">
+<!-- 										<div class="text p-3"> -->
+										<div class="meta p-3">
 											<div class="d-flex">
 												<div class="one" style="width: calc(100%);">
 													<h3>
@@ -436,13 +439,13 @@ function insertReply(replyObject) {
 											<span class="tag">${foodVo.address}</span>
 											<div class="meta mb-3" >
 												<div>
-													<a href="#">Tel. ${foodVo.rnumber}</a>
+													Tel. ${foodVo.rnumber}
 												</div>
 												<div>
-													<a href="#">Open. ${foodVo.openhours}</a>
+													Open. ${foodVo.openhours}
 												</div>
 												<div>
-													<a href="#">${foodVo.menu}</a>
+													${foodVo.menu}
 												</div>
 											</div>
 										</div>
