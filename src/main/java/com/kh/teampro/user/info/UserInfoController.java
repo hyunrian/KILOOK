@@ -49,24 +49,32 @@ public class UserInfoController {
 		return "userinfo/mypage";
 	}
 	
-	// 유저 정보 수정 페이지로 이동, 데이터를 받아서 수정란에 넣기
-	// 원한다면 수정하려는 유저 id만 받아서 해당 id로 정보 기록하는 방식으로 변경 가능 - 현재는 아님.
+	// 유저 정보 수정 페이지로 이동, 세션 데이터를 받아서 수정란에 넣기
 	@RequestMapping(value = "/infoUpdate", method = RequestMethod.POST)
-	public String toUserInfoUpdatePage(@ModelAttribute UserVo userVo, Model model) {
+	public String toUserInfoUpdatePage(Model model, HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		model.addAttribute("userVo", userVo);
 		return "userinfo/userInfoUpdatePage";
 	}
 	
-	// 유저 정보 수정하기
+	// 중복 닉네임 확인
+	@RequestMapping(value = "/checkDup", method = RequestMethod.POST)
+	@ResponseBody
+	public String checkDupNickname() {
+		
+		return "success";
+	}
+	
+	// 유저 정보 수정하기, 정보 수정 전 위 함수로 jsp에서 비동기로 중복 닉네임 있는지 확인
 	// 현재 수정 가능 데이터 = uimg, unickname, upw
 	@RequestMapping(value = "/updateDone", method = RequestMethod.POST)
-	public String updateUserInfo(@ModelAttribute UserVo userVo, Model model) {
-		// 정보 수정 전 jsp에서 비동기로 중복 닉네임 있는지 확인
-		// 기능 구현 확인 후 아래 주석처리 해제
+	public String updateUserInfo(@ModelAttribute UserVo userVo, HttpSession session) {
 		userInfoService.updateUserInfo(userVo);
+		// 수정 후 세션에서 기존 데이터 삭제 후 수정된 데이터 저장
+		session.removeAttribute(MyConstants.LOGIN);
+		session.setAttribute(MyConstants.LOGIN, userVo);
 		// 정보 수정 후 다시 마이페이지로
-		model.addAttribute("userVo", userVo);
-		return "userinfo/mypage";
+		return "redirect:/userInfo/mypage";
 	}
 	
 	@Autowired
