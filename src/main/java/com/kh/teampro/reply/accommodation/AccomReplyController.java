@@ -35,8 +35,8 @@ public class AccomReplyController {
 		HttpSession session) throws Exception{
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 //		foodReplyVo.setReplyer(userVo.getUserid()); // (수정필요)
-		accomReplyVo.setReplyer("writer00"); // 닉네임 : test00 (임시 set)
-		accomReplyVo.setUserid("userId00"); // 아이디 : test00 (임시 set)
+		accomReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
+		accomReplyVo.setUserid("testuser"); // 아이디 : test00 (임시 set)
 		if(accomReplyVo.getRlevel() == 0) {
 			accomReplyService.insertAccomNewReply(accomReplyVo);
 		} else {
@@ -53,7 +53,7 @@ public class AccomReplyController {
 	 // 댓글 수정
 	@RequestMapping(value = "/accomUpdate", method = RequestMethod.PATCH)
 	public String updateAccomReply(@RequestBody AccomReplyVo accomReplyVo) {
-		accomReplyVo.setReplyer("writer00"); // 닉네임 : test00 (임시 set)
+		accomReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
 		accomReplyService.updateAccomReply(accomReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}
