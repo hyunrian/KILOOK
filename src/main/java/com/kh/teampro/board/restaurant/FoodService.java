@@ -20,6 +20,12 @@ public class FoodService {
 		return list;
 	}
 	
+	// 맛집 필터링 조회
+	public List<FoodVo> getFoodFilterList(String location) throws Exception{
+		List<FoodVo> list = foodDao.getFoodFilterList(location);
+		return list;
+	}
+	
 	// 해당 맛집 상세보기
 	public FoodVo getFoodInfo(int bno) throws Exception{
 		FoodVo list = foodDao.getFoodInfo(bno);

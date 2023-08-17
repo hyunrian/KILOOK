@@ -46,7 +46,7 @@
 	          	</ul>
 	          </li>
 	          <li class="nav-item cta">
-		          <a href="../resources/login.html" class="nav-link">
+		          <a href="/userInfo/mypage" class="nav-link">
 		          	<!-- jh 추가 -->
 		          	<img class="userImg" src="data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' 
 			          viewBox='0 0 64 64' aria-labelledby='title' aria-describedby='desc' role='img' 

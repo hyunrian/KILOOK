@@ -3,7 +3,57 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
-<body>
+<script>
+
+$(function(){
+	
+	// 필터
+	$("#selectBox").change(function() {
+        const selectBoxValue = $(this).val();
+		var url = "/databoard/filterRestaurant/" + encodeURIComponent(selectBoxValue.toString());
+		
+		$.get(url, function(rData){
+// 			console.log("foodFilterList:", rData); 
+			var foodListContainer = $("#foodListContainer");
+            foodListContainer.empty(); // 기존에 담겨있던 데이터 비우기
+            
+            rData.forEach(function(foodVo) {
+                var content = `
+                	<div class="col-md-3 d-flex ftco-animate">
+					<div class="blog-entry align-self-stretch">
+						<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="block-20"
+							style="background-image: url('${foodVo.thumbimage}');"> </a>
+						<div class="text p-4 d-block">
+							<h3 class="heading mt-3">
+								<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
+								<a href="#" class="meta-chat"><span class="icon-chat"></span>${foodVo.replycnt}</a>
+							</h3>
+							<span class="tag">${foodVo.address}</span>
+							<div class="meta mb-3">
+								<div>
+									<a href="#">Tel. ${foodVo.rnumber}</a>
+								</div>
+								<div>
+									<a href="#">Open. ${foodVo.openhours}</a>
+								</div>
+								<div>
+									<a href="#">${foodVo.menu}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                `;
+
+                foodListContainer.append(content);
+            });
+		});
+    });
+	
+});
+
+</script>
+
 	<!-- menu -->
 	<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 	<!-- END menu -->
@@ -29,10 +79,37 @@
 		</div>
 	</div>
 
-
-	<section class="ftco-section bg-light">
+	<section class="ftco-section bg-light" >
+		<!-- 필터 -->
 		<div class="container">
 			<div class="row d-flex">
+				<select id="selectBox" style="width: 200px; height: 25px;
+						 margin-bottom: 15px; margin-left: 900px; text-align: center;"
+						 >
+					<option value="전체보기" selected>전체보기</option>
+					<option value="강서구">강서구</option>
+					<option value="영도구">영도구</option>
+					<option value="부산진구">부산진구</option>
+					<option value="연제구">연제구</option>
+					<option value="중구">중구</option>
+					<option value="금정구">금정구</option>
+					<option value="북구">북구</option>
+					<option value="해운대구">해운대구</option>
+					<option value="사상구">사상구</option>
+					<option value="기장군">기장군</option>
+					<option value="사하구">사하구</option>
+					<option value="서구">서구</option>
+					<option value="남구">남구</option>
+					<option value="수영구">수영구</option>
+					<option value="동구">동구</option>
+					<option value="동래구">동래구</option>
+				</select>
+			</div>
+		</div>
+		<!-- END 필터 -->
+		
+		<div class="container">
+			<div class="row d-flex" id="foodListContainer">
 				<c:forEach items="${foodList}" var="foodVo">
 					<div class="col-md-3 d-flex ftco-animate">
 						<div class="blog-entry align-self-stretch">

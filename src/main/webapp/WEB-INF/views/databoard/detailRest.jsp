@@ -59,15 +59,15 @@
 		});
 	});
 	
-//댓글창 보기
+// 댓글창 보기
 function showReply(){
 	$("#reply").css('display', 'block')
 	$("#replyFlag").attr("onClick", "hideReply()")
 }
 
-//; 댓글 여부 체크
+// 댓글 여부 체크
 function hasChildReply(rno) {
-	$.get("/userReply/checkDelete/" + rno, function(hasReply) {
+	$.get("/reply/checkChildRestReply/" + rno, function(hasReply) {
 		if (hasReply == "true") {
 			return true;
 		} else {
@@ -87,7 +87,9 @@ function getReplyList(){
 
 	const bno = "${getFoodInfo.bno}";
 	$.get("/reply/restList?bno=" + bno, function(rData){
+		console.log(`rdata`)
 		console.log(rData)
+		console.log(`rdata`)
 		$.each(rData, function(i, item){
 			$(".replyElem").remove();
 			var status = "default";
@@ -102,16 +104,14 @@ function getReplyList(){
 				if(status == "default" || status == "deleted"){
 					let reply = null;
 					if(item.rlevel == 1){
-						reply = $("#rplyUl").clone();
+						reply = $("#replyUl").clone();
 					} else {
-						console.log(`li`)
 						reply = $("#replyLi").clone();
 					}
 					reply.removeAttr("id").addClass("replyElem");
 					
 					const div = reply.find("div").eq(1);
 					div.find("h3").text(item.replyer);
-					console.log(item.replyer)
 					
 					const dateDiv = div.find("div").eq(0);
 					if(item.updatedate != null){
@@ -143,12 +143,28 @@ function getReplyList(){
 						div.prev().find("img").remove();
 					}
 					reply.show();
-					console.log(reply)
 					$("#replyList").append(reply);
 				}
 			}, 600);
 		});
 	});
+}
+
+function btnReplyCommentWrite(rno){
+	
+	const replytext = $("#replytext").val().trim();
+	const replyObject = {
+		replytext : replytext,
+		rlevel : 1,
+		rno : rno,
+		parentreplyer : null,
+		type : "newReply",
+		bno : "${getFoodInfo.bno}"
+	}
+	debugger;
+	insertReply(replyObject);
+	
+	$("#replytext").val(""); 
 }
 
 $(window).on("load", function() {
@@ -169,7 +185,8 @@ $(window).on("load", function() {
 		insertReply(replyObject);
 		
 		$("#replytext").val(""); 
-	});
+	}); 
+	
 	
 	//대댓글창 열기
 	$("#replyList").on("click", ".replyBtn", function(e) {
@@ -179,6 +196,12 @@ $(window).on("load", function() {
 			const replyForm = $("#replyForm").clone();
 			replyForm.addClass("replyForm");
 			replyForm.find("input").eq(1).attr("data-type", "reReply");
+			const rno = $(this).attr("data-rno");
+			console.log(`rno`)
+			console.log(rno)
+			console.log(`rno`)
+			replyForm.find("input").eq(1).attr("onClick", `btnReplyCommentWrite(\${rno})`);
+			
 			$(this).parent().append(replyForm);
 	});
 
@@ -189,7 +212,7 @@ $(window).on("load", function() {
 		const rno = that.attr("data-rno");
 		$.ajax({
 			"type" : "patch",
-			"url" : "/userReply/delete",
+			"url" : "/reply/restDelete",
 			"data" : rno,
 			"success" : function(rData) {
 				that.closest(".replyElem").fadeOut(700);
@@ -255,7 +278,7 @@ function insertReply(replyObject) {
 				"rlevel" : replyObject?.rlevel,
 				"rno" : replyObject?.rno,
 				"unickname" : replyObject?.unickname ?? "test",
-				"bno" : replyObject?.bno
+				
 			};
 			
 			$.post("/reply/restInsert", sData, function(rData) {
@@ -374,7 +397,7 @@ function insertReply(replyObject) {
 									<div class="col-md-1">
 											<input type="button" value="댓글 쓰기"  
 											class="btn py-3 px-4 btn-primary" style="border: none;"
-											data-type="newReply" id="btnReplyWrite">
+											data-type="newReply" id="btnReplyWrite" >
 <!-- 										<button type="button" class="btn btn-sm btn-primary" -->
 <!-- 											id="btnReplyWrite" onclick="ReplyWrite()">입력</button> -->
 									</div>

@@ -8,9 +8,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.Like.board.FoodLikeService;
 import com.kh.teampro.Like.board.FoodLikeVo;
@@ -36,6 +39,14 @@ public class FoodController {
 		
 		model.addAttribute("foodList", list);
 		return "databoard/restaurant";
+	}
+	
+	// 맛집 필터링 조회
+	@ResponseBody
+	@RequestMapping(value = "/filterRestaurant/{location}", method = RequestMethod.GET)
+	public List<FoodVo> getFoodFilterList(@PathVariable String location, HttpSession session) throws Exception{
+		List<FoodVo> list = foodService.getFoodFilterList(location);
+		return list;
 	}
 	
 	// 해당 맛집 상세보기

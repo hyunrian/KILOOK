@@ -6,7 +6,7 @@
 <mapper namespace="com.kh.teampro.AttrReplyMapper">
 
 	<!-- 댓글 목록 -->
-	<select id="placeReplyList" resultType="FoodReplyVo">
+	<select id="placeReplyList" resultType="PlaceReplyVo">
 		select * from tbl_attreply
 		where bno = #{bno}
 		order by rgroup, rseq
@@ -44,10 +44,9 @@
 			, replytext
 			, replyer
 			, rgroup
+			, regdate
 			, rseq
 			, rlevel
-			, unickname
-			, userid
 			)
 		values
 			(seq_attreply_rno.nextval
@@ -55,10 +54,9 @@
 			, #{replytext}
 			, #{replyer}
 			, #{rgroup}
+			, sysdate
 			, #{rseq}
 			, 1
-			, #{unickname}
-			, #{userid}
 			)
 	</insert>
 	
