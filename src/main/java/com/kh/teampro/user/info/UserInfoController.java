@@ -40,7 +40,7 @@ public class UserInfoController {
 		int userBoardCount = userInfoService.readUserBoardCount(userid); 
 		int userReplyCount = userInfoService.readUserReplyCount(userid); 
 		// 유저 한명 정보를 읽은 뒤 데이터와 함께 마이페이지로 보냄 
-		model.addAttribute("userVo", userVo); // 유저 데이터. 현재 세션에 있음
+		model.addAttribute("userVo", userVo); // 유저 데이터
 		model.addAttribute("boardList", boardList); // 게시글 목록
 		model.addAttribute("replyList", replyList); // 댓글 목록
 		model.addAttribute("userBoardCount", userBoardCount); // 게시글 갯수
@@ -49,7 +49,7 @@ public class UserInfoController {
 		return "userinfo/mypage";
 	}
 	
-	// 유저 정보 수정 페이지로 이동, 세션 데이터를 받아서 수정란에 넣기
+	// 유저 정보 수정 페이지로 이동
 	@RequestMapping(value = "/infoUpdate", method = RequestMethod.POST)
 	public String toUserInfoUpdatePage(Model model, HttpSession session) {
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);

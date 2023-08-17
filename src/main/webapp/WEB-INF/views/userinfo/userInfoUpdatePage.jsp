@@ -99,7 +99,6 @@ $(function(){
               </div>	
             </form>
             
-            <input type="hidden" id="userid" value="testuser"> <!-- 임시데이터. 이후 loginInfo session 생성시 거기서 userid 따올것 -->
             <input type="hidden" id="verifyCode" value="${verifyCode}">
             <input type="hidden" id="uemail" value="${uemail}">
              

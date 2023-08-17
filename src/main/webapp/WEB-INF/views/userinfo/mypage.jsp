@@ -24,13 +24,9 @@ $(function(){
 	// 유저 정보 수정 버튼(데이터 담아서 정보 수정 페이지로 이동)
  	$("#btnUserUpdate").click(function(){
 		var form = $("#userVoForm");
-		form.attr("action", "/userinfo/infoUpdate");
+		form.attr("action", "/userInfo/infoUpdate");
 		form.submit();
 	});
-	
-	$("#btnLogout").click(function(){
-		//loginUser/logout
-	})
 	
 });
 </script>
@@ -83,47 +79,79 @@ $(function(){
 	                </c:otherwise>
                 </c:choose>
                 <div class="meta">가입일 : ${userVo.joindate}</div>
-                
-                <input type="button" id="btnLogout" value="로그아웃" style="margin-top: 5px">
+                <input type="button" id="btnLogout" value="로그아웃" style="margin-top: 5px" onclick="location.href='/loginUser/logout'">
                 <p style="color: white;">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</p>
               </div>
             </div>
 
+			<!-- 작성한 게시물 미리보기. 작성한 글이 없을때도 안내함. -->
             <div class="pt-5 mt-5">
               <h3 class="mb-5">내 게시물 미리보기</h3>
-              <ul class="comment-list">
-              	<c:forEach items="${boardList}" var="boardDto" begin="0" end="0"> <!-- 글 리스트 한개만 -->
-                <li class="comment">
-                  <div class="comment-body">
-                    <h3>${boardDto.title}</h3>
-                    <div class="meta">작성일 : ${boardDto.regdate}</div>
-                    <p>좋아요 갯수 : ${boardDto.likecnt}</p>
-                    <p>조회수 : ${boardDto.viewcnt}</p>
-                    </div>
-                </li>
-                </c:forEach>
-              </ul>
+              <c:choose>
+              	<c:when test="${userBoardCount == 0}">
+              		<h4 class="mb-5">작성한 게시물 없음</h4>
+              	</c:when>
+              	<c:otherwise>
+              		<ul class="comment-list">
+	              	<c:forEach items="${boardList}" var="boardDto" begin="0" end="0"> <!-- 글 리스트 한개만 -->
+		              <li class="comment">
+		                 <div class="comment-body">
+		                   <h3>${boardDto.title}</h3>
+		                   <div class="meta">작성일 : ${boardDto.regdate}</div>
+		                   <p>좋아요 갯수 : ${boardDto.likecnt}</p>
+		                   <p>조회수 : ${boardDto.viewcnt}</p>
+		                 </div>
+		              </li>
+		            </c:forEach>
+		            </ul>
+              	</c:otherwise>
+              </c:choose>
             </div>
             
+            <!-- 작성한 댓글 미리보기. 작성한 댓글이 없을때도 안내함. -->
             <div class="pt-5 mt-5">
               <h3 class="mb-5">내 댓글 미리보기</h3>
-              <ul class="comment-list">
-              	<c:forEach items="${replyList}" var="replyDto" begin="0" end="0"> <!-- 댓글 리스트 한개만 -->
-                <li class="comment">
-                  <div class="comment-body">
-                    <h3>${replyDto.replytext}</h3>
-                    <div class="meta">${replyDto.regdate}</div>
-                    <p>게시물 제목 : ${replyDto.title}</p>
-                  </div>
-                </li>
-                </c:forEach>
-              </ul>
+              <c:choose>
+              	<c:when test="${userReplyCount == 0}">
+              		<h4 class="mb-5">작성한 댓글 없음</h4>
+              	</c:when>
+              	<c:otherwise>
+              		<ul class="comment-list">
+		              	<c:forEach items="${replyList}" var="replyDto" begin="0" end="0"> <!-- 댓글 리스트 한개만 -->
+		                <li class="comment">
+		                  <div class="comment-body">
+		                    <h3>${replyDto.replytext}</h3>
+		                    <div class="meta">${replyDto.regdate}</div>
+		                    <p>게시물 제목 : ${replyDto.title}</p>
+		                  </div>
+		                </li>
+		                </c:forEach>
+		            </ul>
+              	</c:otherwise>
+              </c:choose>
             </div>
           </div> <!-- .col-md-8 -->
 
         </div>
       </div>
     </section> <!-- .section -->
+    
+    <!-- 이하 페이지에 표시 되지 않는 내용 -->
+	
+	<!-- 유저 정보 보관용 form -->
+	<!-- 정보 수정 시 전달될 데이터 -->
+	<form id="userVoForm" method="post" action="/userInfo/infoUpdate">
+		<input type="hidden" name="userid" value="${userVo.userid}">
+		<input type="hidden" name="upw" value="${userVo.upw}">
+		<input type="hidden" name="unickname" value="${userVo.unickname}">
+		<input type="hidden" name="upoint" value="${userVo.upoint}">
+		<input type="hidden" name="uimg" value="${userVo.uimg}">
+		<input type="hidden" name="uemail" value="${userVo.uemail}">
+		<input type="hidden" name="signupfrom" value="${userVo.signupfrom}">
+		<input type="hidden" name="joindate" value="${userVo.joindate}">
+		<input type="hidden" name="verified" value="${userVo.verified}">
+	</form>
+	<!-- //유저 정보 보관용 form -->
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>

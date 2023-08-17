@@ -51,7 +51,7 @@
 	<!-- 해당 유저가 작성한 댓글 갯수, delete_yn = 'N' (삭제되지 않은 댓글 갯수)만 가져옴-->
 	<select id="readUserReplyCount" resultType="int">
 		select count(*) from (select delete_yn from tbl_userreply
-               				  where userid = 'testuser'
+               				  where userid = #{userid}
                 			  and delete_yn = 'N')
 	</select>
 	
