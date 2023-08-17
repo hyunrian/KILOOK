@@ -324,10 +324,10 @@ $(function() {
 	loginForm.validate({
 		rules: {                    // 유효성 검사 규칙
 			userid: {				// 아이디 필드 (name="userid")
-				required: true,     // 필수 입력
+				required: true      // 필수 입력
 			},
 			upw: {     		        // 비밀번호 필드 (name="upw")
-				required: true,     // 필수 입력
+				required: true      // 필수 입력
 			}
 		},
 		messages: {                 // 오류값 발생시 출력할 메시지 수동 지정
@@ -537,6 +537,7 @@ $(function() {
 						<label class="form-check-label" for="useCookie">아이디 기억하기</label>
 					</div>
 					<button id="btnLogin" type="button" class="btn form_btn">확인</button>
+					<a href="/loginUser/findPassword" style="font-size: 10px; margin-top: 15px">비밀번호를 잊으셨나요?</a>
 				</form>
 			</div>
 			<div class="overlay-container">

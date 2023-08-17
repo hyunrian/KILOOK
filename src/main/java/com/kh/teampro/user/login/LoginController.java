@@ -90,11 +90,11 @@ public class LoginController {
 		return "redirect:/loginUser/login";
 	}
 	
-	// 비밀번호 찾기 폼으로 이동 (이메일 연동 임시 비밀번호 생성)
-//	@RequestMapping(value="/forgotPassword", method = RequestMethod.GET)
-//	public String forgotPassword() {
-//		return "/user/forgotPassword";
-//	}
+//	 비밀번호 찾기 폼으로 이동 (이메일 연동 임시 비밀번호 생성)
+	@RequestMapping(value="/findPassword", method = RequestMethod.GET)
+	public String forgotPassword() {
+		return "/user/findPassword";
+	}
 
 	// 임시 비밀번호 생성 (이메일 연동)
 //	@RequestMapping(value="/sendPassword", method = RequestMethod.POST)
@@ -119,7 +119,7 @@ public class LoginController {
 //				helper.setFrom("teamprobusan@gmail.com"); // 보내는이
 //				helper.setTo(email); // 받는이
 //				helper.setSubject("비밀번호 변경 안내"); // 제목
-//				helper.setText("변경된 비밀번호:" + newPass); // 내용
+//				helper.setText("변경된 비밀번호:" + newPass + "입니다"); // 내용
 //			}
 //		};
 //		mailSender.send(preparator);
