@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.kh.teampro.board.user.UserBoardDao;
+import com.kh.teampro.board.user.UserBoardVo;
 
 @Service
 public class UserReplyService {
@@ -11,16 +15,22 @@ public class UserReplyService {
 	@Autowired
 	private UserReplyDao userReplyDao;
 	
+	@Autowired
+	private UserBoardDao userBoardDao;
+	
 	public List<UserReplyVo> getUserReply(int bno) {
 		return userReplyDao.getUserReply(bno);
 	}
 	
+	@Transactional
 	public void insertUserNewReply(UserReplyVo userReplyVo) {
 		userReplyDao.insertUserNewReply(userReplyVo);
+		setUserBoardReplycnt(userReplyVo.getBno());
 	}
 	
 	public void insertUserReReply(UserReplyVo userReplyVo) {
 		userReplyDao.insertUserReReply(userReplyVo);
+		setUserBoardReplycnt(userReplyVo.getBno());
 	}
 	
 	public int getMaxRseq(int bno, int rgroup) {
@@ -35,8 +45,10 @@ public class UserReplyService {
 		return userReplyDao.getRgroup(rno);
 	}
 	
-	public void deleteReply(int rno) {
-		userReplyDao.deleteReply(rno);
+	@Transactional
+	public void deleteReply(UserReplyVo userReplyVo) {
+		userReplyDao.deleteReply(userReplyVo.getRno());
+		setUserBoardReplycnt(userReplyVo.getBno());
 	}
 	
 	public boolean hasChildReply(int rno) {
@@ -45,6 +57,15 @@ public class UserReplyService {
 	
 	public void updateUserReply(UserReplyVo userReplyVo) {
 		userReplyDao.updateUserReply(userReplyVo);
+	}
+	
+	public void setUserBoardReplycnt(int bno) {
+		UserBoardVo userBoardVo = new UserBoardVo();
+		int replycnt = getReplycnt(bno);
+		System.out.println("replycnt:" + replycnt);
+		userBoardVo.setBno(bno);
+		userBoardVo.setReplycnt(replycnt);
+		userBoardDao.updateReplycnt(userBoardVo);
 	}
 	
 }

@@ -45,6 +45,7 @@ toastr.options = {
 <style>
 .parent {
 	position: relative;
+	margin-top: 150px;
 }
 
 .clickable {
@@ -311,10 +312,15 @@ $(function() {
 		e.preventDefault();
 		const that = $(this);
 		const rno = that.attr("data-rno");
+		const sData = {
+				"rno" : that.attr("data-rno"),
+				"bno" : ${userBoardVo.bno}
+		};
 		$.ajax({
 			"type" : "patch",
 			"url" : "/userReply/delete",
-			"data" : rno,
+			"contentType" : "application/json",
+			"data" : JSON.stringify(sData),
 			"success" : function(rData) {
 				// 삭제했을 때 밑에 대댓글이 있으면 삭제된 댓글입니다 처리 필요
 				that.closest(".replyElem").fadeOut(700);
@@ -367,7 +373,15 @@ $(function() {
 	
 	// 뒤로가기 버튼
 	$("#btnBack").click(function() {
-		location.href = "/userboard/list";
+		if (${pagingDto != null}) {
+			$("input[name=nowPage]").val("${pagingDto.nowPage}");
+			$("input[name=option]").val("${pagingDto.option}");
+			$("input[name=keyword]").val("${pagingDto.keyword}");
+			$("input[name=filter]").val("${pagingDto.filter}");
+			$("#goToList").submit();
+		} else {
+			location.href="/userboard/list";
+		}
 	});
 	
 	// 게시글 삭제 버튼
@@ -385,17 +399,16 @@ $(function() {
 		}
 	});
 	
-	// 게시글 수정 버튼
-	$("#btnUpdate").click(function(e) {
-		
-	});
-	
 });
 </script>
 <%@ include file="/WEB-INF/views/include/menu.jsp"%>
 
-<div class="col-md-12">
-</div>
+<form action="/userboard/list" method="get" id="goToList"> 
+	<input type="hidden" name="nowPage" value="${pagingDto.nowPage}">
+	<input type="hidden" name="option">
+	<input type="hidden" name="keyword">
+	<input type="hidden" name="filter" value="${pagingDto.filter}">
+</form>
 
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
@@ -421,12 +434,6 @@ $(function() {
 				</div>
 				<br> <br>
 				<p>${userBoardVo.content}</p>
-				<div class="tag-widget post-tag-container mb-5 mt-5">
-					<div class="tagcloud">
-						<a class="tag-cloud-link">Life</a> <a class="tag-cloud-link">Sport</a>
-						<a class="tag-cloud-link">Tech</a> <a class="tag-cloud-link">Travel</a>
-					</div>
-				</div>
 
 				<!-- 게시글 좋아요, 공유하기 -->
 				<div class="parent">
@@ -459,23 +466,22 @@ $(function() {
 					<ul class="comment-list" id="replyList"
 						style="padding: 0px, 0px, 0px, 40px;">
 						<ul class="children" id="replyUl" style="display: none;">
-							<li class="comment" id="replyLi" />
-							<div class="vcard bio">
-								<img src="/resources/images/person_1.jpg"
-									alt="Image placeholder">
-							</div>
-							<div class="comment-body">
-								<h3>작성자</h3>
-								<div class="meta" style="text-align: right;">날짜</div>
-								<span style="font-weight: bold; display: none;">@원댓글작성자</span> <span>내용</span>
-								<p style="text-align: right;">
-									<a href="#" class="reply updateReply">수정</a>
-									<a href="#"
-										class="reply deleteReply">삭제</a> <a href="#"
-										class="reply replyBtn">답댓글</a>
-								</p>
-								<br>
-							</div>
+							<li class="comment" id="replyLi">
+								<div class="vcard bio">
+									<img src="/resources/images/person_1.jpg"
+										alt="Image placeholder">
+								</div>
+								<div class="comment-body">
+									<h3>작성자</h3>
+									<div class="meta" style="text-align: right;">날짜</div>
+									<span style="font-weight: bold; display: none;">@원댓글작성자</span> <span>내용</span>
+									<p style="text-align: right;">
+										<a href="#" class="reply updateReply">수정</a>
+										<a href="#" class="reply deleteReply">삭제</a> 
+										<a href="#" class="reply replyBtn">답댓글</a>
+									</p>
+									<br>
+								</div>
 							</li>
 						</ul>
 					</ul>
@@ -501,107 +507,11 @@ $(function() {
 								</div>
 							</div>
 						</form>
-					</div>
+					</div> <!-- //댓글 -->
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 </section>
-<div class="container" style="margin-top: 30px;">
-	<div class="row">
-		<div class="col-md-12 ftco-animate">
-			<div class="sidebar-box">
-				<form action="#" class="search-form">
-					<div class="form-group">
-						<span class="icon fa fa-search"></span> <input type="text"
-							class="form-control" placeholder="Type a keyword and hit enter">
-					</div>
-				</form>
-			</div>
-			<div class="sidebar-box ftco-animate">
-				<div class="categories">
-					<h3>Categories</h3>
-					<li><a href="#">Tour <span>(12)</span></a></li>
-					<li><a href="#">Hotel <span>(22)</span></a></li>
-					<li><a href="#">Coffee <span>(37)</span></a></li>
-					<li><a href="#">Drinks <span>(42)</span></a></li>
-					<li><a href="#">Foods <span>(14)</span></a></li>
-					<li><a href="#">Travel <span>(140)</span></a></li>
-				</div>
-			</div>
-
-			<div class="sidebar-box ftco-animate">
-				<h3>Recent Blog</h3>
-				<div class="block-21 mb-4 d-flex">
-					<a class="blog-img mr-4"
-						style="background-image: url(/resources/images/image_1.jpg);"></a>
-					<div class="text">
-						<h3 class="heading">
-							<a href="#">Even the all-powerful Pointing has no control
-								about the blind texts</a>
-						</h3>
-						<div class="meta">
-							<div>
-								<a href="#"><span class="icon-calendar"></span> July 12,
-									2018</a>
-							</div>
-							<div>
-								<a href="#"><span class="icon-person"></span> Admin</a>
-							</div>
-							<div>
-								<a href="#"><span class="icon-chat"></span> 19</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="block-21 mb-4 d-flex">
-					<a class="blog-img mr-4"
-						style="background-image: url(/resources/images/image_2.jpg);"></a>
-					<div class="text">
-						<h3 class="heading">
-							<a href="#">Even the all-powerful Pointing has no control
-								about the blind texts</a>
-						</h3>
-						<div class="meta">
-							<div>
-								<a href="#"><span class="icon-calendar"></span> July 12,
-									2018</a>
-							</div>
-							<div>
-								<a href="#"><span class="icon-person"></span> Admin</a>
-							</div>
-							<div>
-								<a href="#"><span class="icon-chat"></span> 19</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="block-21 mb-4 d-flex">
-					<a class="blog-img mr-4"
-						style="background-image: url(/resources/images/image_3.jpg);"></a>
-					<div class="text">
-						<h3 class="heading">
-							<a href="#">Even the all-powerful Pointing has no control
-								about the blind texts</a>
-						</h3>
-						<div class="meta">
-							<div>
-								<a href="#"><span class="icon-calendar"></span> July 12,
-									2018</a>
-							</div>
-							<div>
-								<a href="#"><span class="icon-person"></span> Admin</a>
-							</div>
-							<div>
-								<a href="#"><span class="icon-chat"></span> 19</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>

@@ -38,19 +38,21 @@
 <script>
 $(function() {
 	
-	// 창닫기, 새로고침 시 서버에 업로드된 파일 삭제
+	// 게시글 새로 작성할 때 등록 완료하지 않으면 서버에 업로드된 파일 삭제
 	let submitStatus = false; // 전송버튼을 클릭하면 true로 변경
-	$(window).bind("beforeunload", function() {
-		if (!submitStatus) {
-			const path = $(".uploaded").text().split("/userboard");
-			for (var v = 0; v < path.length; v++) {
-				if (path[v] != null && path[v] != "") {
-					const filePath = "/userboard/" + path[v];
-					deleteImage(filePath);
+	if ("${userBoardVo.bno}" == null) {
+		$(window).bind("beforeunload", function() {
+			if (!submitStatus) {
+				const path = $(".uploaded").text().split("/userboard");
+				for (var v = 0; v < path.length; v++) {
+					if (path[v] != null && path[v] != "") {
+						const filePath = "/userboard/" + path[v];
+						deleteImage(filePath);
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 	
 	$("#summernote").summernote({
 		height: 550, // 에디터 높이
@@ -77,6 +79,7 @@ $(function() {
 		
 		callbacks: {
 			onImageUpload: function(files) {
+				
 				if (getImageCnt() + files.length > 10) {
 					alert("이미지는 최대 10개까지 업로드할 수 있습니다.");
 					return;
@@ -88,8 +91,10 @@ $(function() {
 			},
 			
 			onMediaDelete: function($target, editor, $editable) {
-				let filePath = $target.attr("src").split("=").pop();
-				deleteImage(filePath);
+				if ("${userBoardVo.bno}" == null) {
+					let filePath = $target.attr("src").split("=").pop();
+					deleteImage(filePath);
+				}
 			}
 		}
 	});
@@ -139,26 +144,6 @@ $(function() {
 		});
 	}
 	
-	// 업로드된 이미지 확인
-// 	function checkUploaded() {
-// 		const content = $("#summernote").val();
-		
-// 		$("#temp").html(content);
-// 		const img = $("#temp").find("img").get();
-// 		let url = "";
-// 		$(".uploaded").remove();
-// 		$.each(img, function(i, item) {
-// 			url = item.src;
-// 			const filePath = url.substring(url.indexOf("=") + 1);
-// 			console.log(filePath);
-			
-// 			const uploaded = $("#uploaded").clone();
-// 			uploaded.addClass("uploaded");
-// 			uploaded.text(filePath);
-// 			$("#uploaded").parent().append(uploaded);
-// 		});
-// 	}
-	
 	$("#summernote").summernote("fontName", "맑은 고딕");
 	
 	$(".modal-title").hide();
@@ -197,14 +182,11 @@ $(function() {
 	
 	$("#btnUpdate").click(function() {
 		setData();
-// 		$("#articleForm").find("input").eq(1).val($("#summernote").val());
-// 		$("#articleForm").find("input").eq(2).val($("#titleText").val());
 		$("#articleForm").submit();
 	});
 	
 	function setData() {
 		submitStatus = true;
-// 		const title = $("#titleText").val().trim();
 		const content = $("#summernote").val();
 		$("#thumbnailPath").html(content);
 		const imgSrc = $("#thumbnailPath").find("img").eq(0).attr("src");
@@ -213,7 +195,6 @@ $(function() {
 			$("#thumbnail").val(sub);
 		}
 	}
-	
 	
 });	 
 </script>

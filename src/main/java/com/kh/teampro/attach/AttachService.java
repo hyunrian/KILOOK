@@ -9,11 +9,8 @@ import javax.annotation.Resource;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.teampro.board.user.UserBoardService;
 import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.util.FileUploadUtil;
 
@@ -26,15 +23,12 @@ public class AttachService {
 	@Autowired
 	private AttachDao attachDao;
 	
-	@Autowired
-	private UserBoardService userBoardService;
-
 	// 이미지 서버에 저장
 	public String saveFile(MultipartFile file) {
 		
 		String filename = file.getOriginalFilename();
 		
-		if (FileUploadUtil.isImage(filename)) {
+		if (FileUploadUtil.isImage(filename)) { // 이미지일 때만 처리
 			try {
 				byte[] bytes = file.getBytes();
 				String filePath = FileUploadUtil.upload(bytes, uploadPath, filename);
@@ -65,20 +59,22 @@ public class AttachService {
 	// 이미지 얻는 공통 메서드
 	public byte[] getImage(String filePath) {
 		
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(uploadPath + filePath);
-			byte[] data = IOUtils.toByteArray(fis);
-			return data;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException ie) {
-			ie.printStackTrace();
-		} finally {
+		if (FileUploadUtil.isImage(filePath)) { // 이미지일 때만 처리
+			FileInputStream fis = null;
 			try {
-				fis.close();
-			} catch (IOException e) {
+				fis = new FileInputStream(uploadPath + filePath);
+				byte[] data = IOUtils.toByteArray(fis);
+				return data;
+			} catch (FileNotFoundException e) {
 				e.printStackTrace();
+			} catch (IOException ie) {
+				ie.printStackTrace();
+			} finally {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return null;
@@ -112,6 +108,5 @@ public class AttachService {
 	public void updateThumbnail(AttachVo attachVo) {
 		attachDao.updateThumbnail(attachVo);
 	}
-	
 
 }

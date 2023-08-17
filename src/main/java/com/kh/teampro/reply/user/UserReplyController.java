@@ -44,8 +44,8 @@ public class UserReplyController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.PATCH)
-	public String deleteUserReply(@RequestBody String rno) {
-		userReplyService.deleteReply(Integer.valueOf(rno));
+	public String deleteUserReply(@RequestBody UserReplyVo userReplyVo) {
+		userReplyService.deleteReply(userReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	

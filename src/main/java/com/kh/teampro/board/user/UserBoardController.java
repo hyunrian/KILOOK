@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.Like.board.LikeUserBoardService;
+import com.kh.teampro.paging.PagingDto;
 import com.kh.teampro.reply.user.UserReplyService;
 import com.kh.teampro.reply.user.UserReplyVo;
 
@@ -30,9 +30,13 @@ public class UserBoardController {
 	
 	// 유저 게시글 목록 보기
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getList(Model model) {
+	public String getList(PagingDto pagingDto, Model model) {
+		int totalCount = userBoardService.getTotalCount(pagingDto);
+		pagingDto.setTotalCount(totalCount);
+		pagingDto = new PagingDto(pagingDto.getNowPage(), totalCount, 
+				pagingDto.getOption(), pagingDto.getKeyword(), pagingDto.getFilter());
+		List<UserBoardVo> list = userBoardService.getUserArticleList(pagingDto);
 		
-		List<UserBoardVo> list = userBoardService.getUserArticleList();
 		for (UserBoardVo userBoardVo : list) {
 			int replycnt = userReplyService.getReplycnt(userBoardVo.getBno());
 			int likecnt = likeUserBoardService.countLikes(userBoardVo.getBno());
@@ -40,7 +44,9 @@ public class UserBoardController {
 			userBoardVo.setReplycnt(replycnt);
 			// 댓글 개수, 조회수, 좋아요 수 db에 저장할지 안할지 정해야 함
 		}
+		
 		model.addAttribute("userArticleList", list);
+		model.addAttribute("pagingDto", pagingDto);
 		
 		return "userboard/userboard";
 	}
@@ -56,8 +62,6 @@ public class UserBoardController {
 	public String writeArticle(UserBoardVo userBoardVo, String thumbnail) {
 		userBoardVo.setUserid("user2"); // session의 loginInfo로 변경
 		userBoardVo.setWriter("star"); // session의 loginInfo로 변경
-//		System.out.println("vo:" + userBoardVo);
-//		System.out.println("thumbnail:" + thumbnail);
 		userBoardService.createArticle(userBoardVo, thumbnail);
 		
 		return "redirect:/userboard/list";
@@ -65,10 +69,11 @@ public class UserBoardController {
 	
 	// 유저 게시글 내용 보기
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String getDetail(int bno, Model model) {
+	public String getDetail(int bno, PagingDto pagingDto, Model model) {
 		
+		System.out.println("*** dto:" + pagingDto);
 		userBoardService.addViewcnt(bno);
-
+			
 		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
 		int replycnt = userReplyService.getReplycnt(bno);
 		userBoardVo.setReplycnt(replycnt);
@@ -80,6 +85,7 @@ public class UserBoardController {
 		
 		int likecnt = likeUserBoardService.countLikes(bno);
 		model.addAttribute("likecnt", likecnt);
+		model.addAttribute("pagingDto", pagingDto);
 		
 		return "userboard/userboardDetail";
 	}

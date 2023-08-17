@@ -7,10 +7,56 @@
 
 	<!-- 게시글 전체 리스트 조회 -->
 	<select id="getUserArticleList" resultType="UserBoardVo">
-		select * from tbl_userboard
-		where delete_yn = 'N'
-		order by regdate desc
+		select * 
+		from (select rownum rnum, a.*
+		        from (select * from tbl_userboard
+		        	where delete_yn = 'N'
+		        	<include refid="search"/>
+		        	<choose>
+		        		<when test="filter == 'view'.toString()">
+		        			order by viewcnt desc, likecnt desc, replycnt desc) a)
+		        		</when>
+		        		<when test="filter == 'like'.toString()">
+		        			order by likecnt desc, viewcnt desc, replycnt desc) a)
+		        		</when>
+		        		<when test="filter == 'reply'.toString()">
+		        			order by replycnt desc, viewcnt desc, likecnt desc) a)
+		        		</when>
+		        		<otherwise>
+				            order by bno desc) a)
+		        		</otherwise>
+		        	</choose>
+		where rnum between #{startRow} and #{endRow}
 	</select>
+	
+	<!-- 전체 게시글 개수 조회 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from tbl_userboard
+		where delete_yn = 'N'
+		<include refid="search"/>
+	</select>
+	
+	<!-- 검색 조건 -->
+	<sql id="search">
+		<if test="keyword != null">
+			<choose>
+				<when test="option == 't'.toString()">
+					and title like '%' || #{keyword} || '%'
+				</when>
+				<when test="option == 'c'.toString()">
+					and content like '%' || #{keyword} || '%'
+				</when>
+				<when test="option == 'tc'.toString()">
+					and (title like '%' || #{keyword} || '%'
+					or content like '%' || #{keyword} || '%')
+				</when>
+				<when test="option == 'w'.toString()">
+					and writer like '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</sql>
+	
 	
 	<!-- 게시글 상세내용 조회 -->
 	<select id="getUserArticleDetail" resultType="UserBoardVo">
@@ -52,4 +98,19 @@
 		set delete_yn = 'Y'
 		where bno = #{bno}
 	</update>
+	
+	<!-- 좋아요수 업데이트 -->
+	<update id="updateLikecnt">
+		update tbl_userboard
+		set likecnt = #{likecnt}
+		where bno = #{bno}
+	</update>
+	
+	<!-- 댓글수 업데이트 -->
+	<update id="updateReplycnt">
+		update tbl_userboard
+		set replycnt = #{replycnt}
+		where bno = #{bno}
+	</update>
+	
 </mapper>
