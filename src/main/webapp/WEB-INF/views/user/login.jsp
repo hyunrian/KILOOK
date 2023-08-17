@@ -273,16 +273,24 @@ font-size: 12px;
 
 <!-- 스크립트 시작 -->
 <script>
+var joinResult = "${joinResult}";
+
+if (joinResult == "true"){
+	alert("회원가입 성공");
+} else if (joinResult == "false"){
+	alert("회원가입 실패");
+}
+
 // 사용자 지정 메소드
 // 글자수 제한 (아이디)
 $.validator.addMethod("lengthCheckId", function(value, element) {
-	  return this.optional(element) || /^.{0,15}$/.test(value);
-	}, "**** 아이디는 최대 15자 입니다 ****");
+	  return this.optional(element) || /^.{2,15}$/.test(value);
+	}, "**** 아이디는 2 ~ 15자 입니다 ****");
 
 // 글자수 제한(닉네임)
 $.validator.addMethod("lengthCheckNickName", function(value, element) {
-	  return this.optional(element) || /^.{2,30}$/.test(value);
-	}, "**** 닉네임은 2 ~ 30자 입니다 ****");
+	  return this.optional(element) || /^.{2,10}$/.test(value);
+	}, "**** 닉네임은 2 ~ 10자 입니다 ****");
 
 // 글자수 제한(비밀번호)
 $.validator.addMethod("lengthCheckPw", function(value, element) {
@@ -294,15 +302,20 @@ $.validator.addMethod("spellCheckId", function(value, element) {
 	  return this.optional(element) || /^[A-Za-z0-9]+$/.test(value);
 	}, "**** 아이디는 영문, 숫자만 가능합니다 ****");
 	
+// 글자 제한 (영문과 숫자, 한글만)
+$.validator.addMethod("spellCheckNickName", function(value, element) {
+	  return this.optional(element) || /^[A-Za-z0-9\uAC00-\uD7A3]+$/.test(value);
+	}, "**** 닉네임은 영문, 숫자, 한글만 가능합니다 ****");
+	
 // 특수문자 제한
-$.validator.addMethod("spellCheckPW1", function(value, element) {
+$.validator.addMethod("spellCheckSC", function(value, element) {
 	  return this.optional(element) || /^[a-zA-Z0-9!@#$%_]*$/.test(value);
 	}, "**** 특수문자는 !@#$%_만 사용 가능합니다 ****");
 
 // 글자 제한 (영문+숫자+특수기호)
-$.validator.addMethod("spellCheckPW2", function(value, element) {
+$.validator.addMethod("spellCheckPW", function(value, element) {
 	  return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%_])[A-Za-z\d!@#$%-_]+$/.test(value);
-	}, "**** 영문, 숫자, !@#$%_를 조합해야 합니다 ****");
+	}, "**** 영문, 숫자, 특수문자를 조합해야 합니다 ****");
 	
 	
 $(function() {
@@ -349,12 +362,13 @@ $(function() {
                     }
                 }
 			},
-			unickName: {     			// 비밀번호 필드 (name="unickName")
+			unickname: {     			// 비밀번호 필드 (name="unickname")
 				required: true,			// 필수 입력
 				lengthCheckNickName: true,
+				spellCheckNickName: true,
 				// 실시간 유효성 체크(닉네임)
 				remote: {
-                    url: "/loginUser/nickNameDubChck",
+                    url: "/loginUser/nickNameDubCheck",
                     type: "post",
                     data: {
                         userid: function() {
@@ -366,8 +380,8 @@ $(function() {
 			upw: {     					// 비밀번호 필드 (name="upw")
 				required: true,			// 필수 입력
 				lengthCheckPw: true,
-				spellCheckPW1: true,
-				spellCheckPW2: true
+				spellCheckSC: true,
+				spellCheckPW: true
 			},
 			upwCheck: {     			// 비밀번호 필드 (name="upwCheck")
 				required: true,			// 필수 입력
@@ -379,7 +393,7 @@ $(function() {
 				required:		"**** 아이디를 입력해 주세요 ****",
 				remote: 		"**** 중복된 아이디 입니다 ****"
 			},
-			unickName: {
+			unickname: {
 				required:		"**** 닉네임을 입력해 주세요 ****",
 				remote: 		"**** 중복된 닉네임 입니다 ****"
 			},
@@ -392,6 +406,63 @@ $(function() {
 			}
 		}
 	});
+	
+// 아이디 기억하기(cookie)
+	//쿠키 값 가져오기
+	function getCookie(name) {
+		name = name + '=';
+		var cookieData = document.cookie;
+		var start = cookieData.indexOf(name);
+		var value = '';
+		if(start != -1){
+			start += name.length;
+			var end = cookieData.indexOf(';', start);
+			if(end == -1){
+				end = cookieData.length;
+			}
+			value = cookieData.substring(start, end);
+		}
+		return unescape(value);
+	}
+
+    // 쿠키 값을 설정하는 함수
+    function setCookie(name, value, days) {
+    	var expire = new Date();
+        expire.setDate(expire.getDate() + days);
+        value = escape(value);
+        
+        cookies = name + '=' + value + '; path=/loginUser ';
+        if(typeof cDay != 'undefined') {
+        	cookies += ';expires=' + expire.toGMTString() + ';';
+        }
+        document.cookie = cookies;
+    }
+	
+    // 쿠키 삭제
+    function deleteCookie(name) {
+    	console.log("deleteCookie");
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/loginUser;';
+    }
+    
+    const useCookieCheckbox = $("#useCookie");
+    const useridInput = $("#userid");
+
+    // 아이디 기억하기 체크박스가 변경될 때 처리
+    useCookieCheckbox.change(function() {
+        if (this.checked) {
+            setCookie("remUserid", useridInput.val(), 3650); // 쿠키를 10년 동안 저장
+        } else {
+        	deleteCookie("remUserid"); // 쿠키 삭제
+        }
+    });
+
+    // 페이지 로드 시 쿠키 값을 가져와 아이디 필드에 채움
+    const remUserid = getCookie("remUserid");
+	if (remUserid) {
+		useridInput.val(remUserid);
+		useCookieCheckbox.prop("checked", true);
+	}
+	
 });
 </script>
 <!-- 스크립트 끝 -->
@@ -411,8 +482,7 @@ $(function() {
 		<div class="container">
 			<!-- 회원가입 폼 -->
 			<div class="create-Account-container">
-				<form id="createForm">
-<!-- 					 action="/loginUser/join" method="post" -->
+				<form id="createForm" action="/loginUser/join" method="post">
 					<h1>회원가입</h1>
 					<input class="inputSamll" type="text" placeholder="아이디"
 						id="createUserid" name="userid" required>
@@ -420,7 +490,7 @@ $(function() {
 						<label class="useable">**** 사용 가능한 아이디 입니다 ****</label>
 					</div>
 					<input class="inputSamll" type="text" placeholder="닉네임"
-						id="createUnickName" name="unickName" required>
+						id="createUnickName" name="unickname" required>
 					<input class="inputSamll" type="password" placeholder="비밀번호"
 						id="createUpw" name="upw" required>
 					<input class="inputSamll" type="password" placeholder="비밀번호 확인"
@@ -430,7 +500,7 @@ $(function() {
 			</div>
 			<!-- 로그인 폼 -->
 			<div class="log-in-container">
-				<form id="loginForm" action="/user/login" method="post">
+				<form id="loginForm" action="/loginUser/login" method="post">
 					<h1>소셜 로그인</h1>
 					<div class="social-links">
 						<div>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 import com.kh.teampro.user.login.LoginDto;
 import com.kh.teampro.user.login.UserDao;
@@ -24,9 +25,9 @@ public class UserDaoTest {
 	public void testCreate() throws Exception{
 		UserVo userVo = new UserVo();
 		userVo.setUserid("Hong");
-		userVo.setUpw("1234");
+		userVo.setUpw("aa1!");
 		userVo.setUnickname("greate도적");
-		userVo.setUemail("hong@gmail.com");
+//		userVo.setUemail("hong@gmail.com");
 		userDao.createAccount(userVo);
 	}
 	
@@ -53,6 +54,17 @@ public class UserDaoTest {
 			System.out.println("사용 가능한 아이디");
 		} else {
 			System.out.println("아이디 중복됨");
+		}
+	}
+	
+	// 문자 유효성 테스트
+	@Test
+	public void testCheckValidCharacter() {
+		boolean result = userDao.checkValidCharacter(MyConstants.ID, "aA1!");
+		if (result == true) {
+			System.out.println("사용 가능한 닉네임");
+		} else {
+			System.out.println("사용 불가능한 닉네임");
 		}
 	}
 	

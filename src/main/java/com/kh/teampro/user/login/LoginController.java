@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 
@@ -37,6 +38,7 @@ public class LoginController {
 	// 회원가입
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String createAcount(UserVo userVo, RedirectAttributes rttr) {
+		System.out.println("conntroller: " + userVo.getUnickname());
 		boolean result = userService.createAccount(userVo);
 		boolean joinResult = false;
 		if (result==true) {
@@ -53,42 +55,40 @@ public class LoginController {
 		return userService.dubCheckID(userid);
 	}
 	// 닉네임 중복 확인
-	@RequestMapping(value = "/nickNameDubChck", method = RequestMethod.POST)
+	@RequestMapping(value = "/nickNameDubCheck", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean nickNameDubChck (String unickName) {
-		return userService.dubCheckNickName(unickName);
+	public boolean nickNameDubChck (String unickname) {
+		return userService.dubCheckNickName(unickname);
 	}
 	
-	// 닉네임 중복 확인
-	
 	// 로그인 처리 - post
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//	public String loginRun (LoginDto loginDto, HttpSession session,
-//			RedirectAttributes rttr) {
-//		System.out.println("LoginDto:" + loginDto);
-//		UserVo userVo = userService.login(loginDto);
-//		String returnPage = "redirect:/board/list";
-//		if (userVo != null) {
-//			String targetLocation = 
-//						(String)session.getAttribute("targetLocation");
-//			if(targetLocation != null) {
-//				returnPage = "redirect:"+ targetLocation;
-//			}
-//			session.removeAttribute("targetLocation");
-//			session.setAttribute("loginInfo", userVo);
-//		} else {
-//			rttr.addFlashAttribute("loginResult", "FAIL");
-//			returnPage = "redirect:/login";
-//		}
-//		return returnPage;
-//	}
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String loginRun (LoginDto loginDto, HttpSession session,
+			RedirectAttributes rttr) {
+		System.out.println("LoginDto:" + loginDto);
+		UserVo userVo = userService.login(loginDto);
+		String returnPage = "redirect:/";
+		if (userVo != null) {
+			String targetLocation = 
+						(String)session.getAttribute("targetLocation");
+			if(targetLocation != null) {
+				returnPage = "redirect:"+ targetLocation;
+			}
+			session.removeAttribute("targetLocation");
+			session.setAttribute(MyConstants.LOGIN, userVo);
+		} else {
+			rttr.addFlashAttribute("loginResult", "FAIL");
+			returnPage = "redirect:/loginUser/login";
+		}
+		return returnPage;
+	}
 	
 	// 로그아웃
-//	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-//	public String logout(HttpSession session) {
-//		session.invalidate();
-//		return "redirect:/loginUser/login";
-//	}
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/loginUser/login";
+	}
 	
 	// 비밀번호 찾기 폼으로 이동 (이메일 연동 임시 비밀번호 생성)
 //	@RequestMapping(value="/forgotPassword", method = RequestMethod.GET)

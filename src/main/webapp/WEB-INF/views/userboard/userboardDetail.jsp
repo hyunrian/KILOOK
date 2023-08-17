@@ -365,22 +365,29 @@ $(function() {
 		});
 	});
 	
+	// 뒤로가기 버튼
 	$("#btnBack").click(function() {
 		location.href = "/userboard/list";
 	});
 	
+	// 게시글 삭제 버튼
 	$("#btnDelete").click(function(e) {
 		e.preventDefault();
 		const val = confirm("게시글을 삭제하시겠습니까?");
 		if (val == true) {
 			$.ajax({
-// 				"type" : "delete",
-// 				"url" : "/userboard/delete/${userBoardVo.bno}", // 하위 테이블이 있어서 삭제가 안됨
-// 				"success" : function(rData) {
-// 					location.href = rData;
-// 				}
+				"type" : "patch",
+				"url" : "/userboard/delete/${userBoardVo.bno}", // url에 넣지 말고 sData 설정 필요
+				"success" : function(rdata) {
+					location.href = rdata;
+				}
 			});
 		}
+	});
+	
+	// 게시글 수정 버튼
+	$("#btnUpdate").click(function(e) {
+		
 	});
 	
 });
@@ -405,8 +412,12 @@ $(function() {
 						style="color: #2667cf; font-size: 2rem;"></i> &nbsp;&nbsp;
 					</span> <span style="font-size: 14pt;" class="boardMenu">${userBoardVo.writer}</span>
 					<span style="font-size: 10pt;" id="dateSpan" class="boardMenu">${userBoardVo.regdate}</span>
-					<span style="font-size: 10pt;" class="boardMenu"><a href="#" id="btnUpdate">수정</a></span>
-					<span style="font-size: 10pt;" class="boardMenu"><a href="#" id="btnDelete">삭제</a></span>
+					<span style="font-size: 10pt;" class="boardMenu">
+						<a href="/userboard/update/${userBoardVo.bno}" id="btnUpdate">수정</a>
+					</span>
+					<span style="font-size: 10pt;" class="boardMenu">
+						<a href="#" id="btnDelete">삭제</a>
+					</span>
 				</div>
 				<br> <br>
 				<p>${userBoardVo.content}</p>
@@ -458,7 +469,8 @@ $(function() {
 								<div class="meta" style="text-align: right;">날짜</div>
 								<span style="font-weight: bold; display: none;">@원댓글작성자</span> <span>내용</span>
 								<p style="text-align: right;">
-									<a href="#" class="reply updateReply">수정</a> <a href="#"
+									<a href="#" class="reply updateReply">수정</a>
+									<a href="#"
 										class="reply deleteReply">삭제</a> <a href="#"
 										class="reply replyBtn">답댓글</a>
 								</p>
