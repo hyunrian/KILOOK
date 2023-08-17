@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 import com.kh.teampro.user.login.LoginDto;
 import com.kh.teampro.user.login.UserDao;
@@ -59,7 +60,7 @@ public class UserDaoTest {
 	// 문자 유효성 테스트
 	@Test
 	public void testCheckValidCharacter() {
-		boolean result = userDao.checkValidCharacter("aA1!");
+		boolean result = userDao.checkValidCharacter(MyConstants.ID, "aA1!");
 		if (result == true) {
 			System.out.println("사용 가능한 닉네임");
 		} else {

@@ -6,18 +6,19 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 
 public class AuthInterceptor extends HandlerInterceptorAdapter{
-
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, 
 			HttpServletResponse response, Object handler)
 			throws Exception {
 		
 		HttpSession session = request.getSession();
-		UserVo userVo = (UserVo)session.getAttribute("loginInfo");
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		//로그인 되어있지 않다면
 		if(userVo == null) {
 			String uri = request.getRequestURI();

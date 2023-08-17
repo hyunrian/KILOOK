@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 @Repository
@@ -52,17 +53,43 @@ public class UserDao {
 	}
 	
 	// 영문 지정
-	public boolean isEnglishLetter(char c) {
+	public boolean isEnglish(char c) {
 	    return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
 	}
 	
+	// 한글 확인
+	public boolean isKorean(char c) {
+		// 한글 유니코드 범위: 가(U+AC00)에서 힣(U+D7A3)까지
+		return ('\uAC00' <= c && c <= '\uD7A3');
+    }
+	
 	// 문자 유효성 확인 (영문, 숫자, 지정된 특수문자가 아니면 false return)
-	public boolean checkValidCharacter(String input) {
-	    for (char c : input.toCharArray()) {
-	        if (!isEnglishLetter(c) && !Character.isDigit(c) && !isSpecialCharacter(c)) {
-	            return false;
-	        }
-	    }
+	public boolean checkValidCharacter(String type, String input) {
+		switch (type) {
+		case MyConstants.ID:
+			for (char c : input.toCharArray()) {
+				if (!isEnglish(c) && !Character.isDigit(c)) {
+					return false;
+				}
+			}
+			break;
+			
+		case MyConstants.PW:
+			for (char c : input.toCharArray()) {
+				if (!isEnglish(c) && !Character.isDigit(c) && !isSpecialCharacter(c)) {
+					return false;
+				}
+			}
+			break;
+
+		case MyConstants.NINCKNAME:
+			for (char c : input.toCharArray()) {
+				if (!isEnglish(c) && !isKorean(c) && !Character.isDigit(c) && !isSpecialCharacter(c)) {
+					return false;
+				}
+			}
+			break;
+		}
 	    return true;
 	}
 	
@@ -71,20 +98,19 @@ public class UserDao {
 		boolean length = false;
 		boolean checkValid = false;
 		boolean checkRequired = false;
-		if (type == "id") {
+		if (type == MyConstants.ID) {
 	    	length = checkInputLength(gt, lt, input);
-	    	checkValid = checkValidCharacter(input);
+	    	checkValid = checkValidCharacter(type, input);
 	    	
 	    	return length && checkValid;
-	    } else if (type == "nickName") {
-	    	// 한글 추가시 해당 항목 수정
+	    } else if (type == MyConstants.NINCKNAME) {
 	    	length = checkInputLength(gt, lt, input);
-	    	checkValid = checkValidCharacter(input);
+	    	checkValid = checkValidCharacter(type, input);
 	    	
 	    	return length && checkValid;
-	    } else if (type == "pw") {
+	    } else if (type == MyConstants.PW) {
 	    	length = checkInputLength(gt, lt, input);
-	    	checkValid = checkValidCharacter(input);
+	    	checkValid = checkValidCharacter(type, input);
 	    	checkRequired = checkRequiredCharacters(input);
 	    	
 	    	return length && checkValid && checkRequired;

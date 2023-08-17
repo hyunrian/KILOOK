@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 
@@ -74,7 +75,7 @@ public class LoginController {
 				returnPage = "redirect:"+ targetLocation;
 			}
 			session.removeAttribute("targetLocation");
-			session.setAttribute("loginInfo", userVo);
+			session.setAttribute(MyConstants.LOGIN, userVo);
 		} else {
 			rttr.addFlashAttribute("loginResult", "FAIL");
 			returnPage = "redirect:/loginUser/login";
