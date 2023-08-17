@@ -77,7 +77,7 @@ public class LoginController {
 			session.removeAttribute("targetLocation");
 			session.setAttribute(MyConstants.LOGIN, userVo);
 		} else {
-			rttr.addFlashAttribute("loginResult", "FAIL");
+			rttr.addFlashAttribute("loginResult", MyConstants.FAIL_MESSAGE);
 			returnPage = "redirect:/loginUser/login";
 		}
 		return returnPage;
@@ -97,35 +97,39 @@ public class LoginController {
 	}
 
 	// 임시 비밀번호 생성 (이메일 연동)
-//	@RequestMapping(value="/sendPassword", method = RequestMethod.POST)
-//	public String sendPassword(String id, String email) {
-//		System.out.println("id:" + id);
-//		System.out.println("email:" + email);
-//		
-//		String uuid = UUID.randomUUID().toString();
-//		String newPass = uuid.substring(0, uuid.indexOf("-"));
-//		System.out.println("newPass:" + newPass);
-//		
-//		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-//			
-//			@Override
-//			public void prepare(MimeMessage mimeMessage) throws Exception {
-//				MimeMessageHelper helper = new MimeMessageHelper(
-//						mimeMessage,
-//						false, // multipart 여부
-//						"utf-8"
-//						);
-//				
-//				helper.setFrom("teamprobusan@gmail.com"); // 보내는이
-//				helper.setTo(email); // 받는이
-//				helper.setSubject("비밀번호 변경 안내"); // 제목
-//				helper.setText("변경된 비밀번호:" + newPass + "입니다"); // 내용
-//			}
-//		};
-//		mailSender.send(preparator);
-//		
-//		return "redirect:/user/login";
-//	}
+	@RequestMapping(value="/sendPassword", method = RequestMethod.POST)
+	public String sendPassword(String userid, String uemail, RedirectAttributes rttr) {
+		System.out.println("id:" + userid);
+		System.out.println("email:" + uemail);
+		
+		boolean findAccount = userService.findAccount(userid, uemail);
+		if (findAccount == true) {
+			String uuid = UUID.randomUUID().toString();
+			String newPass = uuid.substring(0, uuid.indexOf("-"));
+			System.out.println("newPass:" + newPass);
+			
+			MimeMessagePreparator preparator = new MimeMessagePreparator() {
+				@Override
+				public void prepare(MimeMessage mimeMessage) throws Exception {
+					MimeMessageHelper helper = new MimeMessageHelper(
+							mimeMessage,
+							false, // multipart 여부
+							"utf-8"
+							);
+					
+					helper.setFrom("teamprobusan@gmail.com"); // 보내는이
+					helper.setTo(uemail); // 받는이
+					helper.setSubject("비밀번호 변경 안내"); // 제목
+					helper.setText("변경된 비밀번호:" + newPass + "입니다"); // 내용
+				}
+			};
+			mailSender.send(preparator);
+			rttr.addFlashAttribute("findAccount", MyConstants.SUCCESS_MESSAGE);
+		} else {
+			rttr.addFlashAttribute("findAccount", MyConstants.FAIL_MESSAGE);
+		}
+		return "redirect:/loginUser/findPassword";
+	}
 	
 	
 }

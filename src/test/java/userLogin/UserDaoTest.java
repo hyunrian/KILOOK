@@ -94,5 +94,15 @@ public class UserDaoTest {
 		userDao.deleteAccount("Hong");
 	}
 	
+	// 아이디와 이메일이 일치하는 계정 확인 (true면 해당 계정 존재함)
+	@Test
+	public void testfindAccount () {
+		boolean result = userDao.findAccount("testuser", "eownschlrh@naver.com");
+		if (result == true) {
+			System.out.println("계정 확인됨");
+		} else {
+			System.out.println("일치하는 계정이 없습니다");
+		}
+	}
 	
 }

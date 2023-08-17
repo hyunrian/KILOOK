@@ -37,4 +37,11 @@
 		where userid = #{userid}
 	</delete>
 	
+	<!-- 아이디와 이메일이 일치하는 계정 확인 -->
+	<select id="findAccount" resultType="int">
+		select count(*) from tbl_user
+		where userid = #{userid}
+		and uemail = #{uemail}
+	</select>
+	
 </mapper>

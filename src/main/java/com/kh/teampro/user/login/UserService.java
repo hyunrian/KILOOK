@@ -49,4 +49,10 @@ public class UserService {
 	public void deleteAccount(String userid) {
 		userDao.deleteAccount(userid);
 	}
+	
+	// 아이디와 이메일이 일치하는 계정 확인 (result가 true면 일치하는 아이디가 있음)
+	public boolean findAccount(String userid, String uemail) {
+		boolean result = userDao.findAccount(userid, uemail); 
+		return result;
+	}
 }

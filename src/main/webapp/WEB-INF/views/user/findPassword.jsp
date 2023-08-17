@@ -163,6 +163,15 @@ font-size: 12px;
 
 <!-- 스크립트 시작 -->
 <script>
+var findAccount = "${findAccount}";
+
+if (findAccount == "SUCCESS"){
+	alert("임시 비밀번호가 생성되었습니다!");
+	location.href="http://localhost/loginUser/login";
+} else if (findAccount == "FAIL"){
+	alert("일치하는 계정이 없습니다");
+}
+
 
 // 사용자 지정 메소드
 // 글자수 제한 (아이디)
@@ -177,8 +186,8 @@ $.validator.addMethod("spellCheckId", function(value, element) {
 	
 $(function() {
 // 로그인 유효성 검사
-	const loginForm = $("#passwordForm");
-	loginForm.validate({
+	const passwordForm = $("#passwordForm");
+	passwordForm.validate({
 		rules: {                    // 유효성 검사 규칙
 			userid: {				// 아이디 필드 (name="userid")
 				required: true,     // 필수 입력
@@ -217,11 +226,11 @@ $(function() {
 		<div class="container">
 			<!-- 비밀번호 생성 폼 -->
 			<div class="main-container">
-				<form id="passwordForm" action="/loginUser/login" method="post">
+				<form id="passwordForm" action="/loginUser/sendPassword" method="post">
 					<h1>임시 비밀번호 생성</h1>
 					<input class="input" type="text" placeholder="아이디"
 						id="userid" name="userid" required>
-					<input class="input" type="email" placeholder="이메일"
+					<input class="input" type="text" placeholder="이메일"
 						id="uemail" name="uemail" required>
 					<button id="btnMakePassword" type="submit" class="btn form_btn">확인</button>
 				</form>

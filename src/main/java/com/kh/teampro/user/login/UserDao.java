@@ -1,5 +1,8 @@
 package com.kh.teampro.user.login;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,7 +44,6 @@ public class UserDao {
 	// 글자수 길이 확인
 	public boolean checkInputLength(int gt, int lt, String input) {
         int length = input.length();
-        System.out.println(length);
         return length >= gt && length <= lt;
     }
 	
@@ -146,5 +148,17 @@ public class UserDao {
 	// 회원탈퇴
 	public void deleteAccount(String userid) {
 		sqlSession.delete(NAMESPACE+"deleteAccount", userid);
+	}
+	
+	// 아이디와 이메일이 일치하는 계정 확인 (result가 1이면 일치하는 아이디가 있음)
+	public boolean findAccount(String userid, String uemail) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userid", userid);
+		map.put("uemail", uemail);
+		int result = sqlSession.selectOne(NAMESPACE+"findAccount", map);
+		if (result == 1) {
+			return true;
+		}
+		return false;
 	}
 }
