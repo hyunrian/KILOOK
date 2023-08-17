@@ -289,8 +289,8 @@ $.validator.addMethod("lengthCheckId", function(value, element) {
 
 // 글자수 제한(닉네임)
 $.validator.addMethod("lengthCheckNickName", function(value, element) {
-	  return this.optional(element) || /^.{2,30}$/.test(value);
-	}, "**** 닉네임은 2 ~ 30자 입니다 ****");
+	  return this.optional(element) || /^.{2,10}$/.test(value);
+	}, "**** 닉네임은 2 ~ 10자 입니다 ****");
 
 // 글자수 제한(비밀번호)
 $.validator.addMethod("lengthCheckPw", function(value, element) {
@@ -387,7 +387,7 @@ $(function() {
 				required:		"**** 아이디를 입력해 주세요 ****",
 				remote: 		"**** 중복된 아이디 입니다 ****"
 			},
-			unickName: {
+			unickname: {
 				required:		"**** 닉네임을 입력해 주세요 ****",
 				remote: 		"**** 중복된 닉네임 입니다 ****"
 			},

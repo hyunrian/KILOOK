@@ -51,10 +51,15 @@ public class UserDao {
 	    return specialCharacters.indexOf(c) != -1;
 	}
 	
+	// 영문 지정
+	public boolean isEnglishLetter(char c) {
+	    return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
+	}
+	
 	// 문자 유효성 확인 (영문, 숫자, 지정된 특수문자가 아니면 false return)
 	public boolean checkValidCharacter(String input) {
 	    for (char c : input.toCharArray()) {
-	        if (!Character.isLetter(c) && !Character.isDigit(c) && !isSpecialCharacter(c)) {
+	        if (!isEnglishLetter(c) && !Character.isDigit(c) && !isSpecialCharacter(c)) {
 	            return false;
 	        }
 	    }

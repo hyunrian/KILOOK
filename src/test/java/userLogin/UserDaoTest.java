@@ -56,6 +56,17 @@ public class UserDaoTest {
 		}
 	}
 	
+	// 문자 유효성 테스트
+	@Test
+	public void testCheckValidCharacter() {
+		boolean result = userDao.checkValidCharacter("aA1!");
+		if (result == true) {
+			System.out.println("사용 가능한 닉네임");
+		} else {
+			System.out.println("사용 불가능한 닉네임");
+		}
+	}
+	
 	// 닉네임 중복 테스트
 	@Test
 	public void testNicknameDubCkeck() {
