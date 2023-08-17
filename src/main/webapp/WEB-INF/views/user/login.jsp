@@ -494,7 +494,7 @@ $(function() {
 			</div>
 			<!-- 로그인 폼 -->
 			<div class="log-in-container">
-				<form id="loginForm" action="/user/login" method="post">
+				<form id="loginForm" action="/loginUser/login" method="post">
 					<h1>소셜 로그인</h1>
 					<div class="social-links">
 						<div>

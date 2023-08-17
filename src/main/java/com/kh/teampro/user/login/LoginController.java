@@ -66,7 +66,7 @@ public class LoginController {
 			RedirectAttributes rttr) {
 		System.out.println("LoginDto:" + loginDto);
 		UserVo userVo = userService.login(loginDto);
-		String returnPage = "redirect:/board/list";
+		String returnPage = "redirect:/";
 		if (userVo != null) {
 			String targetLocation = 
 						(String)session.getAttribute("targetLocation");
@@ -77,17 +77,17 @@ public class LoginController {
 			session.setAttribute("loginInfo", userVo);
 		} else {
 			rttr.addFlashAttribute("loginResult", "FAIL");
-			returnPage = "redirect:/login";
+			returnPage = "redirect:/loginUser/login";
 		}
 		return returnPage;
 	}
 	
 	// 로그아웃
-//	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-//	public String logout(HttpSession session) {
-//		session.invalidate();
-//		return "redirect:/loginUser/login";
-//	}
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/loginUser/login";
+	}
 	
 	// 비밀번호 찾기 폼으로 이동 (이메일 연동 임시 비밀번호 생성)
 //	@RequestMapping(value="/forgotPassword", method = RequestMethod.GET)
