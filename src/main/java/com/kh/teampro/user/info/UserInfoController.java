@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -12,41 +13,39 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.teampro.commons.MyConstants;
+
 @Controller
-@RequestMapping("/userinfo")
+@RequestMapping("/userInfo")
 public class UserInfoController {
 
 	@Autowired
 	private UserInfoService userInfoService;
 	
-	
-	@RequestMapping(value = "/testpage", method = RequestMethod.GET)
-	public String testpage() {
-		return "userinfo/csstests";
-	}
 	// 마이페이지로 가기 버튼을 눌렀을 때
 	// 유저 한명 정보 읽어서 데이터를 model로 돌려줌
 	// 이후 페이지를 열 때 작동하는 기능들은 전부 여기로 (유저 본인확인 상태 체크 등)
 	// 유저 작성 글, 댓글 정보 읽어서 리스트 띄우기
-	@RequestMapping(value = "/mypage/{userid}", method = RequestMethod.GET)
-	public String readOneUserInfo(@PathVariable String userid, Model model) {
+	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
+	public String readOneUserInfo(Model model, HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		String userid = userVo.getUserid();
+		//UserVo userVo = userInfoService.readOneUserInfo(userid); 
+		List<UserBoardDto> boardList = userInfoService.readUserBoard(userid); 
+		List<UserReplyDto> replyList = userInfoService.readUserReply(userid); 
+		int userBoardCount = userInfoService.readUserBoardCount(userid); 
+		int userReplyCount = userInfoService.readUserReplyCount(userid); 
+		// 유저 한명 정보를 읽은 뒤 데이터와 함께 마이페이지로 보냄 
+		model.addAttribute("userVo", userVo); // 유저 데이터. 현재 세션에 있음
+		model.addAttribute("boardList", boardList); // 게시글 목록
+		model.addAttribute("replyList", replyList); // 댓글 목록
+		model.addAttribute("userBoardCount", userBoardCount); // 게시글 갯수
+		model.addAttribute("userReplyCount", userReplyCount); // 댓글 갯수
 		
-		 UserVo userVo = userInfoService.readOneUserInfo(userid); 
-		 List<UserBoardDto> boardList = userInfoService.readUserBoard(userid); 
-		 List<UserReplyDto> replyList = userInfoService.readUserReply(userid); 
-		 int userBoardCount = userInfoService.readUserBoardCount(userid); 
-		 int userReplyCount = userInfoService.readUserReplyCount(userid); 
-		 // 유저 한명 정보를 읽은 뒤 데이터와 함께 마이페이지로 보냄 
-		 model.addAttribute("userVo", userVo); model.addAttribute("boardList", boardList); 
-		 model.addAttribute("replyList", replyList);
-		 model.addAttribute("userBoardCount", userBoardCount);
-		 model.addAttribute("userReplyCount", userReplyCount);
-		 
 		return "userinfo/mypage";
 	}
 	

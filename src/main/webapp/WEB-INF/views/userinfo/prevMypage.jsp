@@ -28,14 +28,6 @@ $(function(){
 		form.submit();
 	});
 	
-	// 유저 본인확인
-	
-	// !!--- 구현 필요 ---!!
-	$("#btnVerify").click(function(){
-		alert("구현 필요");
-	});
-	// !!--- 구현 필요 ---!!
-	
 });
 
 </script>

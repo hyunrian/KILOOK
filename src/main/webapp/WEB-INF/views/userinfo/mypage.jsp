@@ -69,9 +69,17 @@ $(function(){
               </div>
               <div class="desc align-self-md-center">
                 <h3>${userVo.unickname}님의 마이페이지</h3>
-                <p>소지 포인트 p태그</p>
-                <p>사용 이메일 p태그</p>
-                <p>가입일 p태그</p>
+                <p>보유 포인트 : ${userVo.upoint}</p>
+                <c:choose>
+                	<c:when test="${userVo.uemail != null}">
+		                <p>본인확인 이메일 : ${userVo.uemail}</p>                	
+                	</c:when>
+	                <c:otherwise>
+		                <p>본인확인 이메일 : 없음</p>
+	                </c:otherwise>
+                </c:choose>
+                <div class="meta">가입일 : ${userVo.joindate}</div>
+                <p style="color: white;">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</p>
               </div>
             </div>
 

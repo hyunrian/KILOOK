@@ -45,9 +45,9 @@
 
 <!-- 	<interceptors> -->
 <!-- 	<interceptor> -->
-<!-- <!-- 인터셉트할 컨트롤러 주소 --> -->
+<!--  인터셉트할 컨트롤러 주소 -->
 <!-- 	<mapping path="/databoard/**/*"/>					숙소, 명소 -->
-<!-- <!-- 인터셉터하지 않을 예외 주소 --> -->
+<!--  인터셉터하지 않을 예외 주소 -->
 <!-- 	<exclude-mapping path="/databoard/attraction"/>		명소 전체보기 -->
 <!-- 	<exclude-mapping path="/databoard/accommodation"/>	숙소 전체보기 -->
 <!-- 	<exclude-mapping path="/databoard/restaurant"/>		맛집 전체보기 -->
