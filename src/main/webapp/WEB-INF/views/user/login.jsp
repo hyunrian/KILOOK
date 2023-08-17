@@ -449,11 +449,24 @@ $(function() {
 
     // 아이디 기억하기 체크박스가 변경될 때 처리
     useCookieCheckbox.change(function() {
-        if (this.checked) {
-            setCookie("remUserid", useridInput.val(), 3650); // 쿠키를 10년 동안 저장
-        } else {
+    	
+        if (!(this.checked)) {
         	deleteCookie("remUserid"); // 쿠키 삭제
+        	useCookieCheckbox.attr('checked', 'false');
+        } else {
+        	useCookieCheckbox.removeAttr('checked');
         }
+    });
+    
+    // 로그인시 아이디 쿠기 생성
+    $("#btnLogin").click(function(){
+    	console.log("clicked");
+    	if (useCookieCheckbox.is(":checked")){
+    		deleteCookie("remUserid"); // 쿠키 삭제
+    		setCookie("remUserid", useridInput.val(), 3650); // 쿠키를 10년 동안 저장
+    	}
+    	$("#loginForm").submit();
+    	
     });
 
     // 페이지 로드 시 쿠키 값을 가져와 아이디 필드에 채움
@@ -520,10 +533,10 @@ $(function() {
 						id="upw" name="upw" required>
 					<div>
 						<input type="checkbox" class="form-check-input" 
-	                        	id="useCookie" name="useCookie">
+	                        	id="useCookie" name="useCookie" >
 						<label class="form-check-label" for="useCookie">아이디 기억하기</label>
 					</div>
-					<button type="submit" class="btn form_btn">확인</button>
+					<button id="btnLogin" type="button" class="btn form_btn">확인</button>
 				</form>
 			</div>
 			<div class="overlay-container">
