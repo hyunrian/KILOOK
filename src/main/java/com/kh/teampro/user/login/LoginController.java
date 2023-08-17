@@ -124,6 +124,7 @@ public class LoginController {
 				}
 			};
 			mailSender.send(preparator);
+			userService.makeTempPW(userid, newPass);
 			rttr.addFlashAttribute("findAccount", MyConstants.SUCCESS_MESSAGE);
 		} else {
 			rttr.addFlashAttribute("findAccount", MyConstants.FAIL_MESSAGE);

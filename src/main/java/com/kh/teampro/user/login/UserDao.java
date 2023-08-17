@@ -161,4 +161,12 @@ public class UserDao {
 		}
 		return false;
 	}
+	
+	// 임시 비밀번호 생성
+	public void makeTempPW(String userid, String upw) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userid", userid);
+		map.put("upw", upw);
+		sqlSession.selectOne(NAMESPACE+"makeTempPW", map);
+	}
 }

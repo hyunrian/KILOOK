@@ -44,4 +44,11 @@
 		and uemail = #{uemail}
 	</select>
 	
+	<!-- 임시 비밀번호 생성 -->
+	<update id="makeTempPW">
+		update tbl_user set
+			upw = #{upw}
+		where userid = #{userid}
+	</update>
+	
 </mapper>

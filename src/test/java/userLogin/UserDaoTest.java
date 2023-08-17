@@ -104,5 +104,11 @@ public class UserDaoTest {
 			System.out.println("일치하는 계정이 없습니다");
 		}
 	}
+
+	// 임시 비밀번호 생성
+	@Test
+	public void makeTempPW () {
+		userDao.makeTempPW("temp", "1234");
+	}
 	
 }

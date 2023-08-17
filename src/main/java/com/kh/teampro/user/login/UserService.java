@@ -1,5 +1,6 @@
 package com.kh.teampro.user.login;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +55,10 @@ public class UserService {
 	public boolean findAccount(String userid, String uemail) {
 		boolean result = userDao.findAccount(userid, uemail); 
 		return result;
+	}
+	
+	// 임시 비밀번호 생성
+	public void makeTempPW(String userid, String upw) {
+		userDao.makeTempPW(userid, upw);
 	}
 }
