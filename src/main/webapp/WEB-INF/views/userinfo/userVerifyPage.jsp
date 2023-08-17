@@ -55,11 +55,6 @@ $(function(){
               <input type="text" class="form-control" id="userVerifyCode" name="userVerifyCode"
               	placeholder="본인인증 코드 입력" style="margin-bottom: 10px">
               <input type="button" id="btnCheckVerify" value="본인 확인" class="btn py-3 px-4 btn-primary">
-              
-            <div class="pt-5 mt-5"> <!-- 개발자 확인용 임시 구문. 개발완료 후 div 째로 삭제할것 -->
-              <h3 class="mb-5">발송된 코드 (사용자에게 안보임): ${verifyCode}</h3>
-            </div>
-              
           </div>
           
           </div> <!-- .col-md-8 -->

@@ -44,21 +44,19 @@
 			, replytext
 			, replyer
 			, rgroup
+			, regdate
 			, rseq
 			, rlevel
-			, unickname
-			, userid
 			)
 		values
-			(seq_reply_rno.nextval
+			(seq_restreply_rno.nextval
 			, #{bno}
 			, #{replytext}
 			, #{replyer}
 			, #{rgroup}
+			, sysdate
 			, #{rseq}
 			, 1
-			, #{unickname}
-			, #{userid}
 			)
 	</insert>
 	

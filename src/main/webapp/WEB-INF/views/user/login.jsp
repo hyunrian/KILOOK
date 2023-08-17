@@ -285,12 +285,12 @@ if (joinResult == "true"){
 // 글자수 제한 (아이디)
 $.validator.addMethod("lengthCheckId", function(value, element) {
 	  return this.optional(element) || /^.{2,15}$/.test(value);
-	}, "**** 아이디는 2 ~ 30자 입니다 ****");
+	}, "**** 아이디는 2 ~ 15자 입니다 ****");
 
 // 글자수 제한(닉네임)
 $.validator.addMethod("lengthCheckNickName", function(value, element) {
-	  return this.optional(element) || /^.{2,30}$/.test(value);
-	}, "**** 닉네임은 2 ~ 30자 입니다 ****");
+	  return this.optional(element) || /^.{2,10}$/.test(value);
+	}, "**** 닉네임은 2 ~ 10자 입니다 ****");
 
 // 글자수 제한(비밀번호)
 $.validator.addMethod("lengthCheckPw", function(value, element) {
@@ -302,15 +302,20 @@ $.validator.addMethod("spellCheckId", function(value, element) {
 	  return this.optional(element) || /^[A-Za-z0-9]+$/.test(value);
 	}, "**** 아이디는 영문, 숫자만 가능합니다 ****");
 	
+// 글자 제한 (영문과 숫자, 한글만)
+$.validator.addMethod("spellCheckNickName", function(value, element) {
+	  return this.optional(element) || /^[A-Za-z0-9\uAC00-\uD7A3]+$/.test(value);
+	}, "**** 닉네임은 영문, 숫자, 한글만 가능합니다 ****");
+	
 // 특수문자 제한
-$.validator.addMethod("spellCheckPW1", function(value, element) {
+$.validator.addMethod("spellCheckSC", function(value, element) {
 	  return this.optional(element) || /^[a-zA-Z0-9!@#$%_]*$/.test(value);
 	}, "**** 특수문자는 !@#$%_만 사용 가능합니다 ****");
 
 // 글자 제한 (영문+숫자+특수기호)
-$.validator.addMethod("spellCheckPW2", function(value, element) {
+$.validator.addMethod("spellCheckPW", function(value, element) {
 	  return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%_])[A-Za-z\d!@#$%-_]+$/.test(value);
-	}, "**** 영문, 숫자, !@#$%_를 조합해야 합니다 ****");
+	}, "**** 영문, 숫자, 특수문자를 조합해야 합니다 ****");
 	
 	
 $(function() {
@@ -319,10 +324,10 @@ $(function() {
 	loginForm.validate({
 		rules: {                    // 유효성 검사 규칙
 			userid: {				// 아이디 필드 (name="userid")
-				required: true,     // 필수 입력
+				required: true      // 필수 입력
 			},
 			upw: {     		        // 비밀번호 필드 (name="upw")
-				required: true,     // 필수 입력
+				required: true      // 필수 입력
 			}
 		},
 		messages: {                 // 오류값 발생시 출력할 메시지 수동 지정
@@ -360,6 +365,7 @@ $(function() {
 			unickname: {     			// 비밀번호 필드 (name="unickname")
 				required: true,			// 필수 입력
 				lengthCheckNickName: true,
+				spellCheckNickName: true,
 				// 실시간 유효성 체크(닉네임)
 				remote: {
                     url: "/loginUser/nickNameDubCheck",
@@ -374,8 +380,8 @@ $(function() {
 			upw: {     					// 비밀번호 필드 (name="upw")
 				required: true,			// 필수 입력
 				lengthCheckPw: true,
-				spellCheckPW1: true,
-				spellCheckPW2: true
+				spellCheckSC: true,
+				spellCheckPW: true
 			},
 			upwCheck: {     			// 비밀번호 필드 (name="upwCheck")
 				required: true,			// 필수 입력
@@ -387,7 +393,7 @@ $(function() {
 				required:		"**** 아이디를 입력해 주세요 ****",
 				remote: 		"**** 중복된 아이디 입니다 ****"
 			},
-			unickName: {
+			unickname: {
 				required:		"**** 닉네임을 입력해 주세요 ****",
 				remote: 		"**** 중복된 닉네임 입니다 ****"
 			},
@@ -443,11 +449,24 @@ $(function() {
 
     // 아이디 기억하기 체크박스가 변경될 때 처리
     useCookieCheckbox.change(function() {
-        if (this.checked) {
-            setCookie("remUserid", useridInput.val(), 3650); // 쿠키를 10년 동안 저장
-        } else {
+    	
+        if (!(this.checked)) {
         	deleteCookie("remUserid"); // 쿠키 삭제
+        	useCookieCheckbox.attr('checked', 'false');
+        } else {
+        	useCookieCheckbox.removeAttr('checked');
         }
+    });
+    
+    // 로그인시 아이디 쿠기 생성
+    $("#btnLogin").click(function(){
+    	console.log("clicked");
+    	if (useCookieCheckbox.is(":checked")){
+    		deleteCookie("remUserid"); // 쿠키 삭제
+    		setCookie("remUserid", useridInput.val(), 3650); // 쿠키를 10년 동안 저장
+    	}
+    	$("#loginForm").submit();
+    	
     });
 
     // 페이지 로드 시 쿠키 값을 가져와 아이디 필드에 채움
@@ -494,7 +513,7 @@ $(function() {
 			</div>
 			<!-- 로그인 폼 -->
 			<div class="log-in-container">
-				<form id="loginForm" action="/user/login" method="post">
+				<form id="loginForm" action="/loginUser/login" method="post">
 					<h1>소셜 로그인</h1>
 					<div class="social-links">
 						<div>
@@ -514,10 +533,11 @@ $(function() {
 						id="upw" name="upw" required>
 					<div>
 						<input type="checkbox" class="form-check-input" 
-	                        	id="useCookie" name="useCookie">
+	                        	id="useCookie" name="useCookie" >
 						<label class="form-check-label" for="useCookie">아이디 기억하기</label>
 					</div>
-					<button type="submit" class="btn form_btn">확인</button>
+					<button id="btnLogin" type="button" class="btn form_btn">확인</button>
+					<a href="/loginUser/findPassword" style="font-size: 10px; margin-top: 15px">비밀번호를 잊으셨나요?</a>
 				</form>
 			</div>
 			<div class="overlay-container">

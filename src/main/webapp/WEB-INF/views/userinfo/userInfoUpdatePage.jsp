@@ -7,6 +7,17 @@
 	html, body {
 		background-color: gray;
 	}
+	
+	.inputSamll {
+	    background: #eee;
+	    padding: 11px;
+	    margin: 8px 0;
+	    width: 85%;
+	    border: 0;
+	    outline: none;
+	    border-radius: 20px;
+	    box-shadow: inset 7px 2px 10px #babebc, inset -5px -5px 12px #fff;
+	}
 </style>
 <script>
 $(function(){
@@ -17,12 +28,14 @@ $(function(){
 		var updateUpw = $("#upw").val().trim();
 		var checkUpw = $("#checkUpw").val().trim();
 		
-		// 입력한 비밀번호와 비밀번호 확인이 다르면 경고문과 함께 수정버튼 자체가 작동하지 않음
+		// 입력한 비밀번호와 비밀번호 확인이 다르면 경고문과 함께 수정 기능 작동하지 않음
+		var doUpdate = true;
 		if (updateUpw != checkUpw) {
-			// 내용 구현 필요
+			// 구현 필요. 당장은 alert으로 대체
+			doUpdate = false;
 		}
 		
-		// 입력한 값이 있을때만 수정함
+		// 데이터 전송 폼에 든 내용 수정. 입력한 값이 있을때만 수정함
 		if (updateUnickname != "") {
 			$("#updateUnickname").val(updateUnickname);
 		}
@@ -30,16 +43,19 @@ $(function(){
 //			$("#updateUimg").val(updateUimg);
 		}
 		if (updateUpw != "") {
-			$("#updateUpw").val(upw);
+			$("#updateUpw").val(updateUpw);
 		}
 		
-		// 수정할 내용이 하나라도 있어야 유저정보 수정이 작동함. 유저 이미지는 나중에.
-		if (updateUnickname != "" || updateUpw != "") {
+		// 수정기능 작동 확인. 하나라도 만족 못하면 경고문만 출력. alert 이외의 방법 고민.
+		if (doUpdate == false) { // 비밀번호 확인 실패시 작동 안함
+			alert("비밀번호를 다시 확인해주세요.");
+		} else if (updateUnickname == "" && updateUpw == "") { // 수정할 내용이 하나도 없으면 유저정보 수정이 작동 안함. 유저 이미지는 나중에.
+			alert("수정할 내용이 없습니다.");
+		} else {
+			alert("수정이 완료되었습니다.");
 			var form = $("#userVoForm")
 			form.attr("action","/userinfo/updateDone");
 			form.submit();
-		} else { // alert 이외의 방법 고민.
-			alert("수정할 내용이 없습니다.");
 		}
 		
 	}); // 유저 정보 수정 완료 (btnUpdateDone 클릭)
@@ -59,13 +75,30 @@ $(function(){
           
           <div class="sidebar-box ftco-animate">
           	
-            <h3 class="mb-5">사용자 정보 수정 페이지</h3>
             
-          	<div class="form-control" style="margin-bottom: 10px">닉네임 : <input type="text" id="unickname" placeholder="${userVo.unickname}"></div>
-			<div class="form-control" style="margin-bottom: 10px">비밀번호 : <input type="password" id="upw" placeholder="비밀번호"></div>
-			<div class="form-control" style="margin-bottom: 10px">비밀번호 확인 : <input type="password" id="checkUpw" placeholder="비밀번호 확인"></div>
-			<input type="button" id="btnUpdateDone" value="정보 수정 완료" class="btn py-3 px-4 btn-primary">
-          
+            
+            
+            <form action="#" class="p-5 bg-light">
+            
+            <h2 class="mb-5">사용자 정보 수정</h2>
+            
+              <div class="form-group">
+                <label for="unickname">닉네임</label>
+                <input type="text" class="form-control" id="unickname" placeholder="${userVo.unickname}">
+              </div>
+              <div class="form-group">
+                <label for="upw">비밀번호</label>
+                <input type="password" class="form-control" id="upw" placeholder="새 비밀번호">
+              </div>
+              <div class="form-group">
+                <label for="checkUpw">비밀번호 확인</label>
+                <input type="password" class="form-control" id="checkUpw" placeholder="새 비밀번호 확인">
+              </div>
+              <div class="form-group">
+                <input type="button" id="btnUpdateDone" value="정보 수정 완료" class="btn py-3 px-4 btn-primary">
+              </div>	
+            </form>
+            
             <input type="hidden" id="userid" value="testuser"> <!-- 임시데이터. 이후 loginInfo session 생성시 거기서 userid 따올것 -->
             <input type="hidden" id="verifyCode" value="${verifyCode}">
             <input type="hidden" id="uemail" value="${uemail}">

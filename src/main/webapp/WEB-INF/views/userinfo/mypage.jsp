@@ -28,6 +28,10 @@ $(function(){
 		form.submit();
 	});
 	
+	$("#btnLogout").click(function(){
+		//loginUser/logout
+	})
+	
 });
 </script>
 <body>
@@ -69,9 +73,19 @@ $(function(){
               </div>
               <div class="desc align-self-md-center">
                 <h3>${userVo.unickname}님의 마이페이지</h3>
-                <p>소지 포인트 p태그</p>
-                <p>사용 이메일 p태그</p>
-                <p>가입일 p태그</p>
+                <p>보유 포인트 : ${userVo.upoint}</p>
+                <c:choose>
+                	<c:when test="${userVo.uemail != null}">
+		                <p>본인확인 이메일 : ${userVo.uemail}</p>                	
+                	</c:when>
+	                <c:otherwise>
+		                <p>본인확인 이메일 : 없음</p>
+	                </c:otherwise>
+                </c:choose>
+                <div class="meta">가입일 : ${userVo.joindate}</div>
+                
+                <input type="button" id="btnLogout" value="로그아웃" style="margin-top: 5px">
+                <p style="color: white;">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</p>
               </div>
             </div>
 
@@ -110,23 +124,6 @@ $(function(){
         </div>
       </div>
     </section> <!-- .section -->
-    
-    <!-- 이하 페이지에 표시 되지 않는 내용 -->
-	
-	<!-- 유저 정보 보관용 form -->
-	<!-- 정보 수정 시 전달될 데이터 -->
-	<form id="userVoForm" method="post" action="/userinfo/infoUpdate">
-		<input type="hidden" name="userid" value="${userVo.userid}">
-		<input type="hidden" name="upw" value="${userVo.upw}">
-		<input type="hidden" name="unickname" value="${userVo.unickname}">
-		<input type="hidden" name="upoint" value="${userVo.upoint}">
-		<input type="hidden" name="uimg" value="${userVo.uimg}">
-		<input type="hidden" name="uemail" value="${userVo.uemail}">
-		<input type="hidden" name="signupfrom" value="${userVo.signupfrom}">
-		<input type="hidden" name="joindate" value="${userVo.joindate}">
-		<input type="hidden" name="verified" value="${userVo.verified}">
-	</form>
-	<!-- //유저 정보 보관용 form -->
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>

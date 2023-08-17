@@ -21,6 +21,12 @@ public class FoodDao {
 		return list;
 	}
 	
+	// 맛집 필터링 조회
+	public List<FoodVo> getFoodFilterList(String location) throws Exception{
+		List<FoodVo> list = sqlSession.selectList(NAMESPACE + "getFoodFilterList", location);
+		return list;
+	}
+	
 	// 해당 맛집 상세보기
 	public FoodVo getFoodInfo(int bno) throws Exception{
 		FoodVo list = sqlSession.selectOne(NAMESPACE + "getFoodInfo", bno);

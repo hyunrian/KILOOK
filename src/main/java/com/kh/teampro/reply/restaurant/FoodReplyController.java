@@ -35,8 +35,8 @@ public class FoodReplyController {
 		HttpSession session) throws Exception{
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 //		foodReplyVo.setReplyer(userVo.getUserid()); // (수정필요)
-		foodReplyVo.setReplyer("writer00"); // 닉네임 : test00 (임시 set)
-		foodReplyVo.setUserid("userId00"); // 아이디 : test00 (임시 set)
+		foodReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
+		foodReplyVo.setUserid("testuser"); // 아이디 : test00 (임시 set)
 		if(foodReplyVo.getRlevel() == 0) {
 			foodReplyService.insertRestNewReply(foodReplyVo);
 		} else {
@@ -53,7 +53,7 @@ public class FoodReplyController {
 	 // 댓글 수정
 	@RequestMapping(value = "/restUpdate", method = RequestMethod.PATCH)
 	public String foodReplyUpdate(@RequestBody FoodReplyVo foodReplyVo) {
-		foodReplyVo.setReplyer("writer00"); // 닉네임 : test00 (임시 set)
+		foodReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
 		foodReplyService.updateRestReply(foodReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}

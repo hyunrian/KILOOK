@@ -7,5 +7,8 @@ public interface MyConstants { // 상수값을 모아놓은 클래스
 	public static final String LOGIN = "loginInfo";
 	public static final String SUCCESS_MESSAGE = "SUCCESS";
 	public static final String FAIL_MESSAGE = "FAIL";
+	public static final String ID = "id";
+	public static final String PW = "pw";
+	public static final String NINCKNAME = "nickname";
 	
 }

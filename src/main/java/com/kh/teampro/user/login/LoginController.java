@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 
@@ -66,7 +67,7 @@ public class LoginController {
 			RedirectAttributes rttr) {
 		System.out.println("LoginDto:" + loginDto);
 		UserVo userVo = userService.login(loginDto);
-		String returnPage = "redirect:/board/list";
+		String returnPage = "redirect:/";
 		if (userVo != null) {
 			String targetLocation = 
 						(String)session.getAttribute("targetLocation");
@@ -74,26 +75,26 @@ public class LoginController {
 				returnPage = "redirect:"+ targetLocation;
 			}
 			session.removeAttribute("targetLocation");
-			session.setAttribute("loginInfo", userVo);
+			session.setAttribute(MyConstants.LOGIN, userVo);
 		} else {
 			rttr.addFlashAttribute("loginResult", "FAIL");
-			returnPage = "redirect:/login";
+			returnPage = "redirect:/loginUser/login";
 		}
 		return returnPage;
 	}
 	
 	// 로그아웃
-//	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-//	public String logout(HttpSession session) {
-//		session.invalidate();
-//		return "redirect:/loginUser/login";
-//	}
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/loginUser/login";
+	}
 	
-	// 비밀번호 찾기 폼으로 이동 (이메일 연동 임시 비밀번호 생성)
-//	@RequestMapping(value="/forgotPassword", method = RequestMethod.GET)
-//	public String forgotPassword() {
-//		return "/user/forgotPassword";
-//	}
+//	 비밀번호 찾기 폼으로 이동 (이메일 연동 임시 비밀번호 생성)
+	@RequestMapping(value="/findPassword", method = RequestMethod.GET)
+	public String forgotPassword() {
+		return "/user/findPassword";
+	}
 
 	// 임시 비밀번호 생성 (이메일 연동)
 //	@RequestMapping(value="/sendPassword", method = RequestMethod.POST)
@@ -118,7 +119,7 @@ public class LoginController {
 //				helper.setFrom("teamprobusan@gmail.com"); // 보내는이
 //				helper.setTo(email); // 받는이
 //				helper.setSubject("비밀번호 변경 안내"); // 제목
-//				helper.setText("변경된 비밀번호:" + newPass); // 내용
+//				helper.setText("변경된 비밀번호:" + newPass + "입니다"); // 내용
 //			}
 //		};
 //		mailSender.send(preparator);

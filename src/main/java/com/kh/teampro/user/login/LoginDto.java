@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class LoginDto {
 	private String userid;
 	private String upw;
-	private boolean useCookie;
 }

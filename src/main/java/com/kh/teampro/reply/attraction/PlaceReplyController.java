@@ -31,12 +31,12 @@ public class PlaceReplyController {
 	
 	// 댓글 추가
 	@RequestMapping(value = "/placeInsert", method = RequestMethod.POST)
-	public String accomReplyInsert(PlaceReplyVo placeReplyVo,
+	public String placeReplyInsert(PlaceReplyVo placeReplyVo,
 		HttpSession session) throws Exception{
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 //		foodReplyVo.setReplyer(userVo.getUserid()); // (수정필요)
-		placeReplyVo.setReplyer("writer00"); // 닉네임 : test00 (임시 set)
-		placeReplyVo.setUserid("userId00"); // 아이디 : test00 (임시 set)
+		placeReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
+		placeReplyVo.setUserid("testuser"); // 아이디 : test00 (임시 set)
 		if(placeReplyVo.getRlevel() == 0) {
 			placeReplyService.insertPlaceNewReply(placeReplyVo);
 		} else {
@@ -53,7 +53,7 @@ public class PlaceReplyController {
 	 // 댓글 수정
 	@RequestMapping(value = "/placeUpdate", method = RequestMethod.PATCH)
 	public String updatePlaceReply(@RequestBody PlaceReplyVo placeReplyVo) {
-		placeReplyVo.setReplyer("writer00"); // 닉네임 : test00 (임시 set)
+		placeReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
 		placeReplyService.updatePlaceReply(placeReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}

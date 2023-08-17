@@ -3,6 +3,7 @@ package com.kh.teampro.user.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 @Service
@@ -33,9 +34,9 @@ public class UserService {
 	public boolean createAccount(UserVo userVo) {
 		boolean resultDubID = userDao.dubCheckID(userVo.getUserid());
 		boolean resultDubNickName = userDao.dubCheckNickName(userVo.getUnickname());
-		boolean idCheck = userDao.validCheckTotal(2, 15, "id", userVo.getUserid());
-		boolean nickNameCheck = userDao.validCheckTotal(2, 15, "nickName", userVo.getUnickname());
-		boolean pwCheck = userDao.validCheckTotal(4, 15, "pw", userVo.getUpw());
+		boolean idCheck = userDao.validCheckTotal(2, 15, MyConstants.ID, userVo.getUserid());
+		boolean nickNameCheck = userDao.validCheckTotal(2, 10, MyConstants.NINCKNAME, userVo.getUnickname());
+		boolean pwCheck = userDao.validCheckTotal(4, 15, MyConstants.PW, userVo.getUpw());
 		if (resultDubID == true && resultDubNickName == true
 				&& idCheck==true && nickNameCheck==true && pwCheck==true) {
 			userDao.createAccount(userVo);

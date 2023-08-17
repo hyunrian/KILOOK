@@ -56,210 +56,232 @@
 		});
 	});
 	
-// //댓글창 보기
-// function showReply(){
-// 	$("#reply").css('display', 'block')
-// 	$("#replyFlag").attr("onClick", "hideReply()")
-// }
+	// 댓글창 보기
+	function showReply(){
+		$("#reply").css('display', 'block')
+		$("#replyFlag").attr("onClick", "hideReply()")
+	}
 
-// //; 댓글 여부 체크
-// function hasChildReply(rno) {
-// 	$.get("/userReply/checkDelete/" + rno, function(hasReply) {
-// 		if (hasReply == "true") {
-// 			return true;
-// 		} else {
-// 			return false;
-// 		}
-// 	})
-// }
+	// 댓글 여부 체크
+	function hasChildReply(rno) {
+		$.get("/reply/checkChildAccomReply/" + rno, function(hasReply) {
+			if (hasReply == "true") {
+				return true;
+			} else {
+				return false;
+			}
+		})
+	}
 
-// // 댓글창 숨기기 
-// function hideReply(){
-// 	$("#reply").css('display', 'none')
-// 	$("#replyFlag").attr("onClick", "showReply()")
-// } 
+	// 댓글창 숨기기 
+	function hideReply(){
+		$("#reply").css('display', 'none')
+		$("#replyFlag").attr("onClick", "showReply()")
+	} 
 
-// // 댓글 리스트 가져오기
-// function getReplyList(){
+	// 댓글 리스트 가져오기
+	function getReplyList(){
 
-// 	const bno = "${getFoodInfo.bno}";
-// 	$.get("/reply/restList?bno=" + bno, function(rData){
-// 		console.log(rData)
-// 		$.each(rData, function(i, item){
-// 			$(".replyElem").remove();
-// 			var status = "default";
-// 			$.get("/reply/checkChildRestReply/" + item.rno, function(hasReply){
-// 				if(item.delete_yn == "Y" && hasReply){
-// 					status = "deleted";
-// 				} else if(item.delete_yn == "Y" && !hasReply){
-// 					status = "skip";
-// 				}
-// 			});
-// 			setTimeout(function(){
-// 				if(status == "default" || status == "deleted"){
-// 					let reply = null;
-// 					if(item.rlevel == 1){
-// 						reply = $("#rplyUl").clone();
-// 					} else {
-// 						console.log(`li`)
-// 						reply = $("#replyLi").clone();
-// 					}
-// 					reply.removeAttr("id").addClass("replyElem");
-					
-// 					const div = reply.find("div").eq(1);
-// 					div.find("h3").text(item.replyer);
-// 					console.log(item.replyer)
-					
-// 					const dateDiv = div.find("div").eq(0);
-// 					if(item.updatedate != null){
-// 						if(isSameDate(item.updatedate)){
-// 							dateDiv.text(getTime(item.updatedate));
-// 						} else {
-// 							dateDiv.text(getDate(item.updatedate));
-// 						}
-// 					} else {
-// 						if(isSameDate(item.regdate)){
-// 							dateDiv.text(getTime(item.regdate));
-// 						} else {
-// 							dateDiv.text(getDate(item.regdate));
-// 						}
-// 					}
-// 					if(item.unickname != null){
-// 						const span = div.find("span").eq(0);
-// 						span.show();
-// 						span.text("@" + item.unickname + " ");
-// 					}
-// 					div.find("span").eq(1).text(item.replytext);
-// 					div.find("p > a").attr("data-rno", item.rno);
-					
-// 					if(status == "deleted"){
-// 						div.find("span").eq(1).text("---------- 삭제된 댓글입니다. ----------");
-// 						div.find("p").hide();
-// 						div.find("div").eq(0).remove();
-// 						div.find("h3").remove();
-// 						div.prev().find("img").remove();
-// 					}
-// 					reply.show();
-// 					console.log(reply)
-// 					$("#replyList").append(reply);
-// 				}
-// 			}, 600);
-// 		});
-// 	});
-// }
+		const bno = "${getAccomInfo.bno}";
+		$.get("/reply/accomList?bno=" + bno, function(rData){
+			console.log(`rdata`)
+			console.log(rData)
+			console.log(`rdata`)
+			$.each(rData, function(i, item){
+				$(".replyElem").remove();
+				var status = "default";
+				$.get("/reply/checkChildAccomReply/" + item.rno, function(hasReply){
+					if(item.delete_yn == "Y" && hasReply){
+						status = "deleted";
+					} else if(item.delete_yn == "Y" && !hasReply){
+						status = "skip";
+					}
+				});
+				setTimeout(function(){
+					if(status == "default" || status == "deleted"){
+						let reply = null;
+						if(item.rlevel == 1){
+							reply = $("#replyUl").clone();
+						} else {
+							reply = $("#replyLi").clone();
+						}
+						reply.removeAttr("id").addClass("replyElem");
+						
+						const div = reply.find("div").eq(1);
+						div.find("h3").text(item.replyer);
+						
+						const dateDiv = div.find("div").eq(0);
+						if(item.updatedate != null){
+							if(isSameDate(item.updatedate)){
+								dateDiv.text(getTime(item.updatedate));
+							} else {
+								dateDiv.text(getDate(item.updatedate));
+							}
+						} else {
+							if(isSameDate(item.regdate)){
+								dateDiv.text(getTime(item.regdate));
+							} else {
+								dateDiv.text(getDate(item.regdate));
+							}
+						}
+						if(item.unickname != null){
+							const span = div.find("span").eq(0);
+							span.show();
+							span.text("@" + item.unickname + " ");
+						}
+						div.find("span").eq(1).text(item.replytext);
+						div.find("p > a").attr("data-rno", item.rno);
+						
+						if(status == "deleted"){
+							div.find("span").eq(1).text("---------- 삭제된 댓글입니다. ----------");
+							div.find("p").hide();
+							div.find("div").eq(0).remove();
+							div.find("h3").remove();
+							div.prev().find("img").remove();
+						}
+						reply.show();
+						$("#replyList").append(reply);
+					}
+				}, 600);
+			});
+		});
+	}
 
-// $(window).on("load", function() {
-// 	getReplyList();
-// 	// 대댓글 쓰기
-// 	$("#btnReplyWrite").on("click",function(){
+	function btnReplyCommentWrite(rno){
 		
-// 		const replytext = $("#replytext").val().trim();
-// 		const replyObject = {
-// 			replytext : replytext,
-// 			rlevel : 0,
-// 			rno : 0,
-// 			parentreplyer : null,
-// 			type : "newReply",
-// 			bno : "${getFoodInfo.bno}"
-// 		}
+		const replytext = $("#replytext").val().trim();
+		const replyObject = {
+			replytext : replytext,
+			rlevel : 1,
+			rno : rno,
+			parentreplyer : null,
+			type : "newReply",
+			bno : "${getAccomInfo.bno}"
+		}
+		debugger;
+		insertReply(replyObject);
 		
-// 		insertReply(replyObject);
-		
-// 		$("#replytext").val(""); 
-// 	});
-	
-// 	//대댓글창 열기
-// 	$("#replyList").on("click", ".replyBtn", function(e) {
-// 		e.preventDefault();
-// 			$(".replyForm").remove();
-// 			$(".replyElem").find("div").show();
-// 			const replyForm = $("#replyForm").clone();
-// 			replyForm.addClass("replyForm");
-// 			replyForm.find("input").eq(1).attr("data-type", "reReply");
-// 			$(this).parent().append(replyForm);
-// 	});
+		$("#replytext").val(""); 
+	}
 
-// 	// 댓글 삭제
-// 	$("#replyList").on("click", ".deleteReply", function(e) {
-// 		e.preventDefault();
-// 		const that = $(this);
-// 		const rno = that.attr("data-rno");
-// 		$.ajax({
-// 			"type" : "patch",
-// 			"url" : "/userReply/delete",
-// 			"data" : rno,
-// 			"success" : function(rData) {
-// 				that.closest(".replyElem").fadeOut(700);
-// 			}
-// 		});
-// 	});
-
-// 	// 댓글 수정창 열기
-// 	$("#replyList").on("click", ".updateReply", function(e) {
-// 		e.preventDefault();
-// //			$("#updateFormCopy").remove();
-// 		$(".replyForm").remove();
-// 		$(".replyElem").find("div").show();
-// 		const element = $(this).closest(".replyElem");
-// 		const replyForm = $("#replyForm").clone();
-// 		replyForm.addClass("replyForm");
-// //			replyForm.attr("id", "updateFormCopy");
-// 		replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
-// 		const replytext = element.find("span").eq(1).text();
-// 		replyForm.find("#replytext").val(replytext);
-// 		const rno = $(this).attr("data-rno");
-// 		replyForm.find("#btnReplyWrite").hide();		
-// 		replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
-// 		element.find("div").hide();
-// 		element.append(replyForm);
-// 	});
-	
-// 	// 댓글 수정
-// 	$("#replyList").on("click", "#replyUpdateBtn", function() {
-// 		const that = $(this);
-// 		const replytext = $(this).parent().prev().find("input").val().trim();
-// 		const sData = {
-// 				"rno" : $(this).attr("data-rno"),
-// 				"replytext" : replytext
-// 		};
-// 		$.ajax ({
-// 			"type" : "patch",
-// 			"url" : "/reply/restUpdate",
-// 			"contentType" : "application/json",
-// 			"data" : JSON.stringify(sData),
-// 			"success" : function(rData) {
-// 				const element = that.closest(".replyElem");
-// 				element.find("span").eq(1).text(replytext);
-// 				element.find("div").fadeIn(700);
-// 				element.find(".replyForm").remove();
-// 				element.find("div").eq(1).find("div").text(getTime(new Date()));
-// 			}
-// 		});
-// 	});
-	
-// }) 
-
-
-
-
-// //댓글 입력하기 - 공통 부분 함수
-// function insertReply(replyObject) {
-
-// 		if (replyObject != "") {
-// 			const sData = {
-// 				"bno" : replyObject?.bno,
-// 				"replytext" : replyObject?.replytext,
-// 				"rlevel" : replyObject?.rlevel,
-// 				"rno" : replyObject?.rno,
-// 				"unickname" : replyObject?.unickname ?? "test",
-// 				"bno" : replyObject?.bno
-// 			};
+	$(window).on("load", function() {
+		getReplyList();
+		// 대댓글 쓰기
+		$("#btnReplyWrite").on("click",function(){
 			
-// 			$.post("/reply/restInsert", sData, function(rData) {
-// 				getReplyList();
-// 			});
-// 		}
-// 	} 
+			const replytext = $("#replytext").val().trim();
+			const replyObject = {
+				replytext : replytext,
+				rlevel : 0,
+				rno : 0,
+				parentreplyer : null,
+				type : "newReply",
+				bno : "${getAccomInfo.bno}"
+			}
+			
+			insertReply(replyObject);
+			
+			$("#replytext").val(""); 
+		}); 
+		
+		
+		//대댓글창 열기
+		$("#replyList").on("click", ".replyBtn", function(e) {
+			e.preventDefault();
+				$(".replyForm").remove();
+				$(".replyElem").find("div").show();
+				const replyForm = $("#replyForm").clone();
+				replyForm.addClass("replyForm");
+				replyForm.find("input").eq(1).attr("data-type", "reReply");
+				const rno = $(this).attr("data-rno");
+				console.log(`rno`)
+				console.log(rno)
+				console.log(`rno`)
+				replyForm.find("input").eq(1).attr("onClick", `btnReplyCommentWrite(\${rno})`);
+				
+				$(this).parent().append(replyForm);
+		});
+
+		// 댓글 삭제
+		$("#replyList").on("click", ".deleteReply", function(e) {
+			e.preventDefault();
+			const that = $(this);
+			const rno = that.attr("data-rno");
+			$.ajax({
+				"type" : "patch",
+				"url" : "/reply/accomDelete",
+				"data" : rno,
+				"success" : function(rData) {
+					that.closest(".replyElem").fadeOut(700);
+				}
+			});
+		});
+
+		// 댓글 수정창 열기
+		$("#replyList").on("click", ".updateReply", function(e) {
+			e.preventDefault();
+//				$("#updateFormCopy").remove();
+			$(".replyForm").remove();
+			$(".replyElem").find("div").show();
+			const element = $(this).closest(".replyElem");
+			const replyForm = $("#replyForm").clone();
+			replyForm.addClass("replyForm");
+//				replyForm.attr("id", "updateFormCopy");
+			replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
+			const replytext = element.find("span").eq(1).text();
+			replyForm.find("#replytext").val(replytext);
+			const rno = $(this).attr("data-rno");
+			replyForm.find("#btnReplyWrite").hide();		
+			replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
+			element.find("div").hide();
+			element.append(replyForm);
+		});
+		
+		// 댓글 수정
+		$("#replyList").on("click", "#replyUpdateBtn", function() {
+			const that = $(this);
+			const replytext = $(this).parent().prev().find("input").val().trim();
+			const sData = {
+					"rno" : $(this).attr("data-rno"),
+					"replytext" : replytext
+			};
+			$.ajax ({
+				"type" : "patch",
+				"url" : "/reply/accomUpdate",
+				"contentType" : "application/json",
+				"data" : JSON.stringify(sData),
+				"success" : function(rData) {
+					const element = that.closest(".replyElem");
+					element.find("span").eq(1).text(replytext);
+					element.find("div").fadeIn(700);
+					element.find(".replyForm").remove();
+					element.find("div").eq(1).find("div").text(getTime(new Date()));
+				}
+			});
+		});
+		
+	}) 
+
+	//댓글 입력하기 - 공통 부분 함수
+	function insertReply(replyObject) {
+
+			if (replyObject != "") {
+				const sData = {
+					"bno" : replyObject?.bno,
+					"replytext" : replyObject?.replytext,
+					"rlevel" : replyObject?.rlevel,
+					"rno" : replyObject?.rno,
+					"unickname" : replyObject?.unickname ?? "test",
+				};
+				
+				$.post("/reply/accomInsert", sData, function(rData) {
+					getReplyList();
+				});
+			}
+		} 
+	
+	
+	
 </script>
 
 <div class="hero-wrap js-fullheight"
