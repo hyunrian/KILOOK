@@ -3,7 +3,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
-<body>
+<script>
+
+$(function(){
+	// 필터
+	$("#selectBox").change(function() {
+        const selectBoxValue = $(this).val();
+        console.log("selectBoxValue:", selectBoxValue); // test ok
+		location.href = "/databoard/filterAttraction?location=" + selectBoxValue;
+    });
+});
+
+</script>
 	<!-- menu -->
 	<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 	<!-- END menu -->
@@ -30,6 +41,35 @@
 
 
 	<section class="ftco-section bg-light">
+	
+		<!-- 필터 -->
+		<div class="container">
+			<div class="row d-flex">
+				<select id="selectBox" style="width: 200px; height: 25px;
+						 margin-bottom: 15px; margin-left: 900px; text-align: center;">
+					<option selected>-- 선택 --</option>
+					<option value="전체보기" >전체보기</option>
+					<option value="영도구" >영도구</option>
+					<option value="기장군">기장군</option>
+					<option value="동구">동구</option>
+					<option value="중구">중구</option>
+					<option value="동래구">동래구</option>
+					<option value="서구">서구</option>
+					<option value="남구">남구</option>
+					<option value="해운대구">해운대구</option>
+					<option value="수영구">수영구</option>
+					<option value="사하구">사하구</option>
+					<option value="금정구">금정구</option>
+					<option value="북구">북구</option>
+					<option value="사상구">사상구</option>
+					<option value="강서구">강서구</option>
+					<option value="부산진구">부산진구</option>
+					<option value="연제구">연제구</option>
+				</select>
+			</div>
+		</div>
+		<!-- END 필터 -->
+	
 		<div class="container">
 			<div class="row d-flex">
 				<c:forEach items="${placeList}" var="placeVo">

@@ -24,6 +24,12 @@ public class PlaceDao {
 		return list;
 	}
 	
+	// 명소 필터링 조회
+	public List<PlaceVo> getPlaceFilterList(String location) throws Exception{ 
+		List<PlaceVo> list = sqlSession.selectList(NAMESPACE + "getPlaceFilterList", location);
+		return list;
+	}
+	
 	// 해당 명소 상세보기
 	public PlaceVo getPlaceInfo(int bno) throws Exception{
 		PlaceVo list = sqlSession.selectOne(NAMESPACE + "getPlaceInfo", bno);

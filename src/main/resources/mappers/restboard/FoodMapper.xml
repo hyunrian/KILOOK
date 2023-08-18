@@ -14,8 +14,10 @@
 			   , thumbimage
 			   , replycnt
 			   , bno
-		from tbl_rest
-		order by bno desc
+		from (select rownum rnum, a.*
+			from (select * from tbl_rest
+				order by bno desc) a)
+		where rnum between #{startRow} and #{endRow}		
 	</select>
 	
 	<!-- 맛집 필터링 조회 -->

@@ -2,9 +2,11 @@
     pageEncoding="UTF-8"%>
 <body>
 	<!-- menu -->
+	<a class="navbar-brand" href="/" style="margin-top: 30px; margin-left: 200px; color: white;">dirEngine.</a>
+	
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container" style="z-index: 1;">
-	      <a class="navbar-brand" href="/">dirEngine.</a>
+<!--      	  <a class="navbar-brand" href="/">dirEngine.</a> -->
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>

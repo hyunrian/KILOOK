@@ -421,11 +421,6 @@
 														<a href="/databoard/getAccomInfo?bno=${accomVo.bno}">${accomVo.aname}</a><br>
 														<a href="#" class="meta-chat"><span class="icon-chat"></span>${accomVo.areplycnt}</a>
 													</h3>
-													<p class="rate">
-														<i class="icon-star"></i> <i class="icon-star"></i> 
-														<i class="icon-star"></i> <i class="icon-star"></i> 
-														<i class="icon-star-o"></i> 
-													</p>
 												</div>
 											</div>
 											<span class="tag">${accomVo.address} ${accomVo.addressdetail}</span>

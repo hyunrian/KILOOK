@@ -90,9 +90,6 @@ function getReplyList(){
 
 	const bno = "${getFoodInfo.bno}";
 	$.get("/reply/restList?bno=" + bno, function(rData){
-		console.log(`rdata`)
-		console.log(rData)
-		console.log(`rdata`)
 		$.each(rData, function(i, item){
 			$(".replyElem").remove();
 			var status = "default";
@@ -108,8 +105,7 @@ function getReplyList(){
 					let reply = null;
 					if(item.rlevel == 1){
 						reply = $("#replyUl").clone();
-					} else {
-						reply = $("#replyLi").clone();
+					} else {						reply = $("#replyLi").clone();
 					}
 					reply.removeAttr("id").addClass("replyElem");
 					
@@ -145,6 +141,9 @@ function getReplyList(){
 						div.find("h3").remove();
 						div.prev().find("img").remove();
 					}
+					console.log(`reply`)
+					console.log(reply)
+					console.log(`reply`)
 					reply.show();
 					$("#replyList").append(reply);
 				}
@@ -164,7 +163,6 @@ function btnReplyCommentWrite(rno){
 		type : "newReply",
 		bno : "${getFoodInfo.bno}"
 	}
-	debugger;
 	insertReply(replyObject);
 	
 	$("#replytext").val(""); 
@@ -200,9 +198,6 @@ $(window).on("load", function() {
 			replyForm.addClass("replyForm");
 			replyForm.find("input").eq(1).attr("data-type", "reReply");
 			const rno = $(this).attr("data-rno");
-			console.log(`rno`)
-			console.log(rno)
-			console.log(`rno`)
 			replyForm.find("input").eq(1).attr("onClick", `btnReplyCommentWrite(\${rno})`);
 			
 			$(this).parent().append(replyForm);
@@ -219,6 +214,7 @@ $(window).on("load", function() {
 			"data" : rno,
 			"success" : function(rData) {
 				that.closest(".replyElem").fadeOut(700);
+				getReplyList();
 			}
 		});
 	});
@@ -237,7 +233,7 @@ $(window).on("load", function() {
 		const replytext = element.find("span").eq(1).text();
 		replyForm.find("#replytext").val(replytext);
 		const rno = $(this).attr("data-rno");
-		replyForm.find("#btnReplyWrite").hide();		
+		replyForm.find("#btnReplyWrite").attr("id", "replyUpdateBtn");		
 		replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
 		element.find("div").hide();
 		element.append(replyForm);
@@ -429,11 +425,6 @@ function insertReply(replyObject) {
 														<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
 														<a href="#" class="meta-chat"><span class="icon-chat"></span>${foodVo.replycnt}</a>
 													</h3>
-													<p class="rate">
-														<i class="icon-star"></i> <i class="icon-star"></i> 
-														<i class="icon-star"></i> <i class="icon-star"></i> 
-														<i class="icon-star-o"></i> 
-													</p>
 												</div>
 											</div>
 											<span class="tag">${foodVo.address}</span>

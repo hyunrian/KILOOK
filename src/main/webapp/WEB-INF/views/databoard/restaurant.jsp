@@ -6,52 +6,12 @@
 <script>
 
 $(function(){
-	
 	// 필터
 	$("#selectBox").change(function() {
         const selectBoxValue = $(this).val();
         console.log("selectBoxValue:", selectBoxValue); // test ok
-        location.href = "";
-		var url = "/databoard/filterRestaurant/" + encodeURIComponent(selectBoxValue.toString());
-		
-		$.get(url, function(rData){
-			console.log("foodFilterList:", rData); // test ok
-			var foodListContainer = $("#foodListContainer");
-            foodListContainer.empty(); // 기존에 담겨있던 데이터 비우기
-            
-            rData.forEach(function(foodVo) {
-                var content = `
-                	<div class="col-md-3 d-flex ftco-animate">
-					<div class="blog-entry align-self-stretch">
-						<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="block-20"
-							style="background-image: url('${foodVo.thumbimage}');"> </a>
-						<div class="text p-4 d-block">
-							<h3 class="heading mt-3">
-								<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
-								<a href="#" class="meta-chat"><span class="icon-chat"></span>${foodVo.replycnt}</a>
-							</h3>
-							<span class="tag">${foodVo}</span>
-							<div class="meta mb-3">
-								<div>
-									<a href="#">Tel. ${foodVo.rnumber}</a>
-								</div>
-								<div>
-									<a href="#">Open. ${foodVo.openhours}</a>
-								</div>
-								<div>
-									<a href="#">${foodVo.menu}</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-                `;
-
-                foodListContainer.append(content);
-            });
-		});
+		location.href = "/databoard/filterRestaurant?location=" + selectBoxValue;
     });
-	
 });
 
 </script>
@@ -81,13 +41,24 @@ $(function(){
 	</div>
 
 	<section class="ftco-section bg-light" >
+	
+		
+	
 		<!-- 필터 -->
 		<div class="container">
 			<div class="row d-flex">
+				
+				<section style="margin-bottom: 15px;">
+					<form id="frm" action="">
+						<input type="text" name="search">
+						<button type="submit">검색</button>
+					</form>
+				</section>
+				
 				<select id="selectBox" style="width: 200px; height: 25px;
-						 margin-bottom: 15px; margin-left: 900px; text-align: center;"
-						 >
-					<option value="전체보기" selected>전체보기</option>
+						 margin-bottom: 15px; margin-left: 900px; text-align: center;">
+					<option selected>-- 선택 --</option>
+					<option value="전체보기">전체보기</option>
 					<option value="강서구">강서구</option>
 					<option value="영도구">영도구</option>
 					<option value="부산진구">부산진구</option>
@@ -105,11 +76,13 @@ $(function(){
 					<option value="동구">동구</option>
 					<option value="동래구">동래구</option>
 				</select>
+				
 			</div>
 		</div>
 		<!-- END 필터 -->
 		
 		<div class="container">
+			<!-- 게시글 리스트 -->
 			<div class="row d-flex" id="foodListContainer">
 				<c:forEach items="${foodList}" var="foodVo">
 					<div class="col-md-3 d-flex ftco-animate">
@@ -138,18 +111,23 @@ $(function(){
 					</div>
 				</c:forEach>
 			</div>
-
+			<!-- END 게시글 리스트 -->
+			
 			<div class="row mt-5">
 				<div class="col text-center">
 					<div class="block-27">
 						<ul>
-							<li><a href="#">&lt;</a></li>
-							<li class="active"><span>1</span></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&gt;</a></li>
+							<c:if test="${pagingDto.startPage ne 1}">
+								<li class="page-item">
+									<a class="page-link" href="${pagingDto.startPage - 1 }">&lt;</a>
+								</li>
+							</c:if> <!-- 1페이지이면 화살표가 생기지 않도록 -->
+								<li class="active"><span>1</span></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">&gt;</a></li>
 						</ul>
 					</div>
 				</div>

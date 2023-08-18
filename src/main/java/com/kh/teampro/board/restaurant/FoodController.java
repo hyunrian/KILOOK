@@ -13,10 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.Like.board.FoodLikeService;
 import com.kh.teampro.Like.board.FoodLikeVo;
+import com.kh.teampro.paging.PagingDto;
 
 @Controller
 @RequestMapping("/databoard")
@@ -30,24 +32,30 @@ public class FoodController {
 	
 	// 맛집 전체 조회
 	@RequestMapping(value = "/restaurant", method = RequestMethod.GET)
-	public String getFoodList(FoodPagingDto foodPagingDto, Model model, HttpSession session) throws Exception{
+	public String getFoodList(FoodPagingDto pagingDto , Model model) throws Exception{
 		// 페이징
-//		int totalCount = foodService.getFoodCountPaging(foodPagingDto);
-//		foodPagingDto = new FoodPagingDto(foodPagingDto.getPage(), foodPagingDto.getPerPage(), totalCount);
+		int totalCount = foodService.getFoodCountPaging(pagingDto);
+		pagingDto = new FoodPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), totalCount);
 		
-		
-		List<FoodVo> list = foodService.getFoodList();
+		List<FoodVo> list = foodService.getFoodList(pagingDto);
 		
 		model.addAttribute("foodList", list);
+		model.addAttribute("paginDto", pagingDto);
 		return "databoard/restaurant";
 	}
 	
 	// 맛집 필터링 조회
-	@ResponseBody
-	@RequestMapping(value = "/filterRestaurant/{location}", method = RequestMethod.GET)
-	public List<FoodVo> getFoodFilterList(@PathVariable String location, HttpSession session) throws Exception{
-		List<FoodVo> list = foodService.getFoodFilterList(location);
-		return list;
+	@RequestMapping(value = "/filterRestaurant", method = RequestMethod.GET)
+	public String getFoodFilterList(@RequestParam("location") String location, FoodPagingDto pagingDto ,Model model,HttpSession session) throws Exception{
+		List<FoodVo> list;
+		if(location.equals("전체보기"))	{
+			list = foodService.getFoodList(pagingDto);
+		} else {
+			list = foodService.getFoodFilterList(location);
+		}
+		model.addAttribute("foodList", list);
+		System.out.println(model);
+		return "databoard/restaurant";
 	}
 	
 	// 해당 맛집 상세보기

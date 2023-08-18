@@ -17,6 +17,12 @@
 		order by bno desc
 	</select>
 	
+	<!-- 명소 필터링 조회 -->
+	<select id="getPlaceFilterList" resultType="PlaceVo">
+		select * from tbl_attraction
+		where location = #{location}
+	</select>
+	
 	<!-- 해당 명소 상세보기 : 상세 페이지에서 보여줄 전체 데이터 조회 -->
 	<select id="getPlaceInfo" resultType="PlaceVo">
 		select * from tbl_attraction

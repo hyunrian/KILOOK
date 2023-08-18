@@ -82,7 +82,7 @@
 	
 	<!-- 댓글 수정 -->
 	<update id="updateRestReply">
-		update tbl_restreply
+		update tbl_restreply set
 			replytext = #{replytext},
 			replyer = #{replyer},
 			updatedate = sysdate
