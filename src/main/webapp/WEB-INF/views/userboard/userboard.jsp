@@ -20,15 +20,6 @@ body {
 	background-color: #f8f9fa;
 }
 
-/* 상단으로 이동 버튼 */
-#pageUp { 
-	position: fixed;
-	right: 20px;
-	bottom: 20px;
-	width: 50px;
-	height: 50px;
-}
-
 #btnSearch {
 	cursor: pointer;
 	position: absolute;
@@ -103,21 +94,21 @@ $(function() {
 	// 필터 - 조회순
 	$("#filter > button").eq(0).click(function() {
 		filter = "view";
-		console.log(filter);
+		$("#frmPaging").attr("action", "/userboard/list");
 		submitForm();
 	});
 	
 	// 필터 - 추천순
 	$("#filter > button").eq(1).click(function() {
 		filter = "like";
-		console.log(filter);
+		$("#frmPaging").attr("action", "/userboard/list");
 		submitForm();
 	});
 	
 	// 필터 - 댓글순
 	$("#filter > button").eq(2).click(function() {
 		filter = "reply";
-		console.log(filter);
+		$("#frmPaging").attr("action", "/userboard/list");
 		submitForm();
 	});
 	
@@ -137,7 +128,7 @@ $(function() {
 	$(".detailLink").click(function(e) {
 		e.preventDefault();
 		$("input[name=bno]").val($(this).attr("href"));
-		$("#frmPaging").attr("action", "/userboard/detail")
+		$("#frmPaging").attr("action", "/userboard/detail");
 		submitForm();
 	});
 	
@@ -164,7 +155,7 @@ $(function() {
 			<span>혼자만 알고 있기 아쉬운 다양한 코스를 다른 사람들과 공유해보세요!</span>
 		</p>
 		<a class="btn" href="/userboard/write"
-			style="background-color:#78d5ef; color:white; margin-bottom: 80px;">
+			style="background-color:#78d5ef; color:white; margin-bottom: 80px; font-weight: bold;">
 			나의 여행 코스 등록하기
 		</a>
 		
@@ -288,9 +279,7 @@ $(function() {
 		
 	</div>
 	<!-- 상단으로 이동 버튼 -->
-	<a href="#top"> <img alt="맨 위로 이동"
-		src="/resources/images/myicons/up_arrow.png" id="pageUp">
-	</a>
+	<%@ include file="/WEB-INF/views/include/pageup.jsp" %>
 </section>
 
 

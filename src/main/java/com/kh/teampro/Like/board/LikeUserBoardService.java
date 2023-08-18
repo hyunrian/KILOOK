@@ -42,5 +42,6 @@ public class LikeUserBoardService {
 		userBoardVo.setBno(bno);
 		userBoardVo.setLikecnt(likecnt);
 		userBoardDao.updateLikecnt(userBoardVo);
+		System.out.println("bno: " + bno + ", likecnt:" + likecnt);
 	}
 }

@@ -23,6 +23,7 @@ public class UserBoardVo {
 	private String contenthtml;
 	private String userid;
 	private String delete_yn;
+	private Timestamp updatedate;
 	
 	private int likecnt;
 }

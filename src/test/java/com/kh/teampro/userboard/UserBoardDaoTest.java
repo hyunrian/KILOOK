@@ -1,14 +1,18 @@
 package com.kh.teampro.userboard;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kh.teampro.Like.board.LikeUserBoardDao;
 import com.kh.teampro.board.user.UserBoardDao;
 import com.kh.teampro.board.user.UserBoardVo;
 import com.kh.teampro.paging.PagingDto;
+import com.kh.teampro.reply.user.UserReplyDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = 
@@ -17,6 +21,12 @@ public class UserBoardDaoTest {
 
 	@Autowired
 	private UserBoardDao dao;
+	
+	@Autowired
+	private LikeUserBoardDao likeDao;
+	
+	@Autowired
+	private UserReplyDao replyDao;
 	
 	@Test
 	public void getList() {
@@ -56,5 +66,17 @@ public class UserBoardDaoTest {
 //		PagingDto pagingDto = new PagingDto(dto.getNowPage(), totalCount, 
 //				dto.getOption(), dto.getKeyword());
 //		System.out.println("dto!!!: " + pagingDto);
+	}
+	
+	@Test
+	public void updateAllData() {
+		PagingDto dto = new PagingDto();
+		int totalCount = dao.getTotalCount(dto);
+		dto.setTotalCount(totalCount);
+		List<UserBoardVo> list = dao.getUserArticleList(dto);
+		for (UserBoardVo vo : list) {
+			vo.setLikecnt(likeDao.countLikes(vo.getBno()));
+			vo.setReplycnt(replyDao.getReplycnt(vo.getBno()));
+		}
 	}
 }

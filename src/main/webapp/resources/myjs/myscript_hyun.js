@@ -1,7 +1,16 @@
 /**
  * myscript.js
  */
- 
+
+// 오늘날짜와 비교하여 같은 날이면 getDate, 다른 날이면 getTime 실행
+function getDateFormat(millisecond) {
+	if (isSameDate(millisecond)) {
+		return getTime(millisecond);
+	} else {
+		return getDate(millisecond);
+	}
+}
+
 // 날짜 얻기
 function getDate(millisecond) {
 	if (!millisecond) {
