@@ -105,6 +105,4 @@ public class UserBoardController {
 		return "redirect:/userboard/detail?bno=" + userBoardVo.getBno();
 	}
 	
-	
-	
 }

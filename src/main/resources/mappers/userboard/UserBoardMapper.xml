@@ -29,6 +29,16 @@
 		where rnum between #{startRow} and #{endRow}
 	</select>
 	
+	<!-- 메인페이지에 노출된 조회순 게시글 6개 -->
+	<select id="getTopSix" resultType="UserBoardVo">
+		select *
+		from (select rownum rnum, a.*
+		        from (select * from tbl_userboard
+		            where delete_yn = 'N'
+		            order by viewcnt desc, likecnt desc, replycnt desc) a)
+		where rnum between 1 and 6
+	</select>
+	
 	<!-- 전체 게시글 개수 조회 -->
 	<select id="getTotalCount" resultType="int">
 		select count(*) from tbl_userboard

@@ -3269,7 +3269,7 @@ input[type="button"].btn-block {
 
 .navbar-brand {
   display: inline-block;
-  position: fixed;
+  /* position: fixed; */
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
   margin-right: 1rem;
@@ -7444,7 +7444,21 @@ h1, h2, h3, h4, h5,
       -o-transition: .3s all ease-out;
       transition: .3s all ease-out; }
     .ftco-navbar-light.scrolled .navbar-brand {
-      color: #000000; }
+      color: #000000; 
+      }
+      
+     /* 스크롤 시 mainLogo 로고 변경 */
+     .ftco-navbar-light.scrolled .mainLogo {
+     	content: url(/resources/images/logo/logo4.png);
+     }
+     
+     /* 스크롤 시 유저페이지 변경 */
+     .ftco-navbar-light.scrolled .user-link {
+     	color: #5CD1E5;
+     }
+     
+     
+     
 
 .navbar-brand {
   font-weight: 700;
@@ -7623,10 +7637,10 @@ h1, h2, h3, h4, h5,
     width: 60px;
     text-align: center;
     display: inline-block; }
-
+/*
 .bg-light {
-  background: #f8faff !important; }
-
+  background: #f8faff !important; } 중복된 값 설정으로 주석 처리
+*/
 .bg-primary {
   background: #5CD1E5; } /* jh 수정: color: #f85959 → #5CD1E5 */
 
@@ -9366,7 +9380,8 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
-
+    
+	/* jh 서브메뉴 */
 	.noDot {
 	  font-size: 14px;
       padding-top: 0.9rem;
@@ -9377,7 +9392,8 @@ textarea.form-control {
       font-weight: 400;
       background-color: black;
       opacity: 70%;
-	}
+	} /* 여기까지*/
+	
     .noDot li{
       list-style: none;
     }
