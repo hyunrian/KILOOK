@@ -17,8 +17,9 @@
 	<%@ include file="/WEB-INF/views/include/menu.jsp"%>
 	<!-- END menu -->
 
-	<div class="hero-wrap js-fullheight"
-		style="background-image: url('../resources/images/bg_4.jpg');">
+<!-- 	<div class="hero-wrap js-fullheight" -->
+<!-- 		style="background-image: url('../resources/images/bg_4.jpg');"> -->
+		<div style="background-color: #000000; width: 100%; height: 90px;">
 		<div class="overlay"></div>
 		<div class="container">
 			<div

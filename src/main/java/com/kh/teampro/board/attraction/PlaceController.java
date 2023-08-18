@@ -4,11 +4,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.teampro.Like.board.PlaceLikeService;
@@ -33,6 +36,20 @@ public class PlaceController {
 		model.addAttribute("placeList", list);
 		return "databoard/attraction";
 	}
+	
+	// 명소 필터링 조회
+		@RequestMapping(value = "/filterAttraction", method = RequestMethod.GET)
+		public String getFoodFilterList(@RequestParam("location") String location, Model model,HttpSession session) throws Exception{
+			List<PlaceVo> list;
+			if(location.equals("전체보기"))	{
+				list = placeService.getPlaceList();
+			} else {
+				list = placeService.getPlaceFilterList(location);
+			}
+			model.addAttribute("placeList", list);
+//			System.out.println(model);
+			return "databoard/attraction";
+		}
 	
 	// 해당 명소 상세보기
 	@RequestMapping(value = "/getPlaceInfo", method = RequestMethod.GET)

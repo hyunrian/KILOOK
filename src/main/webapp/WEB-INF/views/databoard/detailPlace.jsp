@@ -411,8 +411,6 @@
 						<!-- END 댓글 -->
 					</div>
 					
-					
-					
 					<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
 						<h4 class="mb-4">다른 명소 보기</h4>
 						<div class="row">
@@ -428,11 +426,6 @@
 														<a href="/databoard/getPlaceInfo?bno=${placeVo.bno}">${placeVo.aname}</a><br>
 														<a href="#" class="meta-chat"><span class="icon-chat"></span>${placeVo.replycnt}</a>
 													</h3>
-													<p class="rate">
-														<i class="icon-star"></i> <i class="icon-star"></i> 
-														<i class="icon-star"></i> <i class="icon-star"></i> 
-														<i class="icon-star-o"></i> 
-													</p>
 												</div>
 											</div>
 											<span class="tag">${placeVo.address}</span>

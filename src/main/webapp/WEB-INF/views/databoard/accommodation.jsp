@@ -3,7 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
-<body>
+<script>
+
+$(function(){
+	// 필터
+	$("#selectBox").change(function() {
+        const selectBoxValue = $(this).val();
+        console.log("selectBoxValue:", selectBoxValue); // test ok
+		location.href = "/databoard/getCategoryList?category=" + selectBoxValue;
+    });
+});
+
+</script>
+
 	<!-- menu -->
 	<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 	<!-- END menu -->
@@ -30,6 +42,20 @@
 
 
 	<section class="ftco-section bg-light">
+	
+		<!-- 필터 -->
+		<div class="container">
+			<div class="row d-flex">
+				<select id="selectBox" style="width: 200px; height: 25px;
+						 margin-bottom: 15px; margin-left: 900px; text-align: center;">
+					<option selected>-- 선택 --</option>
+					<option value="숙박/휴양" >호텔/펜션/민박</option>
+					<option value="문화관광/명소">캠핑장</option>
+				</select>
+			</div>
+		</div>
+		<!-- END 필터 -->
+	
 		<div class="container">
 			<div class="row d-flex">
 				<c:forEach items="${accomList}" var="accomVo">

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.teampro.Like.board.AccLikeService;
 import com.kh.teampro.Like.board.AccLikeVo;
@@ -32,10 +33,11 @@ public class AccomController {
 	}
 	
 	// 카테고리별 조회
-	@RequestMapping(value = "/getCategoryList")
-	public List<AccomVo> getCategoryList(String category) throws Exception{
+	@RequestMapping(value = "/getCategoryList", method = RequestMethod.GET)
+	public String getCategoryList(@RequestParam("category") String category, Model model) throws Exception{
 		List<AccomVo> list = accomService.getCategoryList(category);
-		return list;
+		model.addAttribute("accomList", list);
+		return "databoard/accommodation";
 	}
 	
 	// 해당 숙소 상세보기
