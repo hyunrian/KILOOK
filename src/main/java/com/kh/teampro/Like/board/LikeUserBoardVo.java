@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class LikeUserBoardVo {
 	
-	private String unickname;
+	private String userid;
 	private int bno;
 	
 }

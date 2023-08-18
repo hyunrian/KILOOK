@@ -6,19 +6,19 @@
 <mapper namespace="com.kh.teampro.LikeUserBoardMapper">
 	<insert id="addLike">
 		insert into tbl_likeuserboard
-		values (#{unickname}, #{bno})
+		values (#{userid}, #{bno})
 	</insert>
 	
 	<delete id="cancelLike">
 		delete from tbl_likeuserboard
 		where bno = #{bno}
-		and unickname = #{unickname}
+		and userid = #{userid}
 	</delete>
 	
 	<select id="userLiked" resultType="int">
 		select count(*) from tbl_likeuserboard
 		where bno = #{bno}
-		and unickname = #{unickname}
+		and userid = #{userid}
 	</select>
 	
 	<select id="countLikes" resultType="int">

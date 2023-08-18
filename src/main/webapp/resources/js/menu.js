@@ -1,24 +1,9 @@
-$('#menuHome').hover(function(){
-	$(this).children('#subMenuHome').stop().slideDown();
-}, function(){
-	$(this).children('#subMenuHome').stop().slideUp();
-});
+/* 서브메뉴창 추가 */
 
-$('#menuCategory').hover(function(){
-	$(this).children('#subMenuCategory').stop().slideDown();
-}, function(){
-	$(this).children('#subMenuCategory').stop().slideUp();
-});
-
-
-$('#menuCustomTravelAdventure').hover(function(){
-	$(this).children('#subMenuCustomTravelAdventure').stop().slideDown();
-}, function(){
-	$(this).children('#subMenuCustomTravelAdventure').stop().slideUp();
-});
-
-$('#menuReview').hover(function(){
-	$(this).children('#subMenuReview').stop().slideDown();
-}, function(){
-	$(this).children('#subMenuReview').stop().slideUp();
+$("#menuCategory").hover(function() {
+	console.log("in");
+	$("#subMenuSpan").stop().fadeIn(200);
+}, function() {
+	console.log("out");	
+	$("#subMenuSpan").stop().fadeOut(200);
 });

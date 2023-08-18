@@ -27,7 +27,7 @@ public class UserReplyController {
 	public String insertUserReply(UserReplyVo userReplyVo) {
 		userReplyVo.setReplyer("star"); // session에 넣을 loginInfo의 값으로 변경해야 함
 		userReplyVo.setUserid("user2"); // session에 넣을 loginInfo의 값으로 변경해야 함
-		System.out.println("vo:" + userReplyVo);
+		
 		if (userReplyVo.getRlevel() == 0) { // 새 댓글인 경우
 			userReplyService.insertUserNewReply(userReplyVo);
 		} else { // 대댓글인 경우
@@ -37,9 +37,9 @@ public class UserReplyController {
 			int maxRseq = 
 					userReplyService.getMaxRseq(bno, userReplyVo.getRgroup());
 			userReplyVo.setRseq(maxRseq + 1);
-			System.out.println("vo:" + userReplyVo);
 			userReplyService.insertUserReReply(userReplyVo);
 		}
+		
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
@@ -61,6 +61,10 @@ public class UserReplyController {
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
+	@RequestMapping(value = "/replycnt/{bno}", method = RequestMethod.GET)
+	public int getReplycnt(@PathVariable int bno) {
+		return userReplyService.getReplycnt(bno);
+	} 
 	
 	
 }

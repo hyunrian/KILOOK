@@ -25,25 +25,16 @@ public class UserBoardController {
 	@Autowired
 	private UserReplyService userReplyService;
 	
-	@Autowired
-	private LikeUserBoardService likeUserBoardService;
-	
 	// 유저 게시글 목록 보기
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getList(PagingDto pagingDto, Model model) {
+		
 		int totalCount = userBoardService.getTotalCount(pagingDto);
 		pagingDto.setTotalCount(totalCount);
 		pagingDto = new PagingDto(pagingDto.getNowPage(), totalCount, 
 				pagingDto.getOption(), pagingDto.getKeyword(), pagingDto.getFilter());
-		List<UserBoardVo> list = userBoardService.getUserArticleList(pagingDto);
 		
-		for (UserBoardVo userBoardVo : list) {
-			int replycnt = userReplyService.getReplycnt(userBoardVo.getBno());
-			int likecnt = likeUserBoardService.countLikes(userBoardVo.getBno());
-			userBoardVo.setLikecnt(likecnt);
-			userBoardVo.setReplycnt(replycnt);
-			// 댓글 개수, 조회수, 좋아요 수 db에 저장할지 안할지 정해야 함
-		}
+		List<UserBoardVo> list = userBoardService.getUserArticleList(pagingDto);
 		
 		model.addAttribute("userArticleList", list);
 		model.addAttribute("pagingDto", pagingDto);
@@ -71,20 +62,13 @@ public class UserBoardController {
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String getDetail(int bno, PagingDto pagingDto, Model model) {
 		
-		System.out.println("*** dto:" + pagingDto);
 		userBoardService.addViewcnt(bno);
 			
 		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
-		int replycnt = userReplyService.getReplycnt(bno);
-		userBoardVo.setReplycnt(replycnt);
-		model.addAttribute("userBoardVo", userBoardVo);
-		
 		List<UserReplyVo> list = userReplyService.getUserReply(bno);
-//		System.out.println(list);
+
+		model.addAttribute("userBoardVo", userBoardVo);
 		model.addAttribute("replyList", list);
-		
-		int likecnt = likeUserBoardService.countLikes(bno);
-		model.addAttribute("likecnt", likecnt);
 		model.addAttribute("pagingDto", pagingDto);
 		
 		return "userboard/userboardDetail";
@@ -107,6 +91,7 @@ public class UserBoardController {
 		
 		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
 		model.addAttribute("userBoardVo", userBoardVo);
+		
 		return "userboard/userboardWrite";
 	}
 	
@@ -115,12 +100,9 @@ public class UserBoardController {
 	public String updateArticle(UserBoardVo userBoardVo, String thumbnail) {
 		
 		userBoardVo.setWriter("tester"); // 세션에 저장된 닉네임으로 재설정 필요
-		System.out.println("vo:" + userBoardVo);
-		System.out.println("thumbnail:" + thumbnail);
 		userBoardService.updateArticle(userBoardVo, thumbnail);
+		
 		return "redirect:/userboard/detail?bno=" + userBoardVo.getBno();
 	}
-	
-	
 	
 }

@@ -93,13 +93,19 @@ toastr.options = {
 </style>
 <script>
 $(function() {
+	
 	const bno = "${userBoardVo.bno}";
+	
 	// 게시글 등록일 날짜 처리
-	$("#dateSpan").text(getDate("${userBoardVo.regdate}"));
+	if ("${userBoardVo.updatedate}" != null) {
+		$("#dateSpan").text(getDateFormat("${userBoardVo.updatedate}"));
+	} else {
+		$("#dateSpan").text(getDateFormat("${userBoardVo.regdate}"));
+	}
 	
 	// 좋아요
 	const sData = {
-			"unickname" : "tester", // 나중에 session에 넣은 loginInfo로 수정 필요
+			"userid" : "testuser", // 나중에 session에 넣은 loginInfo로 수정 필요
 			"bno" : bno
 	}
 	
@@ -216,24 +222,18 @@ $(function() {
 		 				} 
 						
 		 				reply.removeAttr("id").addClass("replyElem");
-						
+		 				
+		 				getReplycnt(bno); // 댓글 개수 처리
+		 				
 		 				const div = reply.find("div").eq(1);
 		 				div.find("h3").text(rData[i].replyer);
 						
 		 				// 작성일 또는 수정일이 오늘 날짜인 경우 시간으로 출력, 그렇지 않은 경우 날짜로 출력
 		 				const dateDiv = div.find("div").eq(0);
 		 				if (rData[i].updatedate != null) {
-			 				if (isSameDate(rData[i].updatedate)) {
-			 					dateDiv.text(getTime(rData[i].updatedate));
-			 				} else { 
-			 					dateDiv.text(getDate(rData[i].updatedate));
-			 				}
+		 					dateDiv.text(getDateFormat(rData[i].updatedate))
 		 				} else {
-			 				if (isSameDate(rData[i].regdate)) {
-			 					dateDiv.text(getTime(rData[i].regdate));
-			 				} else { 
-			 					dateDiv.text(getDate(rData[i].regdate));
-			 				}
+		 					dateDiv.text(getDateFormat(rData[i].regdate))
 		 				}
 						
 		 				if (rData[i].parentreplyer != null) {
@@ -251,6 +251,7 @@ $(function() {
 	 						div.find("h3").remove();
 	 						div.prev().find("img").remove();
 	 					}
+	 					
 		 				reply.show();
 		 				$("#replyList").append(reply);
 					} 
@@ -301,7 +302,6 @@ $(function() {
 			$(".replyForm").remove();
 			$(".replyElem").find("div").show();
 			const replyForm = $("#replyForm").clone();
-// 			replyForm.attr("id", "replyFormCopy");
 			replyForm.addClass("replyForm");
 			replyForm.find("input").eq(1).attr("data-type", "reReply");
 			$(this).parent().append(replyForm);
@@ -314,7 +314,7 @@ $(function() {
 		const rno = that.attr("data-rno");
 		const sData = {
 				"rno" : that.attr("data-rno"),
-				"bno" : ${userBoardVo.bno}
+				"bno" : bno
 		};
 		$.ajax({
 			"type" : "patch",
@@ -324,9 +324,17 @@ $(function() {
 			"success" : function(rData) {
 				// 삭제했을 때 밑에 대댓글이 있으면 삭제된 댓글입니다 처리 필요
 				that.closest(".replyElem").fadeOut(700);
+				getReplycnt(bno);
 			}
 		});
 	});
+	
+	function getReplycnt(bno) {
+		const url = "/userReply/replycnt/" + bno;
+		$.get(url, function(rData) {
+			$("#replycnt").text(rData + "개의 댓글");
+		});
+	}
 	
 	// 댓글 수정창 열기
 	$("#replyList").on("click", ".updateReply", function(e) {
@@ -337,7 +345,6 @@ $(function() {
 		const element = $(this).closest(".replyElem");
 		const replyForm = $("#replyForm").clone();
 		replyForm.addClass("replyForm");
-// 		replyForm.attr("id", "updateFormCopy");
 		replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
 		const replytext = element.find("span").eq(1).text();
 		replyForm.find("#replytext").val(replytext);
@@ -391,7 +398,7 @@ $(function() {
 		if (val == true) {
 			$.ajax({
 				"type" : "patch",
-				"url" : "/userboard/delete/${userBoardVo.bno}", // url에 넣지 말고 sData 설정 필요
+				"url" : "/userboard/delete/" + bno, // url에 넣지 말고 sData 설정 필요
 				"success" : function(rdata) {
 					location.href = rdata;
 				}
@@ -460,7 +467,7 @@ $(function() {
 						cursor: pointer;">댓글보기</a> 
 				</div>
 				<div class="pt-5 mt-5" style="display: none;">
-					<h3 class="mb-5">${userBoardVo.replycnt}개의 댓글</h3>
+					<h3 class="mb-5" id="replycnt">${userBoardVo.replycnt}개의 댓글</h3>
 
 					<!-- 댓글목록 -->
 					<ul class="comment-list" id="replyList"
@@ -488,13 +495,12 @@ $(function() {
 
 					<!-- 댓글쓰기 -->
 					<div class="comment-form-wrap pt-5">
-						<h3 class="mb-5">Leave a comment</h3>
 						<form action="#" id="replyForm" style="margin-top: 40px;">
 							<div class="container-fluid" style="padding-left: 0px;">
 								<div class="row" style="height: 60px;">
-									<div class="form-group col-md-10">
+									<div class="form-group col-md-11">
 										<input type="text" class="form-control" id="replytext"
-											placeholder="내용을 입력하세요.">
+											placeholder="댓글 내용을 입력하세요.">
 									</div>
 									<div class="form-group col-md-1">
 										<input type="button" value="댓글 쓰기" id="replyInsertBtn"
@@ -512,6 +518,9 @@ $(function() {
 			</div>
 		</div>
 	</div>
+	
+	<!-- 상단으로 이동 버튼 -->
+	<%@ include file="/WEB-INF/views/include/pageup.jsp" %>
 </section>
 
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>

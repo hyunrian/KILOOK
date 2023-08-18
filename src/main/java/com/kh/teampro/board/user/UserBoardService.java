@@ -82,4 +82,8 @@ public class UserBoardService {
 		return userBoardDao.getTotalCount(pagingDto);
 	}
 	
+	public List<UserBoardVo> getTopSix() {
+		return userBoardDao.getTopSix();
+	}
+	
 }

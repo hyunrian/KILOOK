@@ -16,9 +16,6 @@ public class UserBoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-//	public List<UserBoardVo> getUserArticleList() {
-//		return sqlSession.selectList(NAMESPACE + "getUserArticleList");
-//	}
 	public List<UserBoardVo> getUserArticleList(PagingDto pagingDto) {
 		return sqlSession.selectList(NAMESPACE + "getUserArticleList", pagingDto);
 	}
@@ -57,5 +54,9 @@ public class UserBoardDao {
 	
 	public void updateReplycnt(UserBoardVo userBoardVo) {
 		sqlSession.update(NAMESPACE + "updateReplycnt", userBoardVo);
+	}
+	
+	public List<UserBoardVo> getTopSix() {
+		return sqlSession.selectList(NAMESPACE + "getTopSix");
 	}
 }

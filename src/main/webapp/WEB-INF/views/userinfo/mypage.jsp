@@ -52,10 +52,10 @@ $(function(){
 
             <div class="sidebar-box ftco-animate">
               <h3>이메일 본인확인</h3>
-              <p id="emailCheckMessage">확인되지 않음</p> <!-- 확인되면 해당 이메일 이곳에 작성, 본인인증 버튼 hide();, -->
+              <p id="emailCheckMessage">확인되지 않음</p>
               <p id="verifiedEmail"></p>
-              <form action="/userinfo/verifyMail" method="post">
-              	  <input type="hidden" name="userid" value="testuser"> <!-- 임시 데이터. loginInfo 에서 데이터 받아오기 가능해지면 삭제. -->
+              <form action="/userInfo/verifyMail" method="post">
+              	  <input type="hidden" name="userid" value="${userVo.userid}"> <!-- 임시 데이터. loginInfo 에서 데이터 받아오기 가능해지면 삭제. -->
 	              <input type="email" name="uemail" id="uemail" placeholder="이메일 입력" style="margin-bottom: 10px;">
 	              <input type="submit" id="btnEmailVerify" value="본인인증 하기" class="btn py-3 px-4 btn-primary">
               </form>
@@ -65,7 +65,16 @@ $(function(){
           <div class="col-md-8 ftco-animate">
             <div class="about-author d-flex p-5 bg-light">
               <div class="bio align-self-md-center mr-5">
-                <img src="/resources/images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+              	<!-- ${userVo.uimg}(유저 이미지)가 없으면 기본이미지, 있으면 경로로 지정 -->
+              	<!-- ${userVo.uimg} = "/resources/images/userProfile/....png" -->
+              	<c:choose>
+              		<c:when test="${userVo.uimg == null}">              		
+		                <img src="/resources/images/userProfile/default_profile.png" alt="Image placeholder" class="img-fluid mb-4">
+              		</c:when>
+              		<c:otherwise>
+		                <img src="${userVo.uimg}" alt="Image placeholder" class="img-fluid mb-4">              		
+              		</c:otherwise>
+              	</c:choose>
               </div>
               <div class="desc align-self-md-center">
                 <h3>${userVo.unickname}님의 마이페이지</h3>
@@ -97,8 +106,8 @@ $(function(){
 		              <li class="comment">
 		                 <div class="comment-body">
 		                   <h3>${boardDto.title}</h3>
-		                   <div class="meta">작성일 : ${boardDto.regdate}</div>
-		                   <p>좋아요 갯수 : ${boardDto.likecnt}</p>
+		                   <div class="meta">${boardDto.regdate}</div>
+		                   <p>좋아요 : ${boardDto.likecnt}</p>
 		                   <p>조회수 : ${boardDto.viewcnt}</p>
 		                 </div>
 		              </li>

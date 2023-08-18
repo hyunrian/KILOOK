@@ -1,5 +1,7 @@
 package com.kh.teampro.user.info;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,10 +14,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.teampro.commons.MyConstants;
 
@@ -69,7 +73,18 @@ public class UserInfoController {
 	// 현재 수정 가능 데이터 = uimg, unickname, upw
 	@RequestMapping(value = "/updateDone", method = RequestMethod.POST)
 	public String updateUserInfo(@ModelAttribute UserVo userVo, HttpSession session) {
+		// 변경된 닉네임, 비밀번호, 이미지경로를 vo형태로 받아와서 저장
 		userInfoService.updateUserInfo(userVo);
+		
+		// 이미지 저장 경로
+		String baseImgPath = "/resources/images/userProfile/";
+		// 이미지 파일명
+		String imgPath = userVo.getUimg();
+		// DB에 저장될 이미지파일 경로
+		String dbPath = baseImgPath + imgPath;
+		// 위의 과정을 JSP 에서 처리?
+		
+		
 		// 수정 후 세션에서 기존 데이터 삭제 후 수정된 데이터 저장
 		session.removeAttribute(MyConstants.LOGIN);
 		session.setAttribute(MyConstants.LOGIN, userVo);
@@ -77,12 +92,36 @@ public class UserInfoController {
 		return "redirect:/userInfo/mypage";
 	}
 	
+	// 이미지 업데이트 시키기 (이미지폴더에 이미지 저장)
+	// UUID를 돌려줘서 jsp 에서 이름 재조합 후 DB에 저장하도록 시킬것
+	// 파일 경로 및 이름 = /resources/images/userProfile/(유저명)_(파일명).JPG
+	@ResponseBody
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public String updateProfile(MultipartFile profile, String userid) {
+//		String filePath = "/resources/images/userProfile/";
+		String filePath = "D:/workspace/spring/teampro/src/main/webapp/resources/images/userProfile/";
+		String originalFilename = profile.getOriginalFilename();
+		/// resources/images/userProfile/(유저명)_(파일명.확장자)
+		String saveFilename = filePath + userid + "_" + originalFilename;
+		File target = new File(saveFilename);
+		try {
+			
+			byte[] bytes = profile.getBytes();
+			FileCopyUtils.copy(bytes, target);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String responseFilename = "images/userProfile/" + userid + "_" + originalFilename;
+		return responseFilename;
+	}
+	
+	
 	@Autowired
 	private JavaMailSenderImpl mailSender;		
 	// 본인확인 코드 생성 (이메일 연동)
 	// 생성된 코드로 ~~ 를 한 후 유저테이블의 verified 'F' -> 'T'
 	@RequestMapping(value="/verifyMail", method = RequestMethod.POST)
-	public String verifyMail(String userid, String uemail, Model model) {
+	public String verifyMail(String userid, String uemail, Model model, HttpSession session) {
 		System.out.println("id:" + userid);
 		System.out.println("email:" + uemail);
 		
@@ -115,6 +154,7 @@ public class UserInfoController {
 		
 		model.addAttribute("verifyCode", verifyCode);
 		model.addAttribute("uemail", uemail);
+		model.addAttribute("userid", userid);
 		
 		return "userinfo/userVerifyPage";
 	}
@@ -122,7 +162,7 @@ public class UserInfoController {
 		// 본인확인 성공/실패 확인
 		@RequestMapping(value = "/checkVerify", method = RequestMethod.POST)
 		@ResponseBody
-		public String checkVerify(String verifyCode, String userVerifyCode, String userid, String uemail) {
+		public String checkVerify(String verifyCode, String userVerifyCode, String userid, String uemail, HttpSession session) {
 			System.out.println(verifyCode);
 			System.out.println(userVerifyCode);
 			System.out.println(userid);
@@ -132,6 +172,13 @@ public class UserInfoController {
 			if (verifyCode.equals(userVerifyCode)) {
 				// 성공했으므로 이메일, 본인확인 성공 저장
 				userInfoService.updateVerified(uemail, userid);
+				// 변경 전 세션에서 userVo 꺼내오기, 기존 세션 삭제 후 이메일 변경 후 새 세션으로 수정
+				UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+				session.removeAttribute(MyConstants.LOGIN);
+				userVo.setUemail(uemail);
+				userVo.setVerified("T");
+				session.setAttribute(MyConstants.LOGIN, userVo);
+				
 				return "success"; // 이후 리턴 트루. jsp에서 비동기 처리 한 뒤 true 돌려받으면 "success"에서 function으로 마이페이지로.
 			}
 			
