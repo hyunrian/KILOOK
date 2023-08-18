@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.Like.board.FoodLikeService;
 import com.kh.teampro.Like.board.FoodLikeVo;
+import com.kh.teampro.paging.PagingDto;
 
 @Controller
 @RequestMapping("/databoard")
@@ -31,24 +32,24 @@ public class FoodController {
 	
 	// 맛집 전체 조회
 	@RequestMapping(value = "/restaurant", method = RequestMethod.GET)
-	public String getFoodList(Model model, HttpSession session) throws Exception{
+	public String getFoodList(FoodPagingDto pagingDto , Model model) throws Exception{
 		// 페이징
-//		int totalCount = foodService.getFoodCountPaging(foodPagingDto);
-//		foodPagingDto = new FoodPagingDto(foodPagingDto.getPage(), foodPagingDto.getPerPage(), totalCount);
+		int totalCount = foodService.getFoodCountPaging(pagingDto);
+		pagingDto = new FoodPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), totalCount);
 		
-		
-		List<FoodVo> list = foodService.getFoodList();
+		List<FoodVo> list = foodService.getFoodList(pagingDto);
 		
 		model.addAttribute("foodList", list);
+		model.addAttribute("paginDto", pagingDto);
 		return "databoard/restaurant";
 	}
 	
 	// 맛집 필터링 조회
 	@RequestMapping(value = "/filterRestaurant", method = RequestMethod.GET)
-	public String getFoodFilterList(@RequestParam("location") String location, Model model,HttpSession session) throws Exception{
+	public String getFoodFilterList(@RequestParam("location") String location, FoodPagingDto pagingDto ,Model model,HttpSession session) throws Exception{
 		List<FoodVo> list;
 		if(location.equals("전체보기"))	{
-			list = foodService.getFoodList();
+			list = foodService.getFoodList(pagingDto);
 		} else {
 			list = foodService.getFoodFilterList(location);
 		}

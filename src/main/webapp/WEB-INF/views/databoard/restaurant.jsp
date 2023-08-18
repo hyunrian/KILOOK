@@ -82,6 +82,7 @@ $(function(){
 		<!-- END 필터 -->
 		
 		<div class="container">
+			<!-- 게시글 리스트 -->
 			<div class="row d-flex" id="foodListContainer">
 				<c:forEach items="${foodList}" var="foodVo">
 					<div class="col-md-3 d-flex ftco-animate">
@@ -110,18 +111,23 @@ $(function(){
 					</div>
 				</c:forEach>
 			</div>
-
+			<!-- END 게시글 리스트 -->
+			
 			<div class="row mt-5">
 				<div class="col text-center">
 					<div class="block-27">
 						<ul>
-							<li><a href="#">&lt;</a></li>
-							<li class="active"><span>1</span></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&gt;</a></li>
+							<c:if test="${pagingDto.startPage ne 1}">
+								<li class="page-item">
+									<a class="page-link" href="${pagingDto.startPage - 1 }">&lt;</a>
+								</li>
+							</c:if> <!-- 1페이지이면 화살표가 생기지 않도록 -->
+								<li class="active"><span>1</span></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">&gt;</a></li>
 						</ul>
 					</div>
 				</div>

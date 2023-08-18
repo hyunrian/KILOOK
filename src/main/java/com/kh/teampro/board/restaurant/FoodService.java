@@ -15,8 +15,8 @@ public class FoodService {
 	private FoodDao foodDao;
 	
 	// 맛집 전체 조회
-	public List<FoodVo> getFoodList() throws Exception{
-		List<FoodVo> list = foodDao.getFoodList();
+	public List<FoodVo> getFoodList(FoodPagingDto pagingDto) throws Exception{
+		List<FoodVo> list = foodDao.getFoodList(pagingDto);
 		return list;
 	}
 	

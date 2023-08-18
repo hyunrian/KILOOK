@@ -26,8 +26,13 @@ public class FoodReplyController {
 	@RequestMapping(value = "/restList", method = RequestMethod.GET)
 	public List<FoodReplyVo> getFoodReplylist(int bno){
 		List<FoodReplyVo> list = foodReplyService.getFoodReplyList(bno);
+		
+		// 댓글 개수
+		int getReplyCount = foodReplyService.getReplyCount(bno); // map 이용해서 데이터 보내는거 고민
+		
 		return list;
 	}
+	
 	
 	// 댓글 추가
 	@RequestMapping(value = "/restInsert", method = RequestMethod.POST)

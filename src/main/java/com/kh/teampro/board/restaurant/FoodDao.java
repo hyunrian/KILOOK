@@ -16,8 +16,14 @@ public class FoodDao {
 	private final String NAMESPACE = "com.kh.teampro.FoodMapper.";
 	
 	// 맛집 전체 조회
-	public List<FoodVo> getFoodList() throws Exception{
-		List<FoodVo> list = sqlSession.selectList(NAMESPACE + "getFoodList");
+//	public List<FoodVo> getFoodList() throws Exception{
+//		List<FoodVo> list = sqlSession.selectList(NAMESPACE + "getFoodList");
+//		return list;
+//	}
+	
+	// 맛집 전체 조회
+	public List<FoodVo> getFoodList(FoodPagingDto pagingDto) throws Exception{
+		List<FoodVo> list = sqlSession.selectList(NAMESPACE + "getFoodList", pagingDto);
 		return list;
 	}
 	
