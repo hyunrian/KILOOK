@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
+
 <style>
 .row d-flex{
   padding: 10px;
@@ -12,13 +13,12 @@
   font-weight: bold;  
 }
 </style>
-<body>
+
 	<!-- menu -->
 	<%@ include file="/WEB-INF/views/include/menu.jsp"%>
 	<!-- END menu -->
 
-	<div class="hero-wrap js-fullheight"
-		style="background-image: url('../resources/images/bg_4.jpg');">
+	<div style="background-color: #000000; width: 100%; height: 90px;">
 		<div class="overlay"></div>
 		<div class="container">
 			<div

@@ -32,6 +32,11 @@ public class AccomService {
 		return accomVo;
 	}
 	
+	// 해당 숙소 상세보기 시 조회수 업데이트
+	public void setAccomViewcnt(int bno) throws Exception {
+		accomDao.setAccomViewcnt(bno);
+	}
+	
 	// 숙소 추가
 	public void insertAccom(AccomVo accomVo) throws Exception{
 		accomDao.insertAccom(accomVo);
@@ -48,4 +53,10 @@ public class AccomService {
 		int accomCount = accomDao.getAccomCount();
 		return accomCount;
 	}
+	
+	// 메인 : 인기 숙소 best 6
+//	public List<AccomVo> getBestAcc() throws Exception{
+//		List<AccomVo> list = accomDao.getBestAcc();
+//		return list;
+//	}
 }

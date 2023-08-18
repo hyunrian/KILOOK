@@ -54,8 +54,11 @@ public class PlaceController {
 	// 해당 명소 상세보기
 	@RequestMapping(value = "/getPlaceInfo", method = RequestMethod.GET)
 	public String getPlaceList(int bno, Model model) throws Exception{
+		// 조회수 업데이트
+		placeService.setPlaceViewcnt(bno);
+		
 		PlaceVo placeVo = placeService.getPlaceInfo(bno);
-//		System.out.println("placeVo:" + placeVo);
+		System.out.println("placeVo viewcnt:" + placeVo);
 		
 		// 명소 게시물 좋아요
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();

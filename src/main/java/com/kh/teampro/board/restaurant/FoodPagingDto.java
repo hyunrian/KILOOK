@@ -11,10 +11,11 @@ public class FoodPagingDto {
 	private int endRow;
 	private int startPage;
 	private int endPage;
-	private int perPage = 10;
+	private int perPage = 12;
 	private int totalCount;
 	private int totalPage;
 	private final int PAGE_BLOCK_COUNT = 10;
+	private String location;
 	
 	public FoodPagingDto(int page, int perPage, int totalCount) {
 		this.page = page;

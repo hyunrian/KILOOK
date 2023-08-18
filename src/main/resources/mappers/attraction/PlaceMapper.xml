@@ -29,6 +29,13 @@
 		where bno = #{bno}
 	</select>
 	
+	<!-- 해당 명소 상세보기 시 조회수 업데이트 -->
+	<update id="setPlaceViewcnt">
+		update tbl_attraction
+		set viewcnt = 1 + viewcnt
+		where bno = #{bno}
+	</update>
+	
 	<!-- 맛집 추가 -->
 	<insert id="insertPlace">
 		insert into tbl_attraction

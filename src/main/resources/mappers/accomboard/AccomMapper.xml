@@ -36,6 +36,13 @@
 		where bno = #{bno}
 	</select>
 	
+	<!-- 해당 숙소 상세보기 시 조회수 업데이트 -->
+	<update id="setAccomViewcnt">
+		update tbl_acc
+		set aviewcnt = 1 + aviewcnt
+		where bno = #{bno}
+	</update>
+	
 	<!-- 숙소 추가 -->
 	<insert id="insertAccom">
 		insert into tbl_acc
@@ -77,4 +84,6 @@
     		#{item}
     	</foreach>
 	</select>
+	
+	
 </mapper>

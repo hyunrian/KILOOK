@@ -36,6 +36,11 @@ public class AccomDao {
 		return accomVo;
 	}
 	
+	// 해당 숙소 상세보기 시 조회수 업데이트
+	public void setAccomViewcnt(int bno) throws Exception {
+		sqlSession.update(NAMESPACE + "setAccomViewcnt", bno);
+	}
+	
 	// 숙소 추가
 	public void insertAccom(AccomVo accomVo) throws Exception{
 		sqlSession.insert(NAMESPACE + "insertAccom", accomVo);
@@ -52,4 +57,14 @@ public class AccomDao {
 		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getRecomendedAccomList", hashMap);
 		return list;
 	}
+	
+	// 메인 : 인기 숙소 best 6
+//	public List<AccomVo> getBestAcc() throws Exception {
+//		sqlSession.selectList(NAMESPACE + "getAccLikeCnt");
+//		sqlSession.update(NAMESPACE + "updateAccLikeCnt");
+//		sqlSession.selectList(NAMESPACE + "getAccReplyCnt");
+//		sqlSession.update(NAMESPACE + "updateAccReplyCnt");
+//		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getBestAcc");
+//		return list;
+//	}
 }

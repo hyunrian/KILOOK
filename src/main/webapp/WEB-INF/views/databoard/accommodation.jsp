@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
+<style>
+	.block-20{
+		width: 255px;
+	}
+</style>
+
 <script>
 
 $(function(){
@@ -62,7 +68,7 @@ $(function(){
 					<div class="col-md-3 d-flex ftco-animate">
 						<div class="blog-entry align-self-stretch">
 							<a href="/databoard/getAccomInfo?bno=${accomVo.bno}" class="block-20"
-								style="background-image: url('..${accomVo.image}.jpg');"> </a>
+								style="background-image: url('..${accomVo.image}.jpg'); "> </a>
 							<div class="text p-4 d-block">
 								<h3 class="heading mt-3">
 									<a href="/databoard/getAccomInfo?bno=${accomVo.bno}">${accomVo.aname}</a><br>
