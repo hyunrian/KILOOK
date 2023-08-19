@@ -240,17 +240,11 @@ span {
 	justify-content: center;
 	align-items: center;
 	margin: 0 5px;
-	border-radius: 25px;
-	box-shadow: -5px -5px 10px #fff, 5px 5px 8px #babebc;
 	cursor: pointer;
 }
 
 .btnHome a {
 	color: #000;
-}
-
-.btnHome:active {
-	box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
 }
 
 /* 유효성 검사시 호출되는 텍스트 */
@@ -266,26 +260,69 @@ font-size: 12px;
     color: #008000;
     border-color: #008000;
 }
+
+/* 모달창 배경 */
+.modal-background {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 모달 내용 */
+.modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 닫기 버튼 */
+.modal-btn-x {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+}
+
+.modal-btn-close {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	background-color: skyblue;
+	color: white;
+	padding: 5px 10px;
+	margin-top: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	border: none;
+	font-weight: bold;
+}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 
+<%
+Boolean joinResult = (Boolean) session.getAttribute("joinResult");
+%>
+
 <!-- 스크립트 시작 -->
 <script>
-var joinResult = "${joinResult}";
-
-if (joinResult == "true"){
-	alert("회원가입 성공");
-} else if (joinResult == "false"){
-	alert("회원가입 실패");
-}
+var joinResult = <%= joinResult %>;
 
 // 사용자 지정 메소드
 // 글자수 제한 (아이디)
 $.validator.addMethod("lengthCheckId", function(value, element) {
-	  return this.optional(element) || /^.{2,15}$/.test(value);
-	}, "**** 아이디는 2 ~ 15자 입니다 ****");
+	  return this.optional(element) || /^.{4,15}$/.test(value);
+	}, "**** 아이디는 4 ~ 15자 입니다 ****");
 
 // 글자수 제한(닉네임)
 $.validator.addMethod("lengthCheckNickName", function(value, element) {
@@ -476,16 +513,66 @@ $(function() {
 		useCookieCheckbox.prop("checked", true);
 	}
 	
+	// 로고 이미지 변경
+	var defaultLogo = $('#homeLogo').attr("src"); // 기본 로고가 있는곳
+	  
+    $(".btnHome").mouseenter(function() {
+      $("#homeLogo").attr("src", "/resources/images/logo/logo4.png"); // 새 이미지로 변경
+    }).mouseleave(function() {
+      $("#homeLogo").attr("src", defaultLogo); // 원래 이미지로 복원
+    });
+	
+	// 엔터로 로그인 폼 서브밋
+    $("#loginForm").keypress(function(event) {
+        if (event.which === 13) { // 13은 Enter 키의 키
+        	event.preventDefault();
+            $(this).submit();
+        }
+    });
+	
+	// 회원가입 엔터키 막기
+    $("#createForm").keypress(function(event) {
+        if (event.which === 13) { // 13은 Enter 키의 키
+        	event.preventDefault();
+        }
+    });
+	
+	
+	// 여기부터 모달창
+	if (joinResult != null){
+		if (joinResult == true) {
+			$("#modalTitle").text("회원가입 성공");
+			$("#modalContext_1").text("끼룩에 오신것을 환영합니다!");
+			$("#modalContext_2").text("더 많은 서비스를 이용 하시려면 이메일 인증이 필요 합니다.");
+		} else if (joinResult == false) {
+			$("#modalTitle").text("회원가입 실패");
+			$("#modalContext_1").text("회원가입에 실패하였습니다.");
+			$("#modalContext_2").text("다시 한번 시도해 주세요");
+		};
+		$("#modalBackground").fadeIn();
+	}
+	
+	$(".close-button-Modal").click(function () {
+		$("#modalBackground").fadeOut();
+	});
+	
+	$("#modalBackground").click(function (event) {
+		if (event.target === this) {
+			$("#modalBackground").fadeOut();
+		}
+	});
 });
 </script>
 <!-- 스크립트 끝 -->
 
 <body>
+    <!-- 홈 버튼(로고) -->
 	<div class="wrapper">
-		<div class="homeContainer">
+		<div class="homeContainer" onmouseover="changeLogo()">
 			<div class="btnHome">
 				<a href="/">
-					<img style="	max-width: 160px;
+					<img id = "homeLogo"
+						style="	max-width: 160px;
 									height: auto;
 									object-fit: cover;" 
 						alt="home" src="/resources/images/logo/logo1.png">
@@ -550,10 +637,21 @@ $(function() {
 				<!-- 회원가입 페이지로 전환 -->
 				<div class="overlay-right">
 					<h1>환영합니다!</h1>
-					<p>끼룩 계정을 만들어서 더 많은<br>여행 정보를 이용하세요!</p>
+					<p style="margin-bottom: 0px;">끼룩 계정을 만들어서</p>
+					<p style="margin-top: 0px;">더 많은 여행 정보를 이용하세요!</p>
 					<button id="createAccount" class="btn overlay_btn">회원가입</button>
 				</div>
 			</div>
+		</div>
+	</div>
+	<!-- 모달 -->
+	<div id="modalBackground" class="modal-background">
+		<div class="modal-content">
+			<span class="close-button-Modal modal-btn-x">&times;</span>
+			<h2 id="modalTitle"></h2>
+			<p id="modalContext_1"></p>
+			<p id="modalContext_2"></p>
+			<button class="close-button-Modal modal-btn-close">닫기</button>
 		</div>
 	</div>
 </body>
@@ -569,5 +667,9 @@ createAcctBtn.addEventListener("click", () => {
 logInBtn.addEventListener("click", () => {
   container.classList.remove("right-panel-active");
 });
+
+<%
+	session.removeAttribute("joinResult");
+%>
 </script>
 </html>
