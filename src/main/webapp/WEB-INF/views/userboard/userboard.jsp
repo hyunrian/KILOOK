@@ -55,12 +55,6 @@ body {
 <script>
 $(function() {
 	
-	if (${userArticleList} == "") {
-		$("#noResult").html('<i class="fa-solid fa-triangle-exclamation fa-lg" '
-							+ 'style="color: #ec8209;"></i> 조회 가능한 게시글이 없습니다.');
-		$("#filter").hide();
-	}
-	
 	$("#btnSearch").click(function() {
 		search();
 	});
@@ -111,6 +105,7 @@ $(function() {
 	
 	// 필터 - 조회순
 	$("#filter > button").eq(0).click(function() {
+		console.log("click")
 		filter = "view";
 		$("#frmPaging").attr("action", "/userboard/list");
 		submitForm();
@@ -213,11 +208,13 @@ $(function() {
 		</div>
 		
 		<!-- 필터링 -->
-		<div style="margin-bottom: 40px;" id="filter">
-			<button type="button" class="btn btn-outline-info btn-sm filter">조회순</button>
-			<button type="button" class="btn btn-outline-info btn-sm filter">추천순</button>
-			<button type="button" class="btn btn-outline-info btn-sm filter">댓글순</button>
-		</div>
+		<c:if test="${not empty userArticleList}">
+			<div style="margin-bottom: 40px;" id="filter">
+				<button type="button" class="btn btn-outline-info btn-sm filter">조회순</button>
+				<button type="button" class="btn btn-outline-info btn-sm filter">추천순</button>
+				<button type="button" class="btn btn-outline-info btn-sm filter">댓글순</button>
+			</div>
+		</c:if>
 		
 		<!-- 조회 결과 -->
 		<div class="row d-flex" id="list">
@@ -254,11 +251,12 @@ $(function() {
 					</div>
 				</div>
 			</c:forEach>
-		</div>
-		
-		<!-- 조회 결과 없음 -->
-		<div class="col text-center">
-			<span id="noResult"></span>
+			<c:if test="${empty userArticleList}">
+				<div class="col text-center">
+					<span id="noResult"><i class="fa-solid fa-triangle-exclamation fa-lg"
+						style="color: #ec8209;"></i> 조회 가능한 게시글이 없습니다.</span>
+				</div>
+			</c:if>
 		</div>
 		
 		<!-- 페이징 -->
@@ -298,35 +296,4 @@ $(function() {
 	<%@ include file="/WEB-INF/views/include/pageup.jsp" %>
 </section>
 
-
-<!-- loader -->
-<div id="ftco-loader" class="show fullscreen">
-	<svg class="circular" width="48px" height="48px">
-		<circle class="path-bg" cx="24" cy="24" r="22" fill="none"
-			stroke-width="4" stroke="#eeeeee" />
-		<circle class="path" cx="24" cy="24" r="22" fill="none"
-			stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
-</div>
-
-
-<script src="/resources/js/jquery.min.js"></script>
-<script src="/resources/js/jquery-migrate-3.0.1.min.js"></script>
-<script src="/resources/js/popper.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/jquery.easing.1.3.js"></script>
-<script src="/resources/js/jquery.waypoints.min.js"></script>
-<script src="/resources/js/jquery.stellar.min.js"></script>
-<script src="/resources/js/owl.carousel.min.js"></script>
-<script src="/resources/js/jquery.magnific-popup.min.js"></script>
-<script src="/resources/js/aos.js"></script>
-<script src="/resources/js/jquery.animateNumber.min.js"></script>
-<script src="/resources/js/bootstrap-datepicker.js"></script>
-<script src="/resources/js/jquery.timepicker.min.js"></script>
-<script src="/resources/js/scrollax.min.js"></script>
-<script
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="/resources/js/google-map.js"></script>
-<script src="/resources/js/main.js"></script>
-
-</body>
-</html>
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>

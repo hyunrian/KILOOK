@@ -43,6 +43,11 @@ toastr.options = {
 }
 </script>
 <style>
+
+body {
+	font-family: "Pretendard-Black", sans-serif;
+	background-color: #f8f9fa;
+}
 .parent {
 	position: relative;
 	margin-top: 150px;

@@ -35,7 +35,6 @@ public class UserBoardController {
 				pagingDto.getOption(), pagingDto.getKeyword(), pagingDto.getFilter());
 		
 		List<UserBoardVo> list = userBoardService.getUserArticleList(pagingDto);
-		
 		model.addAttribute("userArticleList", list);
 		model.addAttribute("pagingDto", pagingDto);
 		
