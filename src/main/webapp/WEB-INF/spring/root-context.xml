@@ -13,7 +13,7 @@
 		<property name="driverClassName" 
 			value="oracle.jdbc.driver.OracleDriver"/>	
 		<property name="url" 
-			value="jdbc:oracle:thin:@192.168.0.117:1521:xe"/>
+			value="jdbc:oracle:thin:@localhost:1521:xe"/>
 		<property name="username" value="teampro"/>
 		<property name="password" value="0121"/>
 	</bean>

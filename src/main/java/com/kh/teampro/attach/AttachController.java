@@ -1,11 +1,8 @@
 package com.kh.teampro.attach;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import javax.annotation.Resource;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.teampro.board.user.UserBoardService;
-import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.util.FileUploadUtil;
 
 @RestController
@@ -45,7 +40,7 @@ public class AttachController {
 		
 	// 썸네일 이미지 jsp로 전달
 	@RequestMapping(value = "/displayThumbnail/{bno}", method = RequestMethod.GET)
-	public Object displayThumbnail(@PathVariable int bno) {
+	public byte[] displayThumbnail(@PathVariable int bno) {
 		return attachService.displayImage(bno);
 	}
 	

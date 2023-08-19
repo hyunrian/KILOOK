@@ -54,12 +54,30 @@ body {
 </style>
 <script>
 $(function() {
+	
+	if (${userArticleList} == "") {
+		$("#noResult").html('<i class="fa-solid fa-triangle-exclamation fa-lg" '
+							+ 'style="color: #ec8209;"></i> 조회 가능한 게시글이 없습니다.');
+		$("#filter").hide();
+	}
+	
 	$("#btnSearch").click(function() {
-		const option = $("#option").val();
-		const keyword = $("#keyword").val();
-		location.href=
-			"/userboard/list?option=" + option + "&keyword=" + keyword;
+		search();
 	});
+	
+	$("#keyword").keydown(function(e) {
+		if (e.keyCode == 13) search();
+	});
+	
+	// 검색 기능
+	function search() {
+		const option = $("#option").val();
+		const keyword = $("#keyword").val().trim();
+		if (keyword != "") {
+			location.href=
+				"/userboard/list?option=" + option + "&keyword=" + keyword;
+		}
+	}
 	
 	let filter = "";
 	if ("${pagingDto.filter}" != null) {
@@ -205,28 +223,29 @@ $(function() {
 		<div class="row d-flex" id="list">
 			<c:forEach var="userBoardVo" items="${userArticleList}">
 				<div class="col-md-3 d-flex ftco-animate">
-					<div class="blog-entry align-self-stretch">
+					<div class="blog-entry boardCard">
 						<a href="${userBoardVo.bno}" class="block-20 detailLink"
 							style="background-image: url('/attach/displayThumbnail/${userBoardVo.bno}');">
 						</a>
-						<div class="text p-4 d-block">
+						<div class="text d-block myDivTitle">
 							<h3 class="heading mt-3">
 								<a href="#">${userBoardVo.title}</a>
 							</h3>
-							<div class="meta mb-3">
-								<div>
-									<a href="#">${userBoardVo.writer}</a>
-								</div>
-								<br>
-								<div class="boardContents" style="margin-right: 30px; margin-left:15px;">
+						</div>
+						<div class="meta mb-3 myDivCnt" style="position: relative;">
+							<div>
+								<a href="#">${userBoardVo.writer}</a>
+							</div><br>
+							<div>
+								<div class="boardContents" style="position: absolute; left: 18%;">
 									<a href="#" class="meta-chat"><i class="fa-regular fa-eye"></i>
 										${userBoardVo.viewcnt}</a>
 								</div>
-								<div class="boardContents" style="margin-right: 30px;">
+								<div class="boardContents" style="position: absolute; left: 42%;">
 									<a href="#" class="meta-chat"><i class="fa-solid fa-heart"></i>
 										${userBoardVo.likecnt}</a>
 								</div>
-								<div class="boardContents">
+								<div class="boardContents" style="position: absolute; left: 65%;">
 									<a href="#" class="meta-chat"><span class="icon-chat"></span>
 										${userBoardVo.replycnt}</a>
 								</div>
@@ -235,14 +254,11 @@ $(function() {
 					</div>
 				</div>
 			</c:forEach>
-			<c:if test="${userArticleList == null}">
-				<div class="col text-center">
-					<span>
-						<i class="fa-solid fa-circle-exclamation fa-lg" 
-							style="color: #919191;"></i> 검색 결과가 없습니다.
-					</span>
-				</div>
-			</c:if>
+		</div>
+		
+		<!-- 조회 결과 없음 -->
+		<div class="col text-center">
+			<span id="noResult"></span>
 		</div>
 		
 		<!-- 페이징 -->

@@ -3594,6 +3594,8 @@ input[type="button"].btn-block {
   -ms-flex-direction: column;
   flex-direction: column;
   min-width: 0;
+/*   width: 200px; */
+/*   height: 500px; */
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
@@ -6254,8 +6256,37 @@ button.bg-dark:focus {
 .px-2 {
   padding-left: 0.5rem !important; }
 
-.p-3 {
+.p-3 { 
   padding: 1rem !important; }
+  
+  /* 여기 추가 - 메인페이지 carousel 본문 설정 */
+.myDivTitle {
+	padding: 1rem !important; 
+	height: 130px; 
+	overflow: hidden;
+	background-color: white;
+}
+.myDivWriter {
+	padding: 1rem !important; 
+	height: 50px; 
+	overflow: hidden;
+	background-color: white;
+	border: none !important;
+}
+.myDivCnt{
+	padding: 1rem !important; 
+	height: 200px; 
+	overflow: hidden;
+	background-color: white;
+	border: none !important;
+}
+/* 추가 - 게시판 carousel 크기 설정 */
+.boardCard {
+	width: 260px;
+	height: 500px;
+	overflow: hidden;
+}
+/* 여기까지 */
 
 .pt-3,
 .py-3 {
@@ -7313,14 +7344,15 @@ h1, h2, h3, h4, h5,
       top: 0; } }
   .ftco-navbar-light .navbar-brand {
     color: #fff; }
-  .ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
-    font-size: 14px;
+  .ftco-navbar-light .navbar-nav > .nav-item > .nav-link { /* 메인 메뉴 설정 */
+    font-size: 20px; /* 메인메뉴 폰트 크기 */
     padding-top: .9rem;
     padding-bottom: .9rem;
     padding-left: 20px;
     padding-right: 20px;
     color: #fff;
-    font-weight: 400;
+    font-weight: 800;
+    margin-right: 30px;
     opacity: 1 !important; }
     .ftco-navbar-light .navbar-nav > .nav-item > .nav-link:hover {
       color: #fff; }
@@ -7452,14 +7484,6 @@ h1, h2, h3, h4, h5,
      	content: url(/resources/images/logo/logo4.png);
      }
      
-     /* 스크롤 시 유저페이지 변경 */
-     .ftco-navbar-light.scrolled .user-link {
-     	color: #5CD1E5;
-     }
-     
-     
-     
-
 .navbar-brand {
   font-weight: 700;
   font-size: 20px; }
@@ -9408,4 +9432,4 @@ textarea.form-control {
 	button:active {
   	  outline: none;
   	  box-shadow: none;
-}
+	}

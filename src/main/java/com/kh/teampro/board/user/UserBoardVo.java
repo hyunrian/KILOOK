@@ -2,8 +2,6 @@ package com.kh.teampro.board.user;
 
 import java.sql.Timestamp;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

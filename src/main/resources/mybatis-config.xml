@@ -7,13 +7,13 @@
 <configuration>
 	<typeAliases>
 		<!-- 클래스/패키지 등의 단위로 별칭 지정. alias로 짧게 줄여쓸 수 있음 -->
-<!-- 		<typeAlias type="com.kh.teampro.board.user.UserBoardVo" alias="UserBoardVo"/> -->
-<!-- 		<typeAlias type="com.kh.teampro.reply.user.UserReplyVo" alias="UserReplyVo"/> -->
+		<typeAlias type="com.kh.teampro.board.user.UserBoardVo" alias="UserBoardVo"/>
+<!-- 		<typeAlias type="com.kh.teampro.dto.UserBoardDto" alias="UserBoardDto"/> -->
 		
 		<!-- 패키지 단위. 지정한 이름을 기준으로 지정. mapper작성 시 패키지명 제외하고 작성 가능 -->
 		<package name="com.kh.teampro.board.restaurant"/>
 		<package name="com.kh.teampro.reply.user"/>
-		<package name="com.kh.teampro.board.user"/>
+<!-- 		<package name="com.kh.teampro.board.user"/> -->
 
 		<package name="com.kh.teampro.board.attraction"/>
 		<package name="com.kh.teampro.board.accommodation"/>
