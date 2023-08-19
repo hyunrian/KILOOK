@@ -33,6 +33,11 @@ public class PlaceService {
 		return list;
 	}
 	
+	// 해당 명소 상세보기 시 조회수 업데이트
+	public void setPlaceViewcnt(int bno) throws Exception {
+		placeDao.setPlaceViewcnt(bno);
+	}
+	
 	// 추천 숙소
 	public List<PlaceVo> getRecomendedPlaceList(HashMap hashMap) {
 		List<PlaceVo> list = placeDao.getRecomendedPlaceList(hashMap);

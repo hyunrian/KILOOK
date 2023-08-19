@@ -31,6 +31,11 @@ public class FoodService {
 		FoodVo list = foodDao.getFoodInfo(bno);
 		return list;
 	}
+	
+	// 해당 맛집 상세보기 시 조회수 업데이트
+	public void setFoodViewcnt(int bno) throws Exception{
+		foodDao.setFoodViewcnt(bno);
+	}
 
 	// 추천 맛집
 	public List<FoodVo> getRecomendedFoodList(HashMap hashMap) {
@@ -45,8 +50,14 @@ public class FoodService {
 	}
 	
 	// 페이징
-	public int getFoodCountPaging(FoodPagingDto foodPagingDto) throws Exception {
-		int count = foodDao.getFoodCountPaging(foodPagingDto);
-		return count;
+	public int getFoodCnt(FoodPagingDto pagingDto) throws Exception {
+		int getFoodCnt = foodDao.getFoodCnt(pagingDto);
+		return getFoodCnt;
 	}
+	
+	// 메인 : 인기 맛집 best 5
+//	public List<FoodVo> getBestFood() throws Exception {
+//		List<FoodVo> list = foodDao.getBestFood();
+//		return list;
+//	}
 }

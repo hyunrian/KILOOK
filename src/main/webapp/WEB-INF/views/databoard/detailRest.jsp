@@ -105,7 +105,8 @@ function getReplyList(){
 					let reply = null;
 					if(item.rlevel == 1){
 						reply = $("#replyUl").clone();
-					} else {						reply = $("#replyLi").clone();
+					} else {						
+						reply = $("#replyLi").clone();
 					}
 					reply.removeAttr("id").addClass("replyElem");
 					
@@ -277,7 +278,6 @@ function insertReply(replyObject) {
 				"rlevel" : replyObject?.rlevel,
 				"rno" : replyObject?.rno,
 				"unickname" : replyObject?.unickname ?? "test",
-				
 			};
 			
 			$.post("/reply/restInsert", sData, function(rData) {
@@ -311,10 +311,10 @@ function insertReply(replyObject) {
 
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
-		<div style="text-align: right;">조회수&nbsp;${getFoodInfo.replycnt}</div>
 		<div class="row">
 			<div class="col-lg-3 sidebar"></div>
 			<div class="col-lg-9">
+				<div style=" text-align: left; font-size: 17px; font-weight: 500;">조회수&nbsp;${getFoodInfo.viewcnt}</div>
 				<div class="row">
 					<div class="col-md-12 ftco-animate">
 						<div class="single-slider owl-carousel">
@@ -414,7 +414,7 @@ function insertReply(replyObject) {
 						<div class="row">
 							<c:forEach items="${recomendedFoodList}" var="foodVo">
 								<div class="col-md-4">
-									<div class="destination">
+									<div class="destination" style="border: 1px solid #e6e6e6;">
 										<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="img img-2"
 											style="background-image: url('${foodVo.thumbimage}');"></a>
 <!-- 										<div class="text p-3"> -->

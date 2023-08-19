@@ -35,6 +35,11 @@ public class PlaceDao {
 		PlaceVo list = sqlSession.selectOne(NAMESPACE + "getPlaceInfo", bno);
 		return list;
 	}
+	
+	// 해당 명소 상세보기 시 조회수 업데이트
+	public void setPlaceViewcnt(int bno) throws Exception {
+		sqlSession.update(NAMESPACE + "setPlaceViewcnt", bno);
+	}
 
 	// 명소 추가
 	public void insertPlace(PlaceVo placeVo) throws Exception{

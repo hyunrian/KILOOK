@@ -306,10 +306,10 @@
 
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
-		<div style="text-align: right;">조회수&nbsp;${getPlaceInfo.viewcnt}</div>
 		<div class="row">
 			<div class="col-lg-3 sidebar"></div>
 			<div class="col-lg-9">
+				<div style="text-align: left; font-size: 17px; font-weight: 500;">조회수&nbsp;${getPlaceInfo.viewcnt}</div>
 				<div class="row">
 					<div class="col-md-12 ftco-animate">
 						<div class="single-slider owl-carousel">
@@ -324,8 +324,8 @@
 						</div>
 					</div>
 					<div class="col-md-12 hotel-single mt-4 mb-5 ftco-animate">
-						<h1>${getPlaceInfo.title}</h1>
-						<h3>${getPlaceInfo.aname}</h3>
+						<h1>${getPlaceInfo.aname}</h1>
+						<h3>${getPlaceInfo.title}</h3>
 						<p class="rate mb-5">
 							<span class="loc"><i class="icon-map"></i>${getPlaceInfo.address}</span>
 							<br>
@@ -416,7 +416,7 @@
 						<div class="row">
 							<c:forEach items="${recomendedAccomList}" var="placeVo">
 								<div class="col-md-4">
-									<div class="destination">
+									<div class="destination" style="border: 1px solid #e6e6e6;">
 										<a href="/databoard/getPlaceInfo?bno=${placeVo.bno}" class="img img-2"
 											style="background-image: url('${placeVo.thumbimage}');"></a>
 										<div class="meta p-3">

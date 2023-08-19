@@ -32,7 +32,7 @@ public class AccomController {
 		return "databoard/accommodation";
 	}
 	
-	// 카테고리별 조회
+	// 숙소 필터링(카테고리별) 조회
 	@RequestMapping(value = "/getCategoryList", method = RequestMethod.GET)
 	public String getCategoryList(@RequestParam("category") String category, Model model) throws Exception{
 		List<AccomVo> list = accomService.getCategoryList(category);
@@ -43,8 +43,11 @@ public class AccomController {
 	// 해당 숙소 상세보기
 	@RequestMapping(value = "/getAccomInfo", method = RequestMethod.GET)
 	public String getAccomInfo(int bno, Model model) throws Exception{
+		System.out.println("getAccomInfo bno:" + bno);
+		// 조회수 업데이트
+		accomService.setAccomViewcnt(bno);
+		
 		AccomVo accomVo = accomService.getAccomInfo(bno);
-		System.out.println("accom:" + accomVo);
 		
 		// 숙소 게시물 좋아요
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
@@ -98,4 +101,11 @@ public class AccomController {
 		}
 		return arr; 
 	}
+	
+	// 메인 : 인기 숙소 best 6
+//	public List<AccomVo> getBestAcc() throws Exception {
+//		List<AccomVo> list = accomService.getBestAcc();
+//		System.out.println("getBestAcc / list :" + list);
+//		return list;
+//	}
 }

@@ -82,7 +82,7 @@
 	
 	<!-- 댓글 수정 -->
 	<update id="updateAccomReply">
-		update tbl_accreply
+		update tbl_accreply set
 			replytext = #{replytext},
 			replyer = #{replyer},
 			updatedate = sysdate
@@ -108,4 +108,5 @@
 		select updatedate from tbl_accreply
 		where rno = #{rno}
 	</select>
+	
 </mapper>

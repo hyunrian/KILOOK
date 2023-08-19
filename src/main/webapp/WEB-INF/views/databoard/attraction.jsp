@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
+<style>
+	.block-20{
+		width: 255px;
+	}
+</style>
+
 <script>
 
 $(function(){

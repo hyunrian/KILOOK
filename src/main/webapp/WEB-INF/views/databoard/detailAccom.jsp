@@ -84,9 +84,6 @@
 
 		const bno = "${getAccomInfo.bno}";
 		$.get("/reply/accomList?bno=" + bno, function(rData){
-			console.log(`rdata`)
-			console.log(rData)
-			console.log(`rdata`)
 			$.each(rData, function(i, item){
 				$(".replyElem").remove();
 				var status = "default";
@@ -194,9 +191,6 @@
 				replyForm.addClass("replyForm");
 				replyForm.find("input").eq(1).attr("data-type", "reReply");
 				const rno = $(this).attr("data-rno");
-				console.log(`rno`)
-				console.log(rno)
-				console.log(`rno`)
 				replyForm.find("input").eq(1).attr("onClick", `btnReplyCommentWrite(\${rno})`);
 				
 				$(this).parent().append(replyForm);
@@ -213,6 +207,7 @@
 				"data" : rno,
 				"success" : function(rData) {
 					that.closest(".replyElem").fadeOut(700);
+					getReplyList();
 				}
 			});
 		});
@@ -231,7 +226,7 @@
 			const replytext = element.find("span").eq(1).text();
 			replyForm.find("#replytext").val(replytext);
 			const rno = $(this).attr("data-rno");
-			replyForm.find("#btnReplyWrite").hide();		
+			replyForm.find("#btnReplyWrite").attr("id", "replyUpdateBtn");		
 			replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
 			element.find("div").hide();
 			element.append(replyForm);
@@ -308,10 +303,10 @@
 
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
-		<div style="text-align: right;">조회수&nbsp;${getAccomInfo.areplycnt}</div>
 		<div class="row">
 			<div class="col-lg-3 sidebar"></div>
 			<div class="col-lg-9">
+				<div style="text-align: left; font-size: 17px; font-weight: 500;">조회수&nbsp;${getAccomInfo.aviewcnt}</div>
 				<div class="row">
 					<div class="col-md-12 ftco-animate">
 						<div class="single-slider owl-carousel">
@@ -344,7 +339,6 @@
 								</a>
 							</span>
 						</p>
-<%-- 						<p>${getFoodInfo.content}</p> --%>
 						
 					<!-- 좋아요 -->
 					<!-- heart/heart1.png -->
@@ -411,7 +405,7 @@
 						<div class="row">
 							<c:forEach items="${recomendedAccomList}" var="accomVo">
 								<div class="col-md-4">
-									<div class="destination">
+									<div class="destination" style="border: 1px solid #e6e6e6;">
 										<a href="/databoard/getAccomInfo?bno=${accomVo.bno}" class="img img-2"
 											style="background-image: url('..${accomVo.image}.jpg');"></a>
 										<div class="meta p-3">
