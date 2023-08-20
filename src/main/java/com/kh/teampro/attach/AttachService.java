@@ -108,5 +108,22 @@ public class AttachService {
 	public void updateThumbnail(AttachVo attachVo) {
 		attachDao.updateThumbnail(attachVo);
 	}
+	
+	// 유저 프로필 서버에 저장
+	public String saveProfileFile(MultipartFile file, String userid) {
+		String filename = file.getOriginalFilename();
+		
+		if (FileUploadUtil.isImage(filename)) { // 이미지일 때만 처리
+			try {
+				byte[] bytes = file.getBytes();
+				String filePath = FileUploadUtil.uploadProfile(
+										bytes, uploadPath, filename, userid);
+				return filePath;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return MyConstants.FAIL_MESSAGE;
+	}
 
 }
