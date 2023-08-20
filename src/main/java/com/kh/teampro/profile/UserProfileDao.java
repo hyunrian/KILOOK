@@ -18,4 +18,8 @@ public class UserProfileDao {
 		sqlSession.update(NAMESPACE + "updateProfile", userVo);
 	}
 	
+	public String getUimg(String userid) {
+		return sqlSession.selectOne(NAMESPACE + "getUimg", userid);
+	}
+	
 }

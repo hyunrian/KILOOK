@@ -11,6 +11,8 @@
 <script>
 $(function() {
 	
+	let filePath = "";
+	
 	$("#inputProfile").change(function(e) {
 		const file = e.target.files[0];
 		const formData = new FormData();
@@ -23,64 +25,31 @@ $(function() {
 			"contentType" : false,
 			"processData" : false,
 			"success" : function(rData) {
-				console.log("rData:", rData);
-			},
-			"error" : function(request, error) {
-				console.log("status : " + request.status + ", message : " 
-						+ request.responseText + ", error : " + error);
+				$("#imgProfile").attr("src", "/profile/displayUpdate?filePath=" + rData);
+				filePath = rData;
 			}
-		
 		});
-		
-// 		$.ajax({
-// 			"type" : "get",
-// 			"url" : "/profile/display/" + file.name,
-// 			"success" : function(rData) {
-// 				console.log(rData);
-// 			},
-// 			"error" : function(request, error) {
-// 				console.log("status : " + request.status + ", message : " 
-// 						+ request.responseText + ", error : " + error);
-// 			}
-		
-// 		});
 	});
 	
 	$("#btnProfile").click(function() {
 		$.ajax({
 			"type" : "post",
-			"url" : "/profile/upload",
-			"data" : formData,
-			"contentType" : false,
-			"processData" : false,
+			"url" : "/profile/uimg?filePath=" + filePath,
 			"success" : function(rData) {
-				$("#summernote").summernote("insertImage", "/attach/displayImage?filePath=" + rData);
-				const uploaded = $("#uploaded").clone();
-				uploaded.addClass("uploaded");
-				uploaded.text(rData);
-				$("#uploaded").parent().append(uploaded);
-				uploadedImageCnt = $(".uploaded").length;
+				console.log(rData); 
+				// rData == "SUCCESS"면 다음에 실행할 코드 작성
+				// 비밀번호 등 수정한 다른 정보와 함께 변경처리해도 됨
+// 				$("#frmUpdate").submit(); // action에 실행할 controller mappgng value 입력해서 처리
 			},
-			"error" : function(request, error) {
-				console.log("status : " + request.status + ", message : " 
-						+ request.responseText + ", error : " + error);
-			}
-		
 		});
 	});
+	
 });
 </script>
 <div style="height: 500px;">
 	<label>프로필 사진</label>
-	<c:choose>
-		<c:when test="${empty userVo.uimg}">
-<%-- 			<img src="/profile/display/${userVo}" alt="profile"> --%>
-		</c:when>
-		<c:otherwise>
-			<img src="" alt="profile">
-		</c:otherwise>
-	</c:choose>
-	<form action="/profile/upload" method="post">
+	<img src="/profile/display" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">
+	<form action="" method="post" id="frmUpdate">
 		<input type="file" id="inputProfile" name="uimg"><br><br>
 		<button type="button" id="btnProfile">확인</button>
 	</form>

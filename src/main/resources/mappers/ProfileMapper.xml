@@ -10,4 +10,10 @@
 			uimg = #{uimg}
 		where userid = #{userid}
 	</update>	
+	
+	<!-- 유저 프로필 경로 얻기 -->
+	<select id="getUimg" resultType="string">
+		select uimg from tbl_user
+		where userid = #{userid}
+	</select>
 </mapper>
