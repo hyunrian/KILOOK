@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -35,10 +36,9 @@ public class UserInfoController {
 	// 이후 페이지를 열 때 작동하는 기능들은 전부 여기로 (유저 본인확인 상태 체크 등)
 	// 유저 작성 글, 댓글 정보 읽어서 리스트 띄우기
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String readOneUserInfo(Model model, HttpSession session) {
+	public String toMypage(Model model, HttpSession session) {
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		String userid = userVo.getUserid();
-		//UserVo userVo = userInfoService.readOneUserInfo(userid); 
 		List<UserBoardDto> boardList = userInfoService.readUserBoard(userid); 
 		List<UserReplyDto> replyList = userInfoService.readUserReply(userid); 
 		int userBoardCount = userInfoService.readUserBoardCount(userid); 
@@ -52,6 +52,37 @@ public class UserInfoController {
 		
 		return "userinfo/mypage";
 	}
+	
+	// 내 게시글 목록
+	@RequestMapping(value = "/mypost", method = RequestMethod.GET)
+	public String toMyPostList(Model model, HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		String userid = userVo.getUserid();
+		List<UserBoardDto> boardList = userInfoService.readUserBoard(userid); 
+		int userBoardCount = userInfoService.readUserBoardCount(userid);
+		int userReplyCount = userInfoService.readUserReplyCount(userid);
+		model.addAttribute("userVo", userVo);
+		model.addAttribute("boardList", boardList); // 게시글 목록
+		model.addAttribute("userBoardCount", userBoardCount); // 게시글 갯수
+		model.addAttribute("userReplyCount", userReplyCount); // 댓글 갯수
+		return "userinfo/myPostList";
+	}
+	
+	// 내 댓글 목록
+	@RequestMapping(value = "/myreply", method = RequestMethod.GET)
+	public String toMyReplyList(Model model, HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		model.addAttribute("userVo", userVo);
+		String userid = userVo.getUserid();
+		List<UserReplyDto> replyList = userInfoService.readUserReply(userid); 
+		int userBoardCount = userInfoService.readUserBoardCount(userid);
+		int userReplyCount = userInfoService.readUserReplyCount(userid);
+		model.addAttribute("replyList", replyList); // 댓글 목록
+		model.addAttribute("userBoardCount", userBoardCount); // 게시글 갯수
+		model.addAttribute("userReplyCount", userReplyCount); // 댓글 갯수
+		return "userinfo/myReplyList";
+	}
+	
 	
 	// 유저 정보 수정 페이지로 이동
 	@RequestMapping(value = "/infoUpdate", method = RequestMethod.POST)
@@ -130,23 +161,23 @@ public class UserInfoController {
 		System.out.println("verifyCode:" + verifyCode);
 			
 		// 메일로 코드 전송
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-			
-			@Override
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-				MimeMessageHelper helper = new MimeMessageHelper(
-						mimeMessage,
-						false, // multipart 여부
-						"utf-8"
-						);
-				
-				helper.setFrom("teamprobusan@gmail.com"); // 보내는이
-				helper.setTo(uemail); // 받는이
-				helper.setSubject("KILOOK 계정 본인확인"); // 제목
-				helper.setText("본인확인 코드: " + verifyCode); // 내용
-			}
-		};
-		mailSender.send(preparator);
+//		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+//			
+//			@Override
+//			public void prepare(MimeMessage mimeMessage) throws Exception {
+//				MimeMessageHelper helper = new MimeMessageHelper(
+//						mimeMessage,
+//						false, // multipart 여부
+//						"utf-8"
+//						);
+//				
+//				helper.setFrom("teamprobusan@gmail.com"); // 보내는이
+//				helper.setTo(uemail); // 받는이
+//				helper.setSubject("KILOOK 계정 본인확인"); // 제목
+//				helper.setText("본인확인 코드: " + verifyCode); // 내용
+//			}
+//		};
+//		mailSender.send(preparator);
 		// /메일로 코드전송
 		
 		// model에 email, verifyCode를 담아서 이메일에 전송된 uuid를 입력하도록 하는 인풋창을 사용자에게 보여줌
