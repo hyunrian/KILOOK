@@ -3,33 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <%@ include file="/WEB-INF/views/include/menu.jsp" %>
-<style>
-	html, body {
-		background-color: gray;
-	}
-</style>
-<script>
-$(function(){
-	// 유저 본인확인 상태 체크, 본인 확인 완료 시 버튼 숨김
-	function checkVerified() {
-		if ('${userVo.verified}' == 'T') {
-			$("#emailCheckMessage").text("확인됨. 본인확인 이메일:");
-			$("#verifiedEmail").text("${userVo.uemail}");
-			$("#uemail").hide();
-			$("#btnEmailVerify").hide();
-		}
-	}
-	checkVerified(); // 페이지를 열면 본인확인 체크 함수 실행
-
-	// 유저 정보 수정 버튼(데이터 담아서 정보 수정 페이지로 이동)
- 	$("#btnUserUpdate").click(function(){
-		var form = $("#userVoForm");
-		form.attr("action", "/userInfo/infoUpdate");
-		form.submit();
-	});
-	
-});
-</script>
 <body>
     <section class="ftco-section ftco-degree-bg">
       <div class="container">

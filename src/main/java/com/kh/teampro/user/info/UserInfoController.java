@@ -147,12 +147,19 @@ public class UserInfoController {
 	}
 	
 	
+	// 이메일로 본인확인 페이지로 이동
+	@RequestMapping(value = "/getVerifyEmail", method = RequestMethod.GET)
+	public String getVerifyEmail() {
+		
+		return "userinfo/userVerifyPage";
+	}
+	
 	@Autowired
 	private JavaMailSenderImpl mailSender;		
 	// 본인확인 코드 생성 (이메일 연동)
 	// 생성된 코드로 ~~ 를 한 후 유저테이블의 verified 'F' -> 'T'
 	@RequestMapping(value="/verifyMail", method = RequestMethod.POST)
-	public String verifyMail(String userid, String uemail, Model model, HttpSession session) {
+	public String verifyEmail(String userid, String uemail, Model model, HttpSession session) {
 		System.out.println("id:" + userid);
 		System.out.println("email:" + uemail);
 		
