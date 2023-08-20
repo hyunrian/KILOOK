@@ -35,6 +35,12 @@ public class LoginController {
 		return "user/login";
 	}
 	
+	// 네이버 소셜 로그인용 콜백
+	@RequestMapping(value = "/naverCallback", method = RequestMethod.GET)
+	public String callbackNaver() {
+		return "user/loginNaverCallback";
+	}
+	
 	// 회원가입
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String createAcount(UserVo userVo, HttpSession session) {

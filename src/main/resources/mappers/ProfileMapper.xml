@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kh.teampro.ProfileMapper">
+	<!-- 프로필 이미지 변경(프로필과 나머지 정보변경은 별도로 처리해야 함) -->
+	<update id="updateProfile">
+		update tbl_user set
+			uimg = #{uimg}
+		where userid = #{userid}
+	</update>	
+	
+	<!-- 유저 프로필 경로 얻기 -->
+	<select id="getUimg" resultType="string">
+		select uimg from tbl_user
+		where userid = #{userid}
+	</select>
+</mapper>
