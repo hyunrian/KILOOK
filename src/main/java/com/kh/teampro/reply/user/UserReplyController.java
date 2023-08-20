@@ -25,8 +25,8 @@ public class UserReplyController {
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insertUserReply(UserReplyVo userReplyVo) {
-		userReplyVo.setReplyer("star"); // session에 넣을 loginInfo의 값으로 변경해야 함
-		userReplyVo.setUserid("user2"); // session에 넣을 loginInfo의 값으로 변경해야 함
+		userReplyVo.setReplyer("tester"); // session에 넣을 loginInfo의 값으로 변경해야 함
+		userReplyVo.setUserid("testuser"); // session에 넣을 loginInfo의 값으로 변경해야 함
 		
 		if (userReplyVo.getRlevel() == 0) { // 새 댓글인 경우
 			userReplyService.insertUserNewReply(userReplyVo);

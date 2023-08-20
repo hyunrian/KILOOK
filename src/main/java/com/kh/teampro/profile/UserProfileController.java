@@ -90,7 +90,7 @@ public class UserProfileController {
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
-	// 이미지 보이기
+	// 프로필 변경했을 때 이미지 보이기
 	@ResponseBody
 	@RequestMapping(value = "/displayUpdate", method = RequestMethod.GET)
 	public byte[] displayImage(String filePath, HttpSession session) {
@@ -105,9 +105,10 @@ public class UserProfileController {
 		return profile;
 	}
 	
+	// 기존에 설정되어있는 프로필 보이기 
 	@ResponseBody
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public byte[] displayImage(HttpSession session) {
+	public byte[] displayImageWithId(String userid, HttpSession session) {
 		
 		// 임의로 세션값 설정(세션에 들어있는 userVo 사용하면 됨)
 		UserVo userVo = new UserVo();
@@ -115,10 +116,15 @@ public class UserProfileController {
 		session.setAttribute(MyConstants.LOGIN, userVo);
 		
 		userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		byte[] profile;
 		
-		String filePath = userProfileService.getUimg(userVo.getUserid());
-		System.out.println("path:" + filePath);
-		byte[] profile = attachService.displayProfile(filePath, userVo.getUserid());
+		if (userid == null) {
+			String filePath = userProfileService.getUimg(userVo.getUserid());
+			profile = attachService.displayProfile(filePath, userVo.getUserid());
+		} else {
+			String filePath = userProfileService.getUimg(userid);
+			profile = attachService.displayProfile(filePath, userid);
+		}
 		
 		return profile;
 	}
