@@ -124,7 +124,7 @@ $(function(){
       <div class="container">
         <div class="row">
         
-        <div class="col-md-2 sidebar ftco-animate"></div> <!-- .col-md-2 -->
+        <%@ include file="/WEB-INF/views/include/mypageSidemenu.jsp" %>
         
           <div class="col-md-8 ftco-animate">
            <div class="sidebar-box ftco-animate">
@@ -169,8 +169,6 @@ $(function(){
              
            </div>
           </div> <!-- .col-md-8 -->
-          
-          <div class="col-md-2 sidebar ftco-animate"></div> <!-- .col-md-2 -->
 
         </div>
       </div>
