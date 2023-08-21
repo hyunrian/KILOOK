@@ -54,6 +54,7 @@ public class LoginController {
 	public boolean idDubChck (String userid) {
 		return userService.dubCheckID(userid);
 	}
+	
 	// 닉네임 중복 확인
 	@RequestMapping(value = "/nickNameDubCheck", method = RequestMethod.POST)
 	@ResponseBody
@@ -63,8 +64,7 @@ public class LoginController {
 	
 	// 로그인 처리 - post
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String loginRun (LoginDto loginDto, HttpSession session,
-			RedirectAttributes rttr) {
+	public String loginRun (LoginDto loginDto, HttpSession session) {
 		System.out.println("LoginDto:" + loginDto);
 		UserVo userVo = userService.login(loginDto);
 		String returnPage = "redirect:/";
@@ -77,7 +77,7 @@ public class LoginController {
 			session.removeAttribute("targetLocation");
 			session.setAttribute(MyConstants.LOGIN, userVo);
 		} else {
-			rttr.addFlashAttribute("loginResult", MyConstants.FAIL_MESSAGE);
+			session.setAttribute("loginResult", false);
 			returnPage = "redirect:/loginUser/login";
 		}
 		return returnPage;

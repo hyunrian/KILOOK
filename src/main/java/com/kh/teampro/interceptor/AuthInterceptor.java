@@ -22,9 +22,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		//로그인 되어있지 않다면
 		if(userVo == null) {
 			String uri = request.getRequestURI();
-//			System.out.println("uri:" + uri);
 			String queryString = request.getQueryString();
-//			System.out.println("queryString:" + queryString);
 			String targetLocation = uri + "?" + queryString;
 			session.setAttribute("targetLocation", targetLocation);
 			System.out.println("targetLocation:" + targetLocation);

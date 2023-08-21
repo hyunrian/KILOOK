@@ -312,11 +312,13 @@ font-size: 12px;
 
 <%
 Boolean joinResult = (Boolean) session.getAttribute("joinResult");
+Boolean loginResult = (Boolean) session.getAttribute("loginResult");
 %>
 
 <!-- 스크립트 시작 -->
 <script>
 var joinResult = <%= joinResult %>;
+var loginResult = <%= loginResult %>;
 
 // 사용자 지정 메소드
 // 글자수 제한 (아이디)
@@ -539,6 +541,7 @@ $(function() {
 	
 	
 	// 여기부터 모달창
+	// 회원가입 알람
 	if (joinResult != null){
 		if (joinResult == true) {
 			$("#modalTitle").text("회원가입 성공");
@@ -552,6 +555,17 @@ $(function() {
 		$("#modalBackground").fadeIn();
 	}
 	
+	// 로그인 알람 (로그인 성공시 요청한 페이지로 바로 이동함)
+	if (loginResult != null){
+		if (loginResult == false) {
+			$("#modalTitle").text("로그인 실패");
+			$("#modalContext_1").text("아이디 비밀번호가 일치하지 않습니다.");
+			$("#modalContext_2").text("다시 한번 시도해 주세요");
+		};
+		$("#modalBackground").fadeIn();
+	}
+	
+	// 모달버튼 닫기 동작
 	$(".close-button-Modal").click(function () {
 		$("#modalBackground").fadeOut();
 	});
@@ -658,6 +672,7 @@ logInBtn.addEventListener("click", () => {
 
 <%
 	session.removeAttribute("joinResult");
+	session.removeAttribute("loginResult");
 %>
 </script>
 </html>
