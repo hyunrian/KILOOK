@@ -314,11 +314,6 @@ font-size: 12px;
 Boolean joinResult = (Boolean) session.getAttribute("joinResult");
 %>
 
-<!-- 네이버 로그인용 -->
-<%@ page import="java.net.URLEncoder" %>
-<%@ page import="java.security.SecureRandom" %>
-<%@ page import="java.math.BigInteger" %>
-
 <!-- 스크립트 시작 -->
 <script>
 var joinResult = <%= joinResult %>;
@@ -606,30 +601,7 @@ $(function() {
 			<!-- 로그인 폼 -->
 			<div class="log-in-container">
 				<form id="loginForm" action="/loginUser/login" method="post">
-					<h1>소셜 로그인</h1>
-					<div class="social-links">
-					<%
-						String clientId = "Ff68RrCXYQ06kTgurgWY";//애플리케이션 클라이언트 아이디값";
-						String redirectURI = URLEncoder.encode("http://localhost/loginUser/naverCallback", "UTF-8");
-						SecureRandom random = new SecureRandom();
-						String state = new BigInteger(130, random).toString();
-						String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
-							+ "&client_id=" + clientId
-							+ "&redirect_uri=" + redirectURI
-							+ "&state=" + state;
-						session.setAttribute("state", state);
- 					%>
-						<div>
-							<a href="<%=apiURL%>"><i class="xi-naver" aria-hidden="true"></i></a>
-						</div>
-						<div>
-							<a href="#"><i class="xi-kakaotalk" aria-hidden="true"></i></a>
-						</div>
-						<div>
-							<a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
-						</div>
-					</div>
-					<span>----- 또는 끼룩 계정으로 로그인 -----</span> 
+					<h1 style="margin-bottom: 20px;">로그인</h1>
 					<input class="input" type="text" placeholder="아이디"
 						id="userid" name="userid" required>
 					<input class="input" type="password" placeholder="비밀번호"
