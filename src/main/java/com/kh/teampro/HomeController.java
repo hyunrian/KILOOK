@@ -41,14 +41,14 @@ public class HomeController {
 	public String home(Model model) throws Exception { // 예외처리 필요
 		
 		List<UserBoardVo> list = userBoardService.getTopSix();
-		List<AccomVo> accList = accomService.getBestAccom();
-		List<PlaceVo> placeList = placeService.getBestPlace();
-		List<FoodVo> foodList = foodService.getBestFood();
+//		List<AccomVo> accList = accomService.getBestAccom();
+//		List<PlaceVo> placeList = placeService.getBestPlace();
+//		List<FoodVo> foodList = foodService.getBestFood();
 		
 		model.addAttribute("list", list);
-		model.addAttribute("accList", accList);
-		model.addAttribute("placeList", placeList);
-		model.addAttribute("foodList", foodList);
+//		model.addAttribute("accList", accList);
+//		model.addAttribute("placeList", placeList);
+//		model.addAttribute("foodList", foodList);
 		
 		return "index";
 	}

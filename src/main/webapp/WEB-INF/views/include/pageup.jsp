@@ -3,7 +3,7 @@
 
 <!-- 상단으로 이동 버튼. footer 위에 위치해야 함 -->
 <a href="#top"> <img alt="맨 위로 이동"
-	src="/resources/images/myIcons/up_arrow.png" id="pageUp"
+	src="/resources/images/myIcons/up.png" id="pageUp"
 	style="position: fixed; right: 20px; bottom: 20px; 
 	width: 50px; height: 50px; z-index: 999;">
 </a>

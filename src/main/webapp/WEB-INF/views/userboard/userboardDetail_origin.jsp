@@ -168,7 +168,7 @@ $(function() {
 		console.log("url:", document.location.href);
 		const url = document.location.href;
 		window.navigator.clipboard.writeText(url).then(() => {
-// 			console.log("copied");
+			console.log("copied");
 			toastr.success("링크가 복사되었습니다.");
 		});
 
@@ -204,127 +204,76 @@ $(function() {
 	// 댓글창 열기
 	$("#replyOpen").click(function() {
 		$(this).parent().next().fadeToggle(200);
-		showOrHideMoreReply();
 	});
 	
-	// 댓글 더보기버튼 가리기/보이기
-	function showOrHideMoreReply() {
-		$.get("/userReply/totalCount/" + bno, function(rData) {
-			
-			if ((replyPagingDto != null && replyPagingDto.endPage < replyPagingDto.nowPage)
-					|| rData <= 5) {
-				$("#moreReply").hide();
-			} else {
-				$("#moreReply").show();
-			}
-		});
-	}
-	
-	// 객체가 빈 값인지 확인
-	function isEmptyObject(obj) {
-	    return Object.keys(obj).length === 0;
-	}
-	
-	let replyPagingDto = null;
-	let nowPage = 1;
-	
 	// 댓글 가져오기
-	function getReplyList(pageInit) {
-		if (replyPagingDto != null) {
-// 			console.log("nowPage:", replyPagingDto.nowPage)
-// 			url = "/userReply/list?bno=" + bno + "&nowPage=" + replyPagingDto.nowPage;
-			nowPage = replyPagingDto.nowPage
-		}
-		if (pageInit !== undefined) {
-			nowPage = 1;
-		}
-		let url  = "/userReply/list?bno=" + bno + "&nowPage=" + nowPage;
+	function getReplyList() {
 		
-		$.get(url, function(rData) {
-			const userReplyVo = rData.list;
-			replyPagingDto = rData.replyPagingDto;
-			
-// 			$(".replyElem").remove();
-			
-			for (var i = 0; i < userReplyVo.length; i++) {
+		$.get("/userReply/list?bno=" + bno, function(rData) {
+			$.each(rData, function(i, item) {
+				$(".replyElem").remove();
 				
-// 				var status = "default"; // 삭제처리되지 않은 댓글
-// 				let deleted = userReplyVo[i].delete_yn;
-// 				$.get("/userReply/checkDelete/" + userReplyVo[i].rno, function(hasReply) {
-// 					if (deleted == "Y" && hasReply) { // 삭제처리되었지만 대댓글이 있는 경우
-// 						status = "deleted";
-// 					} else if (deleted == "Y" && !hasReply) { // 삭제처리되었으며 대댓글이 없는 경우
-// 						status = "skip";
-// 					}
-// 				});
-// 				console.log("status?" + userReplyVo[i].rno + ", " + status);
-				
-// 				setTimeout(function() {
-// 					if (status == "default" || status == "deleted") {
+				var status = "default"; // 삭제처리되지 않은 댓글
+				$.get("/userReply/checkDelete/" + rData[i].rno, function(hasReply) {
+					if (rData[i].delete_yn == "Y" && hasReply) { // 삭제처리되었지만 대댓글이 있는 경우
+						status = "deleted";
+					} else if (rData[i].delete_yn == "Y" && !hasReply) { // 삭제처리되었으며 대댓글이 없는 경우
+						console.log(rData[i]);
+						status = "skip";
+					}
+				});
+				setTimeout(function() {
+					if (status == "default" || status == "deleted") {
 						let reply = null;
-		 				if (userReplyVo[i].rlevel == 1) {
+		 				if (rData[i].rlevel == 1) {
 		 					reply = $("#replyUl").clone(); // rlevel이 1인 경우 들여쓰기 처리
 		 				} else {
 		 					reply = $("#replyLi").clone();
-		 				}
-		 				
+		 				} 
 						
 		 				reply.removeAttr("id").addClass("replyElem");
 		 				
 		 				getReplycnt(bno); // 댓글 개수 처리
 		 				
 		 				reply.find("div").eq(0).find("img").attr(
-		 								"src", "/profile/display?userid=" + userReplyVo[i].userid);
+		 								"src", "/profile/display?userid=" + rData[i].userid);
 		 				
 		 				const div = reply.find("div").eq(1);
-		 				div.find("h3").text(userReplyVo[i].replyer);
+		 				div.find("h3").text(rData[i].replyer);
 						
 		 				// 작성일 또는 수정일이 오늘 날짜인 경우 시간으로 출력, 그렇지 않은 경우 날짜로 출력
 		 				const dateDiv = div.find("div").eq(0);
-		 				if (userReplyVo[i].updatedate != null) {
-		 					dateDiv.text(getDateFormat(userReplyVo[i].updatedate))
+		 				if (rData[i].updatedate != null) {
+		 					dateDiv.text(getDateFormat(rData[i].updatedate))
 		 				} else {
-		 					dateDiv.text(getDateFormat(userReplyVo[i].regdate))
+		 					dateDiv.text(getDateFormat(rData[i].regdate))
 		 				}
 						
-		 				if (userReplyVo[i].parentreplyer != null) {
+		 				if (rData[i].parentreplyer != null) {
 		 					const span = div.find("span").eq(0);
 		 					span.show();
-		 					span.text("@" + userReplyVo[i].parentreplyer + " ");
+		 					span.text("@" + rData[i].parentreplyer + " ");
 		 				}
-		 				div.find("span").eq(1).text(userReplyVo[i].replytext);
-		 				div.find("p > a").attr("data-rno", userReplyVo[i].rno);
+		 				div.find("span").eq(1).text(rData[i].replytext);
+		 				div.find("p > a").attr("data-rno", rData[i].rno);
 						
-// 	 					if (status == "deleted") {
-// 	 						console.log("삭제된 댓글 처리")
-// 	 						div.find("span").eq(1).text("삭제된 댓글입니다.");
-// 	 						div.find("p").hide();
-// 	 						div.find("div").eq(0).remove();
-// 	 						div.find("h3").remove();
-// 	 						div.prev().find("img").remove();
-// 	 					}
+	 					if (status == "deleted") {
+	 						div.find("span").eq(1).text("삭제된 댓글입니다.");
+	 						div.find("p").hide();
+	 						div.find("div").eq(0).remove();
+	 						div.find("h3").remove();
+	 						div.prev().find("img").remove();
+	 					}
 	 					
 		 				reply.show();
 		 				$("#replyList").append(reply);
-		 				
-		 				showOrHideMoreReply();
-// 					} 
-// 				}, 600); // 비동기처리에 시간이 걸려 조건에 따른 status 설정이 늦어져 일정 시간 이후 처리를 해야 삭제처리된 댓글이 보이지 않음
-				
-			}		
-// 			$.each(rData, function(i, item) {
-				
-// 			});
+					} 
+				}, 600); // 비동기처리에 시간이 걸려 조건에 따른 status 설정이 늦어져 일정 시간 이후 처리를 해야 삭제처리된 댓글이 보이지 않음
+			});
 		});
 	}
 	
 	getReplyList();
-	showOrHideMoreReply();
-	
-	// 댓글 더보기
-	$("#moreReply").click(function() {
-		getReplyList();
-	});
 	
 	// 새댓글 쓰기
 	$("#replyInsertBtn").click(function() {
@@ -355,9 +304,7 @@ $(function() {
 					"parentreplyer" : parentreplyer
 			};
 			$.post("/userReply/insert", sData, function(rData) {
-				$(".replyElem").remove();
-				getReplyList(1);
-				showOrHideMoreReply();
+				getReplyList();
 			});
 		}
 	}

@@ -1,6 +1,8 @@
 package com.kh.teampro.reply.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.paging.ReplyPagingDto;
 
 @RestController
 @RequestMapping("/userReply")
@@ -18,9 +21,15 @@ public class UserReplyController {
 	@Autowired
 	private UserReplyService userReplyService;
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public List<UserReplyVo> getUserReply(int bno) {
-		return userReplyService.getUserReply(bno);
+//	@RequestMapping(value = "/list", method = RequestMethod.GET) 
+//    public List<UserReplyVo> getUserReply(int bno) {
+//        return userReplyService.getUserReply(bno);
+//	}
+	
+	@RequestMapping(value = "/list", method = RequestMethod.GET) 
+	public Map<String, Object> getUserReply(ReplyPagingDto replyPagingDto) {
+		System.out.println("controller, nowPage: " + replyPagingDto.getNowPage());
+		return userReplyService.getTenReplies(replyPagingDto);
 	}
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
@@ -51,6 +60,7 @@ public class UserReplyController {
 	
 	@RequestMapping(value = "/checkDelete/{rno}", method = RequestMethod.GET)
 	public boolean hasChildReply(@PathVariable String rno) {
+//		System.out.println("checkDelete, rno:" + rno);
 		return userReplyService.hasChildReply(Integer.valueOf(rno));
 	}
 	
@@ -64,7 +74,13 @@ public class UserReplyController {
 	@RequestMapping(value = "/replycnt/{bno}", method = RequestMethod.GET)
 	public int getReplycnt(@PathVariable int bno) {
 		return userReplyService.getReplycnt(bno);
+	}
+	
+	@RequestMapping(value = "/totalCount/{bno}", method = RequestMethod.GET)
+	public int getTotalCount(@PathVariable int bno) {
+		return userReplyService.getReplycnt(bno);
 	} 
+	
 	
 	
 }

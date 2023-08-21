@@ -12,6 +12,17 @@
 		order by rgroup, rseq
 	</select>
 	
+	<!-- 특정 게시글의 댓글 10개씩 조회 -->
+	<select id="getTenReplies" resultType="UserReplyVo">
+		select * 
+		from (select rownum rnum, a.*
+		        from (select * from tbl_userreply
+		        	where bno = #{bno}
+		        	and delete_yn = 'N'
+		            order by rgroup, rseq) a)
+		where rnum between #{startRow} and #{endRow}
+	</select>
+	
 	<!-- 댓글 입력 -->
 	<insert id="insertUserNewReply">
 		insert into tbl_userreply(rno, bno, replytext, 
@@ -41,6 +52,12 @@
 		select count(*) from tbl_userreply
 		where bno = #{bno}
 		and delete_yn = 'N'
+	</select>
+	
+	<!-- 게시글의 전체댓글개수 조회(삭제댓글 포함) -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from tbl_userreply
+		where bno = #{bno}
 	</select>
 	
 	<!-- 댓글그룹 확인 -->

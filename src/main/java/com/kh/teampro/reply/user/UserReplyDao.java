@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.teampro.paging.ReplyPagingDto;
+
 @Repository
 public class UserReplyDao {
 
@@ -57,5 +59,14 @@ public class UserReplyDao {
 	
 	public void updateUserReply(UserReplyVo userReplyVo) {
 		sqlSession.update(NAMESPACE + "updateUserReply", userReplyVo);
+	}
+	
+	public List<UserReplyVo> getTenReplies(ReplyPagingDto replyPagingDto) {
+		System.out.println("dao, dto: " + replyPagingDto);
+		return sqlSession.selectList(NAMESPACE + "getTenReplies", replyPagingDto);
+	}
+	
+	public int getTotalCount(int bno) {
+		return sqlSession.selectOne(NAMESPACE + "getTotalCount", bno);
 	}
 }

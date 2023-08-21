@@ -25,4 +25,9 @@ public class UserReplyVo {
 	private String delete_yn;
 	private String parentreplyer;
 	private String userid;
+	
+	private int count = 1;
+	private int startRow;
+	private int endRow;
+	
 }
