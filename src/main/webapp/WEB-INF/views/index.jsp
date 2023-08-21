@@ -170,20 +170,20 @@ body {
   		<div class="row">
   			<div class="col-md-12">
   				<div class="destination-slider owl-carousel ftco-animate">
-  					<c:forEach var="userBoardVo" items="${list}">
+  					<c:forEach var="foodVo" items="${foodList}">
 				<div class="item">
  				<div class="destination">
- 					<a href="#" class="img d-flex justify-content-center align-items-center" 
- 						style="background-image: url('/attach/displayThumbnail/${userBoardVo.bno}');">
+ 					<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="img d-flex justify-content-center align-items-center" 
+ 						style="background-image: url('${foodVo.image}');">
  						<div class="icon d-flex justify-content-center align-items-center">
  							<span class="icon-search2"></span>
  						</div>
  					</a>
  					<div class="myDivTitle">
- 						<h5><a href="#">${userBoardVo.title}</a></h5>
+ 						<h5><a href="#">${foodVo.rname}</a></h5>
  					</div>
  					<div class="myDivWriter">
- 						<span class="listing">${userBoardVo.writer}</span>
+ 						<span class="listing">${foodVo.location}</span>
  					</div>
  				</div>
 				</div>
@@ -206,20 +206,20 @@ body {
   		<div class="row">
   			<div class="col-md-12">
   				<div class="destination-slider owl-carousel ftco-animate">
-  					<c:forEach var="userBoardVo" items="${list}">
+  					<c:forEach var="placeVo" items="${placeList}">
 				<div class="item">
  				<div class="destination">
- 					<a href="#" class="img d-flex justify-content-center align-items-center" 
- 						style="background-image: url('/attach/displayThumbnail/${userBoardVo.bno}');">
+ 					<a href="/databoard/getPlaceInfo?bno=${placeVo.bno}" class="img d-flex justify-content-center align-items-center" 
+ 						style="background-image: url('${placeVo.thumbimage}');">
  						<div class="icon d-flex justify-content-center align-items-center">
  							<span class="icon-search2"></span>
  						</div>
  					</a>
  					<div class="myDivTitle">
- 						<h5><a href="#">${userBoardVo.title}</a></h5>
+ 						<h5><a href="/databoard/getPlaceInfo?bno=${placeVo.bno}">${placeVo.aname}</a></h5>
  					</div>
  					<div class="myDivWriter">
- 						<span class="listing">${userBoardVo.writer}</span>
+ 						<span class="listing">${placeVo.address}</span>
  					</div>
  				</div>
 				</div>
@@ -242,20 +242,20 @@ body {
   		<div class="row">
   			<div class="col-md-12">
   				<div class="destination-slider owl-carousel ftco-animate">
-  					<c:forEach var="userBoardVo" items="${list}">
+  					<c:forEach var="accomVo" items="${accList}">
 				<div class="item">
  				<div class="destination">
- 					<a href="#" class="img d-flex justify-content-center align-items-center" 
- 						style="background-image: url('/attach/displayThumbnail/${userBoardVo.bno}');">
+ 					<a href="/databoard/getAccomInfo?bno=${accomVo.bno}" class="img d-flex justify-content-center align-items-center" 
+ 						style="background-image: url('${accomVo.image}.jpg');">
  						<div class="icon d-flex justify-content-center align-items-center">
  							<span class="icon-search2"></span>
  						</div>
  					</a>
  					<div class="myDivTitle">
- 						<h5><a href="#">${userBoardVo.title}</a></h5>
+ 						<h5><a href="#">${accomVo.aname}</a></h5>
  					</div>
  					<div class="myDivWriter">
- 						<span class="listing">${userBoardVo.writer}</span>
+ 						<span class="listing">${accomVo.address}</span>
  					</div>
  				</div>
 				</div>
@@ -271,8 +271,8 @@ body {
 	<div class="container">
 		<div class="row justify-content-center mb-5 pb-3">
       <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-        <h2 class="mb-4">Some fun facts</h2>
-        <span class="subheading">More than 100,000 websites hosted</span>
+        <h2 class="mb-4" style="font-weight: 700;">KILOOK 회원이 되어<br>더 많은 혜택을 얻으세요</h2>
+        <span class="subheading">KILOOK은 부산의 다양한 스토어와 함께 합니다.</span>
       </div>
     </div>
 		<div class="row justify-content-center">
@@ -281,7 +281,7 @@ body {
         <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
           <div class="block-18 text-center">
             <div class="text">
-              <strong class="number" data-number="100000">0</strong>
+            	<i class="fa-solid fa-store fa-5x" style="color: #ffffff; height: 100px;"></i>
               <span>Happy Customers</span>
             </div>
           </div>
