@@ -17,6 +17,10 @@ create table tbl_rest(
     replycnt number default 0
 );
 
+-- tbl_rest에 likecnt 컬럼 추가
+alter table tbl_rest
+add likecnt number ;
+
 -- 데이터 게시글 - seq_rest_bno 시퀀스 생성
 create sequence seq_rest_bno
 increment by 1

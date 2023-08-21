@@ -15,6 +15,10 @@ create table tbl_acc(
     areplycnt number
 );
 
+-- -- tbl_acc에 alikecnt 컬럼 추가
+alter table tbl_acc
+add alikecnt number;
+
 -- 데이터 게시글 - seq_acc_bno 시퀀스 생성
 create sequence seq_acc_bno
 increment by 1
@@ -24,7 +28,6 @@ start with 1;
 select aname, address, addressdetail, anumber, replace(image, 'hotel_', 'hotel_img') image, areplycnt
 from tbl_acc
 order by bno desc;
-
 
 -- 테스트 데이터 삽입
 insert into tbl_acc
