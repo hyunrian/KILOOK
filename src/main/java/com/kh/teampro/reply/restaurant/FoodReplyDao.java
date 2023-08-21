@@ -20,6 +20,7 @@ public class FoodReplyDao {
 	public List<FoodReplyVo> getFoodReplyList(int bno){
 		if(getReplyCount(bno) != 0) {
 			List<FoodReplyVo> list = sqlSession.selectList(NAMESPACE + "restReplyList", bno);
+			sqlSession.update(NAMESPACE + "updateFoodReplyCnt");
 			return list;
 		} else {
 			return null;
@@ -29,11 +30,13 @@ public class FoodReplyDao {
 	// 새댓글 추가
 	public void insertRestNewReply(FoodReplyVo foodReplyVo) {
 		sqlSession.insert(NAMESPACE + "insertRestNewReply", foodReplyVo);
+		sqlSession.update(NAMESPACE + "updateFoodReplyCnt");
 	}
 	
 	// 대댓글 추가
 	public void insertRestReReply(FoodReplyVo foodReplyVo) {
 		sqlSession.insert(NAMESPACE + "insertRestReReply", foodReplyVo);
+		sqlSession.update(NAMESPACE + "updateFoodReplyCnt");
 	}
 	
 	// 가장 높은 rseq 구하기(댓글 순서)
@@ -60,6 +63,7 @@ public class FoodReplyDao {
 	// 댓글 삭제
 	public void foodReplyDelete(int rno) {
 		sqlSession.update(NAMESPACE + "deleteRestReply", rno);
+		sqlSession.update(NAMESPACE + "updateFoodReplyCnt");
 	}
 	
 	// 댓글 수정

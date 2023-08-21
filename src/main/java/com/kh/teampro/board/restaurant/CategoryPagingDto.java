@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class FoodPagingDto {
+public class CategoryPagingDto {
 	private int page = 1;
 	private int startRow;
 	private int endRow;
@@ -16,8 +16,9 @@ public class FoodPagingDto {
 	private int totalPage;
 	private final int PAGE_BLOCK_COUNT = 10;
 	private String location;
+	private String category;
 	
-	public FoodPagingDto(int page, int perPage, int totalCount) {
+	public CategoryPagingDto(int page, int perPage, int totalCount) {
 		this.page = page;
 		this.perPage = perPage;
 		this.totalCount = totalCount;

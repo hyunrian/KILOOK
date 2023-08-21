@@ -21,4 +21,5 @@ public class PlaceVo {
 	private String thumbimage;
 	private int viewcnt;
 	private int replycnt;
+	private int likecnt;
 }

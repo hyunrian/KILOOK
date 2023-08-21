@@ -4,9 +4,45 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
 <style>
-	.block-20{
-		width: 255px;
-	}
+
+.block-20{
+	width: 255px;
+}
+.page-link {
+    background-color: transparent;
+    padding: 0rem 0.75rem;
+}
+.page-item.active .page-link {
+    background-color: #fdd3d3;
+    border: 1px solid transparent;
+}
+.page-item:last-child .page-link {
+    border-top-right-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+    border-radius: 50%;
+}
+#selectBox{
+	 width: 19%; /* 가로 사이즈 */
+    padding: 10px; /* 내부여백 */
+    padding-left: 12px;
+    border: 1px solid #ddd;
+    background: url(../resources/images/selectBox/selectBox.png) no-repeat right 50%; /* 화살표 위치 */
+    background-size: 30px; /* 화살표 크기 */
+    border-radius: 4px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 12px;
+    color: #000;
+    outline:none;
+    margin-bottom: 15px;
+    margin-left: 900px;
+}
+#selectbox > option{
+	opacity: 0.5;
+}
+
 </style>
 
 <script>
@@ -16,11 +52,33 @@ $(function(){
 	$("#selectBox").change(function() {
         const selectBoxValue = $(this).val();
         console.log("selectBoxValue:", selectBoxValue); // test ok
-		location.href = "/databoard/getCategoryList?category=" + selectBoxValue;
+        
+        let bno = "${param.bno}"
+        let page = "${pagingDto.page}"
+        let perPage = "${pagingDto.perPage}"
+        
+       	location.href = `/databoard/accommodation?category=\${selectBoxValue}&bno=\${page}&perPage=\${perPage}`;
     });
+	
+	// 페이징
+	$(".page-link").click(function(e){
+		e.preventDefault(); 
+		var page = $(this).attr("href"); 
+		$("input[name=page]").val(page);
+		var form = $("#frmPaging");
+		form.submit(); 													
+	});
 });
 
 </script>
+
+<form id="frmPaging" action="/databoard/accommodation" method="get">
+	<input type="hidden" name="bno" value="${param.bno}">
+	<input type="hidden" name="page" value="${pagingDto.page}">
+	<input type="hidden" name="perPage" value="${pagingDto.perPage}">
+	<input type="hidden" name="category" value="${category}">
+</form>
+
 
 	<!-- menu -->
 	<%@ include file="/WEB-INF/views/include/menu.jsp" %>
@@ -48,31 +106,30 @@ $(function(){
 
 
 	<section class="ftco-section bg-light">
-	
 		<!-- 필터 -->
 		<div class="container">
-			<div class="row d-flex">
-				<select id="selectBox" style="width: 200px; height: 25px;
-						 margin-bottom: 15px; margin-left: 900px; text-align: center;">
-					<option selected>-- 선택 --</option>
-					<option value="숙박/휴양" >호텔/펜션/민박</option>
-					<option value="문화관광/명소">캠핑장</option>
+			<div>
+				<select id="selectBox">
+					<option value="전체보기" ${category == '전체보기' ? 'selected="selected"' : '' }>전체보기</option>
+					<option value="숙박/휴양" ${category == '숙박/휴양' ? 'selected="selected"' : '' }>호텔/펜션/민박</option>
+					<option value="문화관광/명소" ${category == '문화관광/명소' ? 'selected="selected"' : '' }>캠핑장</option>
 				</select>
 			</div>
 		</div>
 		<!-- END 필터 -->
 	
 		<div class="container">
+			<!-- 게시글 리스트 -->
 			<div class="row d-flex">
 				<c:forEach items="${accomList}" var="accomVo">
 					<div class="col-md-3 d-flex ftco-animate">
 						<div class="blog-entry align-self-stretch">
 							<a href="/databoard/getAccomInfo?bno=${accomVo.bno}" class="block-20"
-								style="background-image: url('..${accomVo.image}.jpg'); "> </a>
+								style="background-image: url('..${accomVo.image}.jpg');"> </a>
 							<div class="text p-4 d-block">
 								<h3 class="heading mt-3">
 									<a href="/databoard/getAccomInfo?bno=${accomVo.bno}">${accomVo.aname}</a><br>
-									<a href="#" class="meta-chat"><span class="icon-chat"></span>${accomVo.areplycnt}</a>
+									<span class="icon-chat"></span>${accomVo.areplycnt}
 								</h3>
 								<span class="tag">${accomVo.address} ${accomVo.addressdetail}</span>
 								<div class="meta mb-3">
@@ -85,18 +142,36 @@ $(function(){
 					</div>
 				</c:forEach>
 			</div>
+			<!-- END 게시글 리스트 -->
 
+			<!-- 페이징 -->
 			<div class="row mt-5">
 				<div class="col text-center">
 					<div class="block-27">
 						<ul>
-							<li><a href="#">&lt;</a></li>
-							<li class="active"><span>1</span></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&gt;</a></li>
+							<li class="page-item">
+							<c:if test="${pagingDto.startPage > 1}">
+								<a class="page-link" href="${pagingDto.startPage - 1}" style="border-radius: 50%;">&lt;</a>
+							</c:if> <!-- 1페이지이면 화살표가 생기지 않도록 -->
+							<c:forEach var="v" begin="${pagingDto.startPage}" end="${pagingDto.endPage}">
+								<li 
+									<c:choose>
+										<c:when test="${pagingDto.page eq v}">
+											class="page-item active" 
+										</c:when>
+										<c:otherwise>
+											class="page-item" 
+										</c:otherwise>
+									</c:choose>
+								>
+									<a class="page-link" href="${v}">${v}</a>
+								</li>
+							</c:forEach>
+							<c:if test="${pagingDto.endPage < pagingDto.totalPage}">
+								<li class="page-item">
+									<a class="page-link" href="${pagingDto.endPage + 1}" style="border-radius: 50%;">&gt;</a>
+								</li>
+							</c:if>
 						</ul>
 					</div>
 				</div>
@@ -113,4 +188,5 @@ $(function(){
 				stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
 	</div>
 
+	<%@ include file="/WEB-INF/views/include/pageup.jsp"%>
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>

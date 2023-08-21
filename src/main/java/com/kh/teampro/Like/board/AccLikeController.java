@@ -24,9 +24,8 @@ public class AccLikeController {
 	@ResponseBody
 	public String addAccomLike(@PathVariable int bno, HttpSession session) {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("addAccomLike Contoller 들어옴"); // test ok
 		AccLikeVo accLikeVo = new AccLikeVo();
-		accLikeVo.setUnickname("tester"); // 수정필요
+		accLikeVo.setUserid("testuser"); // 수정필요
 		accLikeVo.setBno(bno);
 		boolean result = accLikeService.addAccomLike(accLikeVo);
 		return String.valueOf(result);
@@ -39,7 +38,7 @@ public class AccLikeController {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		System.out.println("accomLikeList Controller 들어옴");
 		AccLikeVo accLikeVo = new AccLikeVo();
-		accLikeVo.setUnickname("tester"); // 수정필요
+		accLikeVo.setUserid("testuser"); // 수정필요
 		accLikeVo.setBno(bno);
 		boolean result = accLikeService.accomLikeList(accLikeVo); // 좋아요를 했다면 true, 아니라면 false 반환
 		return String.valueOf(result);
@@ -52,7 +51,7 @@ public class AccLikeController {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		System.out.println("deleteAccomLike Controller");
 		AccLikeVo accLikeVo = new AccLikeVo();
-		accLikeVo.setUnickname("tester"); // 수정필요
+		accLikeVo.setUserid("testuser"); // 수정필요
 		accLikeVo.setBno(bno);
 		boolean result = accLikeService.deleteAccomLike(accLikeVo);
 		return String.valueOf(result);

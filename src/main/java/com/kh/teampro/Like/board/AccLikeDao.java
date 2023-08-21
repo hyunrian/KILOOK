@@ -16,6 +16,7 @@ public class AccLikeDao {
 	public boolean addAccomLike(AccLikeVo accLikeVo) {
 		int count = sqlSession.insert(NAMESPACE + "addAccomLike", accLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updateAccomLikeCnt");
 			return true;
 		}
 		return false;
@@ -25,6 +26,7 @@ public class AccLikeDao {
 	public boolean accomLikeList(AccLikeVo accLikeVo) {
 		int count = sqlSession.selectOne(NAMESPACE + "accomLikeList", accLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updateAccomLikeCnt");
 			return true;
 		}
 		return false;
@@ -34,6 +36,7 @@ public class AccLikeDao {
 	public boolean deleteAccomLike(AccLikeVo accLikeVo) {
 		int count = sqlSession.delete(NAMESPACE + "deleteAccomLike", accLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updateAccomLikeCnt");
 			return true;
 		}
 		return false;

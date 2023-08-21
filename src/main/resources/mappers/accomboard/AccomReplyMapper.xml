@@ -109,4 +109,15 @@
 		where rno = #{rno}
 	</select>
 	
+	<!-- 댓글 개수 tbl_acc에 추가 -->
+	<update id="updateAccomReplyCnt">
+		update tbl_acc c
+		set areplycnt = coalesce((
+		    select count(*)
+		    from tbl_accreply d
+		    where c.bno = d.bno and
+		    delete_yn = 'N' 
+		), 0) 
+	</update>
+	
 </mapper>

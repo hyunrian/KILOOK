@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class AccLikeVo {
-	private String unickname;
+	private String userid;
 	private int bno;
 }

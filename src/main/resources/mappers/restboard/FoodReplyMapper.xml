@@ -108,4 +108,15 @@
 		select updatedate from tbl_restreply
 		where rno = #{rno}
 	</select>
+	
+	<!-- 댓글 개수 tbl_rest에 추가 -->
+	<update id="updateFoodReplyCnt">
+		update tbl_Rest c
+		set replycnt = coalesce((
+		    select count(*)
+		    from tbl_restreply d
+		    where c.bno = d.bno and
+		    delete_yn = 'N' 
+		), 0)
+	</update>
 </mapper>

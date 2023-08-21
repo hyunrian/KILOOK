@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.teampro.board.restaurant.CategoryPagingDto;
+
 @Controller
 @RequestMapping("/databoard")
 public class ShowController {
@@ -18,9 +20,16 @@ public class ShowController {
 	
 	// 전시 전체 조회
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
-	public String getShowList(Model model) throws Exception{
-		List<ShowVo> list = showService.getShowList();
+	public String getShowList(CategoryPagingDto pagingDto, Model model) throws Exception{
+		// 페이징
+		int getShowCnt = showService.getShowCnt(pagingDto);
+		pagingDto = new CategoryPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getShowCnt);
+		
+		List<ShowVo> list = showService.getShowList(pagingDto);
+		
+		
 		model.addAttribute("showList", list);
+		model.addAttribute("pagingDto", pagingDto);
 		return "databoard/show";
 	}
 	

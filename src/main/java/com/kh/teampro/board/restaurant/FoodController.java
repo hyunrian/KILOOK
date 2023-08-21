@@ -32,33 +32,24 @@ public class FoodController {
 	
 	// 맛집 전체 조회
 	@RequestMapping(value = "/restaurant", method = RequestMethod.GET)
-	public String getFoodList(FoodPagingDto pagingDto, Model model) throws Exception{
+	public String getFoodList(CategoryPagingDto pagingDto, Model model, @RequestParam(required = false, defaultValue = "전체보기", value="location") String location) throws Exception{
 		// 페이징
 		int getFoodCnt = foodService.getFoodCnt(pagingDto);
-		pagingDto = new FoodPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getFoodCnt);
-		
-		List<FoodVo> list = foodService.getFoodList(pagingDto);
-		
-		model.addAttribute("foodList", list);
-		model.addAttribute("pagingDto", pagingDto);
-		return "databoard/restaurant";
-	}
-	
-	// 맛집 필터링 조회
-	@RequestMapping(value = "/filterRestaurant", method = RequestMethod.GET)
-	public String getFoodFilterList(@RequestParam("location") String location, FoodPagingDto pagingDto, Model model,HttpSession session) throws Exception{
-		// 페이징
-		int getFoodCnt = foodService.getFoodCnt(pagingDto);
-		pagingDto = new FoodPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getFoodCnt);
+		pagingDto = new CategoryPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getFoodCnt);
 		
 		List<FoodVo> list;
-		if(location.equals("전체보기"))	{
+		if("전체보기".equals(location)) {
 			list = foodService.getFoodList(pagingDto);
 		} else {
-			list = foodService.getFoodFilterList(location);
+			pagingDto.setLocation(location);
+			list = foodService.getFoodFilterList(pagingDto);
+			int getFilteredFoodCnt = foodService.getFilteredFoodCnt(pagingDto);
+			pagingDto = new CategoryPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getFilteredFoodCnt);
 		}
+		
 		model.addAttribute("foodList", list);
-		System.out.println("selected foodList:" + model);
+		model.addAttribute("location", location);
+		model.addAttribute("pagingDto", pagingDto);
 		return "databoard/restaurant";
 	}
 	
@@ -70,12 +61,10 @@ public class FoodController {
 		
 		FoodVo foodVo = foodService.getFoodInfo(bno);
 		
-		System.out.println("getFoodInfo foodVo:" + foodVo); // 조회수 test ok
-		
 		// 맛집 게시물 좋아요
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		FoodLikeVo foodLikeVo = new FoodLikeVo();
-		foodLikeVo.setUnickname("tester"); // 수정필요
+		foodLikeVo.setUserid("testuser"); // 수정필요
 		foodLikeVo.setBno(bno);
 		
 		boolean likeResult = foodLikeService.restLikeList(foodLikeVo);
@@ -124,9 +113,10 @@ public class FoodController {
 	}
 	
 	// 메인 : 인기 맛집 best 5
-//	public List<FoodVo> getBestFood() throws Exception {
-//		List<FoodVo> list = foodService.getBestFood();
-//		System.out.println("getBestFood list : " + list);
-//		return list;
-//	}
+	@RequestMapping(value = "/getBestFood", method = RequestMethod.GET)
+	public String getBestFood(Model model) throws Exception {
+		List<FoodVo> list = foodService.getBestFood();
+		model.addAttribute("getBestFood", list);
+		return "databoard/index";
+	} // test ok
 }

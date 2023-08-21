@@ -17,6 +17,11 @@
       order by bno desc
 	</select>
 	
+	<!-- 글개수 -->
+	<select id="getShowCnt" resultType="int">
+		select count(*) from tbl_show
+	</select>
+	
 	<!-- 해당 전시 상세보기 : 상세 페이지에서 보여줄 전체 데이터 조회 -->
 	<select id="getShowInfo" resultType="ShowVo">
 		select * from tbl_show

@@ -24,9 +24,8 @@ public class PlaceLikeController {
 	@ResponseBody
 	public String addPlaceLike(@PathVariable int bno, HttpSession session) {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("addPlaceLike Contoller 들어옴"); // test ok
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();
-		placeLikeVo.setUnickname("tester"); // 수정필요
+		placeLikeVo.setUserid("testuser"); // 수정필요
 		placeLikeVo.setBno(bno);
 		boolean result = placeLikeService.addPlaceLike(placeLikeVo);
 		return String.valueOf(result);
@@ -39,7 +38,7 @@ public class PlaceLikeController {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		System.out.println("placeLikeList Controller 들어옴");
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();
-		placeLikeVo.setUnickname("tester"); // 수정필요
+		placeLikeVo.setUserid("testuser"); // 수정필요
 		placeLikeVo.setBno(bno);
 		boolean result = placeLikeService.placeLikeList(placeLikeVo); // 좋아요를 했다면 true, 아니라면 false 반환
 		return String.valueOf(result);
@@ -52,7 +51,7 @@ public class PlaceLikeController {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		System.out.println("deletePlaceLike Controller");
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();
-		placeLikeVo.setUnickname("tester"); // 수정필요
+		placeLikeVo.setUserid("testuser"); // 수정필요
 		placeLikeVo.setBno(bno);
 		boolean result = placeLikeService.deletePlaceLike(placeLikeVo);
 		return String.valueOf(result);

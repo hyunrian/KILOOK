@@ -13,14 +13,31 @@
 			   , openhours
 			   , thumbimage
 			   , replycnt
-		from tbl_attraction
-		order by bno desc
+		from (select rownum rnum, a.*
+			from (select * from tbl_attraction
+				order by bno desc) a)
+		where rnum between #{startRow} and #{endRow}
+	</select>
+	
+	<!-- 글개수 -->
+	<select id="getPlaceCnt" resultType="int">
+		select count(*) from tbl_attraction
+	</select>
+	
+	<select id="getFilteredPlaceCnt" resultType="int">
+		select count(*) 
+		  from tbl_attraction
+		 where location = #{location}
 	</select>
 	
 	<!-- 명소 필터링 조회 -->
 	<select id="getPlaceFilterList" resultType="PlaceVo">
-		select * from tbl_attraction
-		where location = #{location}
+		select * 
+		from (select rownum rnum, a.*
+			from (select * from tbl_attraction
+				where location = #{location}
+				order by bno desc) a)
+		where rnum between #{startRow} and #{endRow}
 	</select>
 	
 	<!-- 해당 명소 상세보기 : 상세 페이지에서 보여줄 전체 데이터 조회 -->
@@ -84,6 +101,19 @@
 		<foreach collection="arrShopList" item="item" index="index" open="(" close=")" separator=",">
     		#{item}
     	</foreach>
+	</select>
+	
+	<!-- 조회수 / 좋아요 / 댓글 / bno 순으로 best6 추출 -->
+	<select id="getBestPlace" resultType="PlaceVo">
+		select *
+		from (
+			select *
+			from tbl_attraction
+			order by viewcnt desc,
+					 likecnt desc,
+			 		 replycnt desc
+		)
+		where rownum between 1 and 6
 	</select>
 	
 </mapper>

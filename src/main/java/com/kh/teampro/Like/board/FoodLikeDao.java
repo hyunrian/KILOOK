@@ -16,6 +16,7 @@ public class FoodLikeDao {
 	public boolean addRestLike(FoodLikeVo foodLikeVo) {
 		int count = sqlSession.insert(NAMESPACE + "addRestLike", foodLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updateFoodLikeCnt");
 			return true;
 		}
 		return false;
@@ -25,6 +26,7 @@ public class FoodLikeDao {
 	public boolean restLikeList(FoodLikeVo foodLikeVo) {
 		int count = sqlSession.selectOne(NAMESPACE + "restLikeList", foodLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updateFoodLikeCnt");
 			return true;
 		}
 		return false;
@@ -34,6 +36,7 @@ public class FoodLikeDao {
 	public boolean deleteRestLike(FoodLikeVo foodLikeVo) {
 		int count = sqlSession.delete(NAMESPACE + "deleteRestLike", foodLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updateFoodLikeCnt");
 			return true;
 		}
 		return false;

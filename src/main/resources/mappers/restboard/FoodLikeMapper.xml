@@ -7,11 +7,11 @@
 	<!-- 좋아요 추가 -->
 	<insert id="addRestLike">
 		insert into tbl_likerest
-			(unickname
+			(userid
 			, bno
 			)
 		values
-			(#{unickname}
+			(#{userid}
 			, #{bno}
 			)	
 	</insert>
@@ -19,14 +19,14 @@
 	<!-- 좋아요 목록 -->
 	<select id="restLikeList" resultType="int">
 		select count(*) from tbl_likerest
-		where unickname = #{unickname}
+		where userid = #{userid}
 		and bno = #{bno}
 	</select>
 	
 	<!-- 좋아요 취소 -->
 	<delete id="deleteRestLike">
 		delete from tbl_likerest
-		where unickname = #{unickname}
+		where userid = #{userid}
 		and bno = #{bno}
 	</delete>
 	
@@ -35,4 +35,15 @@
 		select count(*) from tbl_likerest
 		where bno = #{bno}
 	</select>
+	
+	<!-- 좋아요 개수를 tbl_rest에 추가 -->
+	<update id="updateFoodLikeCnt">
+		update tbl_rest a
+		set likecnt = coalesce((
+		    select count(*)
+		    from tbl_likerest b
+		    where a.bno = b.bno
+	   ), 0)
+	</update>
+	
 </mapper>

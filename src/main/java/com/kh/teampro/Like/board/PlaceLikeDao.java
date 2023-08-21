@@ -16,6 +16,7 @@ public class PlaceLikeDao {
 	public boolean addPlaceLike(PlaceLikeVo placeLikeVo) {
 		int count = sqlSession.insert(NAMESPACE + "addPlaceLike", placeLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updatePlaceLikeCnt");
 			return true;
 		}
 		return false;
@@ -25,6 +26,7 @@ public class PlaceLikeDao {
 	public boolean placeLikeList(PlaceLikeVo placeLikeVo) {
 		int count = sqlSession.selectOne(NAMESPACE + "placeLikeList", placeLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updatePlaceLikeCnt");
 			return true;
 		}
 		return false;
@@ -34,6 +36,7 @@ public class PlaceLikeDao {
 	public boolean deletePlaceLike(PlaceLikeVo placeLikeVo) {
 		int count = sqlSession.delete(NAMESPACE + "deletePlaceLike", placeLikeVo);
 		if (count > 0) {
+			sqlSession.update(NAMESPACE + "updatePlaceLikeCnt");
 			return true;
 		}
 		return false;

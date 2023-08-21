@@ -20,6 +20,7 @@ public class AccomReplyDao {
 	public List<AccomReplyVo> getAccomReplyList(int bno){
 		if(getReplyCount(bno) != 0) {
 			List<AccomReplyVo> list = sqlSession.selectList(NAMESPACE + "accomReplyList", bno);
+			sqlSession.update(NAMESPACE + "updateAccomReplyCnt");
 			return list;
 		} else {
 			return null;
@@ -29,11 +30,13 @@ public class AccomReplyDao {
 	// 새댓글 추가
 	public void insertAccomNewReply(AccomReplyVo accomReplyVo) {
 		sqlSession.insert(NAMESPACE + "insertAccomNewReply", accomReplyVo);
+		sqlSession.update(NAMESPACE + "updateAccomReplyCnt");
 	}
 	
 	// 대댓글 추가
 	public void insertAccomReReply(AccomReplyVo accomReplyVo) {
 		sqlSession.insert(NAMESPACE + "insertAccomReReply", accomReplyVo);
+//		sqlSession.update(NAMESPACE + "updateAccomReplyCnt");
 	}
 	
 	// 가장 높은 rseq 구하기(댓글 순서)
@@ -60,6 +63,7 @@ public class AccomReplyDao {
 	// 댓글 삭제
 	public void deleteAccomReply(int rno) {
 		sqlSession.update(NAMESPACE + "deleteAccomReply", rno);
+		sqlSession.update(NAMESPACE + "updateAccomReplyCnt");
 	}
 	
 	// 댓글 수정

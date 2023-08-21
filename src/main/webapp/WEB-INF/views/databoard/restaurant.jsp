@@ -15,6 +15,7 @@
 .page-item:last-child .page-link {
     border-top-right-radius: 0rem;
     border-bottom-right-radius: 0rem;
+    border-radius: 50%;
 }
 #selectBox{
 	 width: 19%; /* 가로 사이즈 */
@@ -46,9 +47,15 @@
 $(function(){
 	// 필터
 	$("#selectBox").change(function() {
+// 		alert("change loc")
         const selectBoxValue = $(this).val();
         console.log("selectBoxValue:", selectBoxValue); // test ok
-		location.href = "/databoard/filterRestaurant?location=" + selectBoxValue;
+        
+        let bno = "${param.bno}"
+        let page = "${pagingDto.page}"
+        let perPage = "${pagingDto.perPage}"
+        
+		location.href = `/databoard/restaurant?location=\${selectBoxValue}&bno=\${page}&perPage=\${perPage}`;
     });
 	
 	// 페이징
@@ -59,6 +66,7 @@ $(function(){
 		var form = $("#frmPaging");
 		form.submit(); 													
 	});
+	
 });
 
 </script>
@@ -67,6 +75,7 @@ $(function(){
 	<input type="hidden" name="bno" value="${param.bno}">
 	<input type="hidden" name="page" value="${pagingDto.page}">
 	<input type="hidden" name="perPage" value="${pagingDto.perPage}">
+	<input type="hidden" name="location" value="${location}">
 </form>
 
 	<!-- menu -->
@@ -96,32 +105,26 @@ $(function(){
 	<section class="ftco-section bg-light" >
 		<!-- 필터 -->
 		<div class="container">
-			<div >
-				<form id="frm" action="">
-					<input type="text" name="search">
-					<button type="submit">검색</button>
-				</form>
+			<div>
 				<select id="selectBox">
-					<option>-- 선택 --</option>
-					<option value="전체보기" ${foodList == '전체보기' ? 'selected="selected"' : '' }>전체보기</option>
-					<option value="강서구" ${foodList == '강서구' ? 'selected="selected"' : '' }>강서구</option>
-					<option value="영도구" ${foodList == '영도구' ? 'selected="selected"' : '' }>영도구</option>
-					<option value="부산진구" ${foodList == '부산진구' ? 'selected="selected"' : '' }>부산진구</option>
-					<option value="연제구" ${foodList == '연제구' ? 'selected="selected"' : '' }>연제구</option>
-					<option value="중구" ${foodList == '중구' ? 'selected="selected"' : '' }>중구</option>
-					<option value="금정구" ${foodList == '금정구' ? 'selected="selected"' : '' }>금정구</option>
-					<option value="북구" ${foodList == '북구' ? 'selected="selected"' : '' }>북구</option>
-					<option value="해운대구" ${foodList == '해운대구' ? 'selected="selected"' : '' }>해운대구</option>
-					<option value="사상구" ${foodList == '사상구' ? 'selected="selected"' : '' }>사상구</option>
-					<option value="기장군" ${foodList == '기장군' ? 'selected="selected"' : '' }>기장군</option>
-					<option value="사하구" ${foodList == '사하구' ? 'selected="selected"' : '' }>사하구</option>
-					<option value="서구" ${foodList == '서구' ? 'selected="selected"' : '' }>서구</option>
-					<option value="남구" ${foodList == '남구' ? 'selected="selected"' : '' }>남구</option>
-					<option value="수영구" ${foodList == '수영구' ? 'selected="selected"' : '' }>수영구</option>
-					<option value="동구" ${foodList == '동구' ? 'selected="selected"' : '' }>동구</option>
-					<option value="동래구" ${foodList == '동래구' ? 'selected="selected"' : '' }>동래구</option>
+					<option value="전체보기" ${location == '전체보기' ? 'selected="selected"' : '' }>전체보기</option>
+					<option value="강서구" ${location == '강서구' ? 'selected="selected"' : '' }>강서구</option>
+					<option value="금정구" ${location == '금정구' ? 'selected="selected"' : '' }>금정구</option>
+					<option value="기장군" ${location == '기장군' ? 'selected="selected"' : '' }>기장군</option>
+					<option value="남구" ${location == '남구' ? 'selected="selected"' : '' }>남구</option>
+					<option value="동구" ${location == '동구' ? 'selected="selected"' : '' }>동구</option>
+					<option value="동래구" ${location == '동래구' ? 'selected="selected"' : '' }>동래구</option>
+					<option value="부산진구" ${location == '부산진구' ? 'selected="selected"' : '' }>부산진구</option>
+					<option value="북구" ${location == '북구' ? 'selected="selected"' : '' }>북구</option>
+					<option value="사상구" ${location == '사상구' ? 'selected="selected"' : '' }>사상구</option>
+					<option value="사하구" ${location == '사하구' ? 'selected="selected"' : '' }>사하구</option>
+					<option value="서구" ${location == '서구' ? 'selected="selected"' : '' }>서구</option>
+					<option value="수영구" ${location == '수영구' ? 'selected="selected"' : '' }>수영구</option>
+					<option value="연제구" ${location == '연제구' ? 'selected="selected"' : '' }>연제구</option>
+					<option value="영도구" ${location == '영도구' ? 'selected="selected"' : '' }>영도구</option>
+					<option value="중구" ${location == '중구' ? 'selected="selected"' : '' }>중구</option>
+					<option value="해운대구" ${location == '해운대구' ? 'selected="selected"' : '' }>해운대구</option>
 				</select>
-				
 			</div>
 		</div>
 		<!-- END 필터 -->
@@ -133,11 +136,11 @@ $(function(){
 					<div class="col-md-3 d-flex ftco-animate">
 						<div class="blog-entry align-self-stretch">
 							<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="block-20"
-								style="background-image: url('${foodVo.thumbimage}');"> </a>
+								style="background-image: url('${foodVo.thumbimage}');"></a>
 							<div class="text p-4 d-block">
 								<h3 class="heading mt-3">
 									<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
-									<a href="#" class="meta-chat"><span class="icon-chat"></span>${foodVo.replycnt}</a>
+									<span class="icon-chat">${foodVo.replycnt}</span>
 								</h3>
 								<span class="tag">${foodVo.address}</span>
 								<div class="meta mb-3">
@@ -165,7 +168,7 @@ $(function(){
 						<ul>
 							<li class="page-item">
 							<c:if test="${pagingDto.startPage > 1}">
-								<a class="page-link" href="${pagingDto.startPage - 1}">&lt;</a>
+								<a class="page-link" href="${pagingDto.startPage - 1}" style="border-radius: 50%;">&lt;</a>
 							</c:if> <!-- 1페이지이면 화살표가 생기지 않도록 -->
 							<c:forEach var="v" begin="${pagingDto.startPage}" end="${pagingDto.endPage}">
 								<li 
@@ -181,7 +184,7 @@ $(function(){
 									<a class="page-link" href="${v}">${v}</a>
 								</li>
 							</c:forEach>
-							<c:if test="${pagingDto.endPage lt pagingDto.totalPage}">
+							<c:if test="${pagingDto.endPage < pagingDto.totalPage}">
 								<li class="page-item">
 									<a class="page-link" href="${pagingDto.endPage + 1}" style="border-radius: 50%;">&gt;</a>
 								</li>
@@ -202,5 +205,6 @@ $(function(){
 			<circle class="path" cx="24" cy="24" r="22" fill="none"
 				stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
 	</div>
-
+	
+	<%@ include file="/WEB-INF/views/include/pageup.jsp"%>
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>

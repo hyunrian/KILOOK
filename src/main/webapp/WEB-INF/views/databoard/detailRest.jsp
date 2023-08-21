@@ -3,9 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-<style>
-
-</style>
 <!-- menu -->
 <%@ include file="/WEB-INF/views/include/menu.jsp"%>
 <!-- END menu -->
@@ -37,13 +34,10 @@
 			if(likeResult == "true"){
 				url = "/like/deleteRestLike/${getFoodInfo.bno}";
 			} else {
-// 				console.log("likeMap.likeResult:", likeResult); // test ok
-// 				console.log("bno:", bno); // test ok
 				url = "/like/addRestLike/${getFoodInfo.bno}";
 			}
 			
 			$.get(url, function(rData){
-// 				console.log("post rData:", rData);
 				if(rData == "true"){
 					var likeCount = parseInt($("#likeCount").text());
 					var img = "";
@@ -136,17 +130,23 @@ function getReplyList(){
 					div.find("p > a").attr("data-rno", item.rno);
 					
 					if(status == "deleted"){
-						div.find("span").eq(1).text("---------- 삭제된 댓글입니다. ----------");
+						div.find("span").eq(1).text("삭제된 댓글입니다.");
 						div.find("p").hide();
 						div.find("div").eq(0).remove();
 						div.find("h3").remove();
 						div.prev().find("img").remove();
+						
+						// css
+						div.css("wid")
+						div.find("span").eq(1).css("display", "flex");
+						div.find("span").eq(1).css("justify-content", "center");
+						div.find("span").eq(1).css("align-items", "center")
+						div.css("background-color", "#e6e6e6");
+						div.css("width", "690px"); 
+					    div.css("height", "50px");
 					}
-					console.log(`reply`)
-					console.log(reply)
-					console.log(`reply`)
 					reply.show();
-					$("#replyList").append(reply);
+					$("#replyList").append(reply).show();
 				}
 			}, 600);
 		});
@@ -223,13 +223,11 @@ $(window).on("load", function() {
 	// 댓글 수정창 열기
 	$("#replyList").on("click", ".updateReply", function(e) {
 		e.preventDefault();
-//			$("#updateFormCopy").remove();
 		$(".replyForm").remove();
 		$(".replyElem").find("div").show();
 		const element = $(this).closest(".replyElem");
 		const replyForm = $("#replyForm").clone();
 		replyForm.addClass("replyForm");
-//			replyForm.attr("id", "updateFormCopy");
 		replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
 		const replytext = element.find("span").eq(1).text();
 		replyForm.find("#replytext").val(replytext);
@@ -314,7 +312,10 @@ function insertReply(replyObject) {
 		<div class="row">
 			<div class="col-lg-3 sidebar"></div>
 			<div class="col-lg-9">
-				<div style=" text-align: left; font-size: 17px; font-weight: 500;">조회수&nbsp;${getFoodInfo.viewcnt}</div>
+				<div style=" text-align: left; font-size: 17px; font-weight: 500;">
+					<img src="../resources/images/restaurant/eye.png" alt="icon" style="width : 2%; height : 2%;">
+					<span style="font-size: 14px;">조회수&nbsp;${getFoodInfo.viewcnt}</span>
+				</div>
 				<div class="row">
 					<div class="col-md-12 ftco-animate">
 						<div class="single-slider owl-carousel">
@@ -341,11 +342,11 @@ function insertReply(replyObject) {
 								대표메뉴:&nbsp;&nbsp;${getFoodInfo.menu}
 							</span>
 							<br>
-							<span id="contentReply">
-								<a id="replyFlag" onclick="showReply()">댓글보기
-									<span>(0)</span>
-								</a>
-							</span>
+<!-- 							<span id="contentReply"> -->
+<!-- 								<a id="replyFlag" onclick="showReply()" style="cursor: pointer;">댓글보기 -->
+<%-- 									<span>(${getFoodInfo.replycnt})</span> --%>
+<!-- 								</a> -->
+<!-- 							</span> -->
 						</p>
 						<p>${getFoodInfo.content}</p>
 						
@@ -358,14 +359,22 @@ function insertReply(replyObject) {
 						<p id="likeCount" style="font-size:20px; ">${likeMap.likeCount}</p>
 					</div>
 						
+					<div class="col-md-12 hotel-single mt-4 mb-5 ftco-animate">
+						<span id="contentReply">
+							<a id="replyFlag" onclick="showReply()" style="cursor: pointer;">댓글보기
+								<span>(${getFoodInfo.replycnt})</span>
+							</a>
+						</span>
+						<hr>
+					</div>	
 						<!-- 댓글 -->
 						<div id="reply" style="display: none;">
 							
-							<div class="pt-5 mt-5">
+							<div>
 				              <h3 class="mb-5">${getFoodInfo.replycnt} Comments</h3>
 							  <!-- 댓글목록 -->
 				              <ul class="comment-list" id="replyList">
-				                  <ul class="children" id="replyUl">
+				                  <ul class="children" id="replyUl" style="display: none;">
 				                    <li class="comment" id="replyLi">
 				                      <div class="vcard bio">
 				                        <img src="../resources/images/person_1.jpg" alt="Image placeholder">
@@ -390,12 +399,12 @@ function insertReply(replyObject) {
 								<div class="row" style="margin-top:50px; margin-bottom: 80px;">
 									<div class="col-md-11">
 										<input type="text" class="form-control" placeholder="내용을 입력하세요." 
-										id="replytext">
+										id="replytext" style="height: 42px; font-size: 15px;">
 									</div>
 									<div class="col-md-1">
 											<input type="button" value="댓글 쓰기"  
 											class="btn py-3 px-4 btn-primary" style="border: none;"
-											data-type="newReply" id="btnReplyWrite" >
+											data-type="newReply" id="btnReplyWrite">
 <!-- 										<button type="button" class="btn btn-sm btn-primary" -->
 <!-- 											id="btnReplyWrite" onclick="ReplyWrite()">입력</button> -->
 									</div>
@@ -407,10 +416,11 @@ function insertReply(replyObject) {
 						<!-- END 댓글 -->
 					</div>
 					
-					
-					
 					<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
-						<h4 class="mb-4">다른 맛집 보기</h4>
+						<h4 class="mb-4">
+							<img src="../resources/images/restaurant/fork.png" alt="icon" style="width : 3%; height : 3%;">
+							다른 맛집 보기
+						</h4>
 						<div class="row">
 							<c:forEach items="${recomendedFoodList}" var="foodVo">
 								<div class="col-md-4">
@@ -422,8 +432,12 @@ function insertReply(replyObject) {
 											<div class="d-flex">
 												<div class="one" style="width: calc(100%);">
 													<h3>
-														<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
-														<a href="#" class="meta-chat"><span class="icon-chat"></span>${foodVo.replycnt}</a>
+														<a href="/databoard/getFoodInfo?bno=${foodVo.bno}"  style="font-size: 1.4rem; font-weight : 500;">${foodVo.rname}</a><br>
+														<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="meta-chat"></a>
+														<span>
+															<img src="../resources/images/heart/heart3.png" alt="img" style="width : 20px; height : 20px; ">
+														</span>
+														<span style="font-size: 1.4rem; font-weight: 300;">${foodVo.likecnt}</span>
 													</h3>
 												</div>
 											</div>
@@ -452,6 +466,7 @@ function insertReply(replyObject) {
 	</div>
 </section>
 
+<%@ include file="/WEB-INF/views/include/pageup.jsp"%>
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>
 
 <!-- loader -->

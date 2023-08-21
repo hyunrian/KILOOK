@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.teampro.Like.board.AccLikeService;
 import com.kh.teampro.Like.board.AccLikeVo;
+import com.kh.teampro.board.restaurant.CategoryPagingDto;
 
 @Controller
 @RequestMapping("/databoard")
@@ -24,26 +27,35 @@ public class AccomController {
 	@Autowired
 	private AccLikeService accLikeService;
 	
-	// 숙소 전체 조회
-	@RequestMapping(value = "/accommodation", method = RequestMethod.GET)
-	public String getAccomList(Model model) throws Exception{
-		List<AccomVo> list = accomService.getAccomList();
-		model.addAttribute("accomList", list);
-		return "databoard/accommodation";
-	}
-	
 	// 숙소 필터링(카테고리별) 조회
-	@RequestMapping(value = "/getCategoryList", method = RequestMethod.GET)
-	public String getCategoryList(@RequestParam("category") String category, Model model) throws Exception{
-		List<AccomVo> list = accomService.getCategoryList(category);
+	@RequestMapping(value = "/accommodation", method = RequestMethod.GET)
+	public String getAccomList(CategoryPagingDto pagingDto, Model model, 
+								  @RequestParam(required = false, defaultValue = "전체보기",
+								  value="category") String category) throws Exception{
+		
+		// 페이징
+		int getAccomCnt = accomService.getAccomCnt(pagingDto);
+		pagingDto = new CategoryPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getAccomCnt);
+		
+		List<AccomVo> list; 
+		if("전체보기".equals(category)) {
+			list = accomService.getAccomList(pagingDto);
+		} else {
+			pagingDto.setCategory(category);
+			list = accomService.getAccomFilterList(pagingDto);
+			int getFilteredAccomCnt = accomService.getFilteredAccomCnt(pagingDto);
+			pagingDto = new CategoryPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getFilteredAccomCnt);
+		}
+		
 		model.addAttribute("accomList", list);
+		model.addAttribute("category", category);
+		model.addAttribute("pagingDto", pagingDto);
 		return "databoard/accommodation";
 	}
 	
 	// 해당 숙소 상세보기
 	@RequestMapping(value = "/getAccomInfo", method = RequestMethod.GET)
-	public String getAccomInfo(int bno, Model model) throws Exception{
-		System.out.println("getAccomInfo bno:" + bno);
+	public String getAccomInfo(int bno, Model model, HttpSession session) throws Exception {
 		// 조회수 업데이트
 		accomService.setAccomViewcnt(bno);
 		
@@ -52,7 +64,7 @@ public class AccomController {
 		// 숙소 게시물 좋아요
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		AccLikeVo accLikeVo = new AccLikeVo();
-		accLikeVo.setUnickname("tester");
+		accLikeVo.setUserid("testuser");
 		accLikeVo.setBno(bno);
 		
 		boolean likeResult = accLikeService.accomLikeList(accLikeVo);
@@ -73,7 +85,6 @@ public class AccomController {
 		hashMap.put("arrShopList", arr);
 		
 		List<AccomVo> recomendedAccomList = accomService.getRecomendedAccomList(hashMap);
-//		System.out.println("recomendedAccomList:" + recomendedAccomList);
 		
 		model.addAttribute("getAccomInfo", accomVo);
 		model.addAttribute("recomendedAccomList", recomendedAccomList);
@@ -103,9 +114,10 @@ public class AccomController {
 	}
 	
 	// 메인 : 인기 숙소 best 6
-//	public List<AccomVo> getBestAcc() throws Exception {
-//		List<AccomVo> list = accomService.getBestAcc();
-//		System.out.println("getBestAcc / list :" + list);
-//		return list;
-//	}
+	@RequestMapping(value = "/getBestAccom", method = RequestMethod.GET)
+	public String getBestAccom(Model model) throws Exception {
+		List<AccomVo> list = accomService.getBestAccom();
+		model.addAttribute("getBestAccom", list);
+		return "databoard/index";
+	} // test ok
 }

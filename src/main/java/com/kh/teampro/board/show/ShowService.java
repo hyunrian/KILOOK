@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.teampro.board.restaurant.CategoryPagingDto;
+
 @Service
 public class ShowService {
 
@@ -12,7 +14,7 @@ public class ShowService {
 	private ShowDao showDao;
 	
 	// 전시 전체 조회
-	public List<ShowVo> getShowList() throws Exception{
+	public List<ShowVo> getShowList(CategoryPagingDto pagingDto) throws Exception{
 		List<ShowVo> list = showDao.getShowList();
 		return list;
 	}
@@ -26,5 +28,11 @@ public class ShowService {
 	// 전시 추가
 	public void insertShow(ShowVo showVo) throws Exception{
 		showDao.insertShow(showVo);
+	}
+
+	// 페이징
+	public int getShowCnt(CategoryPagingDto pagingDto) {
+		int getShowCnt = showDao.getShowCnt(pagingDto);
+		return getShowCnt;
 	}
 }

@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.teampro.board.restaurant.CategoryPagingDto;
+
 @Repository
 public class ShowDao {
 
@@ -29,5 +31,11 @@ public class ShowDao {
 	// 전시 추가
 	public void insertShow(ShowVo showVo) throws Exception{
 		sqlSession.insert(NAMESPACE + "insertShow", showVo);
+	}
+
+	// 페이징
+	public int getShowCnt(CategoryPagingDto pagingDto) {
+		int getShowCnt = sqlSession.selectOne(NAMESPACE + "getShowCnt", pagingDto);
+		return getShowCnt;
 	}
 }

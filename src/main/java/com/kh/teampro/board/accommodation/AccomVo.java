@@ -17,4 +17,5 @@ public class AccomVo {
 	private String image;
 	private int aviewcnt;
 	private int areplycnt;
+	private int likecnt;
 }

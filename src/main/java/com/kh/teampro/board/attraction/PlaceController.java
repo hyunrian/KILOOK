@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.teampro.Like.board.PlaceLikeService;
 import com.kh.teampro.Like.board.PlaceLikeVo;
 import com.kh.teampro.board.accommodation.AccomVo;
+import com.kh.teampro.board.restaurant.CategoryPagingDto;
 import com.kh.teampro.board.restaurant.FoodVo;
 
 @Controller
@@ -29,40 +30,42 @@ public class PlaceController {
 	@Autowired
 	private PlaceLikeService placeLikeService;
 	
-	// 명소 전체 조회
+	// 명소 필터링 조회
 	@RequestMapping(value = "/attraction", method = RequestMethod.GET)
-	public String getPlaceList(Model model) throws Exception{
-		List<PlaceVo> list = placeService.getPlaceList();
+	public String getPlaceList(CategoryPagingDto pagingDto, Model model,
+								@RequestParam(required = false, defaultValue = "전체보기",
+								value = "location") String location) throws Exception{
+		// 페이징
+		int getPlaceCnt = placeService.getPlaceCnt(pagingDto);
+		pagingDto = new CategoryPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getPlaceCnt);
+		
+		List<PlaceVo> list;
+		if("전체보기".equals(location)) {
+			list = placeService.getPlaceList(pagingDto);
+		} else {
+			pagingDto.setLocation(location);
+			list = placeService.getPlaceFilterList(pagingDto);
+			int getFilteredPlaceCnt = placeService.getFilteredPlaceCnt(pagingDto);
+			pagingDto = new CategoryPagingDto(pagingDto.getPage(), pagingDto.getPerPage(), getFilteredPlaceCnt);
+		}
 		model.addAttribute("placeList", list);
+		model.addAttribute("location", location);
+		model.addAttribute("pagingDto", pagingDto);
 		return "databoard/attraction";
 	}
 	
-	// 명소 필터링 조회
-		@RequestMapping(value = "/filterAttraction", method = RequestMethod.GET)
-		public String getFoodFilterList(@RequestParam("location") String location, Model model,HttpSession session) throws Exception{
-			List<PlaceVo> list;
-			if(location.equals("전체보기"))	{
-				list = placeService.getPlaceList();
-			} else {
-				list = placeService.getPlaceFilterList(location);
-			}
-			model.addAttribute("placeList", list);
-//			System.out.println(model);
-			return "databoard/attraction";
-		}
-	
 	// 해당 명소 상세보기
 	@RequestMapping(value = "/getPlaceInfo", method = RequestMethod.GET)
-	public String getPlaceList(int bno, Model model) throws Exception{
+	public String getPlaceList(int bno, Model model, HttpSession session) throws Exception {
 		// 조회수 업데이트
 		placeService.setPlaceViewcnt(bno);
 		
 		PlaceVo placeVo = placeService.getPlaceInfo(bno);
-		System.out.println("placeVo viewcnt:" + placeVo);
 		
 		// 명소 게시물 좋아요
+//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();
-		placeLikeVo.setUnickname("tester");
+		placeLikeVo.setUserid("testuser");
 		placeLikeVo.setBno(bno);
 		
 		boolean likeResult = placeLikeService.placeLikeList(placeLikeVo);
@@ -82,7 +85,6 @@ public class PlaceController {
 		hashMap.put("arrShopList", arr);
 		
 		List<PlaceVo> recomendedAccomList = placeService.getRecomendedPlaceList(hashMap);
-//		System.out.println("recomendedAccomList:" + recomendedAccomList);
 		
 		model.addAttribute("getPlaceInfo", placeVo);
 		model.addAttribute("recomendedAccomList", recomendedAccomList);
@@ -109,5 +111,13 @@ public class PlaceController {
 			arr = randomArr(maxNumber);
 		}
 		return arr; 
+	}
+	
+	// 해당 인기 명소 best 6
+	@RequestMapping(value = "/getBestPlace", method = RequestMethod.GET)
+	public String getBestPlace(Model model) throws Exception {
+		List<PlaceVo> list = placeService.getBestPlace();
+		model.addAttribute("placeService", list);
+		return "databoard/index";
 	}
 }

@@ -24,9 +24,8 @@ public class FoodLikeController {
 	@ResponseBody
 	public String addRestLike(@PathVariable int bno, HttpSession session) {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("addRestLike Contoller 들어옴"); // test ok
 		FoodLikeVo foodLikeVo = new FoodLikeVo();
-		foodLikeVo.setUnickname("tester"); // 수정필요
+		foodLikeVo.setUserid("testuser"); // 수정필요
 		foodLikeVo.setBno(bno);
 		boolean result = foodLikeService.addRestLike(foodLikeVo);
 		return String.valueOf(result);
@@ -39,7 +38,7 @@ public class FoodLikeController {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		System.out.println("restLikeList Controller 들어옴");
 		FoodLikeVo foodLikeVo = new FoodLikeVo();
-		foodLikeVo.setUnickname("tester"); // 수정필요
+		foodLikeVo.setUserid("testuser"); // 수정필요
 		foodLikeVo.setBno(bno);
 		boolean result = foodLikeService.restLikeList(foodLikeVo); // 좋아요를 했다면 true, 아니라면 false 반환
 		return String.valueOf(result);
@@ -52,7 +51,7 @@ public class FoodLikeController {
 //		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
 		System.out.println("deleteRestLike Controller");
 		FoodLikeVo foodLikeVo = new FoodLikeVo();
-		foodLikeVo.setUnickname("tester"); // 수정필요
+		foodLikeVo.setUserid("testuser"); // 수정필요
 		foodLikeVo.setBno(bno);
 		boolean result = foodLikeService.deleteRestLike(foodLikeVo);
 		return String.valueOf(result);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.teampro.board.accommodation.AccomVo;
+import com.kh.teampro.board.restaurant.CategoryPagingDto;
 import com.kh.teampro.board.restaurant.FoodVo;
 
 @Service
@@ -16,14 +17,14 @@ public class PlaceService {
 	PlaceDao placeDao;
 	
 	// 명소 전체 조회
-	public List<PlaceVo> getPlaceList() throws Exception{
-		List<PlaceVo> list = placeDao.getPlaceList();
+	public List<PlaceVo> getPlaceList(CategoryPagingDto pagingDto) throws Exception{
+		List<PlaceVo> list = placeDao.getPlaceList(pagingDto);
 		return list;
 	}
 	
 	// 명소 필터링 조회
-	public List<PlaceVo> getPlaceFilterList(String location) throws Exception{
-		List<PlaceVo> list = placeDao.getPlaceFilterList(location);
+	public List<PlaceVo> getPlaceFilterList(CategoryPagingDto pagingDto) throws Exception{
+		List<PlaceVo> list = placeDao.getPlaceFilterList(pagingDto);
 		return list;
 	}
 	
@@ -48,5 +49,23 @@ public class PlaceService {
 	public int getPlaceCount() {
 		int placeCount = placeDao.getPlaceCount();
 		return placeCount;
+	}
+	
+	// 페이징
+	public int getPlaceCnt(CategoryPagingDto pagingDto) throws Exception {
+		int getPlaceCnt = placeDao.getPlaceCnt(pagingDto);
+		return getPlaceCnt;
+	}
+	
+	// 메인 : 인기 명소 best 6
+	public List<PlaceVo> getBestPlace() throws Exception {
+		List<PlaceVo> list = placeDao.getBestPlace();
+		return list;
+	}
+
+	// 필터링된 장소 개수
+	public int getFilteredPlaceCnt(CategoryPagingDto pagingDto) {
+		int getFilteredPlaceCnt = placeDao.getFilteredPlaceCnt(pagingDto);
+		return getFilteredPlaceCnt;
 	}
 }

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PlaceLikeVo {
-	private String unickname;
+	private String userid;
 	private int bno;
 }

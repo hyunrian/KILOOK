@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kh.teampro.AttrReplyMapper">
+<mapper namespace="com.kh.teampro.PlaceReplyMapper">
 
 	<!-- 댓글 목록 -->
 	<select id="placeReplyList" resultType="PlaceReplyVo">
@@ -82,7 +82,7 @@
 	
 	<!-- 댓글 수정 -->
 	<update id="updatePlaceReply">
-		update tbl_attreply
+		update tbl_attreply set
 			replytext = #{replytext},
 			replyer = #{replyer},
 			updatedate = sysdate
@@ -108,4 +108,15 @@
 		select updatedate from tbl_attreply
 		where rno = #{rno}
 	</select>
+	
+	<!-- 댓글 개수 tbl_attraction에 추가 -->
+	<update id="updatePlaceReplyCnt">
+		update tbl_attraction c
+		set replycnt = coalesce((
+		    select count(*)
+		    from tbl_attreply d
+		    where c.bno = d.bno and
+		    delete_yn = 'N' 
+		), 0)
+	</update>
 </mapper>

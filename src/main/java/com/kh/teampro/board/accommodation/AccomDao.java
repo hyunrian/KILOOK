@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.teampro.board.attraction.PlaceVo;
+import com.kh.teampro.board.restaurant.CategoryPagingDto;
 import com.kh.teampro.board.restaurant.FoodVo;
 
 @Repository
@@ -19,14 +20,14 @@ public class AccomDao {
 	private final String NAMESPACE = "com.kh.teampro.AccomMapper.";	
 	
 	// 숙소 전체 조회
-	public List<AccomVo> getAccomList() throws Exception{
-		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getAccomList");
+	public List<AccomVo> getAccomList(CategoryPagingDto pagingDto) throws Exception{
+		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getAccomList", pagingDto);
 		return list;
 	} 
 	
-	// 카테고리별 조회
-	public List<AccomVo> getCategoryList(String category) throws Exception{
-		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getCategoryList", category);
+	// 숙소 필터링 조회
+	public List<AccomVo> getAccomFilterList(CategoryPagingDto pagingDto) throws Exception{
+		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getAccomFilterList", pagingDto);
 		return list;
 	}
 	
@@ -57,14 +58,23 @@ public class AccomDao {
 		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getRecomendedAccomList", hashMap);
 		return list;
 	}
+
+	// 페이징
+	public int getAccomCnt(CategoryPagingDto pagingDto) throws Exception {
+		int getAccomCnt = sqlSession.selectOne(NAMESPACE + "getAccomCnt", pagingDto);
+		return getAccomCnt;
+	}
 	
 	// 메인 : 인기 숙소 best 6
-//	public List<AccomVo> getBestAcc() throws Exception {
-//		sqlSession.selectList(NAMESPACE + "getAccLikeCnt");
-//		sqlSession.update(NAMESPACE + "updateAccLikeCnt");
-//		sqlSession.selectList(NAMESPACE + "getAccReplyCnt");
-//		sqlSession.update(NAMESPACE + "updateAccReplyCnt");
-//		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getBestAcc");
-//		return list;
-//	}
+	public List<AccomVo> getBestAccom() throws Exception {
+		List<AccomVo> list = sqlSession.selectList(NAMESPACE + "getBestAccom");
+		return list;
+	}
+
+	
+	public int getFilteredAccomCnt(CategoryPagingDto pagingDto) {
+		int getFilteredAccomCnt = sqlSession.selectOne(NAMESPACE + "getFilteredAccomCnt", pagingDto);
+		return getFilteredAccomCnt;
+	}
+	
 }

@@ -25,6 +25,7 @@ public class PlaceReplyController {
 	// 댓글 목록
 	@RequestMapping(value = "/placeList", method = RequestMethod.GET)
 	public List<PlaceReplyVo> getAttrReplyList(int bno){
+		System.out.println("placeReplyList 컨트롤러 들어옴");
 		List<PlaceReplyVo> list = placeReplyService.getAttrReplyList(bno);
 		return list;
 	}

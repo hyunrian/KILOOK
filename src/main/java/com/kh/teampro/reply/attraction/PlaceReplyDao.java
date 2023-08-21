@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PlaceReplyDao {
 	
-	private final String NAMESPACE = "com.kh.teampro.AttrReplyMapper.";
+	private final String NAMESPACE = "com.kh.teampro.PlaceReplyMapper.";
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -20,6 +20,7 @@ public class PlaceReplyDao {
 	public List<PlaceReplyVo> getAttrReplyList(int bno){
 		if(getReplyCount(bno) != 0) {
 			List<PlaceReplyVo> list = sqlSession.selectList(NAMESPACE + "placeReplyList", bno);
+			sqlSession.update(NAMESPACE + "updatePlaceReplyCnt");
 			return list;
 		} else {
 			return null;
@@ -29,11 +30,13 @@ public class PlaceReplyDao {
 	// 새댓글 추가
 	public void insertPlaceNewReply(PlaceReplyVo placeReplyVo) {
 		sqlSession.insert(NAMESPACE + "insertPlaceNewReply", placeReplyVo);
+		sqlSession.update(NAMESPACE + "updatePlaceReplyCnt");
 	}
 	
 	// 대댓글 추가
 	public void insertPlaceReReply(PlaceReplyVo placeReplyVo) {
 		sqlSession.insert(NAMESPACE + "insertPlaceReReply", placeReplyVo);
+		sqlSession.update(NAMESPACE + "updatePlaceReplyCnt");
 	}
 	
 	// 가장 높은 rseq 구하기(댓글 순서)
@@ -60,6 +63,7 @@ public class PlaceReplyDao {
 	// 댓글 삭제
 	public void deletePlaceReply(int rno) {
 		sqlSession.update(NAMESPACE + "deletePlaceReply", rno);
+		sqlSession.update(NAMESPACE + "updatePlaceReplyCnt");
 	}
 	
 	// 댓글 수정

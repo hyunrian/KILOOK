@@ -13,21 +13,31 @@
 			   , addressdetail
 			   , anumber
 			   , areplycnt
-		from tbl_acc
-		where bno between 1 and 30
-		order by bno desc
+		from (select rownum rnum, a.*
+			from (select * from tbl_acc
+				order by bno desc) a)
+		where rnum between #{startRow} and #{endRow}
 	</select>
 	
-	<!-- 카테고리별 숙소 전체 조회 : 게시물 전체 페이지에서 보여줄 데이터만 조회 -->
-	<select id="getCategoryList" resultType="AccomVo">
-		select aname
-			   , address
-			   , addressdetail
-			   , anumber
-			   , image
-		from tbl_acc
-		where category = #{category}
-		order by bno asc 
+	<!-- 글개수 -->
+	<select id="getAccomCnt" resultType="int">
+		select count(*) from tbl_acc
+	</select>
+	
+	<select id="getFilteredAccomCnt" resultType="int">
+		select count(*) 
+		  from tbl_acc
+		 where category = #{category}
+	</select>
+	
+	<!-- 숙소 필터링 조회 -->
+	<select id="getAccomFilterList" resultType="AccomVo">
+		select * 
+		from (select rownum rnum, a.*
+			from (select * from tbl_acc
+				where category = #{category}
+				order by bno desc) a)
+		where rnum between #{startRow} and #{endRow}
 	</select>
 	
 	<!-- 해당 숙소 상세보기 : 상세 페이지에서 보여줄 전체 데이터 조회 -->
@@ -85,5 +95,25 @@
     	</foreach>
 	</select>
 	
+	<!-- 조회수 / 좋아요 / 댓글 / bno 순으로 best6 추출 -->
+	<select id="getBestAccom" resultType="AccomVo">
+		select aname
+			   , image
+			   , bno
+			   , nvl(address, '정보없음')address
+			   , nvl(addressdetail, '정보없음')addressdetail
+			   , nvl(anumber, '정보없음')anumber
+			   , aviewcnt
+			   , likecnt
+			   , areplycnt
+		from (
+		    select * 
+		    from tbl_acc
+		    order by aviewcnt desc,
+                     likecnt desc,
+                     areplycnt desc
+		) 
+		where rownum between 1 and 6
+	</select>
 	
 </mapper>

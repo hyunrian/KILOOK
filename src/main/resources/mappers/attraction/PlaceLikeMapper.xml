@@ -7,11 +7,11 @@
 	<!-- 좋아요 추가 -->
 	<insert id="addPlaceLike">
 		insert into tbl_likeatt
-			(unickname
+			(userid
 			, bno
 			)
 		values
-			(#{unickname}
+			(#{userid}
 			, #{bno}
 			)	
 	</insert>
@@ -19,14 +19,14 @@
 	<!-- 좋아요 목록 -->
 	<select id="placeLikeList" resultType="int">
 		select count(*) from tbl_likeatt
-		where unickname = #{unickname}
+		where userid = #{userid}
 		and bno = #{bno}
 	</select>
 	
 	<!-- 좋아요 취소 -->
 	<delete id="deletePlaceLike">
 		delete from tbl_likeatt
-		where unickname = #{unickname}
+		where userid = #{userid}
 		and bno = #{bno}
 	</delete>
 	
@@ -35,4 +35,14 @@
 		select count(*) from tbl_likeatt
 		where bno = #{bno}
 	</select>
+	
+	<!-- 좋아요 개수를 tbl_attraction 추가 -->
+	<update id="updatePlaceLikeCnt">
+		update tbl_attraction a
+		set likecnt = coalesce((
+		    select count(*)
+		    from tbl_likeatt b
+		    where a.bno = b.bno
+	   ), 0)
+	</update>
 </mapper>

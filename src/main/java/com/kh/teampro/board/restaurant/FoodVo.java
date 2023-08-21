@@ -22,4 +22,5 @@ public class FoodVo {
 	private String thumbimage; // MAIN_IMG_THUMB
 	private int viewcnt; 
 	private int replycnt; 
+	private int likecnt;
 }
