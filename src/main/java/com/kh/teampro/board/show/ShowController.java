@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.teampro.board.restaurant.CategoryPagingDto;
+import com.kh.teampro.paging.CategoryPagingDto;
+
 
 @Controller
 @RequestMapping("/databoard")

@@ -8,8 +8,6 @@
 	<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 	<!-- END menu -->
 
-<!-- 	<div class="hero-wrap js-fullheight" -->
-<!-- 		style="background-image: url('../resources/images/bg_4.jpg');"> -->
 		<div style="background-color: #000000; width: 100%; height: 90px;">
 		<div class="overlay"></div>
 		<div class="container">
@@ -51,25 +49,26 @@
 								</div>
 							</div>
 						</div>
+						<hr>
 					</div>
 				</c:forEach>
 			</div>
 
-			<div class="row mt-5">
-				<div class="col text-center">
-					<div class="block-27">
-						<ul>
-							<li><a href="#">&lt;</a></li>
-							<li class="active"><span>1</span></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&gt;</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+<!-- 			<div class="row mt-5"> -->
+<!-- 				<div class="col text-center"> -->
+<!-- 					<div class="block-27"> -->
+<!-- 						<ul> -->
+<!-- 							<li><a href="#">&lt;</a></li> -->
+<!-- 							<li class="active"><span>1</span></li> -->
+<!-- 							<li><a href="#">2</a></li> -->
+<!-- 							<li><a href="#">3</a></li> -->
+<!-- 							<li><a href="#">4</a></li> -->
+<!-- 							<li><a href="#">5</a></li> -->
+<!-- 							<li><a href="#">&gt;</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 		</div>
 	</section>
 

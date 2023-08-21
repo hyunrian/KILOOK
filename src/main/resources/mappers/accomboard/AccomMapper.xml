@@ -104,13 +104,13 @@
 			   , nvl(addressdetail, '정보없음')addressdetail
 			   , nvl(anumber, '정보없음')anumber
 			   , aviewcnt
-			   , likecnt
+			   , alikecnt
 			   , areplycnt
 		from (
 		    select * 
 		    from tbl_acc
 		    order by aviewcnt desc,
-                     likecnt desc,
+                     alikecnt desc,
                      areplycnt desc
 		) 
 		where rownum between 1 and 6

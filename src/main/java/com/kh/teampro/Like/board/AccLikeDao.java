@@ -17,6 +17,7 @@ public class AccLikeDao {
 		int count = sqlSession.insert(NAMESPACE + "addAccomLike", accLikeVo);
 		if (count > 0) {
 			sqlSession.update(NAMESPACE + "updateAccomLikeCnt");
+			System.out.println("addAccomLike dao 들어옴");
 			return true;
 		}
 		return false;

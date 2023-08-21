@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.teampro.Like.board.AccLikeService;
 import com.kh.teampro.Like.board.AccLikeVo;
-import com.kh.teampro.board.restaurant.CategoryPagingDto;
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.paging.CategoryPagingDto;
 import com.kh.teampro.user.info.UserVo;
 
 @Controller

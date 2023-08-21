@@ -1,4 +1,4 @@
-package com.kh.teampro.board.restaurant;
+package com.kh.teampro.paging;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

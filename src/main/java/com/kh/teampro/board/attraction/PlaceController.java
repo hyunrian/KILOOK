@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.teampro.Like.board.PlaceLikeService;
 import com.kh.teampro.Like.board.PlaceLikeVo;
 import com.kh.teampro.board.accommodation.AccomVo;
-import com.kh.teampro.board.restaurant.CategoryPagingDto;
 import com.kh.teampro.board.restaurant.FoodVo;
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.paging.CategoryPagingDto;
 import com.kh.teampro.user.info.UserVo;
 
 @Controller

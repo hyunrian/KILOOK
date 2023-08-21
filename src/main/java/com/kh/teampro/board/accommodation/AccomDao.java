@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.teampro.board.attraction.PlaceVo;
-import com.kh.teampro.board.restaurant.CategoryPagingDto;
 import com.kh.teampro.board.restaurant.FoodVo;
+import com.kh.teampro.paging.CategoryPagingDto;
 
 @Repository
 public class AccomDao {

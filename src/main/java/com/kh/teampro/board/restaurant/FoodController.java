@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kh.teampro.Like.board.FoodLikeService;
 import com.kh.teampro.Like.board.FoodLikeVo;
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.paging.CategoryPagingDto;
 import com.kh.teampro.paging.PagingDto;
 import com.kh.teampro.user.info.UserVo;
 

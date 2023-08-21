@@ -39,7 +39,7 @@
 	<!-- 좋아요 개수를 tbl_acc에 추가 -->
 	<update id="updateAccomLikeCnt">
 		update tbl_acc a
-		set likecnt = coalesce((
+		set alikecnt = coalesce((
 		    select count(*)
 		    from tbl_likeacc b
 		    where a.bno = b.bno

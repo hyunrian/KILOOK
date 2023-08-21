@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.teampro.board.restaurant.CategoryPagingDto;
+import com.kh.teampro.paging.CategoryPagingDto;
+
 
 @Service
 public class ShowService {
