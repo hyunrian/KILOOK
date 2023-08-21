@@ -24,17 +24,21 @@ create sequence seq_attraction_bno
 increment by 1
 start with 1;
 
+-- 컬럼 추가
+alter table tbl_attraction
+add likecnt number default 0;
+
 -- 테이블 조회
 select * from tbl_attraction
 order by bno asc;
 
 -- 테스트 데이터 삽입
 insert into tbl_attraction
-(bno, title, content, aname, location, lat, along, address, anumber, opendays,
-openhours, price, facility, image, thumbimage)
+	(bno, title, content, aname, location, lat, along, address, anumber, opendays,
+	openhours, price, facility, image, thumbimage)
 values
-(seq_attraction_bno.nextval, '타이틀', '내용', '관광지', '구군', 20, 30, '도로명', '연락처', '오픈일', '오픈시간', '가격',
-'편의시설', '이미지', '썸네일');
+	(seq_attraction_bno.nextval, '타이틀', '내용', '관광지', '구군', 20, 30, '도로명', '연락처', '오픈일', '오픈시간', '가격',
+	'편의시설', '이미지', '썸네일');
 
 -- 테이블 삭제
 drop table tbl_attraction;
@@ -48,14 +52,5 @@ delete from tbl_attraction;
 -- 데이터 길이 확인(byte확인용)
 select max(length(content)) from tbl_attraction;
 
-select length(title) 
-from tbl_attraction
-where bno = 121;
-
-select * from tbl_attraction
-where bno = 121;
-
 -- 커밋
 commit;
-
-select * from tbl_attraction

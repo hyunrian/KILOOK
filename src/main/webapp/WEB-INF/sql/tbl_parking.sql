@@ -17,35 +17,13 @@ create table tbl_parking(
     replycnt number default 0
 );
 
--- 데이터 게시글 - seq_info_bno 시퀀스 생성
+-- 데이터 게시글 - seq_parking_bno시퀀스 생성
 create sequence seq_parking_bno
 increment by 1
 start with 1;
 
 -- 테이블 조회
-select * from tbl_parking
-where bno >= 600 and bno <= 650
-order by bno asc;
-
 select * from tbl_parking;
-
-select pname, jibunaddress, doroaddress, weekdayopen, weekdayclose, saturdayopen, saturdayclose, holidayopen, holidayclose, price, replycnt
-from tbl_parking;
-
--- 테스트 데이터 삽입
--- 지번 없고 도로명 있는 데이터
-insert into tbl_parking
-(bno, pname, lat, plong, jibunaddress, doroaddress, weekdayopen, weekdayclose, saturdayopen,
-saturdayclose, holidayopen, holidayclose, price)
-values
-(seq_parking_bno.nextval, '주차장', 20, 30, null, '도로명', '00:00', '23:59', '00:00', '23:59', '00:00', '23:59', '1000');
-
--- 도로명 없고 지번 있는 데이터
-insert into tbl_parking
-(bno, pname, lat, plong, jibunaddress, doroaddress, weekdayopen, weekdayclose, saturdayopen,
-saturdayclose, holidayopen, holidayclose, price)
-values
-(seq_parking_bno.nextval, '주차장', 20, 30, '지번', null, '00:00', '23:59', '00:00', '23:59', '00:00', '23:59', '1000');
 
 -- 테이블 삭제
 drop table tbl_parking;

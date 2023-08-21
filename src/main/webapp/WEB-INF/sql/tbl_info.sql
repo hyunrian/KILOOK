@@ -23,16 +23,11 @@ select * from tbl_info
 where iname is not null
 order by bno asc;
 
-select iname, openhours, inumber, address, language, introduce, replycnt
-from tbl_info
-where iname is not null
-order by bno asc;
-
 -- 테스트 데이터 삽입
 insert into tbl_info
-(bno, iname, openhours, inumber, lat, ilong, address, language, introduce)
+	(bno, iname, openhours, inumber, lat, ilong, address, language, introduce)
 values
-(seq_info_bno.nextval, '안내소이름', '운영시간', '전화번호', 20, 30, '주소', '한국어', '안내소소개');
+	(seq_info_bno.nextval, '안내소이름', '운영시간', '전화번호', 20, 30, '주소', '한국어', '안내소소개');
 
 -- 테이블 삭제
 drop table tbl_info;
@@ -42,8 +37,6 @@ drop sequence seq_info_bno;
 
 -- 테이블 데이터 삭제
 delete from tbl_info;
-
--- 데이터 길이 확인(byte확인용)
 
 -- 커밋
 commit;

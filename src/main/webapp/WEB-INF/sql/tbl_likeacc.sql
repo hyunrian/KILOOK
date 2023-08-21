@@ -1,14 +1,7 @@
 -- 데이터 게시글 - 숙박 게시글 좋아요 테이블 생성
 create table tbl_likeacc(
-    unickname varchar2(30) not null
-        references tbl_user(unickname),
-    bno number 
-        references tbl_acc(bno)
-);
-
-create table tbl_likeacc(
-    unickname varchar2(30) not null,
-       
+    userid varchar2(30) not null
+        references tbl_user(userid),
     bno number 
         references tbl_acc(bno)
 );

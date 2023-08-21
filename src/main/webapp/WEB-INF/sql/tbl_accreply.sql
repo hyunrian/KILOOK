@@ -15,6 +15,7 @@
     userid varchar2(50) references tbl_user(userid)
 );
 
+
 -- 데이터 게시글 - seq_accreply_rno 시퀀스 생성
 create sequence seq_accreply_rno
 increment by 1
@@ -26,6 +27,13 @@ order by rno desc;
 
 -- 데이터 개수 확인
 select count(*) from tbl_accreply;
+
+-- 테스트 데이터 삽입
+insert into tbl_restreply
+    (rno, bno, replytext, replyer, rgroup, rseq, rlevel)
+values
+    (seq_reply_rno.nextval, 1, '텍스트', 'test00', 1, 1, 1);
+
 
 -- 테이블 삭제
 drop table tbl_accreply;

@@ -25,6 +25,7 @@ select aname, address, addressdetail, anumber, replace(image, 'hotel_', 'hotel_i
 from tbl_acc
 order by bno desc;
 
+
 -- 테스트 데이터 삽입
 insert into tbl_acc
 (bno, category, aname, location, address, addressdetail, anumber, url, lat, aclong, image)
