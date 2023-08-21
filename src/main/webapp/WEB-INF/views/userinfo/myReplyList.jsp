@@ -10,36 +10,28 @@
         
         <%@ include file="/WEB-INF/views/include/mypageSidemenu.jsp" %>
         
-          <div class="col-md-8 ftco-animate">
-            <div class="about-author d-flex bg-light" style="padding-left: 15px">
-              <div class="bio align-self-md-center mr-5">
-              	
-              	<!-- 작성한 게시물 미리보기. 작성한 글이 없을때도 안내함. -->
-	            <div class="pt-5 mt-5">
-	              <h2 class="mb-5">내 댓글 목록</h2>
-	              
-	            </div>
-              	
-              </div>
+          <div class="col-md-8 ftco-animate bg-light">
+            <div class="about-author d-flex" style="padding-left: 48px">
+				<h2 class="pt-5 mb-5">내 댓글 목록</h2>
             </div>
 
 			<div class="sidebar-box ftco-animate fadeInUp ftco-animated">
 			    <div class="categories">
-			      <li><div>작성한 댓글</div></li>
 			      
 			      <c:choose>
 	              	<c:when test="${userReplyCount == 0}">
-	              		<p class="mb-5">작성한 댓글 없음</p>
+	              		<h3 class="mb-5" style="padding-left: 48px">작성한 댓글 없음</h3>
 	              	</c:when>
 	              	<c:otherwise>
+				     	<li><h3 style="padding-left: 48px">작성한 댓글</h3></li>
 	              		<ul class="comment-list">
 		              	<c:forEach items="${replyList}" var="replyDto">
 			              <li class="comment">
 			                 <div class="comment-body">
-			                  	 <h3><a href="#">${replyDto.replytext}</a></h3>
-			                  	 <h3>${replyDto.replytext}</h3>
+			                  	<h3><a href="http://localhost/userboard/detail?bno=${replyDto.bno}">
+			                  	 	${replyDto.replytext}</a></h3>
 		                   		<div class="meta">${replyDto.regdate}</div>
-			                   	<p>게시물 제목 : ${replyDto.title}</p>
+			                   	<p>원본 글 : ${replyDto.title}</p>
 			                 </div>
 			              </li>
 			            </c:forEach>
@@ -48,7 +40,7 @@
 	              </c:choose>
 			    </div>
 
-				<div class="row mt-5" style="margin-top: 15px">
+				<div class="row mt-5" style="padding-top: 48px">
 		          <div class="col text-center">
 		            <div class="block-27">
 		              <ul>
