@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.teampro.Like.board.AccLikeService;
 import com.kh.teampro.Like.board.AccLikeVo;
 import com.kh.teampro.board.restaurant.CategoryPagingDto;
+import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.user.info.UserVo;
 
 @Controller
 @RequestMapping("/databoard")
@@ -62,9 +64,9 @@ public class AccomController {
 		AccomVo accomVo = accomService.getAccomInfo(bno);
 		
 		// 숙소 게시물 좋아요
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN); // 저장된 아이디 가져오기(수정필요)
 		AccLikeVo accLikeVo = new AccLikeVo();
-		accLikeVo.setUserid("testuser");
+		accLikeVo.setUserid(userVo.getUserid());
 		accLikeVo.setBno(bno);
 		
 		boolean likeResult = accLikeService.accomLikeList(accLikeVo);

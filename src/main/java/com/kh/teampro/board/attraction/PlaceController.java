@@ -19,6 +19,8 @@ import com.kh.teampro.Like.board.PlaceLikeVo;
 import com.kh.teampro.board.accommodation.AccomVo;
 import com.kh.teampro.board.restaurant.CategoryPagingDto;
 import com.kh.teampro.board.restaurant.FoodVo;
+import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.user.info.UserVo;
 
 @Controller
 @RequestMapping("/databoard")
@@ -63,9 +65,9 @@ public class PlaceController {
 		PlaceVo placeVo = placeService.getPlaceInfo(bno);
 		
 		// 명소 게시물 좋아요
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN); // 저장된 아이디 가져오기(수정필요)
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();
-		placeLikeVo.setUserid("testuser");
+		placeLikeVo.setUserid(userVo.getUserid());
 		placeLikeVo.setBno(bno);
 		
 		boolean likeResult = placeLikeService.placeLikeList(placeLikeVo);

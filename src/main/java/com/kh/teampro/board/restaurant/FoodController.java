@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.Like.board.FoodLikeService;
 import com.kh.teampro.Like.board.FoodLikeVo;
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.paging.PagingDto;
+import com.kh.teampro.user.info.UserVo;
 
 @Controller
 @RequestMapping("/databoard")
@@ -62,9 +64,9 @@ public class FoodController {
 		FoodVo foodVo = foodService.getFoodInfo(bno);
 		
 		// 맛집 게시물 좋아요
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN); // 저장된 아이디 가져오기(수정필요)
 		FoodLikeVo foodLikeVo = new FoodLikeVo();
-		foodLikeVo.setUserid("testuser"); // 수정필요
+		foodLikeVo.setUserid(userVo.getUserid()); // 수정필요
 		foodLikeVo.setBno(bno);
 		
 		boolean likeResult = foodLikeService.restLikeList(foodLikeVo);
