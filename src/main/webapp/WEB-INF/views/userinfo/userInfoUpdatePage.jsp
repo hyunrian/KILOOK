@@ -174,28 +174,6 @@ $(function(){
       </div>
     </section> <!-- .section -->
     
-    <!-- 이하 페이지에 표시 되지 않는 내용 -->
-	
-	<!-- 유저 정보 보관용 form -->
-	<!-- 정보 수정 시 전달될 데이터. mypage.jsp 와 다르게 수정될 input 3개에 id 붙음 -->
-	<!-- 이미지는 기본적으로 "/resources/images/userProfile/" 를 이미지 var 앞에 붙여서 vo로 전해줌 -->
-	<form id="userVoForm" action="/userInfo/updateDone" method="post">
-		<input type="hidden" name="userid" id="userid" value="${userVo.userid}">
-		<input type="hidden" name="upw" id="updateUpw" value="${userVo.upw}">
-		<input type="hidden" name="unickname" id="updateUnickname" value="${userVo.unickname}">
-		<input type="hidden" name="upoint" value="${userVo.upoint}">
-		<input type="hidden" name="uimg" id="updateUimg" value="${userVo.uimg}">
-		<input type="hidden" name="uemail" value="${userVo.uemail}">
-		<input type="hidden" name="signupfrom" value="${userVo.signupfrom}">
-		<input type="hidden" name="joindate" value="${userVo.joindate}">
-		<input type="hidden" name="verified" value="${userVo.verified}">
-	</form>
-	<!-- //유저 정보 보관용 form -->
-    
-    <!-- 마이페이지로 돌아가기 -->
-    <form id="frmBackToInfo" action="/userinfo/mypage/${userVo.userid}" method="get"></form>
-    <!-- //마이페이지로 돌아가기 -->
-
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 

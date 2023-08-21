@@ -88,10 +88,15 @@ public class UserInfoController {
 	public String toUserInfoUpdatePage(Model model, HttpSession session) {
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		model.addAttribute("userVo", userVo);
+		String userid = userVo.getUserid();
+		int userBoardCount = userInfoService.readUserBoardCount(userid);
+		int userReplyCount = userInfoService.readUserReplyCount(userid);
+		model.addAttribute("userBoardCount", userBoardCount); // 게시글 갯수
+		model.addAttribute("userReplyCount", userReplyCount); // 댓글 갯수
 		return "userinfo/userInfoUpdatePage";
 	}
 	
-	// 중복 닉네임 확인
+	// 중복 닉네임 확인 (미구현)
 	@RequestMapping(value = "/checkDup", method = RequestMethod.POST)
 	@ResponseBody
 	public String checkDupNickname() {
@@ -148,18 +153,23 @@ public class UserInfoController {
 	
 	// 이메일로 본인확인 페이지로 이동
 	@RequestMapping(value = "/getVerifyEmail", method = RequestMethod.GET)
-	public String getVerifyEmail() {
-		
+	public String getVerifyEmail(Model model, HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		String userid = userVo.getUserid();
+		int userBoardCount = userInfoService.readUserBoardCount(userid);
+		int userReplyCount = userInfoService.readUserReplyCount(userid);
+		model.addAttribute("userVo", userVo);
+		model.addAttribute("userBoardCount", userBoardCount); // 게시글 갯수
+		model.addAttribute("userReplyCount", userReplyCount); // 댓글 갯수
 		return "userinfo/userVerifyPage";
 	}
 	
 	@Autowired
 	private JavaMailSenderImpl mailSender;		
-	// 본인확인 코드 생성 (이메일 연동)
-	// 생성된 코드로 ~~ 를 한 후 유저테이블의 verified 'F' -> 'T'
+	// 본인확인 코드 생성, 이메일로 전송 후 코드 리턴
 	@RequestMapping(value="/verifyMail", method = RequestMethod.POST)
-	public String verifyEmail(String userid, String uemail, Model model, HttpSession session) {
-		System.out.println("id:" + userid);
+	@ResponseBody
+	public String verifyEmail(String uemail) {
 		System.out.println("email:" + uemail);
 		
 		String uuid = UUID.randomUUID().toString();
@@ -186,14 +196,8 @@ public class UserInfoController {
 //		mailSender.send(preparator);
 		// /메일로 코드전송
 		
-		// model에 email, verifyCode를 담아서 이메일에 전송된 uuid를 입력하도록 하는 인풋창을 사용자에게 보여줌
-		// (jsp 생성 필요, 해당 jsp로 리턴)
-		
-		model.addAttribute("verifyCode", verifyCode);
-		model.addAttribute("uemail", uemail);
-		model.addAttribute("userid", userid);
-		
-		return "userinfo/userVerifyPage";
+		// 본인확인용 코드 리턴
+		return verifyCode;
 	}
 		
 		// 본인확인 성공/실패 확인

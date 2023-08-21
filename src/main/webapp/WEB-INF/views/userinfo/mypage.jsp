@@ -10,8 +10,8 @@
         
         <%@ include file="/WEB-INF/views/include/mypageSidemenu.jsp" %>
         
-          <div class="col-md-8 ftco-animate">
-            <div class="about-author d-flex p-5 bg-light">
+          <div class="col-md-8 ftco-animate bg-light">
+            <div class="about-author d-flex p-5" style="border-bottom: 1px dashed gray;">
               <div class="bio align-self-md-center mr-5">
               	<!-- ${userVo.uimg}(유저 이미지)가 없으면 기본이미지, 있으면 경로로 지정 -->
               	<!-- ${userVo.uimg} = "/resources/images/userProfile/....png" -->
@@ -28,32 +28,32 @@
                 <h3>${userVo.unickname}님의 마이페이지</h3>
                 <p>보유 포인트 : ${userVo.upoint}</p>
                 <c:choose>
-                	<c:when test="${userVo.uemail != null}">
-		                <p>본인확인 이메일 : ${userVo.uemail}</p>                	
+                	<c:when test="${userVo.verified == 'F'}">
+				        <p>본인확인 이메일 : <a href="/userInfo//getVerifyEmail">인증 필요</a></p>
                 	</c:when>
-	                <c:otherwise>
-		                <p>본인확인 이메일 : 없음</p>
-	                </c:otherwise>
+                	<c:otherwise>
+                		<p>본인확인 이메일 : <span>${userVo.uemail}</span></p>
+                	</c:otherwise>
                 </c:choose>
                 <div class="meta">가입일 : ${userVo.joindate}</div>
-                <input type="button" id="btnLogout" value="로그아웃" style="margin-top: 5px" onclick="location.href='/loginUser/logout'">
                 <p style="color: white;">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</p>
               </div>
             </div>
 
 			<!-- 작성한 게시물 미리보기. 작성한 글이 없을때도 안내함. -->
-            <div class="pt-5 mt-5">
-              <h3 class="mb-5">내 게시물 미리보기</h3>
+            <div class="pt-5" style="padding-left: 48px">
+              <h3 class="mb-5"><a href="/userInfo/mypost">내 게시물 미리보기</a></h3>
               <c:choose>
               	<c:when test="${userBoardCount == 0}">
-              		<h4 class="mb-5">작성한 게시물 없음</h4>
+              		<h4 style="padding-bottom: 48px; padding-left: 48px;">작성한 게시물 없음</h4>
               	</c:when>
               	<c:otherwise>
               		<ul class="comment-list">
 	              	<c:forEach items="${boardList}" var="boardDto" begin="0" end="0"> <!-- 글 리스트 한개만 -->
 		              <li class="comment">
 		                 <div class="comment-body">
-		                   <h3>${boardDto.title}</h3>
+		                   <h3><a href="http://localhost/userboard/detail?bno=${boardDto.bno}">
+		                   		${boardDto.title}</a></h3>
 		                   <div class="meta">${boardDto.regdate}</div>
 		                   <p>좋아요 : ${boardDto.likecnt}</p>
 		                   <p>조회수 : ${boardDto.viewcnt}</p>
@@ -63,23 +63,23 @@
 		            </ul>
               	</c:otherwise>
               </c:choose>
-            </div>
             
             <!-- 작성한 댓글 미리보기. 작성한 댓글이 없을때도 안내함. -->
-            <div class="pt-5 mt-5">
-              <h3 class="mb-5">내 댓글 미리보기</h3>
+            
+              <h3 class="mb-5"><a href="/userInfo/myreply">내 댓글 미리보기</a></h3>
               <c:choose>
               	<c:when test="${userReplyCount == 0}">
-              		<h4 class="mb-5">작성한 댓글 없음</h4>
+              		<h4 style="padding-bottom: 48px; padding-left: 48px;">작성한 댓글 없음</h4>
               	</c:when>
               	<c:otherwise>
               		<ul class="comment-list">
 		              	<c:forEach items="${replyList}" var="replyDto" begin="0" end="0"> <!-- 댓글 리스트 한개만 -->
 		                <li class="comment">
 		                  <div class="comment-body">
-		                    <h3>${replyDto.replytext}</h3>
+		                    <h3><a href="http://localhost/userboard/detail?bno=${replyDto.bno}">
+		                    	${replyDto.replytext}</a></h3>
 		                    <div class="meta">${replyDto.regdate}</div>
-		                    <p>게시물 제목 : ${replyDto.title}</p>
+		                    <p>원본 글 : ${replyDto.title}</p>
 		                  </div>
 		                </li>
 		                </c:forEach>
@@ -92,23 +92,6 @@
         </div>
       </div>
     </section> <!-- .section -->
-    
-    <!-- 이하 페이지에 표시 되지 않는 내용 -->
-	
-	<!-- 유저 정보 보관용 form -->
-	<!-- 정보 수정 시 전달될 데이터 -->
-	<form id="userVoForm" method="post" action="/userInfo/infoUpdate">
-		<input type="hidden" name="userid" value="${userVo.userid}">
-		<input type="hidden" name="upw" value="${userVo.upw}">
-		<input type="hidden" name="unickname" value="${userVo.unickname}">
-		<input type="hidden" name="upoint" value="${userVo.upoint}">
-		<input type="hidden" name="uimg" value="${userVo.uimg}">
-		<input type="hidden" name="uemail" value="${userVo.uemail}">
-		<input type="hidden" name="signupfrom" value="${userVo.signupfrom}">
-		<input type="hidden" name="joindate" value="${userVo.joindate}">
-		<input type="hidden" name="verified" value="${userVo.verified}">
-	</form>
-	<!-- //유저 정보 보관용 form -->
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>

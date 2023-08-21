@@ -134,7 +134,7 @@ public class AttachService {
 			byte[] image = getImage(filePath);
 			return image;
 		} else {
-			return getImage("/profile/default/sea.jpg"); 
+			return getImage("/profile/default/default.png"); 
 		}
 		// 업로드한 이미지가 없는 경우 디폴트 이미지로 썸네일 처리
 	}
