@@ -108,5 +108,34 @@ public class AttachService {
 	public void updateThumbnail(AttachVo attachVo) {
 		attachDao.updateThumbnail(attachVo);
 	}
-
+	
+	// 유저 프로필 서버에 저장
+	public String saveProfileFile(MultipartFile file, String userid) {
+		String filename = file.getOriginalFilename();
+		System.out.println("service, filename:" + filename);
+		if (FileUploadUtil.isImage(filename)) { // 이미지일 때만 처리
+			try {
+				byte[] bytes = file.getBytes();
+				String filePath = FileUploadUtil.uploadProfile(
+										bytes, uploadPath, filename, userid);
+				return filePath;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return MyConstants.FAIL_MESSAGE;
+	}
+	
+	// 유저 프로필 jsp로 전달
+	public byte[] displayProfile(String filePath, String userid) {
+		if (filePath != null) {
+			String[] str = filePath.split("/");
+			filePath = "/" + str[1] + "/" + str[2] + "/t_" + str[3];
+			byte[] image = getImage(filePath);
+			return image;
+		} else {
+			return getImage("/profile/default/sea.jpg"); 
+		}
+		// 업로드한 이미지가 없는 경우 디폴트 이미지로 썸네일 처리
+	}
 }

@@ -35,16 +35,22 @@ public class LoginController {
 		return "user/login";
 	}
 	
+	// 네이버 소셜 로그인용 콜백
+	@RequestMapping(value = "/naverCallback", method = RequestMethod.GET)
+	public String callbackNaver() {
+		return "user/loginNaverCallback";
+	}
+	
 	// 회원가입
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public String createAcount(UserVo userVo, RedirectAttributes rttr) {
+	public String createAcount(UserVo userVo, HttpSession session) {
 		System.out.println("conntroller: " + userVo.getUnickname());
 		boolean result = userService.createAccount(userVo);
 		boolean joinResult = false;
 		if (result==true) {
 			joinResult = true;
 		}
-		rttr.addAttribute("joinResult", joinResult);
+		session.setAttribute("joinResult", joinResult);
 		return "redirect:/loginUser/login";
 	}
 	
@@ -87,7 +93,7 @@ public class LoginController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/loginUser/login";
+		return "redirect:/";
 	}
 	
 //	 비밀번호 찾기 폼으로 이동 (이메일 연동 임시 비밀번호 생성)

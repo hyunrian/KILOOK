@@ -3,64 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <%@ include file="/WEB-INF/views/include/menu.jsp" %>
-<style>
-	html, body {
-		background-color: gray;
-	}
-</style>
-<script>
-$(function(){
-	// 유저 본인확인 상태 체크, 본인 확인 완료 시 버튼 숨김
-	function checkVerified() {
-		if ('${userVo.verified}' == 'T') {
-			$("#emailCheckMessage").text("확인됨. 본인확인 이메일:");
-			$("#verifiedEmail").text("${userVo.uemail}");
-			$("#uemail").hide();
-			$("#btnEmailVerify").hide();
-		}
-	}
-	checkVerified(); // 페이지를 열면 본인확인 체크 함수 실행
-
-	// 유저 정보 수정 버튼(데이터 담아서 정보 수정 페이지로 이동)
- 	$("#btnUserUpdate").click(function(){
-		var form = $("#userVoForm");
-		form.attr("action", "/userInfo/infoUpdate");
-		form.submit();
-	});
-	
-});
-</script>
 <body>
     <section class="ftco-section ftco-degree-bg">
       <div class="container">
         <div class="row">
         
-        	<div class="col-md-4 sidebar ftco-animate">
-            <div class="sidebar-box ftco-animate">
-              <div class="categories">
-                <h3>내 정보</h3>
-                <!-- 이후 내 게시글, 내 댓글 jsp로 이동 기능... 기능 희망중이긴 한데 시간에 안맞을듯 -->
-                <li><a href="#">작성한 게시글 <span>(${userBoardCount})</span></a></li>
-                <li><a href="#">내 댓글 <span>(${userReplyCount})</span></a></li>
-              </div>
-            </div>
-
-            <div class="sidebar-box ftco-animate">
-              <h3>내 정보 수정하기</h3>
-              <input type="button" id="btnUserUpdate" value="정보 수정" class="btn py-3 px-4 btn-primary">
-            </div>
-
-            <div class="sidebar-box ftco-animate">
-              <h3>이메일 본인확인</h3>
-              <p id="emailCheckMessage">확인되지 않음</p>
-              <p id="verifiedEmail"></p>
-              <form action="/userInfo/verifyMail" method="post">
-              	  <input type="hidden" name="userid" value="${userVo.userid}"> <!-- 임시 데이터. loginInfo 에서 데이터 받아오기 가능해지면 삭제. -->
-	              <input type="email" name="uemail" id="uemail" placeholder="이메일 입력" style="margin-bottom: 10px;">
-	              <input type="submit" id="btnEmailVerify" value="본인인증 하기" class="btn py-3 px-4 btn-primary">
-              </form>
-            </div>
-          </div> <!-- .col-md-4 -->
+        <%@ include file="/WEB-INF/views/include/mypageSidemenu.jsp" %>
         
           <div class="col-md-8 ftco-animate">
             <div class="about-author d-flex p-5 bg-light">

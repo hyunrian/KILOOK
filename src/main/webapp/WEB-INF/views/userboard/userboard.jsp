@@ -54,12 +54,24 @@ body {
 </style>
 <script>
 $(function() {
+	
 	$("#btnSearch").click(function() {
-		const option = $("#option").val();
-		const keyword = $("#keyword").val();
-		location.href=
-			"/userboard/list?option=" + option + "&keyword=" + keyword;
+		search();
 	});
+	
+	$("#keyword").keydown(function(e) {
+		if (e.keyCode == 13) search();
+	});
+	
+	// 검색 기능
+	function search() {
+		const option = $("#option").val();
+		const keyword = $("#keyword").val().trim();
+		if (keyword != "") {
+			location.href=
+				"/userboard/list?option=" + option + "&keyword=" + keyword;
+		}
+	}
 	
 	let filter = "";
 	if ("${pagingDto.filter}" != null) {
@@ -93,6 +105,7 @@ $(function() {
 	
 	// 필터 - 조회순
 	$("#filter > button").eq(0).click(function() {
+		console.log("click")
 		filter = "view";
 		$("#frmPaging").attr("action", "/userboard/list");
 		submitForm();
@@ -195,38 +208,41 @@ $(function() {
 		</div>
 		
 		<!-- 필터링 -->
-		<div style="margin-bottom: 40px;" id="filter">
-			<button type="button" class="btn btn-outline-info btn-sm filter">조회순</button>
-			<button type="button" class="btn btn-outline-info btn-sm filter">추천순</button>
-			<button type="button" class="btn btn-outline-info btn-sm filter">댓글순</button>
-		</div>
+		<c:if test="${not empty userArticleList}">
+			<div style="margin-bottom: 40px;" id="filter">
+				<button type="button" class="btn btn-outline-info btn-sm filter">조회순</button>
+				<button type="button" class="btn btn-outline-info btn-sm filter">추천순</button>
+				<button type="button" class="btn btn-outline-info btn-sm filter">댓글순</button>
+			</div>
+		</c:if>
 		
 		<!-- 조회 결과 -->
 		<div class="row d-flex" id="list">
 			<c:forEach var="userBoardVo" items="${userArticleList}">
 				<div class="col-md-3 d-flex ftco-animate">
-					<div class="blog-entry align-self-stretch">
+					<div class="blog-entry boardCard">
 						<a href="${userBoardVo.bno}" class="block-20 detailLink"
 							style="background-image: url('/attach/displayThumbnail/${userBoardVo.bno}');">
 						</a>
-						<div class="text p-4 d-block">
+						<div class="text d-block myDivTitle">
 							<h3 class="heading mt-3">
 								<a href="#">${userBoardVo.title}</a>
 							</h3>
-							<div class="meta mb-3">
-								<div>
-									<a href="#">${userBoardVo.writer}</a>
-								</div>
-								<br>
-								<div class="boardContents" style="margin-right: 30px; margin-left:15px;">
+						</div>
+						<div class="meta mb-3 myDivCnt" style="position: relative;">
+							<div>
+								<a href="#">${userBoardVo.writer}</a>
+							</div><br>
+							<div>
+								<div class="boardContents" style="position: absolute; left: 18%;">
 									<a href="#" class="meta-chat"><i class="fa-regular fa-eye"></i>
 										${userBoardVo.viewcnt}</a>
 								</div>
-								<div class="boardContents" style="margin-right: 30px;">
+								<div class="boardContents" style="position: absolute; left: 42%;">
 									<a href="#" class="meta-chat"><i class="fa-solid fa-heart"></i>
 										${userBoardVo.likecnt}</a>
 								</div>
-								<div class="boardContents">
+								<div class="boardContents" style="position: absolute; left: 65%;">
 									<a href="#" class="meta-chat"><span class="icon-chat"></span>
 										${userBoardVo.replycnt}</a>
 								</div>
@@ -235,12 +251,10 @@ $(function() {
 					</div>
 				</div>
 			</c:forEach>
-			<c:if test="${userArticleList == null}">
+			<c:if test="${empty userArticleList}">
 				<div class="col text-center">
-					<span>
-						<i class="fa-solid fa-circle-exclamation fa-lg" 
-							style="color: #919191;"></i> 검색 결과가 없습니다.
-					</span>
+					<span id="noResult"><i class="fa-solid fa-triangle-exclamation fa-lg"
+						style="color: #ec8209;"></i> 조회 가능한 게시글이 없습니다.</span>
 				</div>
 			</c:if>
 		</div>
@@ -282,35 +296,4 @@ $(function() {
 	<%@ include file="/WEB-INF/views/include/pageup.jsp" %>
 </section>
 
-
-<!-- loader -->
-<div id="ftco-loader" class="show fullscreen">
-	<svg class="circular" width="48px" height="48px">
-		<circle class="path-bg" cx="24" cy="24" r="22" fill="none"
-			stroke-width="4" stroke="#eeeeee" />
-		<circle class="path" cx="24" cy="24" r="22" fill="none"
-			stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
-</div>
-
-
-<script src="/resources/js/jquery.min.js"></script>
-<script src="/resources/js/jquery-migrate-3.0.1.min.js"></script>
-<script src="/resources/js/popper.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/jquery.easing.1.3.js"></script>
-<script src="/resources/js/jquery.waypoints.min.js"></script>
-<script src="/resources/js/jquery.stellar.min.js"></script>
-<script src="/resources/js/owl.carousel.min.js"></script>
-<script src="/resources/js/jquery.magnific-popup.min.js"></script>
-<script src="/resources/js/aos.js"></script>
-<script src="/resources/js/jquery.animateNumber.min.js"></script>
-<script src="/resources/js/bootstrap-datepicker.js"></script>
-<script src="/resources/js/jquery.timepicker.min.js"></script>
-<script src="/resources/js/scrollax.min.js"></script>
-<script
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="/resources/js/google-map.js"></script>
-<script src="/resources/js/main.js"></script>
-
-</body>
-</html>
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>

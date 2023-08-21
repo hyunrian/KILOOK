@@ -7,9 +7,13 @@ import java.util.Calendar;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 
 import org.imgscalr.Scalr;
 import org.springframework.util.FileCopyUtils;
+
+import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.user.info.UserVo;
 
 
 public class FileUploadUtil {
@@ -109,5 +113,40 @@ public class FileUploadUtil {
 		// 원본파일 삭제
 		File oFile = new File(uploadPath + filename);
 		if (oFile.exists()) oFile.delete();
+	}
+	
+	// 유저 프로필 사진 폴더 만들어서 파일 저장
+	private static String makeProfileDir(String uploadPath, String userid) {
+		String dirPath = "profile/" + userid;
+		
+		// C:/teampro/profile/testuser
+		File f = new File(uploadPath + "/" + dirPath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		
+		return dirPath;
+	}
+	
+	// 사용자가 업로드한 프로필을 지정된 경로에 저장
+	public static String uploadProfile(byte[] bytes, 
+								String uploadPath, 
+								String originalFilename, String userid) {
+		
+		UUID uuid = UUID.randomUUID();
+		String dirPath = makeProfileDir(uploadPath, userid);
+		String filename = uuid + "_" + originalFilename;
+		String saveFilename = uploadPath + "/" + dirPath + "/" + filename;
+		File target = new File(saveFilename);
+		try {
+			FileCopyUtils.copy(bytes, target); // 해당 경로에 파일 복사
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		makeThumbnail(uploadPath, dirPath, filename);
+		String filePath = saveFilename.substring(uploadPath.length());
+		
+		return filePath;
 	}
 }

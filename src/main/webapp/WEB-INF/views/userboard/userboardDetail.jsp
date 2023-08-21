@@ -43,6 +43,11 @@ toastr.options = {
 }
 </script>
 <style>
+
+body {
+	font-family: "Pretendard-Black", sans-serif;
+	background-color: #f8f9fa;
+}
 .parent {
 	position: relative;
 	margin-top: 150px;
@@ -89,6 +94,11 @@ toastr.options = {
 
 .boardMenu {
 	margin-right: 18px;
+}
+
+#profile {
+	width: 50px;
+    border-radius: 50%;
 }
 </style>
 <script>
@@ -224,6 +234,9 @@ $(function() {
 		 				reply.removeAttr("id").addClass("replyElem");
 		 				
 		 				getReplycnt(bno); // 댓글 개수 처리
+		 				
+		 				reply.find("div").eq(0).find("img").attr(
+		 								"src", "/profile/display?userid=" + rData[i].userid);
 		 				
 		 				const div = reply.find("div").eq(1);
 		 				div.find("h3").text(rData[i].replyer);
@@ -428,9 +441,11 @@ $(function() {
 				<h2 class="mb-3">${userBoardVo.title}</h2>
 				<br>
 				<div>
-					<span> <i class="fa-solid fa-umbrella-beach"
-						style="color: #2667cf; font-size: 2rem;"></i> &nbsp;&nbsp;
-					</span> <span style="font-size: 14pt;" class="boardMenu">${userBoardVo.writer}</span>
+					<span>
+						<img src="/profile/display?userid=${userBoardVo.userid}"
+							alt="Image placeholder" id="profile"> &nbsp;&nbsp;
+					</span> 
+					<span style="font-size: 14pt;" class="boardMenu">${userBoardVo.writer}</span>
 					<span style="font-size: 10pt;" id="dateSpan" class="boardMenu">${userBoardVo.regdate}</span>
 					<span style="font-size: 10pt;" class="boardMenu">
 						<a href="/userboard/update/${userBoardVo.bno}" id="btnUpdate">수정</a>
@@ -475,7 +490,7 @@ $(function() {
 						<ul class="children" id="replyUl" style="display: none;">
 							<li class="comment" id="replyLi">
 								<div class="vcard bio">
-									<img src="/resources/images/person_1.jpg"
+									<img src="/profile/display?userid=${userBoardVo.userid}"
 										alt="Image placeholder">
 								</div>
 								<div class="comment-body">

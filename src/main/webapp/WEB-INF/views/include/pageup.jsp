@@ -5,5 +5,5 @@
 <a href="#top"> <img alt="맨 위로 이동"
 	src="/resources/images/myicons/up_arrow.png" id="pageUp"
 	style="position: fixed; right: 20px; bottom: 20px; 
-	width: 50px; height: 50px; z-index: 1;">
+	width: 50px; height: 50px; z-index: 999;">
 </a>

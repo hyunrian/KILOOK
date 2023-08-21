@@ -35,7 +35,7 @@ public class UserService {
 	public boolean createAccount(UserVo userVo) {
 		boolean resultDubID = userDao.dubCheckID(userVo.getUserid());
 		boolean resultDubNickName = userDao.dubCheckNickName(userVo.getUnickname());
-		boolean idCheck = userDao.validCheckTotal(2, 15, MyConstants.ID, userVo.getUserid());
+		boolean idCheck = userDao.validCheckTotal(4, 15, MyConstants.ID, userVo.getUserid());
 		boolean nickNameCheck = userDao.validCheckTotal(2, 10, MyConstants.NINCKNAME, userVo.getUnickname());
 		boolean pwCheck = userDao.validCheckTotal(4, 15, MyConstants.PW, userVo.getUpw());
 		if (resultDubID == true && resultDubNickName == true

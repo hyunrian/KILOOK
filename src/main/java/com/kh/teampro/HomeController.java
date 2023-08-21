@@ -2,6 +2,8 @@ package com.kh.teampro;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,9 @@ import com.kh.teampro.board.user.UserBoardVo;
 
 @Controller
 public class HomeController {
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 	
 	@Autowired
 	private UserBoardService userBoardService;

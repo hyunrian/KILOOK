@@ -15,24 +15,20 @@
 <!-- summernote -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-  
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" -->
-<!-- integrity="sha256-IKhQVXDfwbVELwiR0ke6dX+pJt0RSmWky3WB2pNx9Hg=" crossorigin="anonymous"> -->
 
 <style>
-	/* summernote toolbar 메뉴 옆 화살표 제거 */
-	.dropdown-toggle::after {
-		display: none; 
-	}
-	
-	#btnInsert {
-		position: absolute; 
-		left: 50%; 
-		top: 50%; 
-		transform: translate(-50%, -50%);
-		margin-top: 20px;
-	}
+/* summernote toolbar 메뉴 옆 화살표 제거 */
+.dropdown-toggle::after {
+	display: none; 
+}
 
+#btnInsert {
+	position: absolute; 
+	left: 50%; 
+	top: 50%; 
+	transform: translate(-50%, -50%);
+	margin-top: 20px;
+}
 </style>
 
 <script>
@@ -170,8 +166,8 @@ $(function() {
 	
 	// 게시글 작성
 	$("#btnInsert").click(function() {
-		setData();
-		$("#articleForm").submit();
+		let result = setData();
+		if (result) $("#articleForm").submit();
 	});
 	
 	// 수정하는 경우 기존 작성내용 불러오기
@@ -181,22 +177,43 @@ $(function() {
 	}
 	
 	$("#btnUpdate").click(function() {
-		setData();
-		$("#articleForm").submit();
+		let result = setData();
+		if (result) $("#articleForm").submit();
 	});
 	
 	function setData() {
 		submitStatus = true;
-		const content = $("#summernote").val();
+		const title = $("#titleText").val().trim();
+		const content = $("#summernote").val().trim();
 		$("#thumbnailPath").html(content);
+		
+		if (title.length > 40) {
+			alertMessage("제목으로 입력 가능한 글자 수는 최대 40자입니다.");
+			return false;
+		}
+		
+		if (title == "") {
+			alertMessage("제목을 입력해주세요.");
+			return false;
+		}
+		
+		
 		const imgSrc = $("#thumbnailPath").find("img").eq(0).attr("src");
 		if (imgSrc != null && imgSrc != "") {
 			const sub = imgSrc.substring((imgSrc.indexOf("="))+1);
 			$("#thumbnail").val(sub);
 		}
+		return true;
+	}
+	
+	function alertMessage(message) {
+		$("#btnModal").trigger("click");
+		$("#modalTitle").show();
+		$("#modalBody").text(message);
 	}
 	
 });	 
+
 </script>
 <%@ include file="/WEB-INF/views/include/menu.jsp"%>
 
@@ -236,6 +253,32 @@ $(function() {
 		</div>
 	</div>
 </section>
+
+<div style="text-align: right;">
+	<span class="alert alert-warning" style="display: none; margin-right: 20px;"></span>
+</div>
+
+<!-- 유저 입력 관련 알림 모달창 -->
+<button type="button" class="btn btn-primary" data-toggle="modal" 
+	data-target="#myModal" id="btnModal" style="display: none;"></button>
+<div class="modal" id="myModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalTitle">
+					<i class="fa-solid fa-triangle-exclamation" style="color: #ec8209;"></i>
+					게시글을 등록할 수 없습니다.
+				</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body" id="modalBody"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn" style="color: white; 
+					background-color: #5CD1E5;" data-dismiss="modal">확인</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <div style="display: none;">
 	<span id="temp"></span>
