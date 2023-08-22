@@ -18,8 +18,11 @@ public class LikeUserBoardController {
 	@Autowired
 	private LikeUserBoardService likeUserBoardService;
 	
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addLike(LikeUserBoardVo likeUserBoardVo) {
+	@RequestMapping(value = "/add/{bno}", method = RequestMethod.POST)
+	public String addLike(@PathVariable int bno, HttpSession session) {
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		LikeUserBoardVo likeUserBoardVo = 
+				new LikeUserBoardVo(loginInfo.getUserid(), bno);
 		likeUserBoardService.addLike(likeUserBoardVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}
@@ -35,8 +38,11 @@ public class LikeUserBoardController {
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
-	@RequestMapping(value = "/liked", method = RequestMethod.GET)
-	public boolean userLiked(LikeUserBoardVo likeUserBoardVo) {
+	@RequestMapping(value = "/liked/{bno}", method = RequestMethod.GET)
+	public boolean userLiked(@PathVariable int bno, HttpSession session) {
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		LikeUserBoardVo likeUserBoardVo = 
+				new LikeUserBoardVo(loginInfo.getUserid(), bno);
 		return likeUserBoardService.userLiked(likeUserBoardVo);
 	}
 	

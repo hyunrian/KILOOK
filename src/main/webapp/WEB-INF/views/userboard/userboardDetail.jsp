@@ -105,6 +105,7 @@ body {
 $(function() {
 	
 	const bno = "${userBoardVo.bno}";
+	const loginInfo = "${sessionScope.loginInfo}"; // 안되나..?
 	
 	// 게시글 등록일 날짜 처리
 	if ("${userBoardVo.updatedate}" != null) {
@@ -114,13 +115,8 @@ $(function() {
 	}
 	
 	// 좋아요
-	const sData = {
-			"userid" : "testuser", // 나중에 session에 넣은 loginInfo로 수정 필요
-			"bno" : bno
-	}
-	
 	// 페이지 로딩 시 하트 처리
-	$.get("/like/liked", sData, function(rData) {
+	$.get("/like/liked/" + bno, function(rData) {
 		if (rData) getFullHeart();
 		else getEmptyHeart();
 	});
@@ -131,7 +127,7 @@ $(function() {
 	});
 	
 	$("#heart").click(function() {
-		$.get("/like/liked", sData, function(rData) {
+		$.get("/like/liked/" + bno, function(rData) {
 			const heartCount = parseInt($("#heartCount").text());
 			if (rData) { // 사용자가 해당 글을 이미 좋아요한 경우
 				$.ajax({
@@ -143,7 +139,7 @@ $(function() {
 					}
 				});
 			} else { // 사용자가 해당 글을 아직 좋아요하지 않은 경우
-				$.post("/like/add", sData, function(rData) {
+				$.post("/like/add/" + bno, function(rData) {
 					getFullHeart();
 		 			$("#heartCount").text(heartCount + 1);
 				});
@@ -451,6 +447,13 @@ $(function() {
 			});
 		}
 	});
+	console.log("${loginInfo.userid}")
+	console.log("${userBoardVo.userid}")
+	if ("${loginInfo.userid}" != "${userBoardVo.userid}") {
+		console.log("not same")
+		$("#btnUpdate").remove();
+		$("#btnDelete").remove();
+	}
 	
 });
 </script>
@@ -560,7 +563,8 @@ $(function() {
 									<div class="form-group col-md-1">
 										<input type="button" value="댓글 쓰기" id="replyInsertBtn"
 											class="btn py-3 px-4 btn-primary" style="border: none;"
-											data-type="newReply"> <input type="button"
+											data-type="newReply">
+										<input type="button"
 											value="댓글 수정" id="replyUpdateBtn"
 											class="btn py-3 px-4 btn-primary"
 											style="border: none; display: none;" data-type="newReply">

@@ -74,16 +74,27 @@ body {
 									</div>
 									<select name="" id="" class="form-control"
 										placeholder="Keyword search">
-										<option value="">선택</option>
-										<option value="">San Francisco USA</option>
-										<option value="">Berlin Germany</option>
-										<option value="">Lodon United Kingdom</option>
-										<option value="">Paris Italy</option>
+										<option value="">전체</option>
+										<option value="">강서구</option>
+										<option value="">금정구</option>
+										<option value="">남구</option>
+										<option value="">동구</option>
+										<option value="">동래구</option>
+										<option value="">부산진구</option>
+										<option value="">북구</option>
+										<option value="">사상구</option>
+										<option value="">사하구</option>
+										<option value="">서구</option>
+										<option value="">수영구</option>
+										<option value="">연제구</option>
+										<option value="">영도구</option>
+										<option value="">중구</option>
+										<option value="">해운대구</option>
 									</select>
 								</div>
 								<div class="textfield-search one-third">
 									<input type="text" class="form-control"
-										placeholder="Ex: food, service, hotel">
+										placeholder="키워드 검색">
 								</div>
 							</div>
 							<input type="button" class="search-submit btn btn-primary">

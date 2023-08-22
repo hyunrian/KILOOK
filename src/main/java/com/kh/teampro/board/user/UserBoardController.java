@@ -85,7 +85,11 @@ public class UserBoardController {
 	// 게시글 삭제
 	@ResponseBody
 	@RequestMapping(value = "/delete/{bno}", method = RequestMethod.PATCH)
-	public String deleteArticle(@PathVariable int bno) {
+	public String deleteArticle(@PathVariable int bno, HttpSession session) {
+		
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		
+		// 게시글 작성자와 세션의 작성자가 같을 때만 삭제 처리 (mapper에 작성자 구하는 쿼리 추가해야 함)
 		
 		// delete_yn = 'Y'로 처리(update)
 		userBoardService.deleteArticle(bno);

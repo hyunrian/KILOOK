@@ -1,8 +1,8 @@
 package com.kh.teampro.reply.user;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.paging.ReplyPagingDto;
+import com.kh.teampro.user.info.UserVo;
 
 @RestController
 @RequestMapping("/userReply")
@@ -33,9 +34,12 @@ public class UserReplyController {
 	}
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insertUserReply(UserReplyVo userReplyVo) {
-		userReplyVo.setReplyer("tester"); // session에 넣을 loginInfo의 값으로 변경해야 함
-		userReplyVo.setUserid("testuser"); // session에 넣을 loginInfo의 값으로 변경해야 함
+	public String insertUserReply(UserReplyVo userReplyVo, HttpSession session) {
+		
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		
+		userReplyVo.setReplyer(loginInfo.getUnickname());
+		userReplyVo.setUserid(loginInfo.getUserid());
 		
 		if (userReplyVo.getRlevel() == 0) { // 새 댓글인 경우
 			userReplyService.insertUserNewReply(userReplyVo);
@@ -60,13 +64,15 @@ public class UserReplyController {
 	
 	@RequestMapping(value = "/checkDelete/{rno}", method = RequestMethod.GET)
 	public boolean hasChildReply(@PathVariable String rno) {
-//		System.out.println("checkDelete, rno:" + rno);
 		return userReplyService.hasChildReply(Integer.valueOf(rno));
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PATCH)
-	public String updateUserReply(@RequestBody UserReplyVo userReplyVo) {
-		userReplyVo.setReplyer("star"); // session에 넣을 loginInfo의 값으로 변경해야 함
+	public String updateUserReply(@RequestBody UserReplyVo userReplyVo,
+			HttpSession session) {
+		
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		userReplyVo.setReplyer(loginInfo.getUnickname());
 		userReplyService.updateUserReply(userReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}
