@@ -33,7 +33,7 @@ $(function(){
 				<h2 class="pt-5 mb-5">내 댓글 목록</h2>
             </div>
 
-			<div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+			<div class="ftco-animate fadeInUp ftco-animated bg-light">
 			    <div class="categories">
 			      
 			      <c:choose>
@@ -43,7 +43,7 @@ $(function(){
 	              	<c:otherwise>
 	              		<ul class="comment-list">
 		              	<c:forEach items="${replyList}" var="replyDto" begin="${infoPagingDto.startRow - 1}" end="${infoPagingDto.endRow - 1}">
-			              <li class="comment">
+			              <li class="comment" style="margin-left:  -25px">
 			                 <div class="comment-body">
 			                  	<h3><a href="http://localhost/userboard/detail?bno=${replyDto.bno}">
 			                  	 	${replyDto.replytext}</a></h3>
@@ -57,7 +57,7 @@ $(function(){
 	              </c:choose>
 			    </div>
 
-				<div class="row mt-5" style="padding-top: 48px">
+				<div class="row mt-5" style="padding-top: 24px; padding-bottom: 24px">
 		          <div class="col text-center">
 		            <div class="block-27">
 		              <ul>
