@@ -130,8 +130,6 @@ span {
 	justify-content: center;
 	align-items: center;
 	margin: 0 5px;
-	border-radius: 25px;
-	box-shadow: -5px -5px 10px #fff, 5px 5px 8px #babebc;
 	cursor: pointer;
 }
 
@@ -172,6 +170,14 @@ if (findAccount == "SUCCESS"){
 	alert("일치하는 계정이 없습니다");
 }
 
+// 로고 이미지 변경
+var defaultLogo = $('#homeLogo').attr("src"); // 기본 로고가 있는곳
+  
+$(".btnHome").mouseenter(function() {
+  $("#homeLogo").attr("src", "/resources/images/logo/logo4.png"); // 새 이미지로 변경
+}).mouseleave(function() {
+  $("#homeLogo").attr("src", defaultLogo); // 원래 이미지로 복원
+});
 
 // 사용자 지정 메소드
 // 글자수 제한 (아이디)
@@ -213,10 +219,11 @@ $(function() {
 
 <body>
 	<div class="wrapper">
-		<div class="homeContainer">
+		<div class="homeContainer" onmouseover="changeLogo()">
 			<div class="btnHome">
 				<a href="/">
-					<img style="	max-width: 160px;
+					<img id = "homeLogo"
+						style="	max-width: 160px;
 									height: auto;
 									object-fit: cover;" 
 						alt="home" src="/resources/images/logo/logo1.png">
