@@ -30,6 +30,29 @@ body {
 	text-align: left;
 }
 </style>
+<script>
+$(function() {
+	
+	$("#btnSearch").click(function() {
+		search();
+	});
+	
+	$("#keyword").keydown(function(e) {
+		if (e.keyCode == 13) search();
+	});
+	
+	// 검색 기능
+	function search() {
+		const option = $("#option").val();
+		const keyword = $("#keyword").val().trim();
+		if (keyword != "") {
+			location.href=
+				"/userboard/list?option=" + option + "&keyword=" + keyword;
+		}
+	}
+	
+});
+</script>
 <%@ include file="/WEB-INF/views/include/menu.jsp" %>
 
 <!-- Carousel(이미지 자동 슬라이딩) 적용 부분 -->
@@ -62,42 +85,29 @@ body {
 			<div class="row no-gutters slider-text 
 					js-fullheight align-items-center justify-content-start">
 				<div class="col-md-12">
-					<h1 class="mb-4" style="font-size: 70pt;">
+					<h1 class="mb-4" style="font-size: 70pt; margin-bottom: 80px!important;">
 						<strong>부산,</strong><br>어디로 가볼까요?
 					</h1>
 					<div class="block-17 my-4">
-						<form action="" method="post" class="d-block d-flex">
+						<form action="/userboard/list" method="get" class="d-block d-flex">
 							<div class="fields d-block d-flex">
-								<div class="select-wrap one-third">
+								<div class="select-wrap one-third col-md-3">
 									<div class="icon">
 										<span class="ion-ios-arrow-down"></span>
 									</div>
-									<select name="" id="" class="form-control"
-										placeholder="Keyword search">
-										<option value="">전체</option>
-										<option value="">강서구</option>
-										<option value="">금정구</option>
-										<option value="">남구</option>
-										<option value="">동구</option>
-										<option value="">동래구</option>
-										<option value="">부산진구</option>
-										<option value="">북구</option>
-										<option value="">사상구</option>
-										<option value="">사하구</option>
-										<option value="">서구</option>
-										<option value="">수영구</option>
-										<option value="">연제구</option>
-										<option value="">영도구</option>
-										<option value="">중구</option>
-										<option value="">해운대구</option>
+									<select name="option" id="divSearch" class="form-control">
+										<option value="t">제목</option>
+										<option value="c">내용</option>
+										<option value="tc">제목과 내용</option>
+										<option value="w">글작성자</option>
 									</select>
 								</div>
-								<div class="textfield-search one-third">
+								<div class="textfield-search one-third col-md-9">
 									<input type="text" class="form-control"
-										placeholder="키워드 검색">
+										placeholder="키워드 검색" id="keyword" name="keyword">
 								</div>
 							</div>
-							<input type="button" class="search-submit btn btn-primary">
+							<input type="button" class="search-submit btn btn-primary" id="btnSearch">
 						</form>
 					</div>
 					<!-- 

@@ -68,32 +68,32 @@ public class InfoApiTest {
 		JSONObject sbObj = new JSONObject(sbString);
 		JSONObject objInfoKr = (JSONObject)sbObj.get("getInfoOfficeKr");
 		JSONArray jsonArray = (JSONArray)objInfoKr.get("item");
-//		System.out.println("jsonArr:" + jsonArray.length()); // test ok
+		System.out.println("jsonArr:" + jsonArray.length()); // test ok
 		
-		for (int i = 0; i < jsonArray.length(); i++) {
-			org.json.JSONObject obj = jsonArray.getJSONObject(i);
-			
-			String iname = obj.optString("NM");
-			String openhours = obj.getString("OP_TIME");
-			String inumber = obj.getString("INQRY_TEL");
-			int lat = obj.getInt("LAT");
-			int ilong = obj.getInt("LNG");
-			String address = obj.optString("ADDR1");
-			String language = obj.optString("FGGG");
-			String introduce = obj.optString("INFOFC_INTRCN");
-			
-			InfoVo infoVo = new InfoVo();
-			
-			infoVo.setIname(iname);
-			infoVo.setOpenhours(openhours);
-			infoVo.setInumber(inumber);
-			infoVo.setLat(lat);
-			infoVo.setIlong(ilong);
-			infoVo.setAddress(address);
-			infoVo.setLanguage(language);
-			infoVo.setIntroduce(introduce);
-			
-			infoDao.insertInfo(infoVo);
-		}
+//		for (int i = 0; i < jsonArray.length(); i++) {
+//			org.json.JSONObject obj = jsonArray.getJSONObject(i);
+//			
+//			String iname = obj.optString("NM");
+//			String openhours = obj.getString("OP_TIME");
+//			String inumber = obj.getString("INQRY_TEL");
+//			int lat = obj.getInt("LAT");
+//			int ilong = obj.getInt("LNG");
+//			String address = obj.optString("ADDR1");
+//			String language = obj.optString("FGGG");
+//			String introduce = obj.optString("INFOFC_INTRCN");
+//			
+//			InfoVo infoVo = new InfoVo();
+//			
+//			infoVo.setIname(iname);
+//			infoVo.setOpenhours(openhours);
+//			infoVo.setInumber(inumber);
+//			infoVo.setLat(lat);
+//			infoVo.setIlong(ilong);
+//			infoVo.setAddress(address);
+//			infoVo.setLanguage(language);
+//			infoVo.setIntroduce(introduce);
+//			
+//			infoDao.insertInfo(infoVo);
+//		}
 	}
 }

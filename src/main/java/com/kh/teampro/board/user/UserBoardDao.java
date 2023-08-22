@@ -59,4 +59,8 @@ public class UserBoardDao {
 	public List<UserBoardVo> getTopSix() {
 		return sqlSession.selectList(NAMESPACE + "getTopSix");
 	}
+	
+	public String getUserid(int bno) {
+		return sqlSession.selectOne(NAMESPACE + "getUserid", bno);
+	}
 }

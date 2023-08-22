@@ -86,4 +86,8 @@ public class UserBoardService {
 		return userBoardDao.getTopSix();
 	}
 	
+	public String getUserid(int bno) {
+		return userBoardDao.getUserid(bno);
+	}
+	
 }

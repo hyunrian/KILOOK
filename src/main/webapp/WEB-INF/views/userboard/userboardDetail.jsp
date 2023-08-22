@@ -105,7 +105,7 @@ body {
 $(function() {
 	
 	const bno = "${userBoardVo.bno}";
-	const loginInfo = "${sessionScope.loginInfo}"; // 안되나..?
+	const userid = "${sessionScope.loginInfo.userid}";
 	
 	// 게시글 등록일 날짜 처리
 	if ("${userBoardVo.updatedate}" != null) {
@@ -182,10 +182,6 @@ $(function() {
 		showOrHideMoreReply();
 	});
 	
-	$("#replyText").click(function() {
-		console.log("click")
-	});
-	
 	// 댓글 더보기버튼 가리기/보이기
 	function showOrHideMoreReply() {
 		$.get("/userReply/totalCount/" + bno, function(rData) {
@@ -226,7 +222,7 @@ $(function() {
 // 			$(".replyElem").remove();
 			
 			for (var i = 0; i < userReplyVo.length; i++) {
-				
+				console.log("content: " + userReplyVo[i].replytext);
 // 				var status = "default"; // 삭제처리되지 않은 댓글
 // 				let deleted = userReplyVo[i].delete_yn;
 // 				$.get("/userReply/checkDelete/" + userReplyVo[i].rno, function(hasReply) {
@@ -287,6 +283,16 @@ $(function() {
 		 				$("#replyList").append(reply);
 		 				
 		 				showOrHideMoreReply();
+		 				
+		 				// 로그인한 사용자가 쓴 댓글만 수정/삭제버튼 보이게 처리
+		 				$.get("/userReply/userid/" + userReplyVo[i].rno, function(replyer) {
+			 				if (userid != replyer) {
+			 					const aUpdate = div.find("p > a").eq(0);
+			 					const aDelete = div.find("p > a").eq(1);
+			 					aUpdate.remove();
+			 					aDelete.remove();
+			 				}
+		 				});
 // 					} 
 // 				}, 600); // 비동기처리에 시간이 걸려 조건에 따른 status 설정이 늦어져 일정 시간 이후 처리를 해야 삭제처리된 댓글이 보이지 않음
 				
@@ -358,15 +364,21 @@ $(function() {
 				"rno" : that.attr("data-rno"),
 				"bno" : bno
 		};
-		$.ajax({
-			"type" : "patch",
-			"url" : "/userReply/delete",
-			"contentType" : "application/json",
-			"data" : JSON.stringify(sData),
-			"success" : function(rData) {
-				// 삭제했을 때 밑에 대댓글이 있으면 삭제된 댓글입니다 처리 필요
-				that.closest(".replyElem").fadeOut(700);
-				getReplycnt(bno);
+		
+		$.get("/userReply/userid/" + rno, function(replyer) {
+			if (userid == replyer) {
+				$.ajax({
+					"type" : "patch",
+					"url" : "/userReply/delete",
+					"contentType" : "application/json",
+					"data" : JSON.stringify(sData),
+					"success" : function(rData) {
+						that.closest(".replyElem").fadeOut(700);
+						getReplycnt(bno);
+					}
+				});
+			} else {
+				alert("잘못된 접근입니다.");
 			}
 		});
 	});
@@ -382,19 +394,28 @@ $(function() {
 	$("#replyList").on("click", ".updateReply", function(e) {
 		e.preventDefault();
 // 		$("#updateFormCopy").remove();
-		$(".replyForm").remove();
-		$(".replyElem").find("div").show();
-		const element = $(this).closest(".replyElem");
-		const replyForm = $("#replyForm").clone();
-		replyForm.addClass("replyForm");
-		replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
-		const replytext = element.find("span").eq(1).text();
-		replyForm.find("#replytext").val(replytext);
-		const rno = $(this).attr("data-rno");
-		replyForm.find("#replyInsertBtn").hide();		
-		replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
-		element.find("div").hide();
-		element.append(replyForm);
+		const that = $(this);
+		
+		$.get("/userReply/userid/" + that.attr("data-rno"), function(rData) {
+			if (userid == rData) {
+				$(".replyForm").remove();
+				$(".replyElem").find("div").show();
+				
+				const element = that.closest(".replyElem");
+				const replyForm = $("#replyForm").clone();
+				replyForm.addClass("replyForm");
+				replyForm.attr("style", "margin-top: 30px; margin-bottom: 80px;");
+				const replytext = element.find("span").eq(1).text();
+				replyForm.find("#replytext").val(replytext);
+				const rno = that.attr("data-rno");
+				replyForm.find("#replyInsertBtn").hide();		
+				replyForm.find("#replyUpdateBtn").show().attr("data-rno", rno);
+				element.find("div").hide();
+				element.append(replyForm);
+			} else {
+				alert("잘못된 접근입니다.");
+			}
+		});
 	});
 	
 	// 댓글 수정
@@ -532,7 +553,8 @@ $(function() {
 								<div class="comment-body">
 									<h3>작성자</h3>
 									<div class="meta" style="text-align: right;">날짜</div>
-									<span style="font-weight: bold; display: none;">@원댓글작성자</span> <span>내용</span>
+									<span style="font-weight: bold; display: none;">@원댓글작성자</span>
+									<span>내용</span>
 									<p style="text-align: right;">
 										<a href="#" class="reply updateReply">수정</a>
 										<a href="#" class="reply deleteReply">삭제</a> 
@@ -553,7 +575,7 @@ $(function() {
 					
 					<!-- 댓글쓰기 -->
 					<div class="comment-form-wrap pt-5" id="divWrite">
-<!-- 						<form action="#" id="replyForm" style="margin-top: 40px;"> -->
+						<form action="#" id="replyForm" style="margin-top: 40px;">
 							<div class="container-fluid" style="padding-left: 0px;">
 								<div class="row" style="height: 60px;">
 									<div class="form-group col-md-11">
@@ -571,15 +593,15 @@ $(function() {
 									</div>
 								</div>
 							</div>
-<!-- 						</form> -->
+						</form>
 					</div> 
 				</div><!-- //댓글 -->
 			</div>
 		</div>
 	</div>
-	
-	<!-- 상단으로 이동 버튼 -->
-	<%@ include file="/WEB-INF/views/include/pageup.jsp" %>
 </section>
+
+<!-- 상단으로 이동 버튼 -->
+<%@ include file="/WEB-INF/views/include/pageup.jsp" %>
 
 <%@ include file="/WEB-INF/views/include/footer.jsp"%>

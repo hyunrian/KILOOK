@@ -29,7 +29,6 @@ public class UserReplyController {
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET) 
 	public Map<String, Object> getUserReply(ReplyPagingDto replyPagingDto) {
-		System.out.println("controller, nowPage: " + replyPagingDto.getNowPage());
 		return userReplyService.getTenReplies(replyPagingDto);
 	}
 	
@@ -57,8 +56,10 @@ public class UserReplyController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.PATCH)
-	public String deleteUserReply(@RequestBody UserReplyVo userReplyVo) {
-		userReplyService.deleteReply(userReplyVo);
+	public String deleteUserReply(@RequestBody UserReplyVo userReplyVo,
+			HttpSession session) {
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		userReplyService.deleteReply(userReplyVo, loginInfo.getUserid());
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
@@ -73,7 +74,7 @@ public class UserReplyController {
 		
 		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		userReplyVo.setReplyer(loginInfo.getUnickname());
-		userReplyService.updateUserReply(userReplyVo);
+		userReplyService.updateUserReply(userReplyVo, loginInfo.getUserid());
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
@@ -87,6 +88,11 @@ public class UserReplyController {
 		return userReplyService.getReplycnt(bno);
 	} 
 	
+	// 댓글번호로 댓글 작성자 아이디 얻기
+	@RequestMapping(value = "/userid/{rno}", method = RequestMethod.GET)
+	public String getUserid(@PathVariable int rno) {
+		return userReplyService.getUserid(rno);
+	}
 	
 	
 }

@@ -66,45 +66,46 @@ public class PlaceApiTest {
 		JSONObject sbObj = new JSONObject(sbString);
 		JSONObject objAttractionKr = (JSONObject)sbObj.get("getAttractionKr");
 		JSONArray jsonArray = (JSONArray)objAttractionKr.get("item");
+		System.out.println("length: " + jsonArray.length());
 		
-		for (int i = 0; i < jsonArray.length(); i++) {
-			org.json.JSONObject obj = jsonArray.getJSONObject(i);
-//			System.out.println("obj:" + obj);
-//			System.out.println("===============");
-			
-			String title = obj.getString("TITLE");
-			String content = obj.getString("ITEMCNTNTS");
-			String aname = obj.getString("PLACE");
-			String location = obj.getString("GUGUN_NM");
-			int lat = obj.getInt("LAT");
-			int along = obj.getInt("LNG");
-			String address = obj.getString("ADDR1");
-			String anumber = obj.getString("CNTCT_TEL");
-			String opendays = obj.getString("USAGE_DAY");
-			String openhours = obj.getString("USAGE_DAY_WEEK_AND_TIME");
-			String price = obj.getString("USAGE_AMOUNT");
-			String facility = obj.getString("MIDDLE_SIZE_RM1");
-			String image = obj.getString("MAIN_IMG_NORMAL");
-			String thumbimage = obj.getString("MAIN_IMG_THUMB"); 
-			
-			PlaceVo placeVo = new PlaceVo();
-			
-			placeVo.setTitle(title);
-			placeVo.setContent(content);
-			placeVo.setAname(aname);
-			placeVo.setLocation(location);
-			placeVo.setLat(lat);
-			placeVo.setAlong(along);
-			placeVo.setAddress(address);
-			placeVo.setAnumber(anumber);
-			placeVo.setOpendays(opendays);
-			placeVo.setOpenhours(openhours);
-			placeVo.setPrice(price);
-			placeVo.setFacility(facility);
-			placeVo.setImage(image);
-			placeVo.setThumbimage(thumbimage);
-			
-			placeDao.insertPlace(placeVo);
-		}
+//		for (int i = 0; i < jsonArray.length(); i++) {
+//			org.json.JSONObject obj = jsonArray.getJSONObject(i);
+////			System.out.println("obj:" + obj);
+////			System.out.println("===============");
+//			
+//			String title = obj.getString("TITLE");
+//			String content = obj.getString("ITEMCNTNTS");
+//			String aname = obj.getString("PLACE");
+//			String location = obj.getString("GUGUN_NM");
+//			int lat = obj.getInt("LAT");
+//			int along = obj.getInt("LNG");
+//			String address = obj.getString("ADDR1");
+//			String anumber = obj.getString("CNTCT_TEL");
+//			String opendays = obj.getString("USAGE_DAY");
+//			String openhours = obj.getString("USAGE_DAY_WEEK_AND_TIME");
+//			String price = obj.getString("USAGE_AMOUNT");
+//			String facility = obj.getString("MIDDLE_SIZE_RM1");
+//			String image = obj.getString("MAIN_IMG_NORMAL");
+//			String thumbimage = obj.getString("MAIN_IMG_THUMB"); 
+//			
+//			PlaceVo placeVo = new PlaceVo();
+//			
+//			placeVo.setTitle(title);
+//			placeVo.setContent(content);
+//			placeVo.setAname(aname);
+//			placeVo.setLocation(location);
+//			placeVo.setLat(lat);
+//			placeVo.setAlong(along);
+//			placeVo.setAddress(address);
+//			placeVo.setAnumber(anumber);
+//			placeVo.setOpendays(opendays);
+//			placeVo.setOpenhours(openhours);
+//			placeVo.setPrice(price);
+//			placeVo.setFacility(facility);
+//			placeVo.setImage(image);
+//			placeVo.setThumbimage(thumbimage);
+//			
+//			placeDao.insertPlace(placeVo);
+//		}
 	}
 }

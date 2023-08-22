@@ -38,7 +38,7 @@ public class HomeController {
 	private FoodService foodService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model) throws Exception { // 예외처리 필요
+	public String home(Model model) throws Exception {
 		
 		List<UserBoardVo> list = userBoardService.getTopSix();
 		List<AccomVo> accList = accomService.getBestAccom();

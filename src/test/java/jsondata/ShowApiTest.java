@@ -68,32 +68,32 @@ public class ShowApiTest {
 		JSONObject sbObj = new JSONObject(sbString);
 		JSONObject objAttractionKr = (JSONObject)sbObj.get("getBusanCultureExhibitDetail");
 		JSONArray jsonArray = (JSONArray)objAttractionKr.get("item");
-//		System.out.println("jsonArr length:" + jsonArray.length()); // test ok
+		System.out.println("jsonArr length:" + jsonArray.length()); // test ok
 		
-		for (int i = 0; i < jsonArray.length(); i++) {
-			org.json.JSONObject obj = jsonArray.getJSONObject(i);
-//			System.out.println("obj:" + obj);
-//			System.out.println("===============");
-			
-			String showname = obj.getString("title");
-			String begindate = obj.optString("op_st_dt");
-			String enddate = obj.optString("op_ed_dt");
-			String placename = obj.getString("place_nm");
-			String openhours = obj.getString("showtime");
-			String price = obj.getString("price");
-			String surl = obj.getString("dabom_url");
-			
-			ShowVo showVo = new ShowVo();
-			
-			showVo.setShowname(showname);
-			showVo.setBegindate(begindate);
-			showVo.setEnddate(enddate);
-			showVo.setPlacename(placename);
-			showVo.setOpenhours(openhours);
-			showVo.setPrice(price);
-			showVo.setUrl(surl);
-			
-			showDao.insertShow(showVo);
-		}
+//		for (int i = 0; i < jsonArray.length(); i++) {
+//			org.json.JSONObject obj = jsonArray.getJSONObject(i);
+////			System.out.println("obj:" + obj);
+////			System.out.println("===============");
+//			
+//			String showname = obj.getString("title");
+//			String begindate = obj.optString("op_st_dt");
+//			String enddate = obj.optString("op_ed_dt");
+//			String placename = obj.getString("place_nm");
+//			String openhours = obj.getString("showtime");
+//			String price = obj.getString("price");
+//			String surl = obj.getString("dabom_url");
+//			
+//			ShowVo showVo = new ShowVo();
+//			
+//			showVo.setShowname(showname);
+//			showVo.setBegindate(begindate);
+//			showVo.setEnddate(enddate);
+//			showVo.setPlacename(placename);
+//			showVo.setOpenhours(openhours);
+//			showVo.setPrice(price);
+//			showVo.setUrl(surl);
+//			
+//			showDao.insertShow(showVo);
+//		}
 	}
 }

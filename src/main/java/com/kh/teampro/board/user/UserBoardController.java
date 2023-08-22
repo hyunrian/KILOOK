@@ -88,23 +88,31 @@ public class UserBoardController {
 	public String deleteArticle(@PathVariable int bno, HttpSession session) {
 		
 		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
-		
-		// 게시글 작성자와 세션의 작성자가 같을 때만 삭제 처리 (mapper에 작성자 구하는 쿼리 추가해야 함)
-		
-		// delete_yn = 'Y'로 처리(update)
-		userBoardService.deleteArticle(bno);
+		String articleUserid = userBoardService.getUserid(bno);
+		if (articleUserid.equals(loginInfo.getUserid())) {
+			// delete_yn = 'Y'로 처리(update)
+			userBoardService.deleteArticle(bno);
+		}
 		
 		return "/userboard/list";
 	}
 	
 	// 게시글 수정 페이지 이동
 	@RequestMapping(value = "/update/{bno}", method = RequestMethod.GET)
-	public String updateArticle(@PathVariable int bno, Model model) {
+	public String updateArticle(@PathVariable int bno, 
+			Model model, HttpSession session) {
 		
-		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
-		model.addAttribute("userBoardVo", userBoardVo);
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		String articleUserid = userBoardService.getUserid(bno);
 		
-		return "userboard/userboardWrite";
+		if (articleUserid.equals(loginInfo.getUserid())) {
+			UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
+			model.addAttribute("userBoardVo", userBoardVo);
+			return "userboard/userboardWrite";
+		} else {
+			return "/exception/error404";
+		}
+		
 	}
 	
 	// 게시글 수정 처리

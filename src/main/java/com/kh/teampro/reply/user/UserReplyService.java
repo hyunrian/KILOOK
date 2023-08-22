@@ -49,17 +49,24 @@ public class UserReplyService {
 	}
 	
 	@Transactional
-	public void deleteReply(UserReplyVo userReplyVo) {
-		userReplyDao.deleteReply(userReplyVo.getRno());
-		setUserBoardReplycnt(userReplyVo.getBno());
+	public void deleteReply(UserReplyVo userReplyVo, String userid) {
+		int rno = userReplyVo.getRno();
+		String replyUserId =  getUserid(rno);
+		
+		if (replyUserId.equals(userid)) { // 댓글작성자와 로그인한 사용자가 동일할 때만 삭제 처리
+			userReplyDao.deleteReply(rno);
+			setUserBoardReplycnt(userReplyVo.getBno());
+		}
 	}
 	
 	public boolean hasChildReply(int rno) {
 		return userReplyDao.hasChildReply(rno);
 	}
 	
-	public void updateUserReply(UserReplyVo userReplyVo) {
-		userReplyDao.updateUserReply(userReplyVo);
+	public void updateUserReply(UserReplyVo userReplyVo, String userid) {
+		String replyer =  userReplyVo.getReplyer();
+		if (replyer.equals(userid)) // 댓글작성자와 로그인한 사용자가 동일할 때만 수정 처리
+			userReplyDao.updateUserReply(userReplyVo);
 	}
 	
 	public void setUserBoardReplycnt(int bno) {
@@ -78,7 +85,6 @@ public class UserReplyService {
 		
 		replyPagingDto = new ReplyPagingDto(bno, nowPage, totalCount);
 		
-		System.out.println("in dto: " + replyPagingDto);
 		List<UserReplyVo> list = userReplyDao.getTenReplies(replyPagingDto);
 		replyPagingDto.setNowPage(replyPagingDto.getNowPage() + 1);
 		
@@ -86,13 +92,14 @@ public class UserReplyService {
 		map.put("list", list);
 		map.put("replyPagingDto", replyPagingDto);
 		
-		System.out.println("out dto: " + replyPagingDto);
-//		System.out.println("out list: " + list);
-		
 		return map;
 	}
 	
 	public int getTotalCount(int bno) {
 		return userReplyDao.getTotalCount(bno);
+	}
+	
+	public String getUserid(int rno) {
+		return userReplyDao.getUserid(rno);
 	}
 }

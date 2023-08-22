@@ -69,4 +69,8 @@ public class UserReplyDao {
 	public int getTotalCount(int bno) {
 		return sqlSession.selectOne(NAMESPACE + "getTotalCount", bno);
 	}
+	
+	public String getUserid(int rno) {
+		return sqlSession.selectOne(NAMESPACE + "getUserid", rno);
+	}
 }

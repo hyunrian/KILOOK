@@ -124,4 +124,10 @@
 		where bno = #{bno}
 	</update>
 	
+	<!-- 게시글 작성자 얻기 -->
+	<select id="getUserid" resultType="string">
+		select userid from tbl_userboard
+		where bno = #{bno}
+	</select>
+	
 </mapper>

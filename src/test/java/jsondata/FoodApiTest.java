@@ -68,46 +68,46 @@ public class FoodApiTest {
 		JSONObject sbObj = new JSONObject(sbString);
 		JSONObject objFoodKr = (JSONObject)sbObj.get("getFoodKr");
 		JSONArray jsonArray = (JSONArray)objFoodKr.get("item");
-		
+		System.out.println("jsonArrLength:" + jsonArray.length());
 		// sbString을 JSONArray로 변환
 //			JSONArray jsonArray = new org.json.JSONArray(sbString);
 
 		//jsonArray를 사용하여 각각의 JSON 객체에서 데이터 추출
 		
-		for (int i = 0; i < jsonArray.length(); i++) {
-			org.json.JSONObject obj = jsonArray.getJSONObject(i);
+//		for (int i = 0; i < jsonArray.length(); i++) {
+//			org.json.JSONObject obj = jsonArray.getJSONObject(i);
 //			System.out.println("obj:" + obj);
 //			System.out.println("===============");
 			
-			String rname = obj.getString("MAIN_TITLE");
-			String content = obj.getString("ITEMCNTNTS");
-			String location = obj.getString("GUGUN_NM");
-			String address = obj.getString("ADDR1");
-			String rnumber = obj.getString("CNTCT_TEL");
-			String rurl = obj.getString("HOMEPAGE_URL");
-			String openhours = obj.getString("USAGE_DAY_WEEK_AND_TIME");
-			String menu = obj.getString("RPRSNTV_MENU");
-			int lat = obj.getInt("LAT");
-			int rlong = obj.getInt("LNG");
-			String image = obj.getString("MAIN_IMG_NORMAL");
-			String thumbimage = obj.getString("MAIN_IMG_THUMB");
-			
-			FoodVo foodVo = new FoodVo();
-			
-			foodVo.setRname(rname);
-			foodVo.setContent(content);
-			foodVo.setLocation(location);
-			foodVo.setAddress(address);
-			foodVo.setRnumber(rnumber);
-			foodVo.setUrl(rurl);
-			foodVo.setOpenhours(openhours);
-			foodVo.setMenu(menu);
-			foodVo.setLat(lat);
-			foodVo.setRlong(rlong);
-			foodVo.setImage(image);
-			foodVo.setThumbimage(thumbimage);
-//			System.out.println("foodVo:" + foodVo);
-			foodDao.insertFood(foodVo);
-		}
+//			String rname = obj.getString("MAIN_TITLE");
+//			String content = obj.getString("ITEMCNTNTS");
+//			String location = obj.getString("GUGUN_NM");
+//			String address = obj.getString("ADDR1");
+//			String rnumber = obj.getString("CNTCT_TEL");
+//			String rurl = obj.getString("HOMEPAGE_URL");
+//			String openhours = obj.getString("USAGE_DAY_WEEK_AND_TIME");
+//			String menu = obj.getString("RPRSNTV_MENU");
+//			int lat = obj.getInt("LAT");
+//			int rlong = obj.getInt("LNG");
+//			String image = obj.getString("MAIN_IMG_NORMAL");
+//			String thumbimage = obj.getString("MAIN_IMG_THUMB");
+//			
+//			FoodVo foodVo = new FoodVo();
+//			
+//			foodVo.setRname(rname);
+//			foodVo.setContent(content);
+//			foodVo.setLocation(location);
+//			foodVo.setAddress(address);
+//			foodVo.setRnumber(rnumber);
+//			foodVo.setUrl(rurl);
+//			foodVo.setOpenhours(openhours);
+//			foodVo.setMenu(menu);
+//			foodVo.setLat(lat);
+//			foodVo.setRlong(rlong);
+//			foodVo.setImage(image);
+//			foodVo.setThumbimage(thumbimage);
+////			System.out.println("foodVo:" + foodVo);
+//			foodDao.insertFood(foodVo);
+//		}
 	}
 }

@@ -73,37 +73,37 @@ public class AccomApiTest {
 		int jsonArrLength = jsonArray.length();
 		System.out.println("jsonArrLength:" + jsonArrLength);
 		
-		for (int i = 0; i < jsonArray.length(); i++) {
-			org.json.JSONObject obj = jsonArray.getJSONObject(i);
+//		for (int i = 0; i < jsonArray.length(); i++) {
+//			org.json.JSONObject obj = jsonArray.getJSONObject(i);
 //			System.out.println("obj:" + obj);
 //			System.out.println("===============");
 			
-			String category = obj.getString("카테고리명");
-			String aname = obj.getString("업체명");
-			String location = obj.getString("시군구명");
-			String address = obj.optString("도로명");
-			String addressdetail = obj.optString("도로명상세");
-			String anumber = obj.optString("전화번호");
-			String aurl = obj.optString("홈페이지주소");
-			String lat = obj.getString("위도");
-			String aclong = obj.getString("경도");
-			String image = accomImg[(int)(Math.random() * accomImg.length)];
-			
-			AccomVo accomVo = new AccomVo();
-			
-			accomVo.setCategory(category);
-			accomVo.setAname(aname);
-			accomVo.setLocation(location);
-			accomVo.setAddress(address);
-			accomVo.setAddressdetail(addressdetail);
-			accomVo.setAnumber(anumber);
-			accomVo.setUrl(aurl);
-			accomVo.setLat(lat);
-			accomVo.setAclong(aclong);
-			accomVo.setImage(image);
-			
-			accomDao.insertAccom(accomVo);
-		}
-		System.out.println("SUCCESS");
+//			String category = obj.getString("카테고리명");
+//			String aname = obj.getString("업체명");
+//			String location = obj.getString("시군구명");
+//			String address = obj.optString("도로명");
+//			String addressdetail = obj.optString("도로명상세");
+//			String anumber = obj.optString("전화번호");
+//			String aurl = obj.optString("홈페이지주소");
+//			String lat = obj.getString("위도");
+//			String aclong = obj.getString("경도");
+//			String image = accomImg[(int)(Math.random() * accomImg.length)];
+//			
+//			AccomVo accomVo = new AccomVo();
+//			
+//			accomVo.setCategory(category);
+//			accomVo.setAname(aname);
+//			accomVo.setLocation(location);
+//			accomVo.setAddress(address);
+//			accomVo.setAddressdetail(addressdetail);
+//			accomVo.setAnumber(anumber);
+//			accomVo.setUrl(aurl);
+//			accomVo.setLat(lat);
+//			accomVo.setAclong(aclong);
+//			accomVo.setImage(image);
+//			
+//			accomDao.insertAccom(accomVo);
+//		}
+//		System.out.println("SUCCESS");
 	}
 }

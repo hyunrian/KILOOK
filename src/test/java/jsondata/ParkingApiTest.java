@@ -72,40 +72,40 @@ public class ParkingApiTest {
 		JSONArray jsonArray = (JSONArray)objItems.get("item");
 		System.out.println("jsonArr length:" + jsonArray.length()); // test ok
 		
-		for (int i = 0; i < jsonArray.length(); i++) {
-			org.json.JSONObject obj = jsonArray.getJSONObject(i);
-//			System.out.println("obj:" + obj);
-//			System.out.println("===============");
-			
-			String pname = obj.getString("pkNam");
-			String lat = obj.getString("xCdnt");
-			String plong = obj.getString("fnlDt");
-			String jibunaddress = obj.getString("jibunAddr");
-			String doroaddress = obj.getString("doroAddr");
-			String weekdayopen = obj.getString("svcSrtTe");
-			String weekdayclose = obj.getString("svcEndTe");
-			String saturdayopen = obj.getString("satSrtTe");
-			String saturdayclose = obj.getString("satEndTe");
-			String holidayopen = obj.getString("hldSrtTe");
-			String holidayclose = obj.getString("hldEndTe");
-			String price = obj.getString("tenMin");
-					
-			ParkingVo parkingVo = new ParkingVo();
-			
-			parkingVo.setPname(pname);
-			parkingVo.setLat(lat);
-			parkingVo.setPlong(plong);
-			parkingVo.setJibunaddress(jibunaddress);
-			parkingVo.setDoroaddress(doroaddress);
-			parkingVo.setWeekdayopen(weekdayopen);
-			parkingVo.setWeekdayclose(weekdayclose);
-			parkingVo.setSaturdayopen(saturdayopen);
-			parkingVo.setSaturdayclose(saturdayclose);
-			parkingVo.setHolidayopen(holidayopen);
-			parkingVo.setHolidayclose(holidayclose);
-			parkingVo.setPrice(price);
-			
-			parkingDao.insertParking(parkingVo);
-		}
+//		for (int i = 0; i < jsonArray.length(); i++) {
+//			org.json.JSONObject obj = jsonArray.getJSONObject(i);
+////			System.out.println("obj:" + obj);
+////			System.out.println("===============");
+//			
+//			String pname = obj.getString("pkNam");
+//			String lat = obj.getString("xCdnt");
+//			String plong = obj.getString("fnlDt");
+//			String jibunaddress = obj.getString("jibunAddr");
+//			String doroaddress = obj.getString("doroAddr");
+//			String weekdayopen = obj.getString("svcSrtTe");
+//			String weekdayclose = obj.getString("svcEndTe");
+//			String saturdayopen = obj.getString("satSrtTe");
+//			String saturdayclose = obj.getString("satEndTe");
+//			String holidayopen = obj.getString("hldSrtTe");
+//			String holidayclose = obj.getString("hldEndTe");
+//			String price = obj.getString("tenMin");
+//					
+//			ParkingVo parkingVo = new ParkingVo();
+//			
+//			parkingVo.setPname(pname);
+//			parkingVo.setLat(lat);
+//			parkingVo.setPlong(plong);
+//			parkingVo.setJibunaddress(jibunaddress);
+//			parkingVo.setDoroaddress(doroaddress);
+//			parkingVo.setWeekdayopen(weekdayopen);
+//			parkingVo.setWeekdayclose(weekdayclose);
+//			parkingVo.setSaturdayopen(saturdayopen);
+//			parkingVo.setSaturdayclose(saturdayclose);
+//			parkingVo.setHolidayopen(holidayopen);
+//			parkingVo.setHolidayclose(holidayclose);
+//			parkingVo.setPrice(price);
+//			
+//			parkingDao.insertParking(parkingVo);
+//		}
 	}
 }
