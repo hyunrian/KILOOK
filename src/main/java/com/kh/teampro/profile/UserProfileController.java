@@ -59,7 +59,7 @@ public class UserProfileController {
 				byte[] bytes = file.getBytes();
 				String filePath = attachService.saveProfileFile(file, userVo.getUserid());
 				System.out.println("filePath : " + filePath);
-				return "C:/teampro" + filePath;
+				return filePath;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -17,6 +17,10 @@
 </style>
 <script>
 $(function(){
+	// 페이지 실행되면 유저 프로필사진 display
+	var userid = $("#userid").val();
+	$("#userProfile").attr("src", "/profile/display?userid=" + userid);
+	
 	// 유저 이미지 변경 미리보기(파일선택 버튼)
 	let filePath = "";
 	$("#inputImg").change(function (e) {
@@ -80,26 +84,6 @@ $(function(){
 	
 });
 
-
-
-//-----파일 적합성 확인(현재 미구현)-----
-//파일이 이미지가 아니거나, 용량이 너무 크면 적합성 확인 후 유저정보 수정 버튼 비활성화 + 경고문 출력할 것(기능 정상적 구동 확인 후 추가할 것)
-// 확장자가 이미지 파일인지 확인
-function isImageFile(file) {
-
-    var ext = file.name.split(".").pop().toLowerCase(); // 파일명에서 확장자를 가져온다. 
-
-    return ($.inArray(ext, ["jpg", "jpeg", "gif", "png"]) === -1) ? false : true;
-}
-// 파일의 최대 사이즈 확인
-function isOverSize(file) {
-
-    var maxSize = 16 * 1024; // 16KB로 제한 
-
-    return (file.size > maxSize) ? true : false;
-}
-//----//파일 적합성 확인----
-
 </script>
 <body>
     <section class="ftco-section ftco-degree-bg">
@@ -122,7 +106,7 @@ function isOverSize(file) {
 			                <img src="/resources/images/userProfile/default_profile.png" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">
 	              		</c:when>
 	              		<c:otherwise>
-			                <img src="${userVo.uimg}" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">              		
+			                <img id="userProfile" src="${userVo.uimg}" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">              		
 	              		</c:otherwise>
 	              	</c:choose>
              		<input type="file" id="inputImg">
