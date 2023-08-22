@@ -48,10 +48,16 @@
  	<!-- 인터셉트할 컨트롤러 주소 -->
 	<mapping path="/databoard/**/*"/>					<!-- 숙소, 명소 -->
 	<mapping path="/userInfo/**/*"/>					<!-- 마이페이지 -->
+	<mapping path="/userboard/**/*"/>					<!-- 게시판 -->
  	<!-- 인터셉터하지 않을 예외 주소 -->
-	<exclude-mapping path="/databoard/attraction"/>		<!-- 명소 전체보기 -->
-	<exclude-mapping path="/databoard/accommodation"/>	<!-- 숙소 전체보기 -->
 	<exclude-mapping path="/databoard/restaurant"/>		<!-- 맛집 전체보기 -->
+	<exclude-mapping path="/databoard/accommodation"/>	<!-- 숙소 전체보기 -->
+	<exclude-mapping path="/databoard/attraction"/>		<!-- 명소 전체보기 -->
+	<exclude-mapping path="/databoard/show"/>			<!-- 전시 전체보기 -->
+	<exclude-mapping path="/databoard/cafe"/>			<!-- 카페 전체보기 -->
+	<exclude-mapping path="/databoard/parking"/>		<!-- 주차장 전체보기 -->
+	<exclude-mapping path="/databoard/tourguide"/>		<!-- 관광안내소 전체보기 -->
+	<exclude-mapping path="/userboard/list"/>			<!-- 게시판 전체보기 -->
 	<beans:ref bean="authInterceptor"/>
 	</interceptor>
 </interceptors>
