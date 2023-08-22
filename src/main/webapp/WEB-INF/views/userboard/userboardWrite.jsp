@@ -22,6 +22,11 @@
 	display: none; 
 }
 
+body {
+	font-family: "Pretendard Variable"; 
+	background-color: #f8f9fa;
+}
+
 #btnInsert {
 	position: absolute; 
 	left: 50%; 

@@ -1,15 +1,15 @@
 package com.kh.teampro.Like.board;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.user.info.UserVo;
 
 @RestController
 @RequestMapping("/like")
@@ -24,11 +24,13 @@ public class LikeUserBoardController {
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
-	@RequestMapping(value = "/cancel/{bno}/{unickname}", 
+	@RequestMapping(value = "/cancel/{bno}",
 			method = RequestMethod.DELETE)
-		public String cancelLike(
-				@PathVariable String unickname, @PathVariable int bno) {
-		LikeUserBoardVo likeUserBoardVo = new LikeUserBoardVo(unickname, bno);
+		public String cancelLike(@PathVariable int bno, HttpSession session) {
+		
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		LikeUserBoardVo likeUserBoardVo = 
+				new LikeUserBoardVo(loginInfo.getUserid(), bno);
 		likeUserBoardService.cancelLike(likeUserBoardVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}

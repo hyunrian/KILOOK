@@ -16,7 +16,7 @@
 }
 
 body {
-	font-family: "Pretendard-Black", sans-serif;
+	font-family: "Pretendard Variable"; 
 	background-color: #f8f9fa;
 }
 

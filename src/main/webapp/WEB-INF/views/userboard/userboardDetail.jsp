@@ -45,7 +45,7 @@ toastr.options = {
 <style>
 
 body {
-	font-family: "Pretendard-Black", sans-serif;
+	font-family: "Pretendard Variable"; 
 	background-color: #f8f9fa;
 }
 .parent {
@@ -136,7 +136,7 @@ $(function() {
 			if (rData) { // 사용자가 해당 글을 이미 좋아요한 경우
 				$.ajax({
 					"type" : "delete",
-					"url" : "/like/cancel/" + bno + "/tester",
+					"url" : "/like/cancel/" + bno,
 					"success" : function(rData) {
 						getEmptyHeart();
 			 			$("#heartCount").text(heartCount -1);
@@ -165,31 +165,10 @@ $(function() {
 	
 	// 공유하기 (클립보드에 링크 복사)
 	$("#share").click(function() {
-		console.log("url:", document.location.href);
 		const url = document.location.href;
 		window.navigator.clipboard.writeText(url).then(() => {
-// 			console.log("copied");
 			toastr.success("링크가 복사되었습니다.");
 		});
-
-		// window 공유하기 기능
-// 		const shareObject = {
-// 		    title: "${userBoardVo.title}",
-// 		    text: "${userBoardVo.content}",
-// 		    url: window.location.href,
-// 		  };
-		
-// 		if (navigator.share) { // Navigator를 지원하는 경우만 실행
-// 			navigator.share(shareObject).then(() => {
-// 		        // 정상 동작할 경우 실행
-// 			})
-// 			.catch((error) => { // 에러일 때
-				
-// 			})
-// 		} else { // navigator를 지원하지 않는 경우
-			  
-// 		}
-		
 	});
 	function hasChildReply(rno) {
 		$.get("/userReply/checkDelete/" + rno, function(hasReply) {
@@ -205,6 +184,10 @@ $(function() {
 	$("#replyOpen").click(function() {
 		$(this).parent().next().fadeToggle(200);
 		showOrHideMoreReply();
+	});
+	
+	$("#replyText").click(function() {
+		console.log("click")
 	});
 	
 	// 댓글 더보기버튼 가리기/보이기
@@ -312,9 +295,6 @@ $(function() {
 // 				}, 600); // 비동기처리에 시간이 걸려 조건에 따른 status 설정이 늦어져 일정 시간 이후 처리를 해야 삭제처리된 댓글이 보이지 않음
 				
 			}		
-// 			$.each(rData, function(i, item) {
-				
-// 			});
 		});
 	}
 	
@@ -569,8 +549,8 @@ $(function() {
 					</div>
 					
 					<!-- 댓글쓰기 -->
-					<div class="comment-form-wrap pt-5">
-						<form action="#" id="replyForm" style="margin-top: 40px;">
+					<div class="comment-form-wrap pt-5" id="divWrite">
+<!-- 						<form action="#" id="replyForm" style="margin-top: 40px;"> -->
 							<div class="container-fluid" style="padding-left: 0px;">
 								<div class="row" style="height: 60px;">
 									<div class="form-group col-md-11">
@@ -587,7 +567,7 @@ $(function() {
 									</div>
 								</div>
 							</div>
-						</form>
+<!-- 						</form> -->
 					</div> 
 				</div><!-- //댓글 -->
 			</div>

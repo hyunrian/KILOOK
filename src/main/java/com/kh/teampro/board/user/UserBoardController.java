@@ -2,6 +2,8 @@ package com.kh.teampro.board.user;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kh.teampro.Like.board.LikeUserBoardService;
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.paging.PagingDto;
 import com.kh.teampro.reply.user.UserReplyService;
 import com.kh.teampro.reply.user.UserReplyVo;
+import com.kh.teampro.user.info.UserVo;
 
 @Controller
 @RequestMapping("/userboard")
@@ -49,9 +52,11 @@ public class UserBoardController {
 	
 	// 게시글 쓰기
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String writeArticle(UserBoardVo userBoardVo, String thumbnail) {
-		userBoardVo.setUserid("user2"); // session의 loginInfo로 변경
-		userBoardVo.setWriter("star"); // session의 loginInfo로 변경
+	public String writeArticle(UserBoardVo userBoardVo, 
+			String thumbnail, HttpSession session) {
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		userBoardVo.setUserid(loginInfo.getUserid());
+		userBoardVo.setWriter(loginInfo.getUnickname());
 		userBoardService.createArticle(userBoardVo, thumbnail);
 		
 		return "redirect:/userboard/list";
@@ -59,13 +64,17 @@ public class UserBoardController {
 	
 	// 유저 게시글 내용 보기
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String getDetail(int bno, PagingDto pagingDto, Model model) {
+	public String getDetail(int bno, PagingDto pagingDto, 
+			Model model, HttpSession session) {
+		
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		
 		userBoardService.addViewcnt(bno);
 			
 		UserBoardVo userBoardVo = userBoardService.getUserArticleDetail(bno);
 		List<UserReplyVo> list = userReplyService.getUserReply(bno);
-
+		
+		model.addAttribute("loginInfo", loginInfo);
 		model.addAttribute("userBoardVo", userBoardVo);
 		model.addAttribute("replyList", list);
 		model.addAttribute("pagingDto", pagingDto);
@@ -96,9 +105,12 @@ public class UserBoardController {
 	
 	// 게시글 수정 처리
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updateArticle(UserBoardVo userBoardVo, String thumbnail) {
+	public String updateArticle(UserBoardVo userBoardVo, 
+			String thumbnail, HttpSession session) {
 		
-		userBoardVo.setWriter("tester"); // 세션에 저장된 닉네임으로 재설정 필요
+		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		
+		userBoardVo.setWriter(loginInfo.getUnickname()); // 세션에 저장된 닉네임으로 재설정(닉네임 변경 가능성 대비)
 		userBoardService.updateArticle(userBoardVo, thumbnail);
 		
 		return "redirect:/userboard/detail?bno=" + userBoardVo.getBno();

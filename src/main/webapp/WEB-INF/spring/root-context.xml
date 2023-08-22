@@ -38,11 +38,11 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/> <!-- connection pool에 등록해놓은 dataSource -->
 	</bean>
-		
+	
 	<!--
 	@Transactional 
 	애너테이션에 기반한 transaction 처리가 가능하도록 설정. 
 	하단의 Namespaces에서 tx 체크해야함 -->
 	<tx:annotation-driven/>
-		
+	
 </beans>

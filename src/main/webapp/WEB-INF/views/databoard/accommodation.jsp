@@ -3,7 +3,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
+<!-- bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <style>
+
+/* body 전체 폰트 설정 */
+body {
+	background-color: #FAFCFF;
+	font-family: "Pretendard Variable"; 
+}
 
 .block-20{
 	width: 255px;
@@ -84,27 +95,6 @@ $(function(){
 	<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 	<!-- END menu -->
 
-	<div style="background-color: #000000; width: 100%; height: 90px;">
-		<div class="overlay"></div>
-		<div class="container">
-			<div
-				class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
-				data-scrollax-parent="true">
-				<div class="col-md-9 ftco-animate text-center"
-					data-scrollax=" properties: { translateY: '70%' }">
-					<p class="breadcrumbs"
-						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
-						<span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span>
-					</p>
-					<h1 class="mb-3 bread"
-						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips
-						&amp; Articles</h1>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 	<section class="ftco-section bg-light">
 		<!-- 필터 -->
 		<div class="container">
@@ -129,7 +119,7 @@ $(function(){
 							<div class="text p-4 d-block">
 								<h3 class="heading mt-3">
 									<a href="/databoard/getAccomInfo?bno=${accomVo.bno}">${accomVo.aname}</a><br>
-									<span class="icon-chat"></span>${accomVo.areplycnt}
+									<span class="icon-chat">${accomVo.areplycnt}</span>
 								</h3>
 								<span class="tag">${accomVo.address} ${accomVo.addressdetail}</span>
 								<div class="meta mb-3">

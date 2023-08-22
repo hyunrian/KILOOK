@@ -51,13 +51,6 @@ public class AttachController {
 		return attachService.deleteFile(filename);
 	}
 	
-	// 이미지 포맷(확장자) 얻기
-//	@RequestMapping(value = "/ext/{filename}", method = RequestMethod.GET)
-//	public String getFileExt(@PathVariable String filename) {
-//		
-//		return FileUploadUtil.getFormatName(filename);
-//	}
-	
 	// 이미지 여부 확인
 	@RequestMapping(value = "/isImage/{filename}", method = RequestMethod.GET)
 	public boolean isImage(@PathVariable String filename) {

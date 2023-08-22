@@ -32,7 +32,6 @@ public class AttachService {
 			try {
 				byte[] bytes = file.getBytes();
 				String filePath = FileUploadUtil.upload(bytes, uploadPath, filename);
-				
 				return filePath;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -59,14 +58,20 @@ public class AttachService {
 	// 이미지 얻는 공통 메서드
 	public byte[] getImage(String filePath) {
 		
+		FileInputStream fis = null;
 		if (FileUploadUtil.isImage(filePath)) { // 이미지일 때만 처리
-			FileInputStream fis = null;
 			try {
 				fis = new FileInputStream(uploadPath + filePath);
 				byte[] data = IOUtils.toByteArray(fis);
 				return data;
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				try {
+					fis = new FileInputStream(uploadPath + "/profile/default/default.png");
+					byte[] data = IOUtils.toByteArray(fis);
+					return data;
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			} catch (IOException ie) {
 				ie.printStackTrace();
 			} finally {
@@ -75,6 +80,14 @@ public class AttachService {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		} else {
+			try {
+				fis = new FileInputStream(uploadPath + "/profile/default/default.png");
+				byte[] data = IOUtils.toByteArray(fis);
+				return data;
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		}
 		return null;
@@ -112,7 +125,6 @@ public class AttachService {
 	// 유저 프로필 서버에 저장
 	public String saveProfileFile(MultipartFile file, String userid) {
 		String filename = file.getOriginalFilename();
-		System.out.println("service, filename:" + filename);
 		if (FileUploadUtil.isImage(filename)) { // 이미지일 때만 처리
 			try {
 				byte[] bytes = file.getBytes();
@@ -134,8 +146,7 @@ public class AttachService {
 			byte[] image = getImage(filePath);
 			return image;
 		} else {
-			return getImage("/profile/default/default.png"); 
+			return getImage("/profile/default/default.png"); // 업로드한 이미지가 없는 경우 디폴트 이미지로 썸네일 처리
 		}
-		// 업로드한 이미지가 없는 경우 디폴트 이미지로 썸네일 처리
 	}
 }

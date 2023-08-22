@@ -12,13 +12,11 @@ $(function() {
 	});
 	
 	let loginInfo = "${sessionScope.loginInfo}";
-	console.log("info:", loginInfo)
-	if (loginInfo != null) { // 세션값이 있는 경우에만 동작해야 하는데 세션값 유무와 상관없이 출력됨 -> 수정 필요
+	
+	if (loginInfo) { // 로그인한 경우에만 회원정보/로그아웃 메뉴 출력
 		$("#menuUser").hover(function() {
-			console.log("in");
 			$("#subMenuUser").stop().fadeIn(200);
 		}, function() {
-			console.log("out");	
 			$("#subMenuUser").stop().fadeOut(200);
 		});
 	}

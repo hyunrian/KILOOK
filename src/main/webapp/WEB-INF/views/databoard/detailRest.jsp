@@ -3,9 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-<!-- menu -->
-<%@ include file="/WEB-INF/views/include/menu.jsp"%>
-<!-- END menu -->
+
+<!-- bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+/* body 전체 폰트 설정 */
+body {
+	background-color: #FAFCFF;
+	font-family: "Pretendard Variable"; 
+}
+
+/* 링크 폰트 검은색으로 */
+a {
+	color: black;
+}
+</style>
 
 <script>
 	// 좋아요 하트 기능
@@ -285,27 +300,9 @@ function insertReply(replyObject) {
 	} 
 </script>
 
-<div style="background-color: #000000; width: 100%; height: 90px;">
-	<div class="overlay"></div>
-	<div class="container" style="width:100%; height: 100px;">
-		<div
-			class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
-			data-scrollax-parent="true">
-			<div class="col-md-9 ftco-animate text-center"
-				data-scrollax=" properties: { translateY: '70%' }">
-				<p class="breadcrumbs"
-					data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
-					<span class="mr-2"><a href="index.html">Home</a></span> <span
-						class="mr-2"><a href="hotel.html">Hotel</a></span> <span>Hotel
-						Single</span>
-				</p>
-				<h1 class="mb-3 bread"
-					data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Hotels
-					Details</h1>
-			</div>
-		</div>
-	</div>
-</div>
+<!-- menu -->
+<%@ include file="/WEB-INF/views/include/menu.jsp"%>
+<!-- END menu -->
 
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
@@ -418,7 +415,7 @@ function insertReply(replyObject) {
 					
 					<div class="col-md-12 hotel-single ftco-animate mb-5 mt-4">
 						<h4 class="mb-4">
-							<img src="../resources/images/restaurant/fork.png" alt="icon" style="width : 3%; height : 3%;">
+							<img src="/resources/images/restaurant/fork.png" alt="icon" style="width : 3%; height : 3%;">
 							다른 맛집 보기
 						</h4>
 						<div class="row">
@@ -428,21 +425,21 @@ function insertReply(replyObject) {
 										<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="img img-2"
 											style="background-image: url('${foodVo.thumbimage}');"></a>
 <!-- 										<div class="text p-3"> -->
-										<div class="meta p-3">
+										<div class="meta p-3 restContent">
 											<div class="d-flex">
 												<div class="one" style="width: calc(100%);">
 													<h3>
 														<a href="/databoard/getFoodInfo?bno=${foodVo.bno}"  style="font-size: 1.4rem; font-weight : 500;">${foodVo.rname}</a><br>
 														<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="meta-chat"></a>
 														<span>
-															<img src="../resources/images/heart/heart3.png" alt="img" style="width : 20px; height : 20px; ">
+															<img src="/resources/images/heart/heart3.png" alt="img" style="width : 20px; height : 20px; ">
 														</span>
 														<span style="font-size: 1.4rem; font-weight: 300;">${foodVo.likecnt}</span>
 													</h3>
 												</div>
 											</div>
 											<span class="tag">${foodVo.address}</span>
-											<div class="meta mb-3" >
+											<div class="meta mb-3">
 												<div>
 													Tel. ${foodVo.rnumber}
 												</div>

@@ -3,7 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 
+<!-- bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <style>
+
+/* body 전체 폰트 설정 */
+body {
+	background-color: #FAFCFF;
+	font-family: "Pretendard Variable"; 
+}
+
 .page-link {
     background-color: transparent;
     padding: 0rem 0.75rem;
@@ -71,6 +83,10 @@ $(function(){
 
 </script>
 
+<!-- menu -->
+<%@ include file="/WEB-INF/views/include/menu.jsp" %>
+<!-- END menu -->
+
 <form id="frmPaging" action="/databoard/restaurant" method="get">
 	<input type="hidden" name="bno" value="${param.bno}">
 	<input type="hidden" name="page" value="${pagingDto.page}">
@@ -78,133 +94,109 @@ $(function(){
 	<input type="hidden" name="location" value="${location}">
 </form>
 
-	<!-- menu -->
-	<%@ include file="/WEB-INF/views/include/menu.jsp" %>
-	<!-- END menu -->
-
-	<div style="background-color: #000000; width: 100%; height: 90px;">
-		<div class="overlay"></div>
-		<div class="container">
-			<div
-				class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
-				data-scrollax-parent="true">
-				<div class="col-md-9 ftco-animate text-center"
-					data-scrollax=" properties: { translateY: '70%' }">
-					<p class="breadcrumbs"
-						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
-						<span class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span>
-					</p>
-					<h1 class="mb-3 bread"
-						data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Tips
-						&amp; Articles</h1>
-				</div>
-			</div>
+<section class="ftco-section bg-light" >
+	<!-- 필터 -->
+	<div class="container">
+		<div>
+			<select id="selectBox">
+				<option value="전체보기" ${location == '전체보기' ? 'selected="selected"' : '' }>전체보기</option>
+				<option value="강서구" ${location == '강서구' ? 'selected="selected"' : '' }>강서구</option>
+				<option value="금정구" ${location == '금정구' ? 'selected="selected"' : '' }>금정구</option>
+				<option value="기장군" ${location == '기장군' ? 'selected="selected"' : '' }>기장군</option>
+				<option value="남구" ${location == '남구' ? 'selected="selected"' : '' }>남구</option>
+				<option value="동구" ${location == '동구' ? 'selected="selected"' : '' }>동구</option>
+				<option value="동래구" ${location == '동래구' ? 'selected="selected"' : '' }>동래구</option>
+				<option value="부산진구" ${location == '부산진구' ? 'selected="selected"' : '' }>부산진구</option>
+				<option value="북구" ${location == '북구' ? 'selected="selected"' : '' }>북구</option>
+				<option value="사상구" ${location == '사상구' ? 'selected="selected"' : '' }>사상구</option>
+				<option value="사하구" ${location == '사하구' ? 'selected="selected"' : '' }>사하구</option>
+				<option value="서구" ${location == '서구' ? 'selected="selected"' : '' }>서구</option>
+				<option value="수영구" ${location == '수영구' ? 'selected="selected"' : '' }>수영구</option>
+				<option value="연제구" ${location == '연제구' ? 'selected="selected"' : '' }>연제구</option>
+				<option value="영도구" ${location == '영도구' ? 'selected="selected"' : '' }>영도구</option>
+				<option value="중구" ${location == '중구' ? 'selected="selected"' : '' }>중구</option>
+				<option value="해운대구" ${location == '해운대구' ? 'selected="selected"' : '' }>해운대구</option>
+			</select>
 		</div>
 	</div>
-
-	<section class="ftco-section bg-light" >
-		<!-- 필터 -->
-		<div class="container">
-			<div>
-				<select id="selectBox">
-					<option value="전체보기" ${location == '전체보기' ? 'selected="selected"' : '' }>전체보기</option>
-					<option value="강서구" ${location == '강서구' ? 'selected="selected"' : '' }>강서구</option>
-					<option value="금정구" ${location == '금정구' ? 'selected="selected"' : '' }>금정구</option>
-					<option value="기장군" ${location == '기장군' ? 'selected="selected"' : '' }>기장군</option>
-					<option value="남구" ${location == '남구' ? 'selected="selected"' : '' }>남구</option>
-					<option value="동구" ${location == '동구' ? 'selected="selected"' : '' }>동구</option>
-					<option value="동래구" ${location == '동래구' ? 'selected="selected"' : '' }>동래구</option>
-					<option value="부산진구" ${location == '부산진구' ? 'selected="selected"' : '' }>부산진구</option>
-					<option value="북구" ${location == '북구' ? 'selected="selected"' : '' }>북구</option>
-					<option value="사상구" ${location == '사상구' ? 'selected="selected"' : '' }>사상구</option>
-					<option value="사하구" ${location == '사하구' ? 'selected="selected"' : '' }>사하구</option>
-					<option value="서구" ${location == '서구' ? 'selected="selected"' : '' }>서구</option>
-					<option value="수영구" ${location == '수영구' ? 'selected="selected"' : '' }>수영구</option>
-					<option value="연제구" ${location == '연제구' ? 'selected="selected"' : '' }>연제구</option>
-					<option value="영도구" ${location == '영도구' ? 'selected="selected"' : '' }>영도구</option>
-					<option value="중구" ${location == '중구' ? 'selected="selected"' : '' }>중구</option>
-					<option value="해운대구" ${location == '해운대구' ? 'selected="selected"' : '' }>해운대구</option>
-				</select>
-			</div>
-		</div>
-		<!-- END 필터 -->
-		
-		<div class="container">
-			<!-- 게시글 리스트 -->
-			<div class="row d-flex" id="foodListContainer">
-				<c:forEach items="${foodList}" var="foodVo">
-					<div class="col-md-3 d-flex ftco-animate">
-						<div class="blog-entry align-self-stretch">
-							<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="block-20"
-								style="background-image: url('${foodVo.thumbimage}');"></a>
-							<div class="text p-4 d-block">
-								<h3 class="heading mt-3">
-									<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
-									<span class="icon-chat">${foodVo.replycnt}</span>
-								</h3>
-								<span class="tag">${foodVo.address}</span>
-								<div class="meta mb-3">
-									<div>
-										<a href="#">Tel. ${foodVo.rnumber}</a>
-									</div>
-									<div>
-										<a href="#">Open. ${foodVo.openhours}</a>
-									</div>
-									<div>
-										<a href="#">${foodVo.menu}</a>
-									</div>
+	<!-- END 필터 -->
+	
+	<div class="container">
+		<!-- 게시글 리스트 -->
+		<div class="row d-flex" id="foodListContainer">
+			<c:forEach items="${foodList}" var="foodVo">
+				<div class="col-md-3 d-flex ftco-animate">
+					<div class="blog-entry align-self-stretch">
+						<a href="/databoard/getFoodInfo?bno=${foodVo.bno}" class="block-20"
+							style="background-image: url('${foodVo.thumbimage}');"></a>
+						<div class="text p-4 d-block">
+							<h3 class="heading mt-3">
+								<a href="/databoard/getFoodInfo?bno=${foodVo.bno}">${foodVo.rname}</a><br>
+								<span class="icon-chat">${foodVo.replycnt}</span>
+							</h3>
+							<span class="tag">${foodVo.address}</span>
+							<div class="meta mb-3">
+								<div>
+									<a href="#">Tel. ${foodVo.rnumber}</a>
+								</div>
+								<div>
+									<a href="#">Open. ${foodVo.openhours}</a>
+								</div>
+								<div>
+									<a href="#">${foodVo.menu}</a>
 								</div>
 							</div>
 						</div>
 					</div>
-				</c:forEach>
-			</div>
-			<!-- END 게시글 리스트 -->
-			
-			<!-- 페이징 -->
-			<div class="row mt-5">
-				<div class="col text-center">
-					<div class="block-27">
-						<ul>
+				</div>
+			</c:forEach>
+		</div>
+		<!-- END 게시글 리스트 -->
+		
+		<!-- 페이징 -->
+		<div class="row mt-5">
+			<div class="col text-center">
+				<div class="block-27">
+					<ul>
+						<li class="page-item">
+						<c:if test="${pagingDto.startPage > 1}">
+							<a class="page-link" href="${pagingDto.startPage - 1}" style="border-radius: 50%;">&lt;</a>
+						</c:if> <!-- 1페이지이면 화살표가 생기지 않도록 -->
+						<c:forEach var="v" begin="${pagingDto.startPage}" end="${pagingDto.endPage}">
+							<li 
+								<c:choose>
+									<c:when test="${pagingDto.page eq v}">
+										class="page-item active" 
+									</c:when>
+									<c:otherwise>
+										class="page-item" 
+									</c:otherwise>
+								</c:choose>
+							>
+								<a class="page-link" href="${v}">${v}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${pagingDto.endPage < pagingDto.totalPage}">
 							<li class="page-item">
-							<c:if test="${pagingDto.startPage > 1}">
-								<a class="page-link" href="${pagingDto.startPage - 1}" style="border-radius: 50%;">&lt;</a>
-							</c:if> <!-- 1페이지이면 화살표가 생기지 않도록 -->
-							<c:forEach var="v" begin="${pagingDto.startPage}" end="${pagingDto.endPage}">
-								<li 
-									<c:choose>
-										<c:when test="${pagingDto.page eq v}">
-											class="page-item active" 
-										</c:when>
-										<c:otherwise>
-											class="page-item" 
-										</c:otherwise>
-									</c:choose>
-								>
-									<a class="page-link" href="${v}">${v}</a>
-								</li>
-							</c:forEach>
-							<c:if test="${pagingDto.endPage < pagingDto.totalPage}">
-								<li class="page-item">
-									<a class="page-link" href="${pagingDto.endPage + 1}" style="border-radius: 50%;">&gt;</a>
-								</li>
-							</c:if>
-						</ul>
-					</div>
+								<a class="page-link" href="${pagingDto.endPage + 1}" style="border-radius: 50%;">&gt;</a>
+							</li>
+						</c:if>
+					</ul>
 				</div>
 			</div>
-			<!-- END 페이징 -->
 		</div>
-	</section>
-
-	<!-- loader -->
-	<div id="ftco-loader" class="show fullscreen">
-		<svg class="circular" width="48px" height="48px">
-			<circle class="path-bg" cx="24" cy="24" r="22" fill="none"
-				stroke-width="4" stroke="#eeeeee" />
-			<circle class="path" cx="24" cy="24" r="22" fill="none"
-				stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
+		<!-- END 페이징 -->
 	</div>
-	
-	<%@ include file="/WEB-INF/views/include/pageup.jsp"%>
-	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+</section>
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen">
+	<svg class="circular" width="48px" height="48px">
+		<circle class="path-bg" cx="24" cy="24" r="22" fill="none"
+			stroke-width="4" stroke="#eeeeee" />
+		<circle class="path" cx="24" cy="24" r="22" fill="none"
+			stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
+</div>
+
+<%@ include file="/WEB-INF/views/include/pageup.jsp"%>
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>

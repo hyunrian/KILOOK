@@ -6280,6 +6280,22 @@ button.bg-dark:focus {
 	background-color: white;
 	border: none !important;
 }
+.accomContent{ /* detailAccom에서 다른 가게 보기 카드 크기 설정 */
+	padding: 1rem !important; 
+	height: 200px; 
+	overflow: hidden;
+}
+.placeContent{ /* detailPlace에서 다른 가게 보기 카드 크기 설정 */
+	padding: 1rem !important; 
+	height: 270px;
+	overflow: hidden;
+}
+.restContent{ /* detailRest에서 다른 가게 보기 카드 크기 설정 */
+	padding: 1rem !important; 
+	height: 280px; 
+	overflow: hidden;
+	border: none !important;
+}
 /* 추가 - 게시판 carousel 크기 설정 */
 .boardCard {
 	width: 260px;

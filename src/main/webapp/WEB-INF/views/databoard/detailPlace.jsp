@@ -3,9 +3,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-<!-- menu -->
-<%@ include file="/WEB-INF/views/include/menu.jsp"%>
-<!-- END menu -->
+<!-- bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+/* body 전체 폰트 설정 */
+body {
+	background-color: #FAFCFF;
+	font-family: "Pretendard Variable"; 
+}
+
+/* 링크 폰트 검은색으로 */
+a {
+	color: black;
+}
+</style>
 
 <script>
 	// 좋아요 하트 기능
@@ -286,27 +300,9 @@
 	
 </script>
 
-<div style="background-color: #000000; width: 100%; height: 90px;">
-	<div class="overlay"></div>
-	<div class="container">
-		<div
-			class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
-			data-scrollax-parent="true">
-			<div class="col-md-9 ftco-animate text-center"
-				data-scrollax=" properties: { translateY: '70%' }">
-				<p class="breadcrumbs"
-					data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">
-					<span class="mr-2"><a href="index.html">Home</a></span> <span
-						class="mr-2"><a href="hotel.html">Hotel</a></span> <span>Hotel
-						Single</span>
-				</p>
-				<h1 class="mb-3 bread"
-					data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Hotels
-					Details</h1>
-			</div>
-		</div>
-	</div>
-</div>
+<!-- menu -->
+<%@ include file="/WEB-INF/views/include/menu.jsp"%>
+<!-- END menu -->
 
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
@@ -438,7 +434,7 @@
 									<div class="destination" style="border: 1px solid #e6e6e6;">
 										<a href="/databoard/getPlaceInfo?bno=${placeVo.bno}" class="img img-2"
 											style="background-image: url('${placeVo.thumbimage}');"></a>
-										<div class="meta p-3">
+										<div class="meta p-3 placeContent">
 											<div class="d-flex">
 												<div class="one" style="width: calc(100%);">
 													<h3>

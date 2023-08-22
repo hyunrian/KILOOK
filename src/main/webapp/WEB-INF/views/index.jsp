@@ -5,8 +5,13 @@
 <style>
 
 body {
-	font-family: "Pretendard-Black", sans-serif;
+	font-family: "Pretendard Variable";
 	background-color: #f8f9fa;
+}
+
+.intro {
+	font-size: 19pt!important;
+	font-weight: 400!important;
 }
 .carousel-inner { 
 	position: relative; 
@@ -57,7 +62,7 @@ body {
 			<div class="row no-gutters slider-text 
 					js-fullheight align-items-center justify-content-start">
 				<div class="col-md-12">
-					<h1 class="mb-4">
+					<h1 class="mb-4" style="font-size: 70pt;">
 						<strong>부산,</strong><br>어디로 가볼까요?
 					</h1>
 					<div class="block-17 my-4">
@@ -69,7 +74,7 @@ body {
 									</div>
 									<select name="" id="" class="form-control"
 										placeholder="Keyword search">
-										<option value="">Where</option>
+										<option value="">선택</option>
 										<option value="">San Francisco USA</option>
 										<option value="">Berlin Germany</option>
 										<option value="">Lodon United Kingdom</option>
@@ -84,27 +89,68 @@ body {
 							<input type="button" class="search-submit btn btn-primary">
 						</form>
 					</div>
-					<p style="font-size: 12pt;">원하는 카테고리를 선택해서 볼 수도 있어요.</p>
+					<!-- 
+					<p class="intro">여행의 필수 코스</p>
 					<p class="browse d-md-flex">
 						<span class="d-flex justify-content-md-center align-items-md-center">
 							<a href="/databoard/restaurant">
 								<i class="flaticon-fork">
-								</i>Restaurant
+								</i>음식점
 							</a>
 						</span> 
 						<span class="d-flex justify-content-md-center align-items-md-center">
 							<a href="/databoard/accommodation">
 								<i class="flaticon-hotel">
-								</i>Hotel
+								</i>호텔
 							</a>
 						</span> 
 						<span class="d-flex justify-content-md-center align-items-md-center">
 							<a href="/databoard/attraction">
 								<i class="flaticon-meeting-point">
-								</i>Places
+								</i>카페
 							</a>
 						</span> 
 					</p>
+					<p class="intro">감각있는 문화 여행</p>
+					<p class="browse d-md-flex">
+						<span class="d-flex justify-content-md-center align-items-md-center">
+							<a href="/databoard/attraction">
+								<i class="flaticon-meeting-point">
+								</i>전시
+							</a>
+						</span>
+						<span class="d-flex justify-content-md-center align-items-md-center">
+							<a href="/databoard/attraction">
+								<i class="flaticon-meeting-point">
+								</i>명소
+							</a>
+						</span> 
+					</p>
+					<p class="intro">여행 관련 편의시설이 궁금하다면?</p>
+					<p class="browse d-md-flex">
+						<span class="d-flex justify-content-md-center align-items-md-center">
+							<a href="/databoard/attraction">
+								<i class="flaticon-meeting-point">
+								</i>주차장
+							</a>
+						</span> 
+						<span class="d-flex justify-content-md-center align-items-md-center">
+							<a href="/databoard/attraction">
+								<i class="flaticon-meeting-point">
+								</i>관광안내소
+							</a>
+						</span> 
+					</p>
+					<p class="intro">생생한 여행 후기도 있어요</p>
+					<p class="browse d-md-flex">
+						<span class="d-flex justify-content-md-center align-items-md-center">
+							<a href="/databoard/attraction">
+								<i class="flaticon-meeting-point">
+								</i>여행 후기
+							</a>
+						</span> 
+					</p>
+					-->
 				</div>
 			</div>
 		</div>
@@ -137,14 +183,14 @@ body {
    					<c:forEach var="userBoardVo" items="${list}">
 						<div class="item">
 			 				<div class="destination">
-			 					<a href="#" class="img d-flex justify-content-center align-items-center" 
+			 					<a href="/userboard/detail?bno=${userBoardVo.bno}" class="img d-flex justify-content-center align-items-center" 
 			 						style="background-image: url('/attach/displayThumbnail/${userBoardVo.bno}');">
 			 						<div class="icon d-flex justify-content-center align-items-center">
 			 							<span class="icon-search2"></span>
 			 						</div>
 			 					</a>
 			 					<div class="myDivTitle">
-			 						<h5><a href="#">${userBoardVo.title}</a></h5>
+			 						<h5><a href="/userboard/detail?bno=${userBoardVo.bno}">${userBoardVo.title}</a></h5>
 			 					</div>
 			 					<div class="myDivWriter">
 			 						<span class="listing">${userBoardVo.writer}</span>
