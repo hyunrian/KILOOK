@@ -57,7 +57,7 @@ $(function(){
               		<ul class="comment-list">
 	              	<c:forEach items="${boardList}" var="boardDto" begin="0" end="0"> <!-- 글 리스트 한개만 -->
 		              <li class="comment">
-		                 <div class="comment-body">
+		                 <div class="comment-body" style="float: none;">
 		                   <h3><a href="http://localhost/userboard/detail?bno=${boardDto.bno}">
 		                   		${boardDto.title}</a></h3>
 		                   <div class="meta">${boardDto.regdate}</div>
@@ -81,7 +81,7 @@ $(function(){
               		<ul class="comment-list">
 		              	<c:forEach items="${replyList}" var="replyDto" begin="0" end="0"> <!-- 댓글 리스트 한개만 -->
 		                <li class="comment">
-		                  <div class="comment-body">
+		                  <div class="comment-body" style="float: none;">
 		                    <h3><a href="http://localhost/userboard/detail?bno=${replyDto.bno}">
 		                    	${replyDto.replytext}</a></h3>
 		                    <div class="meta">${replyDto.regdate}</div>

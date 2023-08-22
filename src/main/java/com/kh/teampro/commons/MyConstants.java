@@ -10,5 +10,6 @@ public interface MyConstants { // 상수값을 모아놓은 클래스
 	public static final String ID = "id";
 	public static final String PW = "pw";
 	public static final String NINCKNAME = "nickname";
-	
+	public static final String POST = "post";
+	public static final String REPLY = "reply";
 }

@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.teampro.commons.MyConstants;
+
 @Controller
 @RequestMapping("/point")
 public class PointController {
@@ -29,11 +31,9 @@ public class PointController {
 	@RequestMapping(value = "/addPoint", method = RequestMethod.GET)
 	@ResponseBody
 	public String addPoint(String userid, String getPointType) {
-		if (getPointType.equals("글")) {
-			// 포인트 획득 경로가 글 작성 일때
+		if (getPointType.equals(MyConstants.POST)) {
 			pointService.addPoint(userid, WRITING_POINT);	// 글 작성 포인트로 pointService에 전달
-		} else if (getPointType.equals("댓글")) {			// 포인트 획득 경로가 댓글 작성 일때
-			System.out.println("댓글");
+		} else if (getPointType.equals(MyConstants.REPLY)) {			// 포인트 획득 경로가 댓글 작성 일때
 			pointService.addPoint(userid, COMMENT_POINT);	// 댓글 작성 포인트로 pointService에 전달
 		}
 		

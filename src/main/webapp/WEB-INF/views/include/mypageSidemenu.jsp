@@ -2,9 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- bootstrap -->
+<script src="/myjs/myscript_hyun.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>   
+<style>
+	.btn-primary {
+		border: 1px solid #5CD1E5;
+	}
+</style>
 <script>
 $(function(){
 	// 사이드바 메뉴 내 정보 수정하기 버튼 (데이터 담아서 정보 수정 페이지로 이동)
@@ -29,7 +35,7 @@ $(function(){
 <div class="col-md-4 sidebar ftco-animate">
   <div class="sidebar-box ftco-animate">
     <div class="categories">
-      <h3>내 정보</h3>
+      <h3><a href="/userInfo/mypage" style="font-size: 25px">마이페이지</a></h3>
       <li><a href="/userInfo/mypost">작성한 게시글 <span>(${userBoardCount})</span></a></li>
       <li><a href="/userInfo/myreply">내 댓글 <span>(${userReplyCount})</span></a></li>
       <li><a href="#" id="userUpdate">내 정보 수정하기</a></li>      

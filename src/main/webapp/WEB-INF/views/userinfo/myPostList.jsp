@@ -14,6 +14,10 @@ $(function(){
 		form.attr("action", "/userInfo/mypost");
 		form.submit();
 	});
+	
+	$(".regdateInText").text();
+	
+	
 });
 </script>
 
@@ -33,7 +37,7 @@ $(function(){
 				<h2 class="pt-5 mb-5">내 게시물 목록</h2>
             </div>
             
-            <div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+            <div class="ftco-animate fadeInUp ftco-animated bg-light">
 			    <div class="categories">
 			      
 			      <c:choose>
@@ -43,11 +47,11 @@ $(function(){
 	              	<c:otherwise>
 	              		<ul class="comment-list">
 		              	<c:forEach items="${boardList}" var="boardDto" begin="${infoPagingDto.startRow - 1}" end="${infoPagingDto.endRow - 1}">
-			              <li class="comment">
+			              <li class="comment" style="margin-left:  -25px">
 			                 <div class="comment-body">
 			                   <h3><a href="http://localhost/userboard/detail?bno=${boardDto.bno}">
 			                   	${boardDto.title}</a></h3>
-			                   <div class="meta">${boardDto.regdate}</div>
+			                   <div class="meta regdateInText">${boardDto.regdate}</div>
 			                   <p>좋아요 : ${boardDto.likecnt}</p>
 			                   <p>조회수 : ${boardDto.viewcnt}</p>
 			                 </div>
@@ -58,7 +62,7 @@ $(function(){
 	              </c:choose>
 			    </div>
 
-				<div class="row mt-5" style="padding-top: 48px">
+				<div class="row mt-5" style="padding-top: 24px; padding-bottom: 24px">
 		          <div class="col text-center">
 		            <div class="block-27">
 		              <ul>
