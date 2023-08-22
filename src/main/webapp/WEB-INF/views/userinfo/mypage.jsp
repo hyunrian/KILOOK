@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <%@ include file="/WEB-INF/views/include/menu.jsp" %>
+<script>
+$(function(){
+	// 페이지 실행되면 유저 프로필사진 display
+	var userid = $("#userid").val();
+	$("#userProfile").attr("src", "/profile/display?userid=" + userid);
+})
+</script>
 <body>
     <section class="ftco-section ftco-degree-bg">
       <div class="container">
@@ -14,13 +21,12 @@
             <div class="about-author d-flex p-5" style="border-bottom: 1px dashed gray;">
               <div class="bio align-self-md-center mr-5">
               	<!-- ${userVo.uimg}(유저 이미지)가 없으면 기본이미지, 있으면 경로로 지정 -->
-              	<!-- ${userVo.uimg} = "/resources/images/userProfile/....png" -->
               	<c:choose>
-              		<c:when test="${userVo.uimg == null}">              		
+              		<c:when test="${userVo.uimg == null}">
 		                <img src="/resources/images/userProfile/default_profile.png" alt="Image placeholder" class="img-fluid mb-4">
               		</c:when>
               		<c:otherwise>
-		                <img src="${userVo.uimg}" alt="Image placeholder" class="img-fluid mb-4">              		
+		                <img id="userProfile" src="${userVo.uimg}" alt="Image placeholder" class="img-fluid mb-4">
               		</c:otherwise>
               	</c:choose>
               </div>
@@ -29,7 +35,7 @@
                 <p>보유 포인트 : ${userVo.upoint}</p>
                 <c:choose>
                 	<c:when test="${userVo.verified == 'F'}">
-				        <p>본인확인 이메일 : <a href="/userInfo//getVerifyEmail">인증 필요</a></p>
+				        <p>본인확인 이메일 : <a href="/userInfo/getVerifyEmail">인증 필요</a></p>
                 	</c:when>
                 	<c:otherwise>
                 		<p>본인확인 이메일 : <span>${userVo.uemail}</span></p>

@@ -37,6 +37,11 @@ public class UserInfoService {
 		List<UserBoardDto> boardList = userInfoDao.readUserBoard(userid);
 		return boardList;
 	}
+	// 유저 작성 글 정보 페이지에서 요청하는 만큼 읽기
+	public List<UserBoardDto> readUserBoardInPage(String userid, UserInfoPagingDto infoPagingDto) {
+		List<UserBoardDto> boardList = userInfoDao.readUserBoardInPage(userid, infoPagingDto);
+		return boardList;
+	}
 	// 유저 작성 글 갯수
 	public int readUserBoardCount(String userid) {
 		int boardCount = userInfoDao.readUserBoardCount(userid);
@@ -46,6 +51,11 @@ public class UserInfoService {
 	// 유저 작성 댓글 정보 읽기
 	public List<UserReplyDto> readUserReply(String userid) {
 		List<UserReplyDto> replyList = userInfoDao.readUserReply(userid);
+		return replyList;
+	}
+	// 유저 작성 댓글 정보 페이지에서 요청하는 만큼 읽기
+	public List<UserReplyDto> readUserReplyInPage(String userid, UserInfoPagingDto infoPagingDto) {
+		List<UserReplyDto> replyList = userInfoDao.readUserReplyInPage(userid, infoPagingDto);
 		return replyList;
 	}
 	// 유저 작성 댓글 갯수

@@ -48,7 +48,7 @@ $(function() {
 </script>
 <div style="height: 500px;">
 	<label>프로필 사진</label>
-	<img src="/profile/display" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">
+	<img src="/resources/images/userProfile/default_profile.png" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">
 	<form action="" method="post" id="frmUpdate">
 		<input type="file" id="inputProfile" name="uimg"><br><br>
 		<button type="button" id="btnProfile">확인</button>

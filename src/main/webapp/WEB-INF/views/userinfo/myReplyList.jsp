@@ -3,6 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <%@ include file="/WEB-INF/views/include/menu.jsp" %>
+<script>
+$(function(){
+	$(".pageLink").click(function(e) {
+		e.preventDefault();
+		var page = $(this).attr("href");
+//		location.href = "/board/list?page=" + page + "&perPage=${pagingDto.perPage}";
+		$("input[name=page]").val(page);
+		var form = $("#frmPaging");
+		form.attr("action", "/userInfo/myreply");
+		form.submit();
+	});
+});
+</script>
+
+<form id="frmPaging" method="get">
+	<input type="hidden" name="page" value="${infoPagingDto.page}">
+</form>
+
 <body>
     <section class="ftco-section ftco-degree-bg">
       <div class="container">
@@ -23,9 +41,8 @@
 	              		<h3 class="mb-5" style="padding-left: 48px">작성한 댓글 없음</h3>
 	              	</c:when>
 	              	<c:otherwise>
-				     	<li><h3 style="padding-left: 48px">작성한 댓글</h3></li>
 	              		<ul class="comment-list">
-		              	<c:forEach items="${replyList}" var="replyDto">
+		              	<c:forEach items="${replyList}" var="replyDto" begin="${infoPagingDto.startRow - 1}" end="${infoPagingDto.endRow - 1}">
 			              <li class="comment">
 			                 <div class="comment-body">
 			                  	<h3><a href="http://localhost/userboard/detail?bno=${replyDto.bno}">
@@ -44,13 +61,31 @@
 		          <div class="col text-center">
 		            <div class="block-27">
 		              <ul>
-		                <li><a href="#">&lt;</a></li>
-		                <li class="active"><span>1</span></li>
-		                <li><a href="#">2</a></li>
-		                <li><a href="#">3</a></li>
-		                <li><a href="#">4</a></li>
-		                <li><a href="#">5</a></li>
-		                <li><a href="#">&gt;</a></li>
+		              	<c:if test="${infoPagingDto.startPage != 1}">
+							<li>
+								<a class="pageLink" href="${infoPagingDto.startPage - 1}">&lt;</a>
+							</li>
+						</c:if>
+						<c:forEach var="v" begin="${infoPagingDto.startPage}" end="${infoPagingDto.endPage}">					
+							<li
+								<c:choose>
+									<c:when test="${infoPagingDto.page eq v}">
+										class="page-item active"
+									</c:when>
+									<c:otherwise>
+										class="page-item"
+									</c:otherwise>
+								</c:choose>
+							 >
+								<a class="pageLink" href="${v}">${v}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${infoPagingDto.endPage < infoPagingDto.totalPage}">
+							<li>
+								<a class="pageLink" href="${infoPagingDto.endPage + 1}">&gt;</a>
+							</li>
+						</c:if>
+		                
 		              </ul>
 		            </div>
 		          </div>
@@ -58,27 +93,9 @@
 			
 			  </div>
           </div> <!-- .col-md-8 -->
-
         </div>
       </div>
     </section> <!-- .section -->
-    
-    <!-- 이하 페이지에 표시 되지 않는 내용 -->
-	
-	<!-- 유저 정보 보관용 form -->
-	<!-- 정보 수정 시 전달될 데이터 -->
-	<form id="userVoForm" method="post" action="/userInfo/infoUpdate">
-		<input type="hidden" name="userid" value="${userVo.userid}">
-		<input type="hidden" name="upw" value="${userVo.upw}">
-		<input type="hidden" name="unickname" value="${userVo.unickname}">
-		<input type="hidden" name="upoint" value="${userVo.upoint}">
-		<input type="hidden" name="uimg" value="${userVo.uimg}">
-		<input type="hidden" name="uemail" value="${userVo.uemail}">
-		<input type="hidden" name="signupfrom" value="${userVo.signupfrom}">
-		<input type="hidden" name="joindate" value="${userVo.joindate}">
-		<input type="hidden" name="verified" value="${userVo.verified}">
-	</form>
-	<!-- //유저 정보 보관용 form -->
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>

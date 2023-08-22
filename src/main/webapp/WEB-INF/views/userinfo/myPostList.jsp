@@ -3,6 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <%@ include file="/WEB-INF/views/include/menu.jsp" %>
+<script>
+$(function(){
+	$(".pageLink").click(function(e) {
+		e.preventDefault();
+		var page = $(this).attr("href");
+//		location.href = "/board/list?page=" + page + "&perPage=${pagingDto.perPage}";
+		$("input[name=page]").val(page);
+		var form = $("#frmPaging");
+		form.attr("action", "/userInfo/mypost");
+		form.submit();
+	});
+});
+</script>
+
+<form id="frmPaging" method="get">
+	<input type="hidden" name="page" value="${infoPagingDto.page}">
+</form>
+
 <body>
     <section class="ftco-section ftco-degree-bg">
       <div class="container">
@@ -23,9 +41,8 @@
 	              		<h3 class="mb-5" style="padding-left: 48px">작성한 게시물 없음</h3>
 	              	</c:when>
 	              	<c:otherwise>
-						<li><h3 style="padding-left: 48px">작성한 게시글</h3></li>
 	              		<ul class="comment-list">
-		              	<c:forEach items="${boardList}" var="boardDto">
+		              	<c:forEach items="${boardList}" var="boardDto" begin="${infoPagingDto.startRow - 1}" end="${infoPagingDto.endRow - 1}">
 			              <li class="comment">
 			                 <div class="comment-body">
 			                   <h3><a href="http://localhost/userboard/detail?bno=${boardDto.bno}">
@@ -45,13 +62,31 @@
 		          <div class="col text-center">
 		            <div class="block-27">
 		              <ul>
-		                <li><a href="#">&lt;</a></li>
-		                <li class="active"><span>1</span></li>
-		                <li><a href="#">2</a></li>
-		                <li><a href="#">3</a></li>
-		                <li><a href="#">4</a></li>
-		                <li><a href="#">5</a></li>
-		                <li><a href="#">&gt;</a></li>
+		              	<c:if test="${infoPagingDto.startPage != 1}">
+							<li>
+								<a class="pageLink" href="${infoPagingDto.startPage - 1}">&lt;</a>
+							</li>
+						</c:if>
+						<c:forEach var="v" begin="${infoPagingDto.startPage}" end="${infoPagingDto.endPage}">					
+							<li
+								<c:choose>
+									<c:when test="${infoPagingDto.page eq v}">
+										class="page-item active"
+									</c:when>
+									<c:otherwise>
+										class="page-item"
+									</c:otherwise>
+								</c:choose>
+							 >
+								<a class="pageLink" href="${v}">${v}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${infoPagingDto.endPage < infoPagingDto.totalPage}">
+							<li>
+								<a class="pageLink" href="${infoPagingDto.endPage + 1}">&gt;</a>
+							</li>
+						</c:if>
+		                
 		              </ul>
 		            </div>
 		          </div>

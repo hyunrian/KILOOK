@@ -7,7 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>   
 <script>
 $(function(){
-	// 내 정보 수정하기(데이터 담아서 정보 수정 페이지로 이동)
+	// 사이드바 메뉴 내 정보 수정하기 버튼 (데이터 담아서 정보 수정 페이지로 이동)
  	$("#userUpdate").click(function(e){
  		e.preventDefault();
 		var form = $("#userVoForm");
