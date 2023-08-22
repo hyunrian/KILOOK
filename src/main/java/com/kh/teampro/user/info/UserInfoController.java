@@ -53,32 +53,48 @@ public class UserInfoController {
 	}
 	
 	// 내 게시글 목록
+	// 페이지Dto 포함해서 넘겨주기
 	@RequestMapping(value = "/mypost", method = RequestMethod.GET)
-	public String toMyPostList(Model model, HttpSession session) {
+	public String toMyPostList(UserInfoPagingDto infoPagingDto, Model model, HttpSession session) {
+		
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		String userid = userVo.getUserid();
-		List<UserBoardDto> boardList = userInfoService.readUserBoard(userid); 
 		int userBoardCount = userInfoService.readUserBoardCount(userid);
 		int userReplyCount = userInfoService.readUserReplyCount(userid);
 		model.addAttribute("userVo", userVo);
-		model.addAttribute("boardList", boardList); // 게시글 목록
 		model.addAttribute("userBoardCount", userBoardCount); // 게시글 갯수
 		model.addAttribute("userReplyCount", userReplyCount); // 댓글 갯수
+		
+		
+		infoPagingDto = new UserInfoPagingDto(infoPagingDto.getPage(), 
+												infoPagingDto.getPerPage(), 
+												userBoardCount);
+		List<UserBoardDto> boardList = userInfoService.readUserBoard(userid); 
+		model.addAttribute("boardList", boardList); // 전체 게시글 목록
+		model.addAttribute("infoPagingDto",infoPagingDto);
+		
 		return "userinfo/myPostList";
 	}
 	
 	// 내 댓글 목록
 	@RequestMapping(value = "/myreply", method = RequestMethod.GET)
-	public String toMyReplyList(Model model, HttpSession session) {
+	public String toMyReplyList(UserInfoPagingDto infoPagingDto, Model model, HttpSession session) {
+		
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
-		model.addAttribute("userVo", userVo);
 		String userid = userVo.getUserid();
-		List<UserReplyDto> replyList = userInfoService.readUserReply(userid); 
 		int userBoardCount = userInfoService.readUserBoardCount(userid);
 		int userReplyCount = userInfoService.readUserReplyCount(userid);
-		model.addAttribute("replyList", replyList); // 댓글 목록
+		model.addAttribute("userVo", userVo);
 		model.addAttribute("userBoardCount", userBoardCount); // 게시글 갯수
 		model.addAttribute("userReplyCount", userReplyCount); // 댓글 갯수
+		
+		infoPagingDto = new UserInfoPagingDto(infoPagingDto.getPage(), 
+												infoPagingDto.getPerPage(), 
+												userReplyCount);
+		List<UserReplyDto> replyList = userInfoService.readUserReply(userid); // 전체 댓글 목록
+		model.addAttribute("replyList", replyList);
+		model.addAttribute("infoPagingDto",infoPagingDto);
+		
 		return "userinfo/myReplyList";
 	}
 	
@@ -108,16 +124,16 @@ public class UserInfoController {
 	// 현재 수정 가능 데이터 = uimg, unickname, upw
 	@RequestMapping(value = "/updateDone", method = RequestMethod.POST)
 	public String updateUserInfo(@ModelAttribute UserVo userVo, HttpSession session) {
-		// 변경된 닉네임, 비밀번호, 이미지경로를 vo형태로 받아와서 저장
+		// 변경된 닉네임, 비밀번호, 이미지경로를 @ModelAttribute userVo형태로 받아와서 저장
 		userInfoService.updateUserInfo(userVo);
-		
-		// 이미지 저장 경로
-		String baseImgPath = "/resources/images/userProfile/";
-		// 이미지 파일명
-		String imgPath = userVo.getUimg();
-		// DB에 저장될 이미지파일 경로
-		String dbPath = baseImgPath + imgPath;
-		// 위의 과정을 JSP 에서 처리?
+//		
+//		// 이미지 저장 경로
+//		String baseImgPath = "/resources/images/userProfile/";
+//		// 이미지 파일명
+//		String imgPath = userVo.getUimg();
+//		// DB에 저장될 이미지파일 경로
+//		String dbPath = baseImgPath + imgPath;
+//		// 위의 과정을 JSP 에서 처리?
 		
 		
 		// 수정 후 세션에서 기존 데이터 삭제 후 수정된 데이터 저장
@@ -129,25 +145,25 @@ public class UserInfoController {
 	
 	// 이미지 업데이트 시키기 (이미지폴더에 이미지 저장)
 	// UUID를 돌려줘서 jsp 에서 이름 재조합 후 DB에 저장하도록 시킬것
-	// 파일 경로 및 이름 = /resources/images/userProfile/(유저명)_(파일명).JPG
+	// 파일 경로 및 이름 = C:/teampro/profile/(유저명)_(파일명).JPG
 	@ResponseBody
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public String updateProfile(MultipartFile profile, String userid) {
 //		String filePath = "/resources/images/userProfile/";
-		String filePath = "D:/workspace/spring/teampro/src/main/webapp/resources/images/userProfile/";
+//		String filePath = "D:/workspace/spring/teampro/src/main/webapp/resources/images/userProfile/";
+		String filePath = "C:/teampro/profile/";
 		String originalFilename = profile.getOriginalFilename();
-		/// resources/images/userProfile/(유저명)_(파일명.확장자)
+		/// C:/teampro/profile/(유저명)_(파일명.확장자)
 		String saveFilename = filePath + userid + "_" + originalFilename;
 		File target = new File(saveFilename);
 		try {
-			
 			byte[] bytes = profile.getBytes();
 			FileCopyUtils.copy(bytes, target);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String responseFilename = "images/userProfile/" + userid + "_" + originalFilename;
-		return responseFilename;
+//		String responseFilename = "images/userProfile/" + userid + "_" + originalFilename;
+		return filePath;
 	}
 	
 	

@@ -40,23 +40,17 @@ public class UserProfileController {
 		return "profile/page";
 	}
 	
-	// 파일 저장 경로: C:/teampro/profile/유저아이디/이미지이름
-	// 기본사진 경로: C:/teampro/profile/default/이미지
-	// C:/teampro/profile까지는 미리 생성해야 함
-	// default 이미지도 폴더 만들어서 미리 추가해야 함
+	// 파일 저장 경로: C:/teampro/profile/유저아이디_이미지이름
+	// 기본사진 경로: /resources/images/userProfile/default_profile.png 이미지
+	
+	// -> (D:../../teampro/src/main/webapp)/resources/images/userProfile/default_profile.png 
 	
 	// 이미지 저장
 	@Transactional
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public String saveProfile(MultipartFile file, HttpSession session) {
-		
-		// 임의로 세션값 설정(세션에 들어있는 userVo 사용하면 됨)
-		UserVo userVo = new UserVo();
-		userVo.setUserid("testuser");
-		session.setAttribute(MyConstants.LOGIN, userVo);
-		
-		userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		String filename = file.getOriginalFilename();
 		
 		if (FileUploadUtil.isImage(filename)) {
@@ -64,7 +58,8 @@ public class UserProfileController {
 				// 이미지 파일 서버에 저장
 				byte[] bytes = file.getBytes();
 				String filePath = attachService.saveProfileFile(file, userVo.getUserid());
-				return filePath;
+				System.out.println("filePath : " + filePath);
+				return "C:/teampro" + filePath;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -77,15 +72,16 @@ public class UserProfileController {
 	@RequestMapping(value = "/uimg", method = RequestMethod.POST)
 	public String saveUimg(String filePath, HttpSession session) {
 
-		// 임의로 세션값 설정(세션에 들어있는 userVo 사용하면 됨)
-		UserVo userVo = new UserVo();
-		userVo.setUserid("testuser");
-		session.setAttribute(MyConstants.LOGIN, userVo);
-		
-		userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		// 세션으로 userVo 가져오기
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		userVo.setUimg(filePath);
 		
+		// userVo로 DB업데이트
 		userProfileService.updateProfile(userVo);
+		
+		// 기존 세션 제거 후 업데이트 된 세션 새로 입력해주기
+		session.removeAttribute(MyConstants.LOGIN);
+		session.setAttribute(MyConstants.LOGIN, userVo);
 		
 		return MyConstants.SUCCESS_MESSAGE;
 	}
@@ -95,12 +91,9 @@ public class UserProfileController {
 	@RequestMapping(value = "/displayUpdate", method = RequestMethod.GET)
 	public byte[] displayImage(String filePath, HttpSession session) {
 		
-		// 임의로 세션값 설정(세션에 들어있는 userVo 사용하면 됨)
-		UserVo userVo = new UserVo();
-		userVo.setUserid("testuser");
-		session.setAttribute(MyConstants.LOGIN, userVo);
+		// 세션으로 userVo 가져오기
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		
-		userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		byte[] profile = attachService.displayProfile(filePath, userVo.getUserid());
 		return profile;
 	}
@@ -110,12 +103,9 @@ public class UserProfileController {
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public byte[] displayImageWithId(String userid, HttpSession session) {
 		
-		// 임의로 세션값 설정(세션에 들어있는 userVo 사용하면 됨)
-		UserVo userVo = new UserVo();
-		userVo.setUserid("testuser");
-		session.setAttribute(MyConstants.LOGIN, userVo);
+		// 세션으로 userVo 가져오기
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		
-		userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		byte[] profile;
 		
 		if (userid == null) {

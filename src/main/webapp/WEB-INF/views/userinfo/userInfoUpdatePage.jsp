@@ -4,10 +4,6 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <%@ include file="/WEB-INF/views/include/menu.jsp" %>
 <style>
-	html, body {
-		background-color: gray;
-	}
-	
 	.inputSamll {
 	    background: #eee;
 	    padding: 11px;
@@ -21,41 +17,26 @@
 </style>
 <script>
 $(function(){
-	// 프로필 사진 수정
-	// 파일, 파일명 필드 지정(저장버튼 클릭 시 전송 + null일때 개인정보 수정 실패 처리)
-	var uploadProfile = null;
-	var filename = "";
-	// 사진 미리보기 띄우기, 필드에 값 저장
+	// 유저 이미지 변경 미리보기(파일선택 버튼)
+	let filePath = "";
 	$("#inputImg").change(function (e) {
-		
-		uploadProfile = e.target.files[0];
-		var reader = new FileReader();
-	    reader.onload = function(e) {
-	    	$("#preview").attr("src", e.target.result);
-	    }
-	    reader.readAsDataURL(uploadProfile);
-	    
-	    filename = uploadProfile.name.toLowerCase();
+		const file = e.target.files[0];
+		const formData = new FormData();
+		formData.append("file", file);
+		// 서버에 이미지 저장
+		$.ajax({
+			"type" : "post",
+			"url" : "/profile/upload",
+			"data" : formData,
+			"contentType" : false,
+			"processData" : false,
+			"success" : function(rData) {
+				console.log("filePath : " + rData);
+				$("#imgProfile").attr("src", "/profile/displayUpdate?filePath=" + rData);
+				filePath = rData;
+			}
+		});
 	});
-	
-//	-----파일 적합성 확인(현재 미구현)-----
-//	파일이 이미지가 아니거나, 용량이 너무 크면 적합성 확인 후 유저정보 수정 버튼 비활성화 + 경고문 출력할 것(기능 정상적 구동 확인 후 추가할 것)
-	// 확장자가 이미지 파일인지 확인
-	function isImageFile(file) {
-
-	    var ext = file.name.split(".").pop().toLowerCase(); // 파일명에서 확장자를 가져온다. 
-
-	    return ($.inArray(ext, ["jpg", "jpeg", "gif", "png"]) === -1) ? false : true;
-	}
-	// 파일의 최대 사이즈 확인
-	function isOverSize(file) {
-
-	    var maxSize = 16 * 1024; // 16KB로 제한 
-
-	    return (file.size > maxSize) ? true : false;
-	}
-//	----//파일 적합성 확인----
-	
 	
 	// 유저정보 수정 완료 및 전송
 	$("#btnUpdateDone").click(function(){
@@ -75,48 +56,49 @@ $(function(){
 			$("#upw").val("");
 			$("#checkUpw").val("");
 			alert("비밀번호를 다시 확인해주세요.");
-		} else if (updateUnickname == "" && filename == "" && updateUpw == "") { // 수정할 내용이 하나도 없으면 유저정보 수정이 작동 안함
+		} else if (updateUnickname == "" && filePath == "" && updateUpw == "") { // 수정할 내용이 하나도 없으면 유저정보수정 작동 안함
 			alert("수정할 내용이 없습니다.");
-		} else {
-			alert("수정이 완료되었습니다.");
-			// 이미지 수정했을 경우 서버에 해당 이미지 저장
-			console.log(filename);
-//			데이터 전송 폼에 든 내용 수정. 입력한 값이 있는것들만 수정함
+		} else { // 조건 전부 만족하여 유저정보 업데이트 기능 작동
+			
+//			데이터 전송 폼에 든 내용으로 DB 수정. 입력한 값이 있는것들만 수정함
 			if (updateUnickname != "") {
 				$("#updateUnickname").val(updateUnickname);
 			}
 			if (updateUpw != "") {
 				$("#updateUpw").val(updateUpw);
 			}
-			if (filename != "") {
-				// uploadProfile = 업로드할 파일
-				console.log(uploadProfile);
-				var formData = new FormData();
-				var userid = $("#userid").val();
-				formData.append("profile", uploadProfile);
-				formData.append("userid", userid);
-				var imgname = "";
-				$.ajax({
-					"type" : "post",
-					"url" : "/userInfo/uploadFile",
-					"processData" : false, 
-					"contentType" : false,
-					"data" : formData,
-					"success" : function(rData){
-						console.log(rData)
-						//	rData = 파일 저장 경로 + 유저아이디 + _ + 파일명 (saveFilename)
-						imgName = rData;
-					}
-				}); 
+			if (filePath != "") {
+				$("#updateUimg").val(filePath);
 			}
-			$("#updateUimg").val(imgname);
+
+			alert("수정이 완료되었습니다.");
 			var form = $("#userVoForm");
-//			form.submit();
+			form.submit();
 		}
 		
 	}); // 유저 정보 수정 완료 (btnUpdateDone 클릭)
 	
 });
+
+
+
+//-----파일 적합성 확인(현재 미구현)-----
+//파일이 이미지가 아니거나, 용량이 너무 크면 적합성 확인 후 유저정보 수정 버튼 비활성화 + 경고문 출력할 것(기능 정상적 구동 확인 후 추가할 것)
+// 확장자가 이미지 파일인지 확인
+function isImageFile(file) {
+
+    var ext = file.name.split(".").pop().toLowerCase(); // 파일명에서 확장자를 가져온다. 
+
+    return ($.inArray(ext, ["jpg", "jpeg", "gif", "png"]) === -1) ? false : true;
+}
+// 파일의 최대 사이즈 확인
+function isOverSize(file) {
+
+    var maxSize = 16 * 1024; // 16KB로 제한 
+
+    return (file.size > maxSize) ? true : false;
+}
+//----//파일 적합성 확인----
 
 </script>
 <body>
@@ -137,10 +119,10 @@ $(function(){
                 <div class="bio align-self-md-center mr-5">
               		<c:choose>
 	              		<c:when test="${userVo.uimg == null}">              		
-			                <img src="/resources/images/userProfile/default_profile.png" alt="Image placeholder" class="img-fluid mb-4">
+			                <img src="/resources/images/userProfile/default_profile.png" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">
 	              		</c:when>
 	              		<c:otherwise>
-			                <img src="${userVo.uimg}" alt="Image placeholder" class="img-fluid mb-4">              		
+			                <img src="${userVo.uimg}" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">              		
 	              		</c:otherwise>
 	              	</c:choose>
              		<input type="file" id="inputImg">

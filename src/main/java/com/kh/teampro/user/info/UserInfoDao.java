@@ -40,6 +40,17 @@ public class UserInfoDao {
 		List<UserBoardDto> boardList = sqlSession.selectList(NAMESPACE + "readUserBoard", userid);
 		return boardList;
 	}
+	// 유저 작성 글 정보 페이지에서 요청하는 만큼 읽기
+	public List<UserBoardDto> readUserBoardInPage(String userid, UserInfoPagingDto infoPagingDto) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int startRow = infoPagingDto.getStartRow();
+		int endRow = infoPagingDto.getEndRow();
+		map.put("userid", userid);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);		
+		List<UserBoardDto> boardList = sqlSession.selectList(NAMESPACE + "readUserBoardInPage", map);
+		return boardList;
+	}
 	// 유저 작성 글 갯수
 	public int readUserBoardCount(String userid) {
 		int boardCount = sqlSession.selectOne(NAMESPACE + "readUserBoardCount", userid);
@@ -50,6 +61,17 @@ public class UserInfoDao {
 	// 유저 작성 댓글 정보 읽기
 	public List<UserReplyDto> readUserReply(String userid) {
 		List<UserReplyDto> replyList = sqlSession.selectList(NAMESPACE + "readUserReply", userid);
+		return replyList;
+	}
+	// 유저 작성 댓글 정보 페이지에서 요청하는 만큼 읽기
+	public List<UserReplyDto> readUserReplyInPage(String userid, UserInfoPagingDto infoPagingDto) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int startRow = infoPagingDto.getStartRow();
+		int endRow = infoPagingDto.getEndRow();
+		map.put("userid", userid);
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		List<UserReplyDto> replyList = sqlSession.selectList(NAMESPACE + "readUserReplyInPage", map);
 		return replyList;
 	}
 	// 유저 작성 댓글 갯수

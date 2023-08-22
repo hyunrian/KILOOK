@@ -28,10 +28,20 @@
 		where userid = #{userid}
 	</update>
 	
-	<!-- 마이페이지에서 사용할 해당 유저가 작성한 글 정보 -->
+	<!-- 마이페이지에서 사용할 해당 유저가 작성한 글 정보(최근 작성 순) -->
 	<select id="readUserBoard" resultType="UserBoardDto">
 		select * from tbl_userboard
 		where userid = #{userid}
+		order by bno desc
+	</select>
+	<!-- 마이페이지에서 해당 유저가 작성한 글 중에서 (해당 페이지에서 보일) 일부분 -->
+	<select id="readUserBoardInPage" resultType="UserBoardDto">
+	select * 
+	from (select rownum rnum, a.*
+	    from (select * from tbl_userboard
+	        where userid = #{userid}
+	        order by bno desc) a)
+	where rnum between #{startRow} and #{endRow}
 	</select>
 	<!-- 해당 유저가 작성한 글 갯수 -->
 	<select id="readUserBoardCount" resultType="int">
@@ -40,13 +50,26 @@
 	</select>
 	
 	
-	<!-- 마이페이지에서 사용할 해당 유저가 작성한 댓글 정보(작성한 글의 제목(b.title) 포함) -->
+	<!-- 마이페이지에서 사용할 해당 유저가 작성한 댓글 정보(작성한 글의 제목(b.title) 포함, 최근 작성순) -->
 	<select id="readUserReply" resultType="UserReplyDto">
 		select r.rno, r.bno, r.replytext, r.replyer, r.regdate, r.updatedate, r.delete_yn, b.title
 		from tbl_userreply r, tbl_userboard b
 		where r.userid = #{userid}
 		and r.bno = b.bno
 		and r.delete_yn = 'N'
+		order by r.rno desc
+	</select>
+	<!-- 마이페이지에서 해당 유저가 작성한 댓글 정보 중에서 (해당 페이지에서 보일) 일부분 -->
+	<select id="readUserReplyInPage" resultType="UserReplyDto">
+	select * 
+	from (select rownum rnum, a.*
+	    from (select r.rno, r.bno, r.replytext, r.replyer, r.regdate, r.updatedate, r.delete_yn, b.title
+			from tbl_userreply r, tbl_userboard b
+			where r.userid = #{userid}
+			and r.bno = b.bno
+			and r.delete_yn = 'N'
+			order by r.rno desc) a)
+	where rnum between #{startRow} and #{endRow}
 	</select>
 	<!-- 해당 유저가 작성한 댓글 갯수, delete_yn = 'N' (삭제되지 않은 댓글 갯수)만 가져옴-->
 	<select id="readUserReplyCount" resultType="int">
