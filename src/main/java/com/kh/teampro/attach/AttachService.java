@@ -17,6 +17,11 @@ import com.kh.teampro.util.FileUploadUtil;
 @Service
 public class AttachService {
 	
+	private final String BOARD = "board";
+	private final String PROFILE = "profile";
+	private final String BOARD_DEFAULT_PATH = "/userboard/default/default.png";
+	private final String PROFILE_DEFAULT_PATH = "/profile/default/default.png";
+	
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 	
@@ -42,52 +47,46 @@ public class AttachService {
 
 	// 업로드한 이미지 에디터에서 보이기
 	public byte[] displayImage(String filePath) {
-		return getImage(filePath);
+		return getImage(filePath, BOARD);
 	}
 
-	// 썸네일 이미지 jsp로 전달
+	// 유저게시판 썸네일 이미지 jsp로 전달
 	public byte[] displayImage(int bno) {
 		String thumbnail = attachDao.getThumbnail(bno);
-		if (thumbnail != null) {
-			return getImage(thumbnail);
-		} 
+//		if (thumbnail != null) {
+			return getImage(thumbnail, BOARD);
+//		} 
 		// 업로드한 이미지가 없는 경우 디폴트 이미지로 썸네일 처리
-		return getImage("/userboard/default/image_8.jpg"); 
+//		return getImage("/userboard/default/default.png"); 
 	}
 	
+	// 
+	
 	// 이미지 얻는 공통 메서드
-	public byte[] getImage(String filePath) {
+	public byte[] getImage(String filePath, String type) {
 		
 		FileInputStream fis = null;
-		if (FileUploadUtil.isImage(filePath)) { // 이미지일 때만 처리
+		try {
+			fis = new FileInputStream(uploadPath + filePath);
+			return  IOUtils.toByteArray(fis); // 설정된 path의 이미지 리턴
+		} catch (FileNotFoundException e) {
+			String path = "";
+			if (type.equals(BOARD)) path = BOARD_DEFAULT_PATH;
+			else if (type.equals(PROFILE)) path = PROFILE_DEFAULT_PATH;
+			
 			try {
-				fis = new FileInputStream(uploadPath + filePath);
-				byte[] data = IOUtils.toByteArray(fis);
-				return data;
-			} catch (FileNotFoundException e) {
-				try {
-					fis = new FileInputStream(uploadPath + "/profile/default/default.png");
-					byte[] data = IOUtils.toByteArray(fis);
-					return data;
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			} catch (IOException ie) {
-				ie.printStackTrace();
-			} finally {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		} else {
-			try {
-				fis = new FileInputStream(uploadPath + "/profile/default/default.png");
-				byte[] data = IOUtils.toByteArray(fis);
-				return data;
+				fis = new FileInputStream(uploadPath + path);
+				return IOUtils.toByteArray(fis); // 디폴트 이미지 리턴
 			} catch (Exception e1) {
 				e1.printStackTrace();
+			}
+		} catch (IOException ie) {
+			ie.printStackTrace();
+		} finally {
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		return null;
@@ -143,10 +142,9 @@ public class AttachService {
 		if (filePath != null) {
 			String[] str = filePath.split("/");
 			filePath = "/" + str[1] + "/" + str[2] + "/t_" + str[3];
-			byte[] image = getImage(filePath);
-			return image;
+			return getImage(filePath, PROFILE);
 		} else {
-			return getImage("/profile/default/default.png"); // 업로드한 이미지가 없는 경우 디폴트 이미지로 썸네일 처리
-		}
+			return getImage(filePath, PROFILE);
+		} 
 	}
 }

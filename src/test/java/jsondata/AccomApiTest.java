@@ -29,8 +29,10 @@ public class AccomApiTest {
 		// api 데이터 불러오기
 		String api_url = "https://api.odcloud.kr/api/15096728/v1/uddi:a7cfe5da-2d11-4416-b67f-aff99ee63bbe";
 		String serviceKey = "azTHMfp6YjDVbFlU+L/3hvNoIISlb8V6wdFOtkejKQjLmzRnVhYAz+KL74NrlAwL+mhfSJOUiAmhChWpsm3eIQ==";
-		String pageNo = "58"; 
-		String numOfRows = "50";
+//		String pageNo = "58"; 
+//		String numOfRows = "50";
+		String pageNo = "1"; 
+		String numOfRows = "2900";
 		
 		StringBuilder urlBuilder = new StringBuilder(api_url); /*URL*/
 		urlBuilder.append("?page=" + URLEncoder.encode(pageNo, "UTF-8")); 
@@ -52,27 +54,28 @@ public class AccomApiTest {
 		String line;
 		while ((line = rd.readLine()) != null) {
 		    sb.append(line);
+		    
 		}
 		rd.close();
 		conn.disconnect();
-		System.out.println("================");
 		System.out.println("sb:" + sb.toString()); // test ok
+		System.out.println("================");
 		
 		// 이미지 랜덤 배열
-		String[] accomImg = new String[26];
-		
-		for(int i = 0; i < 26; i++) {
-			int random = (int)(Math.random() * accomImg.length) + 1;
-			accomImg[i] = "/resources/images/accommodation/hotel_" + random;
-		}
-		
-		// api 데이터 DB 저장
-		String sbString = sb.toString();
-		JSONObject sbObj = new JSONObject(sbString);
-		JSONArray jsonArray = (JSONArray)sbObj.get("data");
-		int jsonArrLength = jsonArray.length();
-		System.out.println("jsonArrLength:" + jsonArrLength);
-		
+//		String[] accomImg = new String[26];
+//		
+//		for(int i = 0; i < 26; i++) {
+//			int random = (int)(Math.random() * accomImg.length) + 1;
+//			accomImg[i] = "/resources/images/accommodation/hotel_" + random;
+//		}
+//		
+//		// api 데이터 DB 저장
+//		String sbString = sb.toString();
+//		JSONObject sbObj = new JSONObject(sbString);
+//		JSONArray jsonArray = (JSONArray)sbObj.get("data");
+//		int jsonArrLength = jsonArray.length();
+//		System.out.println("jsonArrLength:" + jsonArrLength);
+//		
 //		for (int i = 0; i < jsonArray.length(); i++) {
 //			org.json.JSONObject obj = jsonArray.getJSONObject(i);
 //			System.out.println("obj:" + obj);

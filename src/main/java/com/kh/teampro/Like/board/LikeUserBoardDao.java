@@ -13,10 +13,12 @@ public class LikeUserBoardDao {
 	private SqlSession sqlSession;
 	
 	public void addLike(LikeUserBoardVo likeUserBoardVo) {
+		System.out.println("add, vo:" + likeUserBoardVo);
 		sqlSession.insert(NAMESPACE + "addLike", likeUserBoardVo);
 	}
 	
 	public void cancelLike(LikeUserBoardVo likeUserBoardVo) {
+		System.out.println("cancel, vo:" + likeUserBoardVo);
 		sqlSession.delete(NAMESPACE + "cancelLike", likeUserBoardVo);
 	}
 	

@@ -2,25 +2,34 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<style>
+
+/* 드롭다운 텍스트 옆 화살표 제거 */
+.dropdown-toggle::after {
+	display: none;
+}
+
+/* 드롭다운 메뉴 설정 */
+.subMenu {
+	font-size: 14px;
+	padding-bottom: 0.9rem;
+	font-weight: 400;
+ 	background-color: black!important;
+ 	opacity: 70%;
+ 	min-width: 0rem;
+}
+
+/* 드롭다운 메뉴 폰트 컬러 설정 */
+.options {
+	color: white;
+}
+</style>
 <script>
 $(function() {
-	
-	$("#menuCategory").hover(function() {
-		$("#subMenuCategory").stop().fadeIn(200);
-	}, function() {
-		$("#subMenuCategory").stop().fadeOut(200);
-	});
-	
 	let loginInfo = "${sessionScope.loginInfo}";
-	
-	if (loginInfo) { // 로그인한 경우에만 회원정보/로그아웃 메뉴 출력
-		$("#menuUser").hover(function() {
-			$("#subMenuUser").stop().fadeIn(200);
-		}, function() {
-			$("#subMenuUser").stop().fadeOut(200);
-		});
+	if (!loginInfo) { 
+		$("#subMenuUser").hide(); // 로그인한 경우에만 회원정보/로그아웃 메뉴 출력
 	}
-	
 });
 </script>
 <body>
@@ -37,35 +46,22 @@ $(function() {
 				<span class="oi oi-menu"></span>
 				Menu
 			</button>
-
+			
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto" class="mainmenu">
 					<li id="menuHome" class="nav-item">
 						<a href="/" class="nav-link mainMenu">Home</a>
 					</li>
-					<li id="menuCategory" class="nav-item">
-						<a href="/databoard/restaurant" class="nav-link mainMenu">Place</a>
-						<!-- 서브메뉴 추가 -->
-						<div style="postion: relative;">
-							<span style="position: fixed; z-index: 3; font-size: 30pt; left: 56.2%; top: 14.6%;
-									transform: translate(-70%, -50%); display: none;" id="subMenuCategory">
-								<ul class="noDot">
-									<li class="nav-item-"><a href="/databoard/restaurant"
-										style="color: white;">맛집</a></li>
-									<li class="nav-item"><a href="/databoard/accommodation"
-										style="color: white;">숙소</a></li>
-									<li class="nav-item"><a href="/databoard/attraction"
-										style="color: white;">명소</a></li>
-									<li class="nav-item"><a href="/databoard/show"
-										style="color: white;">전시</a></li>
-									<li class="nav-item"><a href="/databoard/cafe"
-										style="color: white;">카페</a></li>
-									<li class="nav-item"><a href="/databoard/parking"
-										style="color: white;">주차장</a></li>
-									<li class="nav-item"><a href="/databoard/tourguide"
-										style="color: white;">관광안내소</a></li>
-								</ul>		
-							</span>
+					<li id="menuCategory" class="nav-item dropdown">
+						<a href="/databoard/restaurant" class="nav-link mainMenu dropdown-toggle">Place</a>
+						<div class="dropdown-menu subMenu">
+							<a class="dropdown-item options" href="/databoard/restaurant">맛집</a>
+							<a class="dropdown-item options" href="/databoard/accommodation">숙소</a>
+							<a class="dropdown-item options" href="/databoard/attraction">명소</a>
+							<a class="dropdown-item options" href="/databoard/show">전시</a>
+							<a class="dropdown-item options" href="/databoard/cafe">카페</a>
+							<a class="dropdown-item options" href="/databoard/parking">주차장</a>
+							<a class="dropdown-item options" href="/databoard/tourguide">관광안내소</a>
 						</div>
 					</li>
 					<li id="menuReview" class="nav-item">
@@ -75,26 +71,22 @@ $(function() {
 					<li id="menuPoint" class="nav-item">
 						<a href="/point/main" class="nav-link mainMenu">Shop</a>
 					</li>
-					
-					<!-- 사용자(유저) 페이지 링크 -->
-					<li id="menuUser" class="nav-item cta">
-						<a href="/userInfo/mypage" class="nav-link mainMenu">
+					<!-- 유저 메뉴 -->
+					<li id="menuUser" class="nav-item cta dropdown">
+						<a href="/userInfo/mypage" class="nav-link mainMenu dropdown-toggle" 
+							style="margin-left: 20px; margin-right: 0px;">
 							<i class="fa-solid fa-user fa-lg user-link" style="color: #ffffff;"></i>
 						</a>
-						<span style="position: fixed; z-index: 3; font-size: 30pt; left: 70.2%; top: 9.9%;
- 									transform: translate(-70%, -50%); display: none;" id="subMenuUser">
-							<ul class="noDot">
-								<li class="nav-item">
-									<a href="/loginUser/logout" style="color: white;">로그아웃</a>
-								</li>
-								<li class="nav-item">
-									<a href="/userInfo/mypage" style="color: white;">마이페이지</a>
-								</li>
-							</ul>		
-						</span>
+						<div class="dropdown-menu subMenu" id="subMenuUser">
+							<a class="dropdown-item options" href="/loginUser/logout">로그아웃</a>
+							<a class="dropdown-item options" href="/userInfo/mypage">마이페이지</a>
+						</div>
 					</li>
+					
 				</ul>
 			</div>
+			
+			
 		</div>
 	</nav>
 	

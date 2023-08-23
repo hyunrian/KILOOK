@@ -23,6 +23,7 @@ public class LikeUserBoardService {
 		setUserBoardLikecnt(likeUserBoardVo.getBno());
 	}
 	
+	@Transactional
 	public void cancelLike(LikeUserBoardVo likeUserBoardVo) {
 		likeUserBoardDao.cancelLike(likeUserBoardVo);
 		setUserBoardLikecnt(likeUserBoardVo.getBno());
