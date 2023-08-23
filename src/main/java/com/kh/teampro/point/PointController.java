@@ -1,12 +1,16 @@
 package com.kh.teampro.point;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.user.info.UserVo;
 
 @Controller
 @RequestMapping("/point")
@@ -15,29 +19,14 @@ public class PointController {
 	@Autowired
 	private PointService pointService;
 	
-	// 글 작성 포인트
-	private final int WRITING_POINT = 20;
-	// 댓글 작성 포인트
-	private final int COMMENT_POINT = 5;
+	
 	
 	// 포인트보상 페이지로
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String toPointReward() {
+	public String toPointReward(HttpSession session, Model model) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		model.addAttribute("userVo", userVo);
 		return "point/pointReward";
-	}
-	
-	// 포인트 추가
-	// getPointType = 포인트 획득 경로. 데이터 보낼때 "글", "댓글" 로 구분
-	@RequestMapping(value = "/addPoint", method = RequestMethod.GET)
-	@ResponseBody
-	public String addPoint(String userid, String getPointType) {
-		if (getPointType.equals(MyConstants.POST)) {
-			pointService.addPoint(userid, WRITING_POINT);	// 글 작성 포인트로 pointService에 전달
-		} else if (getPointType.equals(MyConstants.REPLY)) {			// 포인트 획득 경로가 댓글 작성 일때
-			pointService.addPoint(userid, COMMENT_POINT);	// 댓글 작성 포인트로 pointService에 전달
-		}
-		
-		return "success";
 	}
 	
 	// 포인트 사용 (requiredPoint = 필요 포인트 비용)
@@ -52,12 +41,10 @@ public class PointController {
 			pointService.usePoint(userid, requiredPoint);
 			// 해당 상품을 사용자에게 선물
 			// ㅡㅡㅡ 구현 필요 ㅡㅡㅡ //
-			return "use success";
+			return "success";
 		}
 		// 포인트 부족
-		return "use fail";
+		return "fail";
 	}
-	
-	
 	
 }
