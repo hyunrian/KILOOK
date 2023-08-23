@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.paging.PagingDto;
+import com.kh.teampro.point.PointService;
 import com.kh.teampro.reply.user.UserReplyService;
 import com.kh.teampro.reply.user.UserReplyVo;
 import com.kh.teampro.user.info.UserVo;
@@ -27,6 +29,9 @@ public class UserBoardController {
 	
 	@Autowired
 	private UserReplyService userReplyService;
+	
+	@Autowired
+	private PointService pointService;
 	
 	// 유저 게시글 목록 보기
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -51,13 +56,18 @@ public class UserBoardController {
 	}
 	
 	// 게시글 쓰기
+	@Transactional
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String writeArticle(UserBoardVo userBoardVo, 
 			String thumbnail, HttpSession session) {
+		
 		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
-		userBoardVo.setUserid(loginInfo.getUserid());
+		String userid = loginInfo.getUserid();
+		userBoardVo.setUserid(userid);
 		userBoardVo.setWriter(loginInfo.getUnickname());
 		userBoardService.createArticle(userBoardVo, thumbnail);
+		
+		pointService.addPostPoint(userid);
 		
 		return "redirect:/userboard/list";
 	}

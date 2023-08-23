@@ -1,6 +1,5 @@
 package com.kh.teampro.attach;
 
-
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +37,18 @@ public class AttachController {
 		return attachService.displayImage(filePath);
 	}
 		
-	// 썸네일 이미지 jsp로 전달
+	// 유저게시판 썸네일 이미지 jsp로 전달
 	@RequestMapping(value = "/displayThumbnail/{bno}", method = RequestMethod.GET)
 	public byte[] displayThumbnail(@PathVariable int bno) {
 		return attachService.displayImage(bno);
 	}
+	
+	// 프로필 이미지 jsp로 전달
+//	@RequestMapping(value = "/displayProfile", method = RequestMethod.GET)
+//	public byte[] displayProfile(String filePath, HttpSession session) {
+//		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+//		return attachService.displayProfile(filePath, userVo.getUserid());
+//	}
 	
 	// 이미지 서버에서 삭제
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)

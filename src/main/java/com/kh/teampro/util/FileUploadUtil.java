@@ -7,13 +7,9 @@ import java.util.Calendar;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpSession;
 
 import org.imgscalr.Scalr;
 import org.springframework.util.FileCopyUtils;
-
-import com.kh.teampro.commons.MyConstants;
-import com.kh.teampro.user.info.UserVo;
 
 
 public class FileUploadUtil {

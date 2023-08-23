@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 @RestController
@@ -23,9 +24,9 @@ public class AccLikeController {
 	@RequestMapping(value = "/addAccomLike/{bno}", method = RequestMethod.GET)
 	@ResponseBody
 	public String addAccomLike(@PathVariable int bno, HttpSession session) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		AccLikeVo accLikeVo = new AccLikeVo();
-		accLikeVo.setUserid("testuser"); // 수정필요
+		accLikeVo.setUserid(userVo.getUserid());
 		accLikeVo.setBno(bno);
 		boolean result = accLikeService.addAccomLike(accLikeVo);
 		return String.valueOf(result);
@@ -35,10 +36,9 @@ public class AccLikeController {
 	@RequestMapping(value = "/accomLikeList/{bno}", method = RequestMethod.POST)
 	@ResponseBody
 	public String accomLikeList(@PathVariable int bno, HttpSession session, Model model) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("accomLikeList Controller 들어옴");
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		AccLikeVo accLikeVo = new AccLikeVo();
-		accLikeVo.setUserid("testuser"); // 수정필요
+		accLikeVo.setUserid(userVo.getUserid());
 		accLikeVo.setBno(bno);
 		boolean result = accLikeService.accomLikeList(accLikeVo); // 좋아요를 했다면 true, 아니라면 false 반환
 		return String.valueOf(result);
@@ -48,10 +48,9 @@ public class AccLikeController {
 	@RequestMapping(value = "/deleteAccomLike/{bno}", method = RequestMethod.GET)
 	@ResponseBody
 	public String deleteAccomLike(@PathVariable int bno, HttpSession session) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("deleteAccomLike Controller");
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		AccLikeVo accLikeVo = new AccLikeVo();
-		accLikeVo.setUserid("testuser"); // 수정필요
+		accLikeVo.setUserid(userVo.getUserid());
 		accLikeVo.setBno(bno);
 		boolean result = accLikeService.deleteAccomLike(accLikeVo);
 		return String.valueOf(result);

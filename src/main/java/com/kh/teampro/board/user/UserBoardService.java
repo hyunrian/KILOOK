@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.teampro.Like.board.LikeUserBoardService;
 import com.kh.teampro.attach.AttachService;
 import com.kh.teampro.attach.AttachVo;
 import com.kh.teampro.paging.PagingDto;
-import com.kh.teampro.reply.user.UserReplyService;
 
 @Service
 public class UserBoardService {
@@ -21,14 +19,8 @@ public class UserBoardService {
 	@Autowired
 	private AttachService attachService;
 	
-	@Autowired
-	private UserReplyService userReplyService;
-	
 	public List<UserBoardVo> getUserArticleList(PagingDto pagingDto) {
-		List<UserBoardVo> list = 
-				userBoardDao.getUserArticleList(pagingDto);
-		
-		return list;
+		return userBoardDao.getUserArticleList(pagingDto);
 	}
 	
 	public UserBoardVo getUserArticleDetail(int bno) {

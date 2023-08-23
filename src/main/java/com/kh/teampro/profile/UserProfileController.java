@@ -1,13 +1,9 @@
 package com.kh.teampro.profile;
 
-import java.io.IOException;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,15 +50,9 @@ public class UserProfileController {
 		String filename = file.getOriginalFilename();
 		
 		if (FileUploadUtil.isImage(filename)) {
-			try {
-				// 이미지 파일 서버에 저장
-				byte[] bytes = file.getBytes();
-				String filePath = attachService.saveProfileFile(file, userVo.getUserid());
-				System.out.println("filePath : " + filePath);
-				return filePath;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			// 이미지 파일 서버에 저장
+			String filePath = attachService.saveProfileFile(file, userVo.getUserid());
+			return filePath;
 		}
 		return MyConstants.FAIL_MESSAGE;
 	}
@@ -90,7 +80,6 @@ public class UserProfileController {
 	@ResponseBody
 	@RequestMapping(value = "/displayUpdate", method = RequestMethod.GET)
 	public byte[] displayImage(String filePath, HttpSession session) {
-		
 		// 세션으로 userVo 가져오기
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		
@@ -118,8 +107,5 @@ public class UserProfileController {
 		
 		return profile;
 	}
-	
-	
-	
 	
 }

@@ -2,8 +2,6 @@ package com.kh.teampro.reply.user;
 
 import java.sql.Timestamp;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

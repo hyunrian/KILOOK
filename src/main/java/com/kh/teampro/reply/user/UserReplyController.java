@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.paging.ReplyPagingDto;
+import com.kh.teampro.point.PointService;
 import com.kh.teampro.user.info.UserVo;
 
 @RestController
@@ -22,10 +23,8 @@ public class UserReplyController {
 	@Autowired
 	private UserReplyService userReplyService;
 	
-//	@RequestMapping(value = "/list", method = RequestMethod.GET) 
-//    public List<UserReplyVo> getUserReply(int bno) {
-//        return userReplyService.getUserReply(bno);
-//	}
+	@Autowired
+	private PointService pointService;
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET) 
 	public Map<String, Object> getUserReply(ReplyPagingDto replyPagingDto) {
@@ -36,9 +35,9 @@ public class UserReplyController {
 	public String insertUserReply(UserReplyVo userReplyVo, HttpSession session) {
 		
 		UserVo loginInfo = (UserVo)session.getAttribute(MyConstants.LOGIN);
-		
+		String userid = loginInfo.getUserid();
 		userReplyVo.setReplyer(loginInfo.getUnickname());
-		userReplyVo.setUserid(loginInfo.getUserid());
+		userReplyVo.setUserid(userid);
 		
 		if (userReplyVo.getRlevel() == 0) { // 새 댓글인 경우
 			userReplyService.insertUserNewReply(userReplyVo);
@@ -51,6 +50,8 @@ public class UserReplyController {
 			userReplyVo.setRseq(maxRseq + 1);
 			userReplyService.insertUserReReply(userReplyVo);
 		}
+		
+		pointService.addReplyPoint(userid);
 		
 		return MyConstants.SUCCESS_MESSAGE;
 	}

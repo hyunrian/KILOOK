@@ -128,8 +128,10 @@ $(function() {
 	
 	$("#heart").click(function() {
 		$.get("/like/liked/" + bno, function(rData) {
+			console.log("alread liked?", rData);
 			const heartCount = parseInt($("#heartCount").text());
 			if (rData) { // 사용자가 해당 글을 이미 좋아요한 경우
+				console.log("취소")
 				$.ajax({
 					"type" : "delete",
 					"url" : "/like/cancel/" + bno,
@@ -139,6 +141,7 @@ $(function() {
 					}
 				});
 			} else { // 사용자가 해당 글을 아직 좋아요하지 않은 경우
+				console.log("좋아요")
 				$.post("/like/add/" + bno, function(rData) {
 					getFullHeart();
 		 			$("#heartCount").text(heartCount + 1);
