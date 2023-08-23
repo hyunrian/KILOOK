@@ -245,7 +245,6 @@ $(function() {
 		 				} else {
 		 					reply = $("#replyLi").clone();
 		 				}
-		 				
 						
 		 				reply.removeAttr("id").addClass("replyElem");
 		 				
@@ -550,8 +549,7 @@ $(function() {
 						<ul class="children" id="replyUl" style="display: none;">
 							<li class="comment" id="replyLi">
 								<div class="vcard bio">
-									<img src="/profile/display?userid=${userBoardVo.userid}"
-										alt="Image placeholder">
+									<img alt="프로필 이미지">
 								</div>
 								<div class="comment-body">
 									<h3>작성자</h3>

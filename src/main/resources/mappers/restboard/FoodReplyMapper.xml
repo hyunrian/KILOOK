@@ -23,6 +23,7 @@
 			, rgroup
 			, rseq
 			, rlevel
+			, userid
 			)
 		values
 			(seq_restreply_rno.nextval
@@ -33,6 +34,7 @@
 			, seq_restreply_rno.currval			
 			, #{rseq}
 			, #{rlevel}
+			, #{userid}
 			)	
 	</insert>
 	

@@ -119,6 +119,9 @@ function getReplyList(){
 					}
 					reply.removeAttr("id").addClass("replyElem");
 					
+					reply.find("div").eq(0).find("img").attr(
+								"src", "/profile/display?userid=" + item.userid);
+					
 					const div = reply.find("div").eq(1);
 					div.find("h3").text(item.replyer);
 					

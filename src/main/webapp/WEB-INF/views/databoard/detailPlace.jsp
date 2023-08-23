@@ -92,12 +92,14 @@ a {
 		$("#reply").css('display', 'none')
 		$("#replyFlag").attr("onClick", "showReply()")
 	} 
-
+	console.log("test")
 	// 댓글 리스트 가져오기
 	function getReplyList(){
 		const bno = "${getPlaceInfo.bno}";
 		$.get("/reply/placeList?bno=" + bno, function(rData){
 			$.each(rData, function(i, item){
+				console.log("댓글 가져옴");
+				console.log(rData);
 				$(".replyElem").remove();
 				var status = "default";
 				$.get("/reply/checkChildPlaceReply/" + item.rno, function(hasReply){
@@ -116,6 +118,9 @@ a {
 							reply = $("#replyLi").clone();
 						}
 						reply.removeAttr("id").addClass("replyElem");
+						
+						reply.find("div").eq(0).find("img").attr(
+ 								"src", "/profile/display?userid=" + item.userid);
 						
 						const div = reply.find("div").eq(1);
 						div.find("h3").text(item.replyer);
@@ -384,7 +389,7 @@ a {
 				                  <ul class="children" id="replyUl" style="display: none;">
 				                    <li class="comment" id="replyLi">
 				                      <div class="vcard bio">
-				                        <img src="../resources/images/person_1.jpg" alt="Image placeholder">
+				                        <img alt="프로필 이미지">
 				                      </div>
 				                      <div class="comment-body">
 				                        <h3>작성자</h3>

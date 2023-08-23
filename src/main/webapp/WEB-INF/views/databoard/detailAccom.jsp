@@ -24,7 +24,7 @@ a {
 <script>
 	// 좋아요 하트 기능
 	$(document).ready(function() {
-	
+		
 		var bno = "${getAccomInfo.bno}";
 		var likeImg = $("#likeImg");
 		
@@ -95,9 +95,10 @@ a {
 
 	// 댓글 리스트 가져오기
 	function getReplyList(){
-
+		
 		const bno = "${getAccomInfo.bno}";
 		$.get("/reply/accomList?bno=" + bno, function(rData){
+			console.log(rData);
 			$.each(rData, function(i, item){
 				$(".replyElem").remove();
 				var status = "default";
@@ -118,10 +119,16 @@ a {
 						}
 						reply.removeAttr("id").addClass("replyElem");
 						
+						// 프로필 사진 출력
+						reply.find("div").eq(0).find("img").attr(
+ 								"src", "/profile/display?userid=" + item.userid);
+						
 						const div = reply.find("div").eq(1);
 						div.find("h3").text(item.replyer);
 						
 						const dateDiv = div.find("div").eq(0);
+						
+						
 						if(item.updatedate != null){
 							if(isSameDate(item.updatedate)){
 								dateDiv.text(getTime(item.updatedate));
@@ -374,7 +381,7 @@ a {
 				                  <ul class="children" id="replyUl" style="display: none;">
 				                    <li class="comment" id="replyLi">
 				                      <div class="vcard bio">
-				                        <img src="../resources/images/person_1.jpg" alt="Image placeholder">
+				                        <img src="/profile/display?userid=${userBoardVo.userid}" alt="프로필 이미지">
 				                      </div>
 				                      <div class="comment-body">
 				                        <h3>작성자</h3>
