@@ -336,50 +336,13 @@ $(function() {
 <!-- 회원가입 혜택 안내 -->
 <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url(../resources/images/bg_1.jpg);">
 	<div class="container">
-		<div class="row justify-content-center mb-5 pb-3">
-      <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-        <h2 class="mb-4" style="font-weight: 700;">KILOOK 회원이 되어<br>더 많은 혜택을 얻으세요</h2>
-        <span class="subheading">KILOOK은 부산의 다양한 스토어와 함께 합니다.</span>
-      </div>
-    </div>
-		<div class="row justify-content-center">
-			<div class="col-md-10">
-  		<div class="row">
-        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-          <div class="block-18 text-center">
-            <div class="text">
-            	<i class="fa-solid fa-store fa-5x" style="color: #ffffff; height: 100px;"></i>
-              <span>Happy Customers</span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-          <div class="block-18 text-center">
-            <div class="text">
-              <strong class="number" data-number="40000">0</strong>
-              <span>Destination Places</span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-          <div class="block-18 text-center">
-            <div class="text">
-              <strong class="number" data-number="87000">0</strong>
-              <span>Hotels</span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-          <div class="block-18 text-center">
-            <div class="text">
-              <strong class="number" data-number="56400">0</strong>
-              <span>Restaurant</span>
-            </div>
-          </div>
-        </div>
-      </div>
-     </div>
-    </div>
+		<div class="row justify-content-center mb-5 pb-3" 
+			style="margin-bottom: 0px!important; padding-bottom: 0px!important;">
+			<div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+				<h2 class="mb-4" style="font-weight: 700;">KILOOK 회원이 되어<br>더 많은 혜택을 얻으세요</h2>
+				<span class="subheading">KILOOK은 부산의 다양한 스토어와 함께 합니다.</span>
+			</div>
+		</div>
 	</div>
 </section>
     
