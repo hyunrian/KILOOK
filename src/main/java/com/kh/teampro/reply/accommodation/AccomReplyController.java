@@ -28,7 +28,7 @@ public class AccomReplyController {
 	
 	// 댓글 목록
 	@RequestMapping(value = "/accomList", method = RequestMethod.GET)
-	public List<AccomReplyVo> getAccomReplyList(int bno){
+	public List<AccomReplyVo> getAccomReplyList(int bno, HttpSession session){
 		List<AccomReplyVo> list = accomReplyService.getAccomReplyList(bno);
 		return list;
 	}
@@ -40,6 +40,7 @@ public class AccomReplyController {
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		accomReplyVo.setReplyer(userVo.getUnickname());
 		accomReplyVo.setUserid(userVo.getUserid());
+		System.out.println("댓글 작성 정보:" + accomReplyVo);
 		if(accomReplyVo.getRlevel() == 0) {
 			accomReplyService.insertAccomNewReply(accomReplyVo);
 			pointService.addReplyPoint(userVo.getUserid());

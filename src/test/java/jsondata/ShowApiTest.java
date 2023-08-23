@@ -35,65 +35,69 @@ public class ShowApiTest {
 		// api 데이터 불러오기
 		String api_url = "http://apis.data.go.kr/6260000/BusanCultureExhibitDetailService/getBusanCultureExhibitDetail";
 		String serviceKey = "azTHMfp6YjDVbFlU+L/3hvNoIISlb8V6wdFOtkejKQjLmzRnVhYAz+KL74NrlAwL+mhfSJOUiAmhChWpsm3eIQ==";
-		String pageNo = "53"; 
-		String numOfRows = "50";
-		
-		StringBuilder urlBuilder = new StringBuilder(api_url); /*URL*/
-		urlBuilder.append("?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8"));
-        urlBuilder.append("&pageNo=" + URLEncoder.encode(pageNo, "UTF-8")); 
-        urlBuilder.append("&numOfRows=" + URLEncoder.encode(numOfRows, "UTF-8")); 
-        urlBuilder.append("&resultType=" + URLEncoder.encode("json", "UTF-8"));
-        URL url = new URL(urlBuilder.toString());
-		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-		conn.setRequestMethod("GET");
-		BufferedReader rd;
-        
-		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-		    rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		} else {
-		    rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		for (int j = 1; j <= 10; j++) {
+			String pageNo = String.valueOf(j); // 53
+			String numOfRows = "50";
+			
+			StringBuilder urlBuilder = new StringBuilder(api_url); /*URL*/
+			urlBuilder.append("?serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8"));
+	        urlBuilder.append("&pageNo=" + URLEncoder.encode(pageNo, "UTF-8")); 
+	        urlBuilder.append("&numOfRows=" + URLEncoder.encode(numOfRows, "UTF-8")); 
+	        urlBuilder.append("&resultType=" + URLEncoder.encode("json", "UTF-8"));
+	        URL url = new URL(urlBuilder.toString());
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setRequestMethod("GET");
+			BufferedReader rd;
+	        
+			if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+			    rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+			    rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+			
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = rd.readLine()) != null) {
+			    sb.append(line);
+			}
+			rd.close();
+			conn.disconnect();
+			System.out.println("sb:" + sb.toString());
+			
+			// api 데이터 DB 저장
+			String sbString = sb.toString();
+			JSONObject sbObj = new JSONObject(sbString);
+			JSONObject objAttractionKr = (JSONObject)sbObj.get("getBusanCultureExhibitDetail");
+			JSONArray jsonArray = (JSONArray)objAttractionKr.get("item");
+			System.out.println("jsonArr length:" + jsonArray.length()); // test ok
+			
+			for (int i = 0; i < jsonArray.length(); i++) {
+				org.json.JSONObject obj = jsonArray.getJSONObject(i);
+//				System.out.println("obj:" + obj);
+//				System.out.println("===============");
+				
+				String showname = obj.getString("title");
+				String begindate = obj.optString("op_st_dt");
+				String enddate = obj.optString("op_ed_dt");
+				String placename = obj.getString("place_nm");
+				String openhours = obj.getString("showtime");
+				String price = obj.getString("price");
+				String surl = obj.getString("dabom_url");
+				
+				ShowVo showVo = new ShowVo();
+				
+				showVo.setShowname(showname);
+				showVo.setBegindate(begindate);
+				showVo.setEnddate(enddate);
+				showVo.setPlacename(placename);
+				showVo.setOpenhours(openhours);
+				showVo.setPrice(price);
+				showVo.setUrl(surl);
+				
+				showDao.insertShow(showVo);
+			}
+			Thread.sleep(2000);
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		String line;
-		while ((line = rd.readLine()) != null) {
-		    sb.append(line);
-		}
-		rd.close();
-		conn.disconnect();
-		System.out.println("sb:" + sb.toString());
-		
-		// api 데이터 DB 저장
-		String sbString = sb.toString();
-		JSONObject sbObj = new JSONObject(sbString);
-		JSONObject objAttractionKr = (JSONObject)sbObj.get("getBusanCultureExhibitDetail");
-		JSONArray jsonArray = (JSONArray)objAttractionKr.get("item");
-		System.out.println("jsonArr length:" + jsonArray.length()); // test ok
-		
-//		for (int i = 0; i < jsonArray.length(); i++) {
-//			org.json.JSONObject obj = jsonArray.getJSONObject(i);
-////			System.out.println("obj:" + obj);
-////			System.out.println("===============");
-//			
-//			String showname = obj.getString("title");
-//			String begindate = obj.optString("op_st_dt");
-//			String enddate = obj.optString("op_ed_dt");
-//			String placename = obj.getString("place_nm");
-//			String openhours = obj.getString("showtime");
-//			String price = obj.getString("price");
-//			String surl = obj.getString("dabom_url");
-//			
-//			ShowVo showVo = new ShowVo();
-//			
-//			showVo.setShowname(showname);
-//			showVo.setBegindate(begindate);
-//			showVo.setEnddate(enddate);
-//			showVo.setPlacename(placename);
-//			showVo.setOpenhours(openhours);
-//			showVo.setPrice(price);
-//			showVo.setUrl(surl);
-//			
-//			showDao.insertShow(showVo);
-//		}
 	}
 }

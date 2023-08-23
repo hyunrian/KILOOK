@@ -52,6 +52,7 @@ public class UserProfileController {
 		if (FileUploadUtil.isImage(filename)) {
 			// 이미지 파일 서버에 저장
 			String filePath = attachService.saveProfileFile(file, userVo.getUserid());
+			System.out.println("profileController, filePath:" + filePath);
 			return filePath;
 		}
 		return MyConstants.FAIL_MESSAGE;

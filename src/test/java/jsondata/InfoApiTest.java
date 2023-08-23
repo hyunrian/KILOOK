@@ -35,6 +35,7 @@ public class InfoApiTest {
 		// api 데이터 불러오기
 		String api_url = "http://apis.data.go.kr/6260000/InfoOfficeService/getInfoOfficeKr";
 		String serviceKey = "azTHMfp6YjDVbFlU+L/3hvNoIISlb8V6wdFOtkejKQjLmzRnVhYAz+KL74NrlAwL+mhfSJOUiAmhChWpsm3eIQ==";
+		
 		String pageNo = "1"; 
 		String numOfRows = "25";
 		
@@ -70,30 +71,30 @@ public class InfoApiTest {
 		JSONArray jsonArray = (JSONArray)objInfoKr.get("item");
 		System.out.println("jsonArr:" + jsonArray.length()); // test ok
 		
-//		for (int i = 0; i < jsonArray.length(); i++) {
-//			org.json.JSONObject obj = jsonArray.getJSONObject(i);
-//			
-//			String iname = obj.optString("NM");
-//			String openhours = obj.getString("OP_TIME");
-//			String inumber = obj.getString("INQRY_TEL");
-//			int lat = obj.getInt("LAT");
-//			int ilong = obj.getInt("LNG");
-//			String address = obj.optString("ADDR1");
-//			String language = obj.optString("FGGG");
-//			String introduce = obj.optString("INFOFC_INTRCN");
-//			
-//			InfoVo infoVo = new InfoVo();
-//			
-//			infoVo.setIname(iname);
-//			infoVo.setOpenhours(openhours);
-//			infoVo.setInumber(inumber);
-//			infoVo.setLat(lat);
-//			infoVo.setIlong(ilong);
-//			infoVo.setAddress(address);
-//			infoVo.setLanguage(language);
-//			infoVo.setIntroduce(introduce);
-//			
-//			infoDao.insertInfo(infoVo);
-//		}
+		for (int i = 0; i < jsonArray.length(); i++) {
+			org.json.JSONObject obj = jsonArray.getJSONObject(i);
+			
+			String iname = obj.optString("NM");
+			String openhours = obj.getString("OP_TIME");
+			String inumber = obj.getString("INQRY_TEL");
+			int lat = obj.getInt("LAT");
+			int ilong = obj.getInt("LNG");
+			String address = obj.optString("ADDR1");
+			String language = obj.optString("FGGG");
+			String introduce = obj.optString("INFOFC_INTRCN");
+			
+			InfoVo infoVo = new InfoVo();
+			
+			infoVo.setIname(iname);
+			infoVo.setOpenhours(openhours);
+			infoVo.setInumber(inumber);
+			infoVo.setLat(lat);
+			infoVo.setIlong(ilong);
+			infoVo.setAddress(address);
+			infoVo.setLanguage(language);
+			infoVo.setIntroduce(introduce);
+			
+			infoDao.insertInfo(infoVo);
+		}
 	}
 }

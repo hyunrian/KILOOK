@@ -25,7 +25,7 @@ a {
 <script>
 	// 좋아요 하트 기능
 	$(document).ready(function() {
-	
+		
 		var bno = "${getFoodInfo.bno}";
 		var likeImg = $("#likeImg");
 		
@@ -118,6 +118,9 @@ function getReplyList(){
 						reply = $("#replyLi").clone();
 					}
 					reply.removeAttr("id").addClass("replyElem");
+					
+					reply.find("div").eq(0).find("img").attr(
+								"src", "/profile/display?userid=" + item.userid);
 					
 					const div = reply.find("div").eq(1);
 					div.find("h3").text(item.replyer);

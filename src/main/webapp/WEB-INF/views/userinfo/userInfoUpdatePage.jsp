@@ -48,6 +48,7 @@ $(function(){
 	
 	// 유저정보 수정 완료 및 전송
 	$("#btnUpdateDone").click(function(){
+		console.log("clicked")
 		// 닉네임, 비밀번호, 비밀번호 확인 정보
 		var updateUnickname = $("#unickname").val().trim();
 		var updateUpw = $("#upw").val().trim();
