@@ -193,23 +193,22 @@ public class UserInfoController {
 		System.out.println("verifyCode:" + verifyCode);
 			
 		// 메일로 코드 전송
-//		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-//			
-//			@Override
-//			public void prepare(MimeMessage mimeMessage) throws Exception {
-//				MimeMessageHelper helper = new MimeMessageHelper(
-//						mimeMessage,
-//						false, // multipart 여부
-//						"utf-8"
-//						);
-//				
-//				helper.setFrom("teamprobusan@gmail.com"); // 보내는이
-//				helper.setTo(uemail); // 받는이
-//				helper.setSubject("KILOOK 계정 본인확인"); // 제목
-//				helper.setText("본인확인 코드: " + verifyCode); // 내용
-//			}
-//		};
-//		mailSender.send(preparator);
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				MimeMessageHelper helper = new MimeMessageHelper(
+						mimeMessage,
+						false, // multipart 여부
+						"utf-8"
+						);
+				
+				helper.setFrom("teamprobusan@gmail.com"); // 보내는이
+				helper.setTo(uemail); // 받는이
+				helper.setSubject("KILOOK 계정 본인확인"); // 제목
+				helper.setText("본인확인 코드: " + verifyCode); // 내용
+			}
+		};
+		mailSender.send(preparator);
 		// /메일로 코드전송
 		
 		// 본인확인용 코드 리턴
