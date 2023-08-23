@@ -4,8 +4,7 @@
 <!-- bootstrap -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>   
-<script src="/resources/myjs/myscript_hyun.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 /* 페이지 폰트 설정 */
 body {
@@ -100,6 +99,7 @@ $(function(){
 		<input type="hidden" name="signupfrom" value="${userVo.signupfrom}">
 		<input type="hidden" name="joindate" value="${userVo.joindate}">
 		<input type="hidden" name="verified" value="${userVo.verified}">
+		<input type="submit" style="display: none;">
 	</form>
 	<!-- //유저 정보 보관용 form -->
     
