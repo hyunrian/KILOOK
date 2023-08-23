@@ -89,7 +89,7 @@ $(function(){
 					style="margin-bottom: 25px">
 			  
 	          	<div id="divCheckVerify" style="display: none;">
-	              <h3 class="mb-5">해당 메일로 본인인증 코드가 발송되었습니다.</h3>
+	              <h6 class="mb-5" style="margin-top: 20px;">해당 메일로 본인인증 코드가 발송되었습니다.</h6>
 	              <input type="hidden" id="verifyCode">
 	              <input type="hidden" id="formUemail">
 	              <input type="text" class="form-control" id="userVerifyCode" name="userVerifyCode"

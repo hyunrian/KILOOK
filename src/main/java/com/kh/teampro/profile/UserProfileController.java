@@ -6,8 +6,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,7 +88,6 @@ public class UserProfileController {
 	@ResponseBody
 	@RequestMapping(value = "/displayUpdate", method = RequestMethod.GET)
 	public byte[] displayImage(String filePath, HttpSession session) {
-		
 		// 세션으로 userVo 가져오기
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		
@@ -118,8 +115,5 @@ public class UserProfileController {
 		
 		return profile;
 	}
-	
-	
-	
 	
 }

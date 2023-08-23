@@ -2,14 +2,46 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- bootstrap -->
-<script src="/myjs/myscript_hyun.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>   
+<script src="/resources/myjs/myscript_hyun.js"></script>
 <style>
-	.btn-primary {
-		border: 1px solid #5CD1E5;
-	}
+/* 페이지 폰트 설정 */
+body {
+	font-family: "Pretendard Variable"; 
+	background-color: #f8f9fa;
+}
+
+/* 드롭다운 텍스트 옆 화살표 제거 */
+.dropdown-toggle::after {
+	display: none;
+}
+
+/* 드롭다운 메뉴 설정 */
+.subMenu {
+	font-size: 14px;
+	padding-bottom: 0.9rem;
+	font-weight: 400;
+ 	background-color: black!important;
+ 	opacity: 70%;
+ 	min-width: 0rem;
+ 	margin-top: 8px;
+}
+
+/* 드롭다운 메뉴 폰트 컬러 설정 */
+.options {
+	color: white;
+}
+
+/* a태그 컬러 설정 */
+a {
+	color: black;
+}
+
+.btn-primary {
+	border: 1px solid #5CD1E5;
+}
 </style>
 <script>
 $(function(){
@@ -35,7 +67,7 @@ $(function(){
 <div class="col-md-4 sidebar ftco-animate">
   <div class="sidebar-box ftco-animate">
     <div class="categories">
-      <h3><a href="/userInfo/mypage" style="font-size: 25px">마이페이지</a></h3>
+      <h3 style="margin-bottom: 30px;"><a href="/userInfo/mypage" style="font-size: 25px">마이페이지</a></h3>
       <li><a href="/userInfo/mypost">작성한 게시글 <span>(${userBoardCount})</span></a></li>
       <li><a href="/userInfo/myreply">내 댓글 <span>(${userReplyCount})</span></a></li>
       <li><a href="#" id="userUpdate">내 정보 수정하기</a></li>      

@@ -2,39 +2,56 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
-<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 <!-- bootstrap -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>  
 <style>
-  .giftCard {
-  	width: 300px;
-    height: 200px;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-  
-  .rewardCard {
-  	border : 2px dashed;
-  	cursor: pointer;
-  }
-  
-  .rewardCard p {
-  	justify-content: center;
-  	align-items: center;
-  	color: white;
-  	background-color: #444;
-  }
-  
-  .rewardCard :hover {
-  
-  }
 
-	.btn-primary {
-		border: 1px solid #5CD1E5;
-	}
-	
+/* 폰트 설정 */
+body {
+	font-family: "Pretendard Variable"; 
+	background-color: #f8f9fa;
+}
+
+/* 카테고리별 간격 조절 */
+.category {
+	margin-bottom: 70px;
+}
+
+/* 쿠폰 컨텐츠 정렬 */
+.content {
+	text-align: center;
+	margin-bottom: 24px;
+}
+
+ .giftCard {
+ 	width: 300px;
+   height: 200px;
+   background-size: contain;
+   background-repeat: no-repeat;
+ }
+ 
+ .rewardCard {
+ 	border : 1px solid #CCD1D1;
+ 	cursor: pointer;
+ }
+ 
+ .rewardCard p {
+ 	justify-content: center;
+ 	align-items: center;
+ 	color: white;
+ 	background-color: #444;
+ }
+ 
+ .rewardCard :hover {
+ 
+ }
+
+.btn-primary {
+	border: 1px solid #5CD1E5;
+}
+
 }
 </style>
 <script>
@@ -46,7 +63,7 @@ $(function(){
 	
 	// 포인트 상품 클릭
 	var needPointNumber = "";
-	$(".rewardCard").click(function(){
+	$(".btnReward").click(function(){
 		// 포인트 상품 클릭 시 비로그인 상태 체크
 		if (userid == "") {
 			alert("로그인이 필요합니다.")
@@ -58,8 +75,8 @@ $(function(){
 				location.href = "http://localhost/userInfo/getVerifyEmail";
 			} else {
 				needPoint = $(this).find('span').text();
-				var couponImg = $(this).find('img').attr('src');
-				var couponName = $(this).find('h4').text();
+				var couponImg = $(this).parent().parent().find("img").attr("src");
+				var couponName = $(this).parent().find('h4').text();
 				
 				$("#modal-354826").trigger("click");
 				$("#pointAmount").text(needPoint + "P");
@@ -140,7 +157,7 @@ $(function(){
 
 });
 </script>
-<body>
+<%@ include file="/WEB-INF/views/include/menu.jsp" %>
 
 <!-- 포인트 교환 모달창 -->
 	<div class="row">
@@ -163,7 +180,9 @@ $(function(){
 						<div class="modal-body">
 								<h3 style="margin-left: 14px">해당 상품을 교환하시겠습니까?</h3>
 								<div style="margin-left: 14px; margin-bottom: 10px"> 쿠폰 코드는 본인확인에 사용한 이메일로 전송됩니다.</div>
-								<img alt="Image placeholder" src="" class="img-fluid mb-4" id="choicedCoupon">
+								<div style="text-align: center;">
+									<img alt="쿠폰 이미지" src="" class="img-fluid mb-4" id="choicedCoupon" style="width: 300px;">
+								</div>
 								<h5 style="margin-left: 14px;">상품명 : <span id="couponName"></span></h5>
 								<div style="margin-left: 14px;">소지 포인트 : <span id="upoint">${userVo.upoint}</span>P</div>
 								<div style="margin-left: 14px;">필요 포인트 : <span id="pointAmount"></span></div>
@@ -189,14 +208,12 @@ $(function(){
 	</div>
 <!-- // 포인트 교환 모달창 -->
 
-
-
     <section class="ftco-section ftco-degree-bg bg-light" style="padding-top: 0px">
       <div class="container">
         <div class="row">
         
           <div class="col-md-16 ftco-animate">
-            <div class="about-author d-flex p-5" style="border-bottom: 1px dashed gray;">
+            <div class="about-author d-flex p-5">
               <div class="bio align-self-md-center mr-5">
               </div>
               <div class="desc align-self-md-center">
@@ -204,69 +221,87 @@ $(function(){
 				<h1 style="padding-top: 48px;">포인트 상품 교환</h1>
 				<p>해당 쿠폰들은 끼룩 제휴점에서만 사용할 수 있으며 중복사용은 불가능합니다.</p>
                 
-				<h2 style="padding-top: 48px; padding-bottom: 48px">한식당 할인 쿠폰</h2>
-				  <div class="row">
+				<h2 style="padding-top: 48px; padding-bottom: 28px">한식당 할인 쿠폰</h2>
+				  <div class="row category">
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/restaurant20.jpg" class="img-fluid mb-4" 
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>한식당 20% 할인 쿠폰</h4>
-				      <p><span>2000</span>P 교환하기</p>
+				      	<div class="content">
+					      <h4>한식당 20% 할인 쿠폰</h4>
+					      <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>2000</span>P 교환하기</button>
+				      	</div>
 				    </div>
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/restaurant30.jpg" class="img-fluid mb-4"
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>한식당 30% 할인 쿠폰</h4>
-				      <p><span>3000</span>P 교환하기</p><br>
+				      	<div class="content">
+					      <h4>한식당 30% 할인 쿠폰</h4>
+					       <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>3000</span>P 교환하기</button>
+				       </div>
 				    </div>
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/restaurant50.jpg" class="img-fluid mb-4"
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>한식당 50% 할인 쿠폰</h4>
-				      <p><span>5000</span>P 교환하기</p><br>
+				      	<div class="content">
+					      <h4>한식당 50% 할인 쿠폰</h4>
+					      <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>5000</span>P 교환하기</button>
+				      </div>
 				    </div>
 				  </div>
 				  
-				  <h2 style="padding-top: 48px; padding-bottom: 48px">숙소 할인 쿠폰</h2>
-				  <div class="row">
+				  <h2 style="padding-top: 48px; padding-bottom: 28px">숙소 할인 쿠폰</h2>
+				  <div class="row category">
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/coupon30.jpg" class="img-fluid mb-4"
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>숙소 30% 할인 쿠폰</h4>
-				      <p><span>3000</span>P 교환하기</p>
+				      	<div class="content">
+					      <h4>숙소 30% 할인 쿠폰</h4>
+					      <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>3000</span>P 교환하기</button>
+				      </div>
 				    </div>
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/coupon40.jpg" class="img-fluid mb-4"
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>숙소 40% 할인 쿠폰</h4>
-				      <p><span>4000</span>P 교환하기</p><br>
+				      	<div class="content">
+					      <h4>숙소 40% 할인 쿠폰</h4>
+					      <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>4000</span>P 교환하기</button>
+				      </div>
 				    </div>
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/coupon50.jpg" class="img-fluid mb-4"
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>숙소 50% 할인 쿠폰</h4>
-				      <p><span>5000</span>P 교환하기</p><br>
+				      	<div class="content">
+					      <h4>숙소 50% 할인 쿠폰</h4>
+					      <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>5000</span>P 교환하기</button>
+				      </div>
 				    </div>
 				  </div>
 				  
-				  <h2 style="padding-top: 48px; padding-bottom: 48px">카페 할인 쿠폰</h2>
+				  <h2 style="padding-top: 48px; padding-bottom: 28px">카페 할인 쿠폰</h2>
 				  <div class="row">
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/coupon30.jpg" class="img-fluid mb-4"
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>카페 30% 할인 쿠폰</h4>
-				      <p><span>3000</span>P 교환하기</p>
+				      	<div class="content">
+					      <h4>카페 30% 할인 쿠폰</h4>
+					      <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>3000</span>P 교환하기</button>
+				      </div>
 				    </div>
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/coupon40.jpg" class="img-fluid mb-4"
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>카페 40% 할인 쿠폰</h4>
-				      <p><span>4000</span>P 교환하기</p><br>
+				      	<div class="content">
+					      <h4>카페 40% 할인 쿠폰</h4>
+					      <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>4000</span>P 교환하기</button>
+				      </div>
 				    </div>
 				    <div class="col-sm-4 rewardCard">
 				      <img alt="Image placeholder" src="/resources/images/pointRewardImage/coupon50.jpg" class="img-fluid mb-4"
 				      	style="padding: 24px 16px 16px 16px">
-				      <h4>카페 50% 할인 쿠폰</h4>
-				      <p><span>5000</span>P 교환하기</p><br>
+				      	<div class="content">
+					      <h4>카페 50% 할인 쿠폰</h4>
+					      <button type="button" class="btn btn-outline-info btn-sm filter btnReward"><span>5000</span>P 교환하기</button>
+				      </div>
 				    </div>
 				  </div>
               </div>

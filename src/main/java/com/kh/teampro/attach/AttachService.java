@@ -72,7 +72,8 @@ public class AttachService {
 		} catch (FileNotFoundException e) {
 			String path = "";
 			if (type.equals(BOARD)) path = BOARD_DEFAULT_PATH;
-			else if (type.equals(PROFILE)) path = PROFILE_DEFAULT_PATH;
+			else if (type.equals(PROFILE)) {path = PROFILE_DEFAULT_PATH;
+			System.out.println("파일을 찾을 수 없어 디폴트 이미지로 출력");}
 			
 			try {
 				fis = new FileInputStream(uploadPath + path);

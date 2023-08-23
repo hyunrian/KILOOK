@@ -35,8 +35,7 @@ $(function(){
 			"contentType" : false,
 			"processData" : false,
 			"success" : function(rData) {
-				console.log("filePath : " + rData);
-				$("#imgProfile").attr("src", "/profile/displayUpdate?filePath=" + rData);
+				$("#userProfile").attr("src", "/profile/displayUpdate?filePath=" + rData);
 				filePath = rData;
 			}
 		});
@@ -99,16 +98,10 @@ $(function(){
             <h2 class="mb-5">사용자 정보 수정</h2>
             
             <div class="form-group">
-                <label for="unickname">프로필 사진</label>
+                <label for="unickname"></label>
                 <div class="bio align-self-md-center mr-5">
-              		<c:choose>
-	              		<c:when test="${userVo.uimg == null}">              		
-			                <img src="/resources/images/userProfile/default_profile.png" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">
-	              		</c:when>
-	              		<c:otherwise>
-			                <img id="userProfile" src="${userVo.uimg}" alt="profile" id="imgProfile" style="height: 100px; width: 100px;">              		
-	              		</c:otherwise>
-	              	</c:choose>
+                	<img id="userProfile" src="/profile/display?${userVo.userid}" 
+                		alt="프로필 이미지" style="height: 100px; width: 100px;">              		
              		<input type="file" id="inputImg">
             	</div>
             </div>

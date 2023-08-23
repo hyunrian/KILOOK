@@ -14,6 +14,11 @@ $(function(){
 		form.attr("action", "/userInfo/myreply");
 		form.submit();
 	});
+	
+	// 날짜 포맷 바꿔서 출력
+	const regdate = $("#contents").find("div > div");
+	regdate.text(getDate(regdate.attr("data-regdate")));
+	regdate.next().attr("style", "margin-top: 8px; margin-bottom: 5px;")
 });
 </script>
 
@@ -34,7 +39,7 @@ $(function(){
             </div>
 
 			<div class="ftco-animate fadeInUp ftco-animated bg-light">
-			    <div class="categories">
+			    <div class="categories" id="contents">
 			      
 			      <c:choose>
 	              	<c:when test="${userReplyCount == 0}">
@@ -47,8 +52,8 @@ $(function(){
 			                 <div class="comment-body">
 			                  	<h3><a href="http://localhost/userboard/detail?bno=${replyDto.bno}">
 			                  	 	${replyDto.replytext}</a></h3>
-		                   		<div class="meta">${replyDto.regdate}</div>
-			                   	<p>원본 글 : ${replyDto.title}</p>
+		                   		<div class="meta" data-regdate="${replyDto.regdate}"></div>
+			                   	<p>게시글 제목 : ${replyDto.title}</p>
 			                 </div>
 			              </li>
 			            </c:forEach>

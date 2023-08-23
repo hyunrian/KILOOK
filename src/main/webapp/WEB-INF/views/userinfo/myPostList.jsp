@@ -17,6 +17,10 @@ $(function(){
 	
 	$(".regdateInText").text();
 	
+	// 날짜 포맷 바꿔서 출력
+	const regdate = $("#contents").find("div > div");
+	regdate.text(getDate(regdate.attr("data-regdate")));
+	regdate.next().attr("style", "margin-top: 13px; margin-bottom: 5px;")
 	
 });
 </script>
@@ -38,7 +42,7 @@ $(function(){
             </div>
             
             <div class="ftco-animate fadeInUp ftco-animated bg-light">
-			    <div class="categories">
+			    <div class="categories" id="contents">
 			      
 			      <c:choose>
 	              	<c:when test="${userBoardCount == 0}">
@@ -51,7 +55,7 @@ $(function(){
 			                 <div class="comment-body">
 			                   <h3><a href="http://localhost/userboard/detail?bno=${boardDto.bno}">
 			                   	${boardDto.title}</a></h3>
-			                   <div class="meta regdateInText">${boardDto.regdate}</div>
+			                   <div class="meta regdateInText" data-regdate="${boardDto.regdate}"></div>
 			                   <p>좋아요 : ${boardDto.likecnt}</p>
 			                   <p>조회수 : ${boardDto.viewcnt}</p>
 			                 </div>

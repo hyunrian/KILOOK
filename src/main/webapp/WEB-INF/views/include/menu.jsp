@@ -17,6 +17,7 @@
  	background-color: black!important;
  	opacity: 70%;
  	min-width: 0rem;
+ 	margin-top: 8px;
 }
 
 /* 드롭다운 메뉴 폰트 컬러 설정 */
