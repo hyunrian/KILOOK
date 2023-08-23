@@ -1,8 +1,6 @@
 package com.kh.teampro.attach;
 
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.teampro.commons.MyConstants;
-import com.kh.teampro.user.info.UserVo;
 import com.kh.teampro.util.FileUploadUtil;
 
 @RestController

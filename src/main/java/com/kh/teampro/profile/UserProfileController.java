@@ -1,7 +1,5 @@
 package com.kh.teampro.profile;
 
-import java.io.IOException;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -52,15 +50,9 @@ public class UserProfileController {
 		String filename = file.getOriginalFilename();
 		
 		if (FileUploadUtil.isImage(filename)) {
-			try {
-				// 이미지 파일 서버에 저장
-				byte[] bytes = file.getBytes();
-				String filePath = attachService.saveProfileFile(file, userVo.getUserid());
-				System.out.println("filePath : " + filePath);
-				return filePath;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			// 이미지 파일 서버에 저장
+			String filePath = attachService.saveProfileFile(file, userVo.getUserid());
+			return filePath;
 		}
 		return MyConstants.FAIL_MESSAGE;
 	}
