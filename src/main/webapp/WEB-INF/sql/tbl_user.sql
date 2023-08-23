@@ -4,8 +4,7 @@ create table tbl_user (
         unickname varchar2(30) not null unique,
         upoint number default 0,
         uimg varchar2(300),
-        uemail varchar2(40) not null,
-        signupfrom varchar2(20) default 'home',
+        uemail varchar2(40),
         joindate timestamp default sysdate,
         verified char(1) default 'F' check (verified in('T', 'F'))
 );
