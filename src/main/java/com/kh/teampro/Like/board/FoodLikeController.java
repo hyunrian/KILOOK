@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 @RestController
@@ -23,9 +24,9 @@ public class FoodLikeController {
 	@RequestMapping(value = "/addRestLike/{bno}", method = RequestMethod.GET)
 	@ResponseBody
 	public String addRestLike(@PathVariable int bno, HttpSession session) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		FoodLikeVo foodLikeVo = new FoodLikeVo();
-		foodLikeVo.setUserid("testuser"); // 수정필요
+		foodLikeVo.setUserid(userVo.getUserid());
 		foodLikeVo.setBno(bno);
 		boolean result = foodLikeService.addRestLike(foodLikeVo);
 		return String.valueOf(result);
@@ -35,10 +36,9 @@ public class FoodLikeController {
 	@RequestMapping(value = "/restLikeList/{bno}", method = RequestMethod.POST)
 	@ResponseBody
 	public String restLikeList(@PathVariable int bno, HttpSession session, Model model) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("restLikeList Controller 들어옴");
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		FoodLikeVo foodLikeVo = new FoodLikeVo();
-		foodLikeVo.setUserid("testuser"); // 수정필요
+		foodLikeVo.setUserid(userVo.getUserid());
 		foodLikeVo.setBno(bno);
 		boolean result = foodLikeService.restLikeList(foodLikeVo); // 좋아요를 했다면 true, 아니라면 false 반환
 		return String.valueOf(result);
@@ -48,10 +48,9 @@ public class FoodLikeController {
 	@RequestMapping(value = "/deleteRestLike/{bno}", method = RequestMethod.GET)
 	@ResponseBody
 	public String deleteRestLike(@PathVariable int bno, HttpSession session) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("deleteRestLike Controller");
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		FoodLikeVo foodLikeVo = new FoodLikeVo();
-		foodLikeVo.setUserid("testuser"); // 수정필요
+		foodLikeVo.setUserid(userVo.getUserid());
 		foodLikeVo.setBno(bno);
 		boolean result = foodLikeService.deleteRestLike(foodLikeVo);
 		return String.valueOf(result);
