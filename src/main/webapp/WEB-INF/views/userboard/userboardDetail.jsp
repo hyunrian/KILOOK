@@ -122,9 +122,9 @@ $(function() {
 	});
 	
 	// 페이지 로딩 시 좋아요 개수 처리
-	$.get("/like/count/" + bno, function(rData) {
-		$("#heartCount").text(rData);
-	});
+// 	$.get("/like/count/" + bno, function(rData) {
+// 		$("#heartCount").text(rData);
+// 	});
 	
 	$("#heart").click(function() {
 		$.get("/like/liked/" + bno, function(rData) {
@@ -518,19 +518,21 @@ $(function() {
 
 				<!-- 게시글 좋아요, 공유하기 -->
 				<div class="parent">
-					<span id="heart"> <i class="fa-regular fa-heart clickable"
-						style="color: #eb1414;" id="heartEmpty"></i> <i
-						class="fa-solid fa-heart clickable"
+					<span id="heart">
+						<i class="fa-regular fa-heart clickable"
+							style="color: #eb1414;" id="heartEmpty"></i>
+						<i class="fa-solid fa-heart clickable"
 						style="color: #eb1414; display: none;" id="heartFull"></i>
-					</span> <span id="share"> <i
-						class="fa-solid fa-square-share-nodes clickable"
-						style="color: #5CD1E5;"></i>
+					</span>
+					<span id="share">
+						<i class="fa-solid fa-square-share-nodes clickable" style="color: #5CD1E5;"></i>
 					</span>
 
 				</div>
 				<div class="parent">
 					<span class="badge badge-light" style="font-size: 10pt;"
-						id="heartCount"></span> <span class="badge badge-light"
+						id="heartCount">${userBoardVo.likecnt}</span>
+					<span class="badge badge-light"
 						style="font-size: 10pt;" id="shareText">Share</span>
 				</div>
 

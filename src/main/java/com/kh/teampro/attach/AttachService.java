@@ -140,6 +140,7 @@ public class AttachService {
 	
 	// 유저 프로필 jsp로 전달
 	public byte[] displayProfile(String filePath, String userid) {
+		System.out.println("attachService, filePath:" + filePath);
 		if (filePath != null) {
 			String[] str = filePath.split("/");
 			filePath = "/" + str[1] + "/" + str[2] + "/t_" + str[3];

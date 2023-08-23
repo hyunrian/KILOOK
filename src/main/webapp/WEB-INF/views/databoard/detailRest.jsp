@@ -25,7 +25,7 @@ a {
 <script>
 	// 좋아요 하트 기능
 	$(document).ready(function() {
-	
+		
 		var bno = "${getFoodInfo.bno}";
 		var likeImg = $("#likeImg");
 		
