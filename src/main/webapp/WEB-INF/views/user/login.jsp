@@ -15,7 +15,8 @@
 }
 
 body {
-	font-family: "Montserrat", sans-serif;
+/* 	font-family: "Montserrat", sans-serif; */
+	font-family: "Pretendard Variable"; 
 	margin: 0;
 	padding: 0;
 }
