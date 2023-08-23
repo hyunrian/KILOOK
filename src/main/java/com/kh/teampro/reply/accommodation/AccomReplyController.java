@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.point.PointService;
 import com.kh.teampro.user.info.UserVo;
 
 @RestController
@@ -21,6 +22,9 @@ public class AccomReplyController {
 
 	@Autowired
 	private AccomReplyService accomReplyService;
+	
+	@Autowired
+	private PointService pointService;
 	
 	// 댓글 목록
 	@RequestMapping(value = "/accomList", method = RequestMethod.GET)
@@ -33,12 +37,12 @@ public class AccomReplyController {
 	@RequestMapping(value = "/accomInsert", method = RequestMethod.POST)
 	public String accomReplyInsert(AccomReplyVo accomReplyVo,
 		HttpSession session) throws Exception{
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-//		foodReplyVo.setReplyer(userVo.getUserid()); // (수정필요)
-		accomReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
-		accomReplyVo.setUserid("testuser"); // 아이디 : test00 (임시 set)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		accomReplyVo.setReplyer(userVo.getUnickname());
+		accomReplyVo.setUserid(userVo.getUserid());
 		if(accomReplyVo.getRlevel() == 0) {
 			accomReplyService.insertAccomNewReply(accomReplyVo);
+			pointService.addReplyPoint(userVo.getUserid());
 		} else {
 			int bno = accomReplyVo.getBno();
 			int rgroup = accomReplyService.getRgroup(accomReplyVo.getRno());
@@ -46,14 +50,16 @@ public class AccomReplyController {
 			int maxRseq = accomReplyService.getMaxRseq(bno, accomReplyVo.getRgroup());
 			accomReplyVo.setRseq(maxRseq + 1); // 다음에 달릴 댓글(해당 댓글) = 기존 순번(seq) + 1
 			accomReplyService.insertAccomReReply(accomReplyVo);
+			pointService.addReplyPoint(userVo.getUserid());
 		}
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
 	 // 댓글 수정
 	@RequestMapping(value = "/accomUpdate", method = RequestMethod.PATCH)
-	public String updateAccomReply(@RequestBody AccomReplyVo accomReplyVo) {
-		accomReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
+	public String updateAccomReply(@RequestBody AccomReplyVo accomReplyVo, HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		accomReplyVo.setReplyer(userVo.getUnickname());
 		accomReplyService.updateAccomReply(accomReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}
