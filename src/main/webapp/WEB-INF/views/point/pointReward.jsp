@@ -30,21 +30,39 @@
   .rewardCard :hover {
   
   }
+
+	.btn-primary {
+		border: 1px solid #5CD1E5;
+	}
 	
 }
 </style>
 <script>
 $(function(){
+	var userid = "";
+	userid = $("#userid").val();
 	
 	// 포인트 상품 클릭
 	var needPointNumber = "";
 	$(".rewardCard").click(function(){
-		needPoint = $(this).find('span').text();
-		
-		$("#modal-354826").trigger("click");
-		$("#pointAmount").text(needPoint + "P");
+		// 포인트 상품 클릭 시 비로그인 상태 체크
+		if (userid == "") {
+			alert("로그인이 필요합니다.")
+			location.href = "http://localhost/loginUser/login";
+		} else {
+			// 인증된 계정인지 확인
+			if () {
+				
+			} else () {
+				
+			}
+			needPoint = $(this).find('span').text();
+			
+			$("#modal-354826").trigger("click");
+			$("#pointAmount").text(needPoint + "P");
 
-		needPointNumber = Number(needPoint);
+			needPointNumber = Number(needPoint);
+		}
 	});
 	
 	// 포인트 상품 구매(모달창 확인 버튼)
@@ -58,7 +76,7 @@ $(function(){
 		    },
 		    "dataType": 'text',
 		    "success": function(rData) {
-		    	if (true) {
+		    	if (rData == "success") {
 			    	alert("포인트 상품 구매 완료.")
 		    	} else {
 		    		alert("포인트가 부족합니다.")
@@ -234,6 +252,22 @@ $(function(){
         </div>
       </div>
     </section> <!-- .section -->
+    
+    
+    <!-- 페이지에 표시 되지 않는 내용 -->
+	
+	<!-- 유저 정보 보관용 form -->
+	<!-- 스크립트에서 사용 -->
+		<input type="hidden" name="userid" id="userid" value="${userVo.userid}">
+		<input type="hidden" name="upw" id="updateUpw" value="${userVo.upw}">
+		<input type="hidden" name="unickname" id="updateUnickname" value="${userVo.unickname}">
+		<input type="hidden" name="upoint" value="${userVo.upoint}">
+		<input type="hidden" name="uimg" id="updateUimg" value="${userVo.uimg}">
+		<input type="hidden" name="uemail" value="${userVo.uemail}">
+		<input type="hidden" name="signupfrom" value="${userVo.signupfrom}">
+		<input type="hidden" name="joindate" value="${userVo.joindate}">
+		<input type="hidden" name="verified" value="${userVo.verified}">
+	<!-- //유저 정보 보관용 form -->
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>

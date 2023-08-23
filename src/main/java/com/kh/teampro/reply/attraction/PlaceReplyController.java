@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.point.PointService;
 import com.kh.teampro.user.info.UserVo;
 
 @RestController
@@ -21,6 +22,9 @@ public class PlaceReplyController {
 
 	@Autowired
 	private PlaceReplyService placeReplyService;
+	
+	@Autowired
+	private PointService pointService;
 	
 	// 댓글 목록
 	@RequestMapping(value = "/placeList", method = RequestMethod.GET)
@@ -34,12 +38,12 @@ public class PlaceReplyController {
 	@RequestMapping(value = "/placeInsert", method = RequestMethod.POST)
 	public String placeReplyInsert(PlaceReplyVo placeReplyVo,
 		HttpSession session) throws Exception{
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-//		foodReplyVo.setReplyer(userVo.getUserid()); // (수정필요)
-		placeReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
-		placeReplyVo.setUserid("testuser"); // 아이디 : test00 (임시 set)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		placeReplyVo.setReplyer(userVo.getUnickname());
+		placeReplyVo.setUserid(userVo.getUserid());
 		if(placeReplyVo.getRlevel() == 0) {
 			placeReplyService.insertPlaceNewReply(placeReplyVo);
+			pointService.addReplyPoint(userVo.getUserid());
 		} else {
 			int bno = placeReplyVo.getBno();
 			int rgroup = placeReplyService.getRgroup(placeReplyVo.getRno());
@@ -47,14 +51,16 @@ public class PlaceReplyController {
 			int maxRseq = placeReplyService.getMaxRseq(bno, placeReplyVo.getRgroup());
 			placeReplyVo.setRseq(maxRseq + 1); // 다음에 달릴 댓글(해당 댓글) = 기존 순번(seq) + 1
 			placeReplyService.insertPlaceReReply(placeReplyVo);
+			pointService.addReplyPoint(userVo.getUserid());
 		}
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
 	 // 댓글 수정
 	@RequestMapping(value = "/placeUpdate", method = RequestMethod.PATCH)
-	public String updatePlaceReply(@RequestBody PlaceReplyVo placeReplyVo) {
-		placeReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
+	public String updatePlaceReply(@RequestBody PlaceReplyVo placeReplyVo, HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		placeReplyVo.setReplyer(userVo.getUnickname());
 		placeReplyService.updatePlaceReply(placeReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}

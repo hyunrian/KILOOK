@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.teampro.commons.MyConstants;
 import com.kh.teampro.user.info.UserVo;
 
 @RestController
@@ -23,9 +24,9 @@ public class PlaceLikeController {
 	@RequestMapping(value = "/addPlaceLike/{bno}", method = RequestMethod.GET)
 	@ResponseBody
 	public String addPlaceLike(@PathVariable int bno, HttpSession session) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();
-		placeLikeVo.setUserid("testuser"); // 수정필요
+		placeLikeVo.setUserid(userVo.getUserid());
 		placeLikeVo.setBno(bno);
 		boolean result = placeLikeService.addPlaceLike(placeLikeVo);
 		return String.valueOf(result);
@@ -35,10 +36,9 @@ public class PlaceLikeController {
 	@RequestMapping(value = "/placeLikeList/{bno}", method = RequestMethod.POST)
 	@ResponseBody
 	public String placeLikeList(@PathVariable int bno, HttpSession session, Model model) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("placeLikeList Controller 들어옴");
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();
-		placeLikeVo.setUserid("testuser"); // 수정필요
+		placeLikeVo.setUserid(userVo.getUserid());
 		placeLikeVo.setBno(bno);
 		boolean result = placeLikeService.placeLikeList(placeLikeVo); // 좋아요를 했다면 true, 아니라면 false 반환
 		return String.valueOf(result);
@@ -48,10 +48,9 @@ public class PlaceLikeController {
 	@RequestMapping(value = "/deletePlaceLike/{bno}", method = RequestMethod.GET)
 	@ResponseBody
 	public String deletePlaceLike(@PathVariable int bno, HttpSession session) {
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-		System.out.println("deletePlaceLike Controller");
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
 		PlaceLikeVo placeLikeVo = new PlaceLikeVo();
-		placeLikeVo.setUserid("testuser"); // 수정필요
+		placeLikeVo.setUserid(userVo.getUserid());
 		placeLikeVo.setBno(bno);
 		boolean result = placeLikeService.deletePlaceLike(placeLikeVo);
 		return String.valueOf(result);

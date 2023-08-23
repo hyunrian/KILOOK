@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.teampro.commons.MyConstants;
+import com.kh.teampro.point.PointService;
 import com.kh.teampro.user.info.UserVo;
 
 @RestController
@@ -22,13 +23,16 @@ public class FoodReplyController {
 	@Autowired
 	private FoodReplyService foodReplyService;
 	
+	@Autowired
+	private PointService pointService;
+	
 	// 댓글 목록
 	@RequestMapping(value = "/restList", method = RequestMethod.GET)
 	public List<FoodReplyVo> getFoodReplylist(int bno){
 		List<FoodReplyVo> list = foodReplyService.getFoodReplyList(bno);
 		
 		// 댓글 개수
-		int getReplyCount = foodReplyService.getReplyCount(bno); // map 이용해서 데이터 보내는거 고민
+//		int getReplyCount = foodReplyService.getReplyCount(bno); // map 이용해서 데이터 보내는거 고민
 		
 		return list;
 	}
@@ -38,12 +42,13 @@ public class FoodReplyController {
 	@RequestMapping(value = "/restInsert", method = RequestMethod.POST)
 	public String foodReplyInsert(FoodReplyVo foodReplyVo,
 		HttpSession session) throws Exception{
-//		UserVo userVo = (UserVo)session.getAttribute(null); // 저장된 아이디 가져오기(수정필요)
-//		foodReplyVo.setReplyer(userVo.getUserid()); // (수정필요)
-		foodReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
-		foodReplyVo.setUserid("testuser"); // 아이디 : test00 (임시 set)
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN); // 저장된 아이디 가져오기(수정필요)
+		foodReplyVo.setReplyer(userVo.getUnickname()); 
+		foodReplyVo.setUserid(userVo.getUserid());
+		
 		if(foodReplyVo.getRlevel() == 0) {
 			foodReplyService.insertRestNewReply(foodReplyVo);
+			pointService.addReplyPoint(userVo.getUserid());
 		} else {
 			int bno = foodReplyVo.getBno();
 			int rgroup = foodReplyService.getRgroup(foodReplyVo.getRno());
@@ -51,14 +56,16 @@ public class FoodReplyController {
 			int maxRseq = foodReplyService.getMaxRseq(bno, foodReplyVo.getRgroup());
 			foodReplyVo.setRseq(maxRseq + 1); // 다음에 달릴 댓글(해당 댓글) = 기존 순번(seq) + 1
 			foodReplyService.insertRestReReply(foodReplyVo);
+			pointService.addReplyPoint(userVo.getUserid());
 		}
 		return MyConstants.SUCCESS_MESSAGE;
 	}
 	
 	 // 댓글 수정
 	@RequestMapping(value = "/restUpdate", method = RequestMethod.PATCH)
-	public String foodReplyUpdate(@RequestBody FoodReplyVo foodReplyVo) {
-		foodReplyVo.setReplyer("tester"); // 닉네임 : test00 (임시 set)
+	public String foodReplyUpdate(@RequestBody FoodReplyVo foodReplyVo, HttpSession session) {
+		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		foodReplyVo.setReplyer(userVo.getUnickname());
 		foodReplyService.updateRestReply(foodReplyVo);
 		return MyConstants.SUCCESS_MESSAGE;
 	}
