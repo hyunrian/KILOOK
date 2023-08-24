@@ -88,4 +88,12 @@ public class UserInfoDao {
 		sqlSession.update(NAMESPACE + "updateVerified", map);
 	}
 	
+	// 중복 닉네임 확인
+	public String  dubCheckID(String unickname) {
+		int result = sqlSession.selectOne(NAMESPACE + "dubCheckID", unickname);
+		if (result == 0) {
+			return "success";
+		}
+		return "fail";
+	}
 }
