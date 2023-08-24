@@ -39,6 +39,7 @@ public class PlaceReplyController {
 	public String placeReplyInsert(PlaceReplyVo placeReplyVo,
 		HttpSession session) throws Exception{
 		UserVo userVo = (UserVo)session.getAttribute(MyConstants.LOGIN);
+		System.out.println("userVo:" + userVo);
 		placeReplyVo.setReplyer(userVo.getUnickname());
 		placeReplyVo.setUserid(userVo.getUserid());
 		if(placeReplyVo.getRlevel() == 0) {

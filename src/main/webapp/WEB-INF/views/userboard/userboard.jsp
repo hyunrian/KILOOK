@@ -51,6 +51,11 @@ body {
  	padding-right: 12px;
  	margin-right: 10px;
 }
+
+#mainTitle {
+	font-size: 35pt;
+	font-weight: 550;
+}
 </style>
 <script>
 $(function() {
@@ -145,7 +150,6 @@ $(function() {
 		submitForm();
 	});
 	
-	
 });
 	
 </script>
@@ -162,7 +166,7 @@ $(function() {
 
 <section class="ftco-section bg-light">
 	<div class="container">
-		<h1 class="mb-3 bread">
+		<h1 class="mb-3 bread" id="mainTitle">
 			우리가 만들어가는<br>부산 여행 추천 코스</h1>
 		<p class="breadcrumbs" style="margin-bottom: 20px;">
 			<span>혼자만 알고 있기 아쉬운 다양한 코스를 다른 사람들과 공유해보세요!</span>

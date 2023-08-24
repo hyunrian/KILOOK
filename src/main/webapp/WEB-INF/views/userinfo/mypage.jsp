@@ -58,7 +58,7 @@ $(function(){
               <h3 class="mb-5"><a href="/userInfo/mypost">내 게시물 미리보기</a></h3>
               <c:choose>
               	<c:when test="${userBoardCount == 0}">
-              		<h4 style="padding-bottom: 48px; padding-left: 48px;">작성한 게시물 없음</h4>
+              		<span style="padding-bottom: 48px; padding-left: 48px;">작성한 게시물 없음</span>
               	</c:when>
               	<c:otherwise>
               		<ul class="comment-list">
@@ -82,7 +82,7 @@ $(function(){
               <h3 class="mb-5"><a href="/userInfo/myreply">내 댓글 미리보기</a></h3>
               <c:choose>
               	<c:when test="${userReplyCount == 0}">
-              		<h4 style="padding-bottom: 48px; padding-left: 48px;">작성한 댓글 없음</h4>
+              		<span style="padding-bottom: 48px; padding-left: 48px;">작성한 댓글 없음</span>
               	</c:when>
               	<c:otherwise>
               		<ul class="comment-list">
@@ -109,4 +109,5 @@ $(function(){
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
+<%@ include file="/WEB-INF/views/include/pageup.jsp" %>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>

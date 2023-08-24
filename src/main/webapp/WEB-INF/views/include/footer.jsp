@@ -5,7 +5,7 @@
         <div class="row mb-5">
           <div class="col-md-6">
             <div class="ftco-footer-widget mb-4 ml-md-5">
-              <h2 class="ftco-heading-2">MORE</h2>
+              <h2 class="ftco-heading-2" style="margin-bottom: 25px;">MORE</h2>
               <ul class="list-unstyled">
                 <li><a href="#" class="py-2 d-block">공지사항</a></li>
                 <li><a href="#" class="py-2 d-block">이용약관</a></li>

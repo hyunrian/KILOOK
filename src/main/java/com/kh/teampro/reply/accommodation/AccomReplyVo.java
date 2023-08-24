@@ -16,6 +16,5 @@ public class AccomReplyVo {
 	private int rseq;
 	private int rlevel;
 	private String delete_yn;
-	private String unickname;
 	private String userid;
 }

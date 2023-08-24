@@ -546,12 +546,12 @@ $(function() {
 	if (joinResult != null){
 		if (joinResult == true) {
 			$("#modalTitle").text("회원가입 성공");
-			$("#modalContext_1").text("끼룩에 오신것을 환영합니다!");
-			$("#modalContext_2").text("더 많은 서비스를 이용 하시려면 이메일 인증이 필요 합니다.");
+			$("#modalContext_1").text("끼룩에 오신 것을 환영합니다!");
+			$("#modalContext_2").text("더 많은 서비스를 이용하시려면 이메일 인증이 필요합니다.");
 		} else if (joinResult == false) {
 			$("#modalTitle").text("회원가입 실패");
 			$("#modalContext_1").text("회원가입에 실패하였습니다.");
-			$("#modalContext_2").text("다시 한번 시도해 주세요");
+			$("#modalContext_2").text("다시 한번 시도해주세요");
 		};
 		$("#modalBackground").fadeIn();
 	}
@@ -561,7 +561,7 @@ $(function() {
 		if (loginResult == false) {
 			$("#modalTitle").text("로그인 실패");
 			$("#modalContext_1").text("아이디 비밀번호가 일치하지 않습니다.");
-			$("#modalContext_2").text("다시 한번 시도해 주세요");
+			$("#modalContext_2").text("다시 한번 시도해주세요");
 		};
 		$("#modalBackground").fadeIn();
 	}

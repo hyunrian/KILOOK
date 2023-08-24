@@ -100,6 +100,7 @@ body {
 	width: 50px;
     border-radius: 50%;
 }
+
 </style>
 <script>
 $(function() {
@@ -108,7 +109,7 @@ $(function() {
 	const userid = "${sessionScope.loginInfo.userid}";
 	
 	// 게시글 등록일 날짜 처리
-	if ("${userBoardVo.updatedate}" != null) {
+	if ("${userBoardVo.updatedate}") {
 		$("#dateSpan").text(getDateFormat("${userBoardVo.updatedate}"));
 	} else {
 		$("#dateSpan").text(getDateFormat("${userBoardVo.regdate}"));
@@ -497,9 +498,8 @@ $(function() {
 					<a id="btnBack" class="tag-cloud-link" style="font-size: 10pt; cursor: pointer;
 						margin-bottom: 50px;">목록으로 이동</a> 
 				</div>
-				<h2 class="mb-3">${userBoardVo.title}</h2>
-				<br>
-				<div>
+					<h2 class="mb-3">${userBoardVo.title}</h2><br>
+				<div style="padding-bottom: 20px; border-bottom: 3px solid #F2F4F4;">
 					<span>
 						<img src="/profile/display?userid=${userBoardVo.userid}"
 							alt="Image placeholder" id="profile"> &nbsp;&nbsp;
