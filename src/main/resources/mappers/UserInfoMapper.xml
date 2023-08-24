@@ -86,5 +86,11 @@
 		where userid = #{userid}
 	</update>
 	
+	<!-- 아이디 중복 확인 -->
+	<select id="dubCheckID" resultType="int">
+		select count(*) from tbl_user
+		where unickname = #{unickname}
+	</select>
+	
 	
 </mapper>

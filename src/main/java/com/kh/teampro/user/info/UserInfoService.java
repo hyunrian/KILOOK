@@ -69,4 +69,9 @@ public class UserInfoService {
 		userInfoDao.updateVerified(uemail, userid);
 	}
 	
+	// 중복 닉네임 확인 (return = "success" or "fail")
+	public String  dubCheckID(String unickname) {
+		return userInfoDao.dubCheckID(unickname);
+	}
+	
 }

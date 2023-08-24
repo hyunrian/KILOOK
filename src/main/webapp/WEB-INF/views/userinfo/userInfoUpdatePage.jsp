@@ -51,52 +51,68 @@ $(function(){
 		
 		var errorMessages = []; // 에러 메시지를 저장할 배열
 		
-		if ((updateUnickname.length < 2 || updateUnickname.length > 10) && updateUnickname !== "") {
-            errorMessages.push("닉네임은 2 ~ 10글자 사이여야 합니다.");
-        }
-        if ((updateUpw.length < 4 || updateUpw.length > 15) && updateUpw !== "") {
-            errorMessages.push("비밀번호는 4 ~ 15글자 사이여야 합니다.");
-            $("#upw").val("");
-            $("#checkUpw").val("");
-        }
-        var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%_])[A-Za-z\d!@#$%_]+$/;
-        if (!passwordRegex.test(checkUpw) && checkUpw !== "") {
-            errorMessages.push("비밀번호는 영문, 숫자, 특수문자(!@#$%_)를 모두 포함해야 합니다.");
-            $("#upw").val("");
-        }
-        if (updateUpw != checkUpw) {
-            errorMessages.push("비밀번호 확인이 입력된 비밀번호와 다릅니다.");
-            $("#checkUpw").val("");
-        }
-		if (updateUnickname == "" && filePath == "" && updateUpw == "") { // 수정할 내용이 하나도 없으면 유저정보수정 작동 안함
-			alert("수정할 내용이 없습니다.");
-			return;
-		}
-		// 데이터 전송 폼에 든 내용으로 DB 수정. 입력한 값이 있는것들만 수정함
-		if (updateUnickname != "") {
-			$("#updateUnickname").val(updateUnickname);
-		}
-		if (updateUpw != "") {
-			$("#updateUpw").val(updateUpw);
-		}
-		if (filePath != "") {
-			$("#updateUimg").val(filePath);
-		}
-		if (errorMessages.length > 0) {
-            // 에러 메시지를 alert으로 표시
-            var errorMessageString = "다음의 오류를 확인하세요:\n";
-            for (var i = 0; i < errorMessages.length; i++) {
-                errorMessageString += "- " + errorMessages[i] + "\n";
-            }
-            alert(errorMessageString);
-        } else {
-            // 수정 내용 확인 메시지 박스
-            var confirmMessage = "수정한 내용을 저장하시겠습니까?";
-            if (confirm(confirmMessage)) {
-                const form = $("#userVoForm");
-                form.submit();
-            }
-        }
+		// 유저 닉네임 중복 확인
+		$.ajax({
+	        "type" : "post",
+			"url" : "/userInfo/checkDup",
+	        "data" : {
+	        	"unickname" : updateUnickname
+	        },
+	        "success" : function(rData) {
+	        	if (rData == "fail") {
+	                errorMessages.push("중복된 닉네임입니다.");
+	            }
+	        	// 나머지 유효성 검사 및 처리 로직을 여기에 추가
+	            if ((updateUnickname.length < 2 || updateUnickname.length > 10) && updateUnickname !== "") {
+	                errorMessages.push("닉네임은 2 ~ 10글자 사이여야 합니다.");
+	            }
+	            if ((updateUpw.length < 4 || updateUpw.length > 15) && updateUpw !== "") {
+	                errorMessages.push("비밀번호는 4 ~ 15글자 사이여야 합니다.");
+	                $("#upw").val("");
+	                $("#checkUpw").val("");
+	            }
+	            var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%_])[A-Za-z\d!@#$%_]+$/;
+	            if (!passwordRegex.test(checkUpw) && checkUpw !== "") {
+	                errorMessages.push("비밀번호는 영문, 숫자, 특수문자(!@#$%_)를 모두 포함해야 합니다.");
+	                $("#upw").val("");
+	            }
+	            if (updateUpw != checkUpw) {
+	                errorMessages.push("비밀번호 확인이 입력된 비밀번호와 다릅니다.");
+	                $("#checkUpw").val("");
+	            }
+	            if (updateUnickname == "" && filePath == "" && updateUpw == "") { // 수정할 내용이 하나도 없으면 유저정보수정 작동 안함
+	                alert("수정할 내용이 없습니다.");
+	                return;
+	            }
+	            // 데이터 전송 폼에 든 내용으로 DB 수정. 입력한 값이 있는 것들만 수정함
+	            if (updateUnickname != "") {
+	                $("#updateUnickname").val(updateUnickname);
+	            }
+	            if (updateUpw != "") {
+	                $("#updateUpw").val(updateUpw);
+	            }
+	            if (filePath != "") {
+	                $("#updateUimg").val(filePath);
+	            }
+	            if (errorMessages.length > 0) {
+	                // 에러 메시지를 alert으로 표시
+	                var errorMessageString = "다음의 오류를 확인하세요:\n";
+	                for (var i = 0; i < errorMessages.length; i++) {
+	                    errorMessageString += "- " + errorMessages[i] + "\n";
+	                }
+	                alert(errorMessageString);
+	            } else {
+	                // 수정 내용 확인 메시지 박스
+	                var confirmMessage = "수정한 내용을 저장하시겠습니까?";
+	                if (confirm(confirmMessage)) {
+	                    const form = $("#userVoForm");
+	                    form.submit();
+	                }
+	            }
+	        	
+	        }
+		});
+
 	}); // 유저 정보 수정 완료 (btnUpdateDone 클릭)
 
 });

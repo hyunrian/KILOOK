@@ -112,12 +112,11 @@ public class UserInfoController {
 		return "userinfo/userInfoUpdatePage";
 	}
 	
-	// 중복 닉네임 확인 (미구현)
+	// 중복 닉네임 확인 (return = "success" or "fail",중복 닉네임 없으면 "success")
 	@RequestMapping(value = "/checkDup", method = RequestMethod.POST)
 	@ResponseBody
-	public String checkDupNickname() {
-		
-		return "success";
+	public String checkDupNickname(String unickname) {
+		return userInfoService.dubCheckID(unickname);
 	}
 	
 	// 유저 정보 수정하기, 정보 수정 전 위 함수로 jsp에서 비동기로 중복 닉네임 있는지 확인
