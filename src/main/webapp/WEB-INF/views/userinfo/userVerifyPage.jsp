@@ -5,16 +5,27 @@
 <%@ include file="/WEB-INF/views/include/menu.jsp" %>
 <script>
 $(function(){
+	// 이메일 유효성 검사
+	function isValidEmail(email) {
+        // 이메일 형식의 정규표현식
+        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return emailRegex.test(email);
+    }
 	
-	console.log($("#userid").val());
+	//본인확인 코드 전송 버튼
+	 $("#btnEmailVerify").click(function(){
+        var uemail = $("#uemail").val().trim();
 
-	// 작성된 이메일로 본인확인 코드 전송 버튼
-	$("#btnEmailVerify").click(function(){
-		$.ajax({
+        if (!isValidEmail(uemail)) {
+            alert("유효한 이메일 주소를 입력해주세요. (~~~ @ ~~~ .com)");
+            return;
+        }
+     	// 작성된 이메일로 본인확인 코드 전송 버튼
+        $.ajax({
 			"type" : "post",
 			"url" : "/userInfo/verifyMail",
 			"data" : {
-				"uemail" : $("#uemail").val()
+				"uemail" : $("#uemail").val().trim()
 			},
 			"success" : function(rData){
 				$("#verifyCode").val(rData);
@@ -25,7 +36,8 @@ $(function(){
 		$(this).hide();
 		$("#btnEmailModify").show();
 		$("#divCheckVerify").slideDown();
-	});
+
+    });
 	
 	// 본인확인 이메일 수정 버튼
 	$("#btnEmailModify").hide(); // 기본적으론 숨겨둠
