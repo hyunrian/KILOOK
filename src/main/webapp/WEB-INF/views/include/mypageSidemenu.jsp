@@ -99,7 +99,6 @@ $(function(){
 		<input type="hidden" name="signupfrom" value="${userVo.signupfrom}">
 		<input type="hidden" name="joindate" value="${userVo.joindate}">
 		<input type="hidden" name="verified" value="${userVo.verified}">
-		<input type="submit" style="display: none;">
 	</form>
 	<!-- //유저 정보 보관용 form -->
     
