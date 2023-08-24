@@ -41,7 +41,8 @@ public class FileUploadUtil {
 		String formatName = getFormatName(filename);
 		if (formatName.equalsIgnoreCase("jpg") ||
 				formatName.equalsIgnoreCase("gif") ||
-				formatName.equalsIgnoreCase("png")) {
+				formatName.equalsIgnoreCase("png") ||
+				formatName.equalsIgnoreCase("jpeg")) {
 			return true;
 		}
 		return false;
