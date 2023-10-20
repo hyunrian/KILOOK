@@ -78,6 +78,7 @@
 <br>
 
 ## Planning
+[프로젝트 설계 단계 기록](https://www.notion.so/hyunrian/e3fe7d7d2b3740f9aa4da68ea4059f12?v=6ba393f24df942b2a04d639fd80a4004)
 
 ## ERD
 
