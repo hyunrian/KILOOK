@@ -10,7 +10,6 @@
 <br>
 
 ## Overview
-> ### 📹 시연영상
-이미지 클릭 시 유튜브로 연결됩니다.<br>
+📹 하단 이미지 클릭 시 시연영상을 담은 유튜브로 연결됩니다.<br><br>
 [<img width="1600" alt="20230824_232309" src="https://github.com/hyunrian/KILOOK/assets/121999215/fcc6c09e-9e82-4be3-8912-384542443637">](https://youtu.be/SJKUOUjXCOw?si=WANzZCMfd-vkojyZ)
 <br><br>
