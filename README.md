@@ -77,15 +77,16 @@
 ## 🛠️ Tech Stack
 <br>
 <p align="center">
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/fdacdc13-de7a-4abd-bfa4-59d8186c4bda"><!-- Java -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/c97b5f71-4ef1-4c42-af04-a1955318523e"><!-- Spring -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/d9d39536-6fec-40c2-bcf0-0f43b9419727"><!-- MyBatis -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/a1722b9c-c73d-41e4-b26c-a25cba41a078"><!-- Oracle -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/26487b45-d5d8-4e60-877c-d517998b7f27"><!-- HTML -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/76c5370a-e00d-4188-b143-dd362e808229"><!-- CSS -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/c93b2155-9408-4403-90e7-4d976f58a878"><!-- JavaScript -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/67d33238-2153-4f56-a1f3-ce90de517948"><!-- Git -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/586de3f2-e1c3-4a88-80c8-bf45d28e0401"><!-- Notion -->&nbsp;&nbsp;&nbsp;
-  <img width="60" src="https://github.com/hyunrian/Test/assets/121999215/1b556df5-503e-4893-8cc6-4ad433005f71"><!-- Discord -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/119ba283-284b-4989-bb4d-a3a0a32ac610"><!-- Java -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/a00b3cc9-c59b-439c-b8be-f8045388f265"><!-- Spring -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/1783b394-d6ce-4a8f-b501-0a42d18d4884"><!-- MyBatis -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/8b2ad56d-ee04-4806-93fc-3fe6552c69c6"><!-- Oracle -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/1d03dfcd-1846-4fae-894a-ae675d4d37ab"><!-- HTML -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/513d6ea4-defc-44db-be71-7ff30d644efe"><!-- CSS -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/4bce5504-af87-48a6-93de-0639ec65078c"><!-- JavaScript -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/fd62227e-41a7-4e03-be3e-b2f147bcce05"><!-- JQuery -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/fd4c22cc-f81f-427c-b106-9066211db067"><!-- Git -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/8d204898-0ffd-49d1-85f1-b7b7eedf4e13"><!-- Notion -->&nbsp;&nbsp;&nbsp;
+  <img width="60" src="https://github.com/hyunrian/hyunrian/assets/121999215/fa09d194-5143-4056-8f95-a3f8d8849fbb"><!-- Discord -->&nbsp;&nbsp;&nbsp;
 </p>
 <br><br>
